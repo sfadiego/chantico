@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -58,9 +59,40 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public static function register(
+        string $nombre,
+        string $apellidoPaterno,
+        int $rolId,
+        string $email,
+        string $usuario,
+        string $password,
+        bool $activo = true,
+        string $apellidoMaterno = '',
+    ): User {
 
-    // public function register(AuthenticationRequest $parameters): JsonResponse {}
-    // public function login($parameters): JsonResponse {}
+        return User::create([
+            "nombre" => $nombre,
+            "email" => $email,
+            "usuario" => $usuario,
+            "apellido_materno" => $apellidoMaterno,
+            "rol_id" => $rolId,
+            "password" => bcrypt($password),
+        ]);
+    }
+
+    public static function login(string $email, string $password): mixed
+    {
+        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+            return false;
+        }
+
+        $user = User::where('email', $email)->first();
+
+        return [
+            'user' => $user,
+            'access_token' => $user->createToken('access_token')->plainTextToken,
+        ];
+    }
 
     public static function generateAccessToken($user)
     {

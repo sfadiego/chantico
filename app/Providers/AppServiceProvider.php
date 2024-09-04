@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Http::macro('success', function (string $message, array|null $data = null): JsonResponse {
+        Response::macro('success', function (mixed $data, string $message = null): JsonResponse {
             return Response::json([
                 'success' => true,
                 'message' => $message,
@@ -30,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-        Http::macro('error', function (string $message, array|null $data): JsonResponse {
+        Response::macro('error', function (mixed $data, string $message = null): JsonResponse {
             return Response::json([
                 'success' => false,
                 'message' => $message !== '' ? $message :  '',

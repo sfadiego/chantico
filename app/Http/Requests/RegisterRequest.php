@@ -23,12 +23,12 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            User::NOMBRE => 'required',
-            User::EMAIL => 'required|unique:users',
+            User::EMAIL => 'required|email|unique:users',
             User::USUARIO => 'required|unique:users',
-            User::APELLIDO_MATERNO => 'required',
-            User::APELLIDO_PATERNO => 'nullable|string',
-            User::ROL_ID => 'required|exists:role',
+            User::NOMBRE => 'required',
+            User::APELLIDO_PATERNO => 'required|string',
+            User::APELLIDO_MATERNO => 'nullable|string',
+            User::ROL_ID => 'required|exists:role,id',
             'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()]{8,}$/|confirmed',
             'password_confirmation' => 'required_with:password|same:password',
         ];
@@ -36,15 +36,6 @@ class RegisterRequest extends FormRequest
 
     public function attributes(): array
     {
-        return [
-            User::NOMBRE => 'nombre',
-            // User::EMAIL => 'required|unique:users',
-            // User::USUARIO => 'required|unique:users',
-            // User::APELLIDO_MATERNO => 'required',
-            // User::APELLIDO_PATERNO => 'nullable|string',
-            // User::ROL_ID => 'required|exists:role',
-            // 'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()]{8,}$/|confirmed',
-            // 'password_confirmation' => 'required_with:password|same:password',
-        ];
+        return [];
     }
 }
