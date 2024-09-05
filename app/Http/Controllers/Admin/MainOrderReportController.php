@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\MainOrderStatusEnum;
-use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OpenSalesRequest;
 use App\Models\MainOrderReportModel;
@@ -22,7 +21,7 @@ class MainOrderReportController extends Controller
 
     public function openSales(OpenSalesRequest $params): JsonResponse
     {
-        return Response::success(MainOrderReportModel::openSales($params->efectivo_caja_inicio));
+        return Response::success(MainOrderReportModel::openSales($params->efectivo_caja_inicio, $params->user_id));
     }
 
     public function closeSales(MainOrderReportModel $system): JsonResponse

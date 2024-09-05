@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\RoleModel;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,7 +23,7 @@ class UserSeeder extends Seeder
             User::PASSWORD => bcrypt('chantico'),
             User::APELLIDO_PATERNO => "Silva",
             User::APELLIDO_MATERNO => "Facio",
-            User::ROL_ID => RoleModel::all()->random()->id,
+            User::ROL_ID => RoleEnum::ADMIN,
             User::ACTIVO => 1
         ]);
         User::factory()->count(5)->create();

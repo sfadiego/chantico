@@ -15,13 +15,15 @@ class MainOrderReportModel extends Model
     const EFECTIVO_CAJA_CIERRE = 'efectivo_caja_cierre';
     const GANANCIA_DIA = 'ganancia_dia';
     const OBSERVACION = 'observaciones';
+    const USER_ID = 'user_id';
 
     protected $fillable = [
         self::ESTATUS_CAJA,
         self::EFECTIVO_CAJA_INICIO,
         self::EFECTIVO_CAJA_CIERRE,
         self::GANANCIA_DIA,
-        self::OBSERVACION
+        self::OBSERVACION,
+        self::USER_ID,
     ];
 
     public function orders()
@@ -62,15 +64,16 @@ class MainOrderReportModel extends Model
         $this->update([
             self::GANANCIA_DIA => $this->totalSalesForDay(),
             self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesForDay(),
-            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSED
+            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSE_SALES
         ]);
 
         return $this->refresh();
     }
 
-    public static function openSales(float $initialCash): MainOrderReportModel
+    public static function openSales(float $initialCash, int $userId): MainOrderReportModel
     {
         $record = MainOrderReportModel::whereDate('created_at', now())
+            ->where('user_id', $userId)
             ->first();
         if ($record) {
             return $record;
@@ -80,6 +83,7 @@ class MainOrderReportModel extends Model
             self::ESTATUS_CAJA => MainOrderStatusEnum::OPEN,
             self::EFECTIVO_CAJA_INICIO => $initialCash,
             self::CREATED_AT => now(),
+            self::USER_ID => $userId,
         ]);
     }
 }

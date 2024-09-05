@@ -20,6 +20,8 @@ return new class extends Migration
             $table->double(MainOrderReportModel::EFECTIVO_CAJA_CIERRE)->default(0);
             $table->double(MainOrderReportModel::GANANCIA_DIA)->nullable();
             $table->text(MainOrderReportModel::OBSERVACION)->nullable();
+            $table->foreignId(MainOrderReportModel::USER_ID)
+                ->constrained('users');
             $table->timestamps();
         });
     }

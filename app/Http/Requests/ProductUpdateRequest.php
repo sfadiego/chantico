@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\MainOrderReportModel;
+use App\Models\ProductModel;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OpenSalesRequest extends FormRequest
+class ProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,12 @@ class OpenSalesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            MainOrderReportModel::USER_ID => 'required|exists:users,id',
-            MainOrderReportModel::EFECTIVO_CAJA_INICIO => 'required',
-            MainOrderReportModel::OBSERVACION => 'nullable',
+            ProductModel::NOMBRE => 'nullable',
+            ProductModel::PRECIO => 'nullable|decimal:0,2',
+            ProductModel::DESCRIPCION => 'nullable',
+            ProductModel::CATEGORIA_ID => 'nullable|exists:categories,id',
+            ProductModel::ACTIVO => 'boolean',
+            ProductModel::FOTO_ID => 'nullable|exists:product_image'
         ];
     }
 }

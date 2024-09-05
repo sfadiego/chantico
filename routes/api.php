@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +27,6 @@ Route::middleware('auth:sanctum')->group(function () {
     //     Route::prefix('producto-pedido')->group(function () {});
     //     Route::prefix('pedido')->group(function () {});
     //     Route::prefix('fotografias')->group(function () {});
-    // Route::prefix('sistema')->group(function () {});
     Route::prefix('users')->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('{user}', 'show');
@@ -40,6 +41,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('order-status')->group(function () {
         Route::controller(OrderStatusController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('{status}', 'show');
+        });
+    });
+
+    Route::prefix('products')->group(function () {
+        Route::controller(ProductController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{status}', 'show');
         });
@@ -68,6 +76,15 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/', 'index');
                 Route::get('{category}', 'show');
                 Route::put('{category}', 'update');
+                Route::post('', 'store');
+            });
+        });
+
+        Route::prefix('products')->group(function () {
+            Route::controller(AdminProductController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::get('{product}', 'show');
+                Route::put('{product}', 'update');
                 Route::post('', 'store');
             });
         });
