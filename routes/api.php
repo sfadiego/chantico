@@ -26,8 +26,6 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    //     Route::prefix('producto-pedido')->group(function () {});
-    //     Route::prefix('pedido')->group(function () {});
     Route::prefix('users')->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('{user}', 'show');
