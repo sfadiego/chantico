@@ -65,7 +65,7 @@ class ProductModel extends Model
         return $this->refresh();
     }
 
-    public function pictures(): HasOne
+    public function picture(): HasOne
     {
         return $this->hasOne(ProductImageModel::class, 'id', 'foto_id');
     }

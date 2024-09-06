@@ -33,6 +33,22 @@ class OrderModel extends Model
         return $this->hasMany(OrderProductModel::class, 'pedido_id');
     }
 
+    public function totalOrder()
+    {
+        return $this->load('ordersProducts')
+            ->ordersProducts
+            ->map(function ($item) {
+                $precio = $item->precio;
+                $cantidad = $item->cantidad;
+                $descuentoPerItem = $item->descuento;
+
+                $total = $precio * $cantidad;
+                $totalWDescuento = $total - (($total * $descuentoPerItem) / 100);
+                return round($totalWDescuento, 2);
+            })
+            ->sum();
+    }
+
     public static function hasActiveOrders(MainOrderReportModel $system): int
     {
         return $system

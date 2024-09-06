@@ -9,6 +9,8 @@ use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,10 +25,8 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    //     Route::prefix('producto')->group(function () {});
     //     Route::prefix('producto-pedido')->group(function () {});
     //     Route::prefix('pedido')->group(function () {});
-    //     Route::prefix('fotografias')->group(function () {});
     Route::prefix('users')->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('{user}', 'show');
@@ -46,7 +46,22 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    Route::prefix('products')->group(function () {
+    Route::prefix('order')->group(function () {
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::prefix('{order}')->group(function () {
+                Route::get('', 'show');
+                Route::get('total', 'total');
+            });
+            // cuenta
+            // totalcortecaja
+            // ventas-dia
+        });
+    });
+
+
+
+    Route::prefix('product')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{status}', 'show');
@@ -80,12 +95,20 @@ Route::middleware('auth:sanctum')->group(function () {
             });
         });
 
-        Route::prefix('products')->group(function () {
+        Route::prefix('product')->group(function () {
             Route::controller(AdminProductController::class)->group(function () {
                 Route::get('/', 'index');
                 Route::get('{product}', 'show');
                 Route::put('{product}', 'update');
                 Route::post('', 'store');
+            });
+
+            Route::prefix('{product}/image')->group(function () {
+                Route::controller(ProductImageController::class)
+                    ->group(function () {
+                        Route::post('', 'store');
+                        Route::post('{image}', 'update');
+                    });
             });
         });
 
