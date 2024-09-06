@@ -29,6 +29,11 @@ class MainOrderReportController extends Controller
         return Response::success($system->totalSalesForDay());
     }
 
+    public function detailCloseSales(MainOrderReportModel $system): JsonResponse
+    {
+        return Response::success($system->load('orders'));
+    }
+
     public function closeSales(MainOrderReportModel $system): JsonResponse
     {
         if ($system->estatus_caja == MainOrderStatusEnum::CLOSED->value) {

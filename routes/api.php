@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,15 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::prefix('{order}')->group(function () {
                 Route::get('', 'show');
                 Route::get('total', 'total');
+
+                Route::prefix('product')->group(function () {
+                    Route::controller(OrderProductController::class)
+                        ->group(function () {
+                            Route::get('', 'index');
+                            Route::put('{product}', 'update');
+                            Route::delete('{product}', 'delete');
+                        });
+                });
             });
         });
     });
@@ -74,15 +84,17 @@ Route::middleware('auth:sanctum')->group(function () {
                 });
         });
 
+
         Route::prefix('system')->group(function () {
             Route::controller(MainOrderReportController::class)
                 ->group(function () {
                     Route::get('/', 'index');
-                    Route::get('total', 'totalCloseSales');
-                    // totalcortecaja
-                    // ventas-dia
                     Route::post('open', 'openSales');
-                    Route::post('close/{system}', 'closeSales');
+                    Route::prefix('{system}')->group(function () {
+                        Route::get('total-close-sales', 'totalCloseSales');
+                        Route::get('detail-close-sales', 'detailCloseSales');
+                        Route::post('close', 'closeSales');
+                    });
                 });
         });
 
