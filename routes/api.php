@@ -37,6 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('categories')->group(function () {
         Route::controller(CategoriesController::class)->group(function () {
             Route::get('/', 'index');
+            Route::prefix('{category}')->group(function () {
+                Route::get('product', 'categoryProduct');
+            });
         });
     });
 
