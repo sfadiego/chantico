@@ -13,7 +13,7 @@ class MainOrderReportModel extends Model
     const ESTATUS_CAJA = 'estatus_caja';
     const EFECTIVO_CAJA_INICIO = 'efectivo_caja_inicio';
     const EFECTIVO_CAJA_CIERRE = 'efectivo_caja_cierre';
-    const GANANCIA_DIA = 'ganancia_dia';
+    const VENTA_DIA = 'venta_dia';
     const OBSERVACION = 'observaciones';
     const USER_ID = 'user_id';
 
@@ -21,7 +21,7 @@ class MainOrderReportModel extends Model
         self::ESTATUS_CAJA,
         self::EFECTIVO_CAJA_INICIO,
         self::EFECTIVO_CAJA_CIERRE,
-        self::GANANCIA_DIA,
+        self::VENTA_DIA,
         self::OBSERVACION,
         self::USER_ID,
     ];
@@ -62,7 +62,7 @@ class MainOrderReportModel extends Model
     {
         $initialCash = $this->efectivo_caja_inicio;
         $this->update([
-            self::GANANCIA_DIA => $this->totalSalesForDay(),
+            self::VENTA_DIA => $this->totalSalesForDay(),
             self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesForDay(),
             self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSE_SALES
         ]);

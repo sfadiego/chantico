@@ -26,7 +26,7 @@ class MainOrderReportModelFactory extends Factory
             MainOrderReportModel::ESTATUS_CAJA => MainOrderStatusEnum::OPEN,
             MainOrderReportModel::EFECTIVO_CAJA_INICIO => fake()->numberBetween(800, 3000),
             MainOrderReportModel::EFECTIVO_CAJA_CIERRE => fake()->numberBetween(1000, 3000),
-            MainOrderReportModel::GANANCIA_DIA => fake()->numberBetween(1000, 3000),
+            MainOrderReportModel::VENTA_DIA => fake()->numberBetween(1000, 3000),
             MainOrderReportModel::CREATED_AT => now(),
             MainOrderReportModel::USER_ID => User::where('rol_id', RoleEnum::ADMIN)->get()->random()->id
         ];

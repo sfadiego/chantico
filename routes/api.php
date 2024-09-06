@@ -53,9 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('', 'show');
                 Route::get('total', 'total');
             });
-            // cuenta
-            // totalcortecaja
-            // ventas-dia
         });
     });
 
@@ -81,6 +78,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::controller(MainOrderReportController::class)
                 ->group(function () {
                     Route::get('/', 'index');
+                    Route::get('total', 'totalCloseSales');
+                    // totalcortecaja
+                    // ventas-dia
                     Route::post('open', 'openSales');
                     Route::post('close/{system}', 'closeSales');
                 });
