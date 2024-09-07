@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -42,6 +43,16 @@ class ProductModel extends Model
             ProductModel::ACTIVO => 1,
             ProductModel::FOTO_ID => $pictureId
         ]);
+    }
+
+    public static function getProducts(string $param = null): Collection
+    {
+        $data = ProductModel::with('picture');
+        if ($param) {
+            $data = $data->where(self::NOMBRE, 'like', "%$param%");
+        }
+
+        return $data->get();
     }
 
     public function updateProduct(
