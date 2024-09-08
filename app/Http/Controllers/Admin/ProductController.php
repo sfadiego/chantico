@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $param): JsonResponse
     {
-        return Response::success(ProductModel::with('picture')->get());
+        return Response::success(
+            ProductModel::getProducts($param->search)
+        );
     }
 
     public function show(ProductModel $product): JsonResponse
