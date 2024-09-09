@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CategoriesModel extends Model
 {
@@ -11,12 +12,16 @@ class CategoriesModel extends Model
     protected $table = 'categories';
     const NOMBRE = "nombre";
     const FOTO_ID = 'foto_id';
-    const CATEGORIA_ID = 'categoria_id';
     const ORDEN = 'orden';
+
     protected $fillable = [
         self::NOMBRE,
         self::FOTO_ID,
-        self::CATEGORIA_ID,
         self::ORDEN
     ];
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(ProductModel::class, 'categoria_id', 'id');
+    }
 }

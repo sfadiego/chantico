@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,13 @@ class OrderProductModel extends Model
         self::CANTIDAD,
         self::PRECIO
     ];
+
+    public function updateOrderProduct(int $cantidad = 1, int $descuento = 0): OrderProductModel
+    {
+        $data = [];
+        $cantidad ? $data[OrderProductModel::CANTIDAD] = $cantidad : null;
+        $descuento ? $data[OrderProductModel::DESCUENTO] = $descuento : null;
+        $this->update($data);
+        return $this->refresh();
+    }
 }

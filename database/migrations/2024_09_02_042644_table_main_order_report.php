@@ -18,8 +18,10 @@ return new class extends Migration
             $table->integer(MainOrderReportModel::ESTATUS_CAJA)->default(MainOrderStatusEnum::OPEN);
             $table->double(MainOrderReportModel::EFECTIVO_CAJA_INICIO)->default(0);
             $table->double(MainOrderReportModel::EFECTIVO_CAJA_CIERRE)->default(0);
-            $table->double(MainOrderReportModel::GANANCIA_DIA)->nullable();
+            $table->double(MainOrderReportModel::VENTA_DIA)->nullable();
             $table->text(MainOrderReportModel::OBSERVACION)->nullable();
+            $table->foreignId(MainOrderReportModel::USER_ID)
+                ->constrained('users');
             $table->timestamps();
         });
     }

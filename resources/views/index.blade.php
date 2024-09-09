@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Chantico</title>
+    <title>{{ env('APP_NAME') }}</title>
     @viteReactRefresh
-    @vite('resources/react/app.tsx')
+    @vite('resources/js/app.tsx')
 </head>
-<body>
+
+<body class="bg-gradient-primary">
     <div id="app"></div>
 </body>
+
 </html>

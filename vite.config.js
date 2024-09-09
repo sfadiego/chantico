@@ -8,11 +8,13 @@ export default defineConfig({
         minify: process.env.APP_ENV === 'production' ? 'esbuild' : false,
         cssMinify: process.env.APP_ENV === 'production',
     },
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/react/app.tsx'],
-            refresh: true,
-        }),
-        react()
-    ],
+    plugins: [laravel(["resources/js/app.tsx"]), react()],
+    resolve: {
+        alias: {
+            '@css': '/resources/css',
+            '@components': '/resources/js/components',
+            '@assets': '/resources/assets',
+            '@js': '/resources/js',
+        },
+    },
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +27,36 @@ class OrderModel extends Model
         self::ESTATUS_PEDIDO_ID,
         self::SISTEMA_ID
     ];
+
+    public function ordersProducts()
+    {
+        return $this->hasMany(OrderProductModel::class, 'pedido_id');
+    }
+
+    public function totalOrder()
+    {
+        return $this->load('ordersProducts')
+            ->ordersProducts
+            ->map(function ($item) {
+                $precio = $item->precio;
+                $cantidad = $item->cantidad;
+                $descuentoPerItem = $item->descuento;
+
+                $total = $precio * $cantidad;
+                $totalWDescuento = $total - (($total * $descuentoPerItem) / 100);
+                return round($totalWDescuento, 2);
+            })
+            ->sum();
+    }
+
+    public static function hasActiveOrders(MainOrderReportModel $system): int
+    {
+        return $system
+            ->whereHas('orders')
+            ->with(['orders' => function ($q) {
+                $q->whereDate('created_at', now());
+                $q->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS);
+            }])
+            ->first()->orders->count();
+    }
 }
