@@ -11,8 +11,7 @@
     @vite('resources/js/app.tsx')
 </head>
 
-<body class="bg-gradient-primary">
+<body class="">
     <div id="app"></div>
 </body>
-
 </html>

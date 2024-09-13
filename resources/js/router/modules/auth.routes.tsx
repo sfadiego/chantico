@@ -1,5 +1,5 @@
-import LoginForm from '@js/pages/Auth/Login';
-import Register from '@js/pages/Auth/Register';
+import LoginForm from '@resources/pages/Auth/Login';
+import Register from '@resources/pages/Auth/Register';
 
 export const AuthRoutes = [
     {
