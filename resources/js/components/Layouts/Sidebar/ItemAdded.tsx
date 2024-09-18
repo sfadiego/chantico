@@ -1,15 +1,30 @@
 import React from 'react'
+import ButtonComponent from '../../Button/ButtonComponent';
 
-const ItemAdded = ({ name, items }) => {
+interface ItemAddedProps {
+    label: string,
+    items: number,
+    price: number,
+}
+
+
+const ItemAdded = ({ label, items, price }: ItemAddedProps) => {
     return (
         <>
-            <div className="d-flex mb-auto">
-                <div className="p-2 flex-grow-1">{name} </div>
-                <div className="p-2">{items}</div>
-                <div className="p-2"> + - </div>
+            <div className="pb-1 pt-1 d-flex mb-auto border-bottom">
+                <div className="pe-1 fs-sm fst-italic">
+                    <span className='text-secondary'>{items}x</span>
+                </div>
+                <div className="pe-1 flex-fill">
+                    {label.length > 20 ? label.substring(0, 20) + ' ...' : label}
+                </div>
+                <div className="pe-1">${items * price}</div>
+                <ButtonComponent className="btn btn-info btn-sm p-0 text-white">
+                    <i className="bi bi-info-lg"></i>
+                </ButtonComponent>
             </div>
         </>
     )
-}
+};
 
 export default ItemAdded

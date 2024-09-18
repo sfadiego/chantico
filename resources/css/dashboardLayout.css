@@ -3,7 +3,8 @@ button {
 }
 
 .content-wrapper {
-    width: 280px;
+    /* width: 280px; */
+    /* max-width: 280px; */
 }
 
 .calculate-height {
@@ -21,4 +22,8 @@ button {
 .b-vr {
     flex-shrink: 0;
     width: 0.2rem;
+}
+
+.fs-sm {
+    font-size: small;
 }

@@ -11,7 +11,7 @@ export const DashboardLayout = () => {
         <>
             <NavBarLayout />
             <main className="d-flex flex-nowrap">
-                <SidebarLayout></SidebarLayout>
+                <SidebarLayout mesa={`Mesa 2`}></SidebarLayout>
             </main>
         </>
     )
