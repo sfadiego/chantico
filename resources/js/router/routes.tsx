@@ -9,7 +9,7 @@ export enum Routes {
     Error = '*',
 };
 
-let routes = [
+export default [
     {
         path: Routes.Index,
         element: <></>,
@@ -25,4 +25,4 @@ let routes = [
         element: <Error404 />,
     },
 ];
-export default routes;
+// export default routes;
