@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(OrderStatusController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{status}', 'show');
+        });
+    });
+
+    Route::prefix('files')->group(function(){
+        Route::controller(FilesController::class)->group(function () {
+            Route::get('{file}', 'show');
         });
     });
 

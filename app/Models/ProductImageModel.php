@@ -34,7 +34,7 @@ class ProductImageModel extends Model
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "_" . uniqid() . ".$extension";
 
-            $path = $file->storeAs('files', $filename, 'local');
+            $path = $file->storeAs('private', $filename, 'local');
             return [
                 self::NOMBRE_ARCHIVO => $filename,
                 self::URL => $path

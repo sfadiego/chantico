@@ -19,7 +19,6 @@ const Detail = () => {
                 </ButtonComponent>
             </div>
         </div>
-        <hr className="mt-1 mb-2" />
     </>
 }
 const ItemDetail = ({ show }: ItemDetailProps) => {

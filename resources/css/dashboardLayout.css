@@ -3,8 +3,7 @@ button {
 }
 
 .content-wrapper {
-    /* width: 280px; */
-    /* max-width: 280px; */
+    width: 280px;
 }
 
 .calculate-height {
@@ -26,4 +25,23 @@ button {
 
 .fs-sm {
     font-size: small;
+}
+
+/* media queries */
+
+/* `sm` applies to x-small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {}
+
+/* `md` applies to small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+    .calculate-height {
+        height: calc(82vh - 56px) !important;
+    }
+}
+
+/* lg` applies to medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    .calculate-height {
+        height: calc(82vh - 56px) !important;
+    }
 }
