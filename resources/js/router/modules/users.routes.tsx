@@ -1,4 +1,5 @@
-import UserDashboard from '@resources/pages/Users/';
+// import UserDashboard from '@resources/pages/Users/';
+import UserDashboard from '../../pages/Users/index';
 
 export const UserRoutes = [
     {

@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthLayout from '../../../components/Layouts/AuthLayout/AuthLayout';
-import '@css/authLayout.css'
 import LoginForm from './partials/LoginForm';
+import '@css/authLayout.css'
 
 const LoginPage = () => {
     return (

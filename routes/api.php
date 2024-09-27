@@ -25,6 +25,13 @@ Route::prefix('auth')->group(function () {
         });
 });
 
+// TODO: revisar api, para que funcione con sanctum
+Route::prefix('files')->group(function () {
+    Route::controller(FilesController::class)->group(function () {
+        Route::get('{file}', 'show');
+    });
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users')->group(function () {
         Route::controller(UserController::class)->group(function () {
@@ -48,11 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    Route::prefix('files')->group(function(){
-        Route::controller(FilesController::class)->group(function () {
-            Route::get('{file}', 'show');
-        });
-    });
+    // Route::prefix('files')->group(function () {
+    //     Route::controller(FilesController::class)->group(function () {
+    //         Route::get('{file}', 'show');
+    //     });
+    // });
 
     Route::prefix('order')->group(function () {
         Route::controller(OrderController::class)->group(function () {
