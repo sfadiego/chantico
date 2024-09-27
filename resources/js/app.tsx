@@ -10,12 +10,15 @@ const appRoot = root && createRoot(root);
 const queryClient = new QueryClient()
 // routes
 import routes from './router/routes';
+import { AxiosProvider } from './contexts/AxiosContext';
 const router = createBrowserRouter(routes);
 
 appRoot && appRoot.render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router}></RouterProvider>
-        </QueryClientProvider>
+        <AxiosProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router}></RouterProvider>
+            </QueryClientProvider>
+        </AxiosProvider>
     </React.StrictMode>
 );

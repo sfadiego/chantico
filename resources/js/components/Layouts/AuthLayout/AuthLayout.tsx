@@ -1,12 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, ReactNode } from 'react'
 import { Button, Card, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import img from '@assets/logo_chantico.png';
 
-const AuthLayout = ({ children }) => {
+interface IAuthLayout {
+    children: ReactNode
+}
+const AuthLayout = ({ children }: IAuthLayout) => {
     return (
         <Container>
             <Row className='justify-content-center'>
-                <Col xl={10} lg={10} md={10} >
+                <Col xl={6} lg={6} md={6} >
                     <Card className='o-hidden border-0 shadow-lg my-5'>
                         <Card.Body className='p-0'>
                             <Row>

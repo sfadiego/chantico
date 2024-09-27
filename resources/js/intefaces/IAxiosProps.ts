@@ -7,6 +7,14 @@ export interface IAxiosProps<Params> {
     responseType?: AxiosRequestConfig['responseType']
 }
 
+export interface IAxiosPostProps<Data, Params> {
+    url: string
+    data?: Data,
+    params?: Params
+    headers?: AxiosRequestConfig['headers']
+    responseType?: AxiosRequestConfig['responseType']
+}
+
 export interface IUseGetProps {
     url: string
     filters?: object
@@ -15,4 +23,11 @@ export interface IUseGetProps {
     params?: object
     headers?: AxiosRequestConfig['headers']
     responseType?: AxiosRequestConfig['responseType']
+}
+
+export interface IUsePostProps {
+    url: string,
+    onSuccess?: () => void
+    onError?: () => void
+    isFile?: boolean
 }

@@ -1,22 +1,49 @@
-import axios from 'axios';
-import { IAxiosProps, IUseGetProps } from '../intefaces/IAxiosProps';
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '../intefaces/IAxiosProps';
 import { ApisEnum } from '../configs/apisEnum';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { axiosApi } from '../configs/axiosConfig';
 
 const host = ApisEnum.BaseUrl;
 const headersImage = { 'content-type': 'multipart/form-data' }
-export const axiosGET = async<Params>({ url, params, headers, responseType }: IAxiosProps<Params>) => {
-    // return { url, params };
-    // const response = axios.get(``, {
 
-    // });
-    console.log("axios get");
+export const axiosGET = async <Params>(
+    axios: AxiosInstance,
+    { url, params, headers = {}, responseType = 'json' }: IAxiosProps<Params>,
+) => {
+    const response = await axios.get(`${host}${url}`, {
+        params,
+        headers,
+        responseType,
+    })
+    return response.data
+}
+
+export const axiosPOST = <Data, Paras>(
+    axios: AxiosInstance,
+    { url, data, params, headers = {} }: IAxiosPostProps<Data, Paras>,
+) => {
+    return axios.post(`${host}${url}`, data, {
+        params,
+        headers,
+    })
 }
 
 // export const useGet = ({ url }: IUseGetProps): UseQueryResult<Response> => {
 export const useGet = ({ url, filters = {} }: IUseGetProps) => {
     return useQuery({
         queryKey: [url, filters],
-        queryFn: async () => await axiosGET({ url, params: filters })
+        queryFn: async () => await axiosGET(axiosApi, { url, params: filters })
+    });
+}
+
+export const usePost = ({ url,
+    onSuccess = () => { },
+    onError = () => { },
+}: IUsePostProps) => {
+    return useMutation({
+        mutationFn: async () => await axiosPOST(axiosApi, { url }),
+        onSuccess,
+        onError,
     });
 }

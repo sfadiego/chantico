@@ -17,7 +17,7 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     // guardar el token y el usuario logeado
     const saveAuth = (token: string, user: IUser) => {
         try {
-            
+            console.log(token, user);
         } catch (error) {
             console.log("saveAuth:", error);
             throw error;
