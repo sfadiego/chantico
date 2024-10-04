@@ -27,17 +27,3 @@ export default [
         element: <Error404 />,
     },
 ];
-
-// export default router;
-
-// let finalRoutes = router.map(route => {
-//     return {
-//         ...route,
-//         element: route.private ? (
-//             <PrivateRoute route={route} element={route.element} />
-//         ) : (route.element)
-//     }
-// });
-
-// // console.log(finalRoutes);
-// export default finalRoutes;
