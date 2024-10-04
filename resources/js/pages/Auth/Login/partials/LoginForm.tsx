@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import * as Yup from 'yup';
 import { ErrorMessage, Formik, Field, Form } from 'formik'
 import { useServiceLogin } from '@/services/auth/useServiceAuth'
-import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { useLogin } from '../useLogin';
 
 const LoginForm = () => {

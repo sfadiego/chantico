@@ -9,9 +9,8 @@ export const useLogin = ({
     const { onSubmit } = useOnSubmit({
         mutateAsync,
         onSuccess: ({ data: { access_token, user } }) => {
-            console.log(access_token, user);
-            saveAuth(acces_token, user);
-        }
+            saveAuth(access_token, user)
+        },
     });
 
     const validationSchema = Yup.object({
