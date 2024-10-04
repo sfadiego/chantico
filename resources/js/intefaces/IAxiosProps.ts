@@ -27,6 +27,7 @@ export interface IUseGetProps {
 
 export interface IUsePostProps {
     url: string,
+    // params?: object,
     onSuccess?: () => void
     onError?: () => void
     isFile?: boolean

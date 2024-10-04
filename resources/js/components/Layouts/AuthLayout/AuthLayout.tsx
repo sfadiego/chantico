@@ -9,7 +9,7 @@ const AuthLayout = ({ children }: IAuthLayout) => {
     return (
         <Container>
             <Row className='justify-content-center'>
-                <Col xl={6} lg={6} md={6} >
+                <Col xl={6} lg={10} md={10} >
                     <Card className='o-hidden border-0 shadow-lg my-5'>
                         <Card.Body className='p-0'>
                             <Row>

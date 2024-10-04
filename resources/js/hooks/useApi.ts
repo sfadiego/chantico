@@ -42,7 +42,7 @@ export const usePost = ({ url,
     onError = () => { },
 }: IUsePostProps) => {
     return useMutation({
-        mutationFn: async () => await axiosPOST(axiosApi, { url }),
+        mutationFn: async (data) => await axiosPOST(axiosApi, { url, data }),
         onSuccess,
         onError,
     });
