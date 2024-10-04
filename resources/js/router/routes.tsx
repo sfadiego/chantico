@@ -2,7 +2,6 @@ import React from "react";
 import { AuthRoutes } from "./modules/auth.routes";
 import { UserRoutes } from "./modules/users.routes";
 import Error404 from "../pages/Error404";
-import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
 
 export enum BaseRoutes {
     Index = '/',
