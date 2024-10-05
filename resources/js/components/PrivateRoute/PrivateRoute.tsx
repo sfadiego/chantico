@@ -7,6 +7,7 @@ import { BaseRoutes } from '../../router/routes';
 
 const PrivateRoute = ({ route, element }: { route: IRoute, element: React.ReactElement }) => {
     const { isAuthenticated, user } = useAxios();
+
     if (!isAuthenticated) return <Navigate to={AuthRoutesEnum.Login} />
     if (route.hasPermission != undefined && !route.hasPermission(user!)) {
         return <Navigate to={BaseRoutes.Forbidden} />

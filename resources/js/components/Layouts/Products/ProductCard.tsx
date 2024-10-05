@@ -14,9 +14,6 @@ interface productCardProps {
 // ajustar a peticion de axios
 export const ProductCard = ({ image, price, name, classCard }: productCardProps) => {
     let { nombre_archivo } = image;
-    let url = `http://127.0.0.1:8000/api/`
-    const test = getImage(nombre_archivo);
-    console.log("test",test);
     return (
         <div className={`${classCard ? classCard : 'col-lg-3 col-md-4 col-12 col-sm-6 col-xl-2 pt-1'}`}>
             <Card className='rounded-0 pb-1'>

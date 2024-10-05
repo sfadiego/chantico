@@ -1,3 +1,4 @@
+import { createBrowserRouter } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
 import routes from './routes'
 
@@ -10,4 +11,5 @@ let finalRoutes = routes.map(route => {
     }
 });
 
-export default finalRoutes;
+const router = createBrowserRouter(finalRoutes);
+export default router;

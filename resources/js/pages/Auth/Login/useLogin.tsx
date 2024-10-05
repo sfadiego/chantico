@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { RoleEnum } from '@/enums/RoleEnum';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
+import { RoutesUser } from '@/router/modules/users.routes';
 export const useLogin = ({
     mutateAsync
 }) => {
@@ -19,6 +20,13 @@ export const useLogin = ({
                 navigate(RoutesAdmin.Dashboard);
                 return;
             }
+
+            if (rol_id == RoleEnum.Employe && activo) {
+                navigate(RoutesUser.OrderList);
+                return;
+            }
+
+            navigate(RoutesUser.OrderList);
         },
     });
 

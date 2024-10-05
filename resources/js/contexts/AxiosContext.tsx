@@ -31,11 +31,11 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     const setAxiosHeaders = (token: string | null) => {
         if (token) {
             axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            localStorage.setItem('token', token);
+            localStorage.setItem('authToken', token);
             setAuthToken(token)
         } else {
             delete axiosApi.defaults.headers.common['Authorization'];
-            localStorage.removeItem('token');
+            localStorage.removeItem('authToken');
         }
     }
 
@@ -63,9 +63,8 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         setUser(null)
         window.location.replace('/login')
     }
-
     //regresa si el usuario esta autenticado
-    const isAuthenticated = !!authToken
+    const isAuthenticated = !!authToken;
     const value = {
         authToken,
         user,
