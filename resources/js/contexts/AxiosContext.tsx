@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
-import { axiosApi } from '../configs/axiosConfig'
+import axiosApi from '../configs/axiosConfig'
 import { IUser } from "@resources/intefaces/IUser"
 import { IAuthContextType } from "./interfaces/IAuthContextType"
 
@@ -10,14 +10,14 @@ interface IAuthProviderProps {
 }
 
 export const AxiosProvider = ({ children }: IAuthProviderProps) => {
+    const [authToken, setAuthToken] = useState<string | null>(
+        localStorage.getItem('authToken'),
+    )
+
     const [user, setUserState] = useState<IUser | null>(
         localStorage.getItem('user')
             ? JSON.parse(localStorage.getItem('user')!)
             : null,
-    )
-
-    const [authToken, setAuthToken] = useState<string | null>(
-        localStorage.getItem('authToken'),
     )
 
     useEffect(() => {
@@ -27,7 +27,6 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     }, [authToken])
 
     //TODO: revisar si se necesita volver a hacer request de usuario y setear valores en localStorage
-
     const setAxiosHeaders = (token: string | null) => {
         if (token) {
             axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -66,13 +65,14 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     }
     //regresa si el usuario esta autenticado
     const isAuthenticated = !!authToken;
+    console.log("context-axiosApi", authToken);
     const value = {
         authToken,
         user,
         isAuthenticated,
-        axiosApi,
         saveAuth,
-        logout
+        logout,
+        axiosApi,
     };
 
     return <AxiosContext.Provider value={value}> {children} </AxiosContext.Provider>

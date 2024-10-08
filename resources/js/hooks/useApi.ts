@@ -1,8 +1,8 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '../intefaces/IAxiosProps';
 import { ApisEnum } from '../configs/apisEnum';
 import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { axiosApi } from '../configs/axiosConfig';
+import { useAxios } from '../hooks/useAxios';
 
 const host = ApisEnum.BaseUrl;
 const headersImage = { 'content-type': 'multipart/form-data' }
@@ -16,7 +16,7 @@ export const axiosGET = async <Params>(
         headers,
         responseType,
     })
-    return response.data
+    return response.data;
 }
 
 export const axiosPOST = <Data, Paras>(
@@ -29,11 +29,21 @@ export const axiosPOST = <Data, Paras>(
     })
 }
 
-// export const useGet = ({ url }: IUseGetProps): UseQueryResult<Response> => {
-export const useGet = ({ url, filters = {} }: IUseGetProps) => {
+export const useGet = ({
+    url,
+    filters = {},
+    headers = {},
+    responseType = 'json',
+    enable = true
+}: IUseGetProps): UseQueryResult<Response> => {
+    const { axiosApi } = useAxios();
     return useQuery({
         queryKey: [url, filters],
-        queryFn: async () => await axiosGET(axiosApi, { url, params: filters })
+        queryFn: async () =>
+            await axiosGET(axiosApi, { url, params: filters, headers, responseType }),
+        retry: false,
+        enabled: enable,
+        refetchOnWindowFocus: false,
     });
 }
 
