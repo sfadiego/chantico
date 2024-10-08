@@ -65,7 +65,6 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     }
     //regresa si el usuario esta autenticado
     const isAuthenticated = !!authToken;
-    console.log("context-axiosApi", authToken);
     const value = {
         authToken,
         user,
