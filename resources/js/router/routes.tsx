@@ -1,7 +1,6 @@
-import React from "react";
+import React, { lazy } from "react";
 import { AuthRoutes } from "./modules/auth.routes";
 import { UserRoutes } from "./modules/users.routes";
-import Error404 from "../pages/Error404";
 import { AdminRoutes } from "./modules/admin.routes";
 
 export enum BaseRoutes {
@@ -9,6 +8,8 @@ export enum BaseRoutes {
     Forbidden = '/forbidden',
     Error = '*',
 };
+
+const ERROR404 = lazy(() => import('../pages/Error404'))
 
 export default [
     {
@@ -21,10 +22,10 @@ export default [
     ...UserRoutes,
     {
         path: BaseRoutes.Error,
-        element: <Error404 />,
+        element: <ERROR404 />,
     },
     {
         path: BaseRoutes.Forbidden,
-        element: <Error404 />,
+        element: <ERROR404 />,
     },
 ];

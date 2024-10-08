@@ -1,9 +1,10 @@
-import { Container, Row } from 'react-bootstrap';
-import "bootstrap-icons/font/bootstrap-icons.css";
-import '@css/dashboardLayout.css'
+import React from 'react'
 import { IProduct } from '@resources/interfaces/IProduct';
 import NavBarLayout from './NavBarLayout';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import '@css/dashboardLayout.css'
 import SidebarLayout from './Sidebar/SidebarLayout';
+import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
 
@@ -30,7 +31,7 @@ let itemsInOrder: IProduct[] = [
     }
 ];
 
-export const DashboardLayout = () => {
+export const TakeOrderLayout = () => {
     return (
         <>
             <NavBarLayout />
@@ -48,4 +49,4 @@ export const DashboardLayout = () => {
     )
 }
 
-export default DashboardLayout;
+export default TakeOrderLayout;

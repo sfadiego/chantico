@@ -18,7 +18,7 @@ export interface IAxiosPostProps<Data, Params> {
 export interface IUseGetProps {
     url: string
     filters?: object
-    // enable?: boolean
+    enable?: boolean
     // nameQuery?: string | null
     params?: object
     headers?: AxiosRequestConfig['headers']
@@ -27,7 +27,7 @@ export interface IUseGetProps {
 
 export interface IUsePostProps {
     url: string,
-    // params?: object,
+    params?: object,
     onSuccess?: () => void
     onError?: () => void
     isFile?: boolean

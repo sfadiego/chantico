@@ -18,12 +18,6 @@ const hasPermission = ({ rol_id }: IUser) => {
 
 export const AdminRoutes = [
     {
-        path: RoutesAdmin.Dashboard,
-        element: <UserDashboard />,
-        private: true,
-        hasPermission: (user: IUser) => hasPermission(user)
-    },
-    {
         path: RoutesAdmin.TakeOrder,
         element: <UserDashboard />,
         private: true,

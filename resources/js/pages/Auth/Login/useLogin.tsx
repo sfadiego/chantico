@@ -17,7 +17,7 @@ export const useLogin = ({
             saveAuth(access_token, user);
             let { rol_id, activo } = user;
             if (rol_id == RoleEnum.Admin && activo) {
-                navigate(RoutesAdmin.Dashboard);
+                navigate(RoutesAdmin.TakeOrder);
                 return;
             }
 

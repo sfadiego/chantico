@@ -41,6 +41,7 @@ export const usePost = ({ url,
     onSuccess = () => { },
     onError = () => { },
 }: IUsePostProps) => {
+    const { axiosApi } = useAxios();
     return useMutation({
         mutationFn: async (data) => await axiosPOST(axiosApi, { url, data }),
         onSuccess,

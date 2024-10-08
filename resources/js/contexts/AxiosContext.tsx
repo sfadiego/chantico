@@ -37,6 +37,7 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
             delete axiosApi.defaults.headers.common['Authorization'];
             localStorage.removeItem('authToken');
         }
+        setAuthToken(token)
     }
 
     const setUser = (user: IUser | null) => {
