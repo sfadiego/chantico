@@ -1,6 +1,6 @@
 export interface ICategory {
-    "id": number,
+    "id"?: number,
     "nombre": string,
-    "orden": number,
-    "foto_id": number,
+    "orden"?: number,
+    "foto_id"?: number,
 }

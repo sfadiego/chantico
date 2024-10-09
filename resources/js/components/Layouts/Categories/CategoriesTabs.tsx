@@ -1,18 +1,19 @@
-import React from 'react'
-import { Row } from 'react-bootstrap'
+import { Button, Dropdown, ListGroup, Offcanvas, Row } from 'react-bootstrap'
+import { useIndexCategories } from '@/services/useCategoriesService';
+import LoadingComponent from '../LoadingComponent';
+import { ICategory } from '@/intefaces/ICategory';
+import { OffCanvasMoreCatgories } from './OffCanvasMoreCatgories';
+import { SingleCategoryTab } from './SingleCategoryTab';
 
-let categories = [
-    {
-        "id": 1,
-        "nombre": "Cafe",
-    },
-    {
-        "id": 2,
-        "nombre": "Tisanas",
-    }
-];
+const limitInList = 5;
 export const CategoriesTabs = () => {
+    const { isLoading, data: categories } = useIndexCategories();
+    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    const { data } = categories;
+    const categoriesFiltered = data.slice(0, limitInList);
+    const excedLimit = data.length > limitInList;
     return (
+
         <Row className='mt-1'>
             <div className="col-12">
                 <h3>Categorias</h3>
@@ -24,11 +25,16 @@ export const CategoriesTabs = () => {
                         <span className='ms-1'>Todos</span>
                     </div>
                     {
-                        categories.map(({ id, nombre }, key) => {
-                            return <div key={key} className="p-2 ms-1 border">
-                                {nombre}
+                        categoriesFiltered.map(({ id, nombre }: ICategory) =>
+                            <SingleCategoryTab key={id} nombre={nombre}></SingleCategoryTab>)
+                    }
+
+                    {
+                        excedLimit && (
+                            <div className="border">
+                                <OffCanvasMoreCatgories categories={data} placement={'end'} name={'end'} />
                             </div>
-                        })
+                        )
                     }
                 </div>
             </div>
