@@ -1,4 +1,4 @@
-import { useGet, usePost } from "../hooks/useApi"
+import { useGet } from "../hooks/useApi"
 
 export const useIndexProducts = () => useGet({ url: 'product' })
 export const useShowProduct = (id: number) => useGet({ url: `product/${id}` })

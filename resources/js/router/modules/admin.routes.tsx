@@ -1,6 +1,7 @@
 import { IUser } from '@/intefaces/IUser';
 import { RoleEnum } from '../../enums/RoleEnum'
 import UserDashboard from '../../pages/Users/index';
+import TakeOrder from '@/pages/TakeOrder';
 
 export enum RoutesAdmin {
     Dashboard = '/admin/dashboard',
@@ -19,7 +20,7 @@ const hasPermission = ({ rol_id }: IUser) => {
 export const AdminRoutes = [
     {
         path: RoutesAdmin.TakeOrder,
-        element: <UserDashboard />,
+        element: <TakeOrder />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },

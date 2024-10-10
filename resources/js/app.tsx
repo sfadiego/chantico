@@ -10,7 +10,13 @@ import routes from './router/index.routes';
 const root = document.getElementById('app');
 const appRoot = root && createRoot(root);
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+})
 // routes
 import { AxiosProvider } from './contexts/AxiosContext';
 

@@ -6,14 +6,13 @@ import { OffCanvasMoreCatgories } from './OffCanvasMoreCatgories';
 import { SingleCategoryTab } from './SingleCategoryTab';
 
 const limitInList = 5;
-export const CategoriesTabs = () => {
+export const CategoriesTabs = ({ }) => {
     const { isLoading, data: categories } = useIndexCategories();
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     const { data } = categories;
     const categoriesFiltered = data.slice(0, limitInList);
     const excedLimit = data.length > limitInList;
     return (
-
         <Row className='mt-1'>
             <div className="col-12">
                 <h3>Categorias</h3>

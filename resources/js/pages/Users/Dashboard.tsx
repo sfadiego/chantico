@@ -3,7 +3,7 @@ import DashboardLayout from '../../components/Layouts/DashboardLayout';
 
 const Dashboard = () => {
     return (
-        <DashboardLayout />
+        <>Dashboard</>
     )
 }
 export default Dashboard;

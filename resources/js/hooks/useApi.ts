@@ -29,7 +29,7 @@ export const axiosPOST = <Data, Paras>(
     })
 }
 
-export const useGet = ({
+export const useGet = <Response>({
     url,
     filters = {},
     headers = {},

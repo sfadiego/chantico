@@ -7,6 +7,7 @@ import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
+import { useIndexProducts } from '@/services/useProductService';
 
 
 let mesa = 'Mesa 1';
@@ -32,6 +33,7 @@ let itemsInOrder: IProduct[] = [
 ];
 
 export const TakeOrderLayout = () => {
+  
     return (
         <>
             <NavBarLayout />
