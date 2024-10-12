@@ -1,17 +1,21 @@
-import { Button, Dropdown, ListGroup, Offcanvas, Row } from 'react-bootstrap'
+import {  Row } from 'react-bootstrap'
 import { useIndexCategories } from '@/services/useCategoriesService';
 import LoadingComponent from '../LoadingComponent';
 import { ICategory } from '@/intefaces/ICategory';
 import { OffCanvasMoreCatgories } from './OffCanvasMoreCatgories';
 import { SingleCategoryTab } from './SingleCategoryTab';
+// import { useTakeOrder } from '@/hooks/useTakeOrder';
+// import { useCallback } from 'react';
 
 const limitInList = 5;
-export const CategoriesTabs = ({ }) => {
+export const CategoriesTabs = () => {
+    // const { selectCategory } = useTakeOrder();
     const { isLoading, data: categories } = useIndexCategories();
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     const { data } = categories;
     const categoriesFiltered = data.slice(0, limitInList);
     const excedLimit = data.length > limitInList;
+
     return (
         <Row className='mt-1'>
             <div className="col-12">
@@ -25,7 +29,11 @@ export const CategoriesTabs = ({ }) => {
                     </div>
                     {
                         categoriesFiltered.map(({ id, nombre }: ICategory) =>
-                            <SingleCategoryTab key={id} nombre={nombre}></SingleCategoryTab>)
+                            <SingleCategoryTab 
+                            key={id} 
+                            id={id}
+                            nombre={nombre}></SingleCategoryTab>
+                        )
                     }
 
                     {

@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 //valida la respuesta de la api con mutateAsync: tanstack
 export const useOnSubmit = <Request = any, Response = any>({
     mutateAsync,
@@ -16,7 +15,8 @@ export const useOnSubmit = <Request = any, Response = any>({
             } else if (onError) {
                 onError(error);
             } else {
-                toast(error.response?.data.message);
+                // TODO: Show a toast message
+                console.log(error.response?.data.message)
             }
         }
     }

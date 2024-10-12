@@ -7,7 +7,7 @@ import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
-import { useIndexProducts } from '@/services/useProductService';
+import { TakeOrderProvider } from '@/contexts/TakeOrderContext';
 
 
 let mesa = 'Mesa 1';
@@ -33,9 +33,9 @@ let itemsInOrder: IProduct[] = [
 ];
 
 export const TakeOrderLayout = () => {
-  
+
     return (
-        <>
+        <TakeOrderProvider>
             <NavBarLayout />
             <main className="d-flex flex-nowrap">
                 <SidebarLayout
@@ -47,7 +47,7 @@ export const TakeOrderLayout = () => {
                     <ProductsContainer />
                 </Container>
             </main>
-        </>
+        </TakeOrderProvider>
     )
 }
 
