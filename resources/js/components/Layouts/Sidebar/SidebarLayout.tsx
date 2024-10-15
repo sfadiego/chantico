@@ -4,9 +4,14 @@ import ItemAdded from './ItemAdded';
 import { TotalItem } from './TotalItem';
 import ButtonComponent from '../../Button/ButtonComponent';
 import ItemDetail from './ItemDetail';
+import { IOrderProduct } from '@/intefaces/IOrderProduct';
 
-interface sidebarProps { mesa: string, products: Product }[];
-const SidebarLayout = ({ mesa, products }: sidebarProps) => {
+interface SidebarProps {
+    mesa: string,
+    productsInOrder: IOrderProduct[]
+};
+const SidebarLayout = ({ mesa, productsInOrder }: SidebarProps) => {
+    // console.log(productsInOrder);
     return (
         <>
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary content-wrapper">
@@ -16,7 +21,10 @@ const SidebarLayout = ({ mesa, products }: sidebarProps) => {
                 <hr className="mt2 mb-2" />
                 <div className="mb-auto">
                     {
-                        products.map(({ nombre, precio }, index) => <ItemAdded key={index} price={precio} label={nombre} items={5} />)
+                        productsInOrder.map(({ nombre, precio }, index) =>
+                            // <ItemAdded key={index} price={precio} label={nombre} items={5} />
+                            <></>
+                        )
                     }
                 </div>
                 <ItemDetail show={false}></ItemDetail>
