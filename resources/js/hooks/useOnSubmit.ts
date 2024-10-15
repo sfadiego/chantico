@@ -16,6 +16,7 @@ export const useOnSubmit = <Request = any, Response = any>({
                 onError(error);
             } else {
                 // TODO: Show a toast message
+                console.log(error);
                 console.log(error.response?.data.message)
             }
         }

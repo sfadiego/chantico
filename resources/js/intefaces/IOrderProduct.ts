@@ -1,3 +1,5 @@
+import { IProduct } from "./IProduct";
+
 export interface IOrderProduct {
     id?: number,
     producto_id: number,
@@ -7,4 +9,5 @@ export interface IOrderProduct {
     precio: number,
     created_at: string,
     updated_at: string,
+    product: IProduct
 };

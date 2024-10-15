@@ -14,10 +14,8 @@ import LoadingComponent from './LoadingComponent';
 export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
-    const { isLoading, showData, order, productsInOrder } = useGetOrderDetail(1);//useShowOrder(currentOrderId)
+    const { isLoading, order, productsInOrder } = useGetOrderDetail(1);//useShowOrder(currentOrderId)
     if (isLoading) return <LoadingComponent></LoadingComponent>;
-    // console.log(isLoading, showData, order, productInOrder);
-    const { nombre_pedido } = order
 
     return (
         <>
@@ -25,7 +23,7 @@ export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number })
             <main className="d-flex flex-nowrap">
                 <SidebarLayout
                     productsInOrder={productsInOrder}
-                    mesa={nombre_pedido}
+                    order={order}
                 />
                 <Container fluid >
                     <CategoriesTabs selectCategory={selectCategory} />

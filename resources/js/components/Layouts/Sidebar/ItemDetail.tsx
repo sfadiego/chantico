@@ -1,15 +1,22 @@
-import React from 'react'
+import useProductInOrderDetail from '@/hooks/useOrderProductDetail';
 import ButtonComponent from '../../Button/ButtonComponent';
+import LoadingComponent from '../LoadingComponent';
 
 interface ItemDetailProps {
-    show: boolean
+    show?: boolean,
+    orderId: number,
+    currentProductId: number
 }
-const Detail = () => {
+const Detail = ({ orderId, currentProductId }: ItemDetailProps) => {
+    const { isLoading, showData, product } = useProductInOrderDetail(orderId, currentProductId);
+    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    const { cantidad } = [...product].shift();
+
     return <>
         <hr className="mt-1 mb-1" />
         <div className={`d-flex`}>
             <div className="p-2 flex-fill">
-                <span className='text-secondary'>{1} pza</span>
+                <span className='text-secondary'>{cantidad} pza</span>
             </div>
             <div className="p-2">
                 <ButtonComponent className='btn btn-info btn-sm'>-</ButtonComponent>
@@ -21,11 +28,15 @@ const Detail = () => {
         </div>
     </>
 }
-const ItemDetail = ({ show }: ItemDetailProps) => {
-
+const ItemDetail = ({ show = false, orderId, currentProductId }: ItemDetailProps) => {
     return (
         <>
-            {show ? <Detail /> : null}
+            {
+                (show && orderId && currentProductId) ? <Detail
+                    orderId={orderId}
+                    currentProductId={currentProductId} />
+                    : null
+            }
         </>
     )
 }

@@ -20,6 +20,15 @@ class OrderProductController extends Controller
         );
     }
 
+    public function show(OrderModel $order, string $productId): JsonResponse
+    {
+        return Response::success(
+            OrderProductModel::where('pedido_id', $order->id)
+                ->where('producto_id', $productId)
+                ->get()
+        );
+    }
+
     public function update(string $productId, OrderProductUpdateRequest $params): JsonResponse
     {
         $data = OrderProductModel::where('producto_id', $productId)

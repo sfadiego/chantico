@@ -5,10 +5,12 @@ interface ItemAddedProps {
     label: string,
     items: number,
     price: number,
+    productId: number,
+    setProduct: (productId: number) => void
 }
 
 
-const ItemAdded = ({ label, items, price }: ItemAddedProps) => {
+const ItemAdded = ({ label, items, productId, price, setProduct }: ItemAddedProps) => {
     return (
         <>
             <div className="pb-1 pt-1 d-flex mb-auto border-bottom">
@@ -19,7 +21,7 @@ const ItemAdded = ({ label, items, price }: ItemAddedProps) => {
                     {label.length > 20 ? label.substring(0, 20) + ' ...' : label}
                 </div>
                 <div className="p-1">${items * price}</div>
-                <ButtonComponent className="btn btn-info btn-sm p-0 text-white">
+                <ButtonComponent onClickFunction={() => setProduct(productId)} className="btn btn-info btn-sm p-0 text-white">
                     <i className="bi bi-info-lg"></i>
                 </ButtonComponent>
             </div>
