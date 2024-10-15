@@ -39,12 +39,12 @@ class MainOrderReportModel extends Model
 
     public function totalSalesForDay(): float
     {
-        return $this->whereHas('orders.ordersProducts')
-            ->with(['orders.ordersProducts'])
+        return $this->whereHas('orders.orderProducts')
+            ->with(['orders.orderProducts'])
             ->get()
             ->pluck('orders')
             ->flatten()
-            ->pluck('ordersProducts')
+            ->pluck('orderProducts')
             ->flatten()
             ->map(function ($item) {
                 $precio = $item->precio;

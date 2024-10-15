@@ -28,15 +28,15 @@ class OrderModel extends Model
         self::SISTEMA_ID
     ];
 
-    public function ordersProducts()
+    public function orderProducts()
     {
         return $this->hasMany(OrderProductModel::class, 'pedido_id');
     }
 
     public function totalOrder()
     {
-        return $this->load('ordersProducts')
-            ->ordersProducts
+        return $this->load('orderProducts')
+            ->orderProducts
             ->map(function ($item) {
                 $precio = $item->precio;
                 $cantidad = $item->cantidad;

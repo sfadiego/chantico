@@ -15,7 +15,7 @@ class OrderController extends Controller
 
     public function show(OrderModel $order): JsonResponse
     {
-        return Response::success($order->load('ordersProducts'));
+        return Response::success($order->load('orderProducts'));
     }
 
     public function total(OrderModel $order): JsonResponse
