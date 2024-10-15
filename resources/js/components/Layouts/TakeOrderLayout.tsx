@@ -7,40 +7,25 @@ import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
+import { useShowOrder } from '@/services/useOrderService';
+import useGetOrderDetail from '@/hooks/useOrderDetail';
+import LoadingComponent from './LoadingComponent';
 
-
-let mesa = 'Mesa 1';
-let itemsInOrder: IProduct[] = [
-    {
-        "id": 1,
-        "nombre": "Pollini con salsas especiales y ",
-        "precio": 42,
-        "descripcion": "Ut cumque sit suscipit.",
-        "foto_id": null,
-        "categoria_id": 9,
-        "activo": 1,
-    },
-    {
-        "id": 2,
-        "nombre": "Soda ",
-        "precio": 40,
-        "descripcion": "Ut cumque sit suscipit.",
-        "foto_id": null,
-        "categoria_id": 1,
-        "activo": 1,
-    }
-];
-
-export const TakeOrderLayout = () => {
+export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
+    const { isLoading, showData, order, productsInOrder } = useGetOrderDetail(1);//useShowOrder(currentOrderId)
+    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    // console.log(isLoading, showData, order, productInOrder);
+    const { nombre_pedido } = order
+
     return (
         <>
             <NavBarLayout />
             <main className="d-flex flex-nowrap">
                 <SidebarLayout
-                    products={itemsInOrder}
-                    mesa={mesa}
+                    productsInOrder={productsInOrder}
+                    mesa={nombre_pedido}
                 />
                 <Container fluid >
                     <CategoriesTabs selectCategory={selectCategory} />
