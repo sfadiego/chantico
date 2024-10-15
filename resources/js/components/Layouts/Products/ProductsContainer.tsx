@@ -1,6 +1,5 @@
 import { Row } from 'react-bootstrap'
 import { useIndexProducts } from '@/services/useProductService';
-import { useTakeOrder } from '@/hooks/useTakeOrder';
 import { useProductByCategory } from '@/services/useCategoriesService';
 import { ProductCard } from './ProductCard'
 import { IProduct } from '@resources/interfaces/IProduct';
@@ -8,16 +7,17 @@ import LoadingComponent from '../LoadingComponent';
 
 const useHandleProducts = (categoryId: number) => {
     let { isLoading, data } = categoryId == 0 ? useIndexProducts() : useProductByCategory(categoryId, false);
-    console.log(categoryId,isLoading, data);
+
     return {
         showData: (!isLoading && data),
         products: data?.data,
         isLoading
     }
 }
-
-export const ProductsContainer = () => {
-    const { categoryId } = useTakeOrder();
+interface ProductsContainerProps {
+    categoryId: number
+}
+export const ProductsContainer = ({ categoryId }: ProductsContainerProps) => {
     const { showData, isLoading, products } = useHandleProducts(categoryId!!);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (

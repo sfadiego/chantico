@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IProduct } from '@resources/interfaces/IProduct';
 import NavBarLayout from './NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -7,7 +7,6 @@ import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
-import { TakeOrderProvider } from '@/contexts/TakeOrderContext';
 
 
 let mesa = 'Mesa 1';
@@ -33,9 +32,10 @@ let itemsInOrder: IProduct[] = [
 ];
 
 export const TakeOrderLayout = () => {
-
+    const [categoryId, setCategoryId] = useState<number>(0);
+    const selectCategory = (categoryId: number) => setCategoryId(categoryId);
     return (
-        <TakeOrderProvider>
+        <>
             <NavBarLayout />
             <main className="d-flex flex-nowrap">
                 <SidebarLayout
@@ -43,11 +43,11 @@ export const TakeOrderLayout = () => {
                     mesa={mesa}
                 />
                 <Container fluid >
-                    <CategoriesTabs />
-                    <ProductsContainer />
+                    <CategoriesTabs selectCategory={selectCategory} />
+                    <ProductsContainer categoryId={categoryId} />
                 </Container>
             </main>
-        </TakeOrderProvider>
+        </>
     )
 }
 
