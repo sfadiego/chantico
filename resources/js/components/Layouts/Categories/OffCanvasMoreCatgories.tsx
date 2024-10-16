@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Button, ListGroup, Offcanvas } from 'react-bootstrap';
 import { ICategory } from '@/intefaces/ICategory';
 
-export const OffCanvasMoreCatgories = ({ ...props }) => {
+export const OffCanvasMoreCatgories = ({ categories, selectCategory, ...props }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const { categories, selectCategory } = props;
+
     return <>
         <Button onClick={handleShow} variant="light" className="h-100">
             <i className="bi bi-three-dots-vertical"></i>Ver mas
@@ -19,7 +19,10 @@ export const OffCanvasMoreCatgories = ({ ...props }) => {
                 <ListGroup className='rounded-0'>
                     {
                         categories.map(({ nombre, id }: ICategory, key: number) =>
-                            <ListGroup.Item onClick={() => selectCategory(id)} action key={key}>{nombre}</ListGroup.Item>
+                            <ListGroup.Item onClick={() => selectCategory(id)}
+                                action key={key}>
+                                {nombre}
+                            </ListGroup.Item>
                         )
                     }
                 </ListGroup>

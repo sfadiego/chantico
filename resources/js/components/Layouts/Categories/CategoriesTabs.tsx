@@ -16,7 +16,6 @@ export const CategoriesTabs = ({ selectCategory }: CategoriesTabProps) => {
     const { data } = categories;
     const categoriesFiltered = data.slice(0, limitInList);
     const excedLimit = data.length > limitInList;
-
     return (
         <Row className='mt-1'>
             <div className="col-12">
@@ -41,10 +40,12 @@ export const CategoriesTabs = ({ selectCategory }: CategoriesTabProps) => {
                     {
                         excedLimit && (
                             <div className="border">
-                                <OffCanvasMoreCatgories selectCategory={selectCategory}
+                                <OffCanvasMoreCatgories
+                                    selectCategory={selectCategory}
                                     categories={data}
                                     placement={'end'}
-                                    name={'end'} />
+                                    name={'end'}
+                                />
                             </div>
                         )
                     }
