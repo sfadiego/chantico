@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { IProduct } from '@resources/interfaces/IProduct';
 import NavBarLayout from './NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@css/dashboardLayout.css'
@@ -10,12 +9,12 @@ import { ProductsContainer } from './Products/ProductsContainer';
 import useGetOrderDetail from '@/hooks/useOrderDetail';
 import LoadingComponent from './LoadingComponent';
 
-export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number }) => {
+export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId?: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
     const [searchProduct, setSearchProduct] = useState<string>('');
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
     //TODO: remplazar order id -> useShowOrder(currentOrderId)
-    const { isLoading, order, productsInOrder } = useGetOrderDetail(1);
+    const { isLoading, order, productsInOrder } = useGetOrderDetail(currentOrderId);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
@@ -27,7 +26,10 @@ export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number })
                 />
                 <Container fluid >
                     <CategoriesTabs selectCategory={selectCategory} />
-                    <ProductsContainer searchProduct={searchProduct} categoryId={categoryId} />
+                    <ProductsContainer
+                        searchProduct={searchProduct}
+                        currentOrderId={currentOrderId}
+                        categoryId={categoryId} />
                 </Container>
             </main>
         </>

@@ -14,5 +14,6 @@ export interface IProduct {
 
 export interface IProductContainerProps {
     searchProduct?: string,
-    categoryId: number
+    categoryId: number,
+    currentOrderId: number
 }
