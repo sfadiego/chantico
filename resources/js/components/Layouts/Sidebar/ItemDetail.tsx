@@ -10,20 +10,20 @@ interface ItemDetailProps {
 const Detail = ({ orderId, currentProductId }: ItemDetailProps) => {
     const { isLoading, showData, product } = useProductInOrderDetail(orderId, currentProductId);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
-    const { cantidad } = [...product].shift();
-
+    const { cantidad, precio, product: { nombre } } = [...product].shift();
+    const total = precio * cantidad;
     return <>
-        <hr className="mt-1 mb-1" />
-        <div className={`d-flex`}>
-            <div className="p-2 flex-fill">
-                <span className='text-secondary'>{cantidad} pza</span>
+        <hr className="mt-1 mb-2" />
+        <div className='d-flex'>
+            <div className=' flex-grow-1'>
+                <div className='pt-1'>
+                    <span className='text-danger'>${total}</span> {nombre} 
+                </div>
             </div>
-            <div className="p-2">
-                <ButtonComponent className='btn btn-info btn-sm'>-</ButtonComponent>
-                <ButtonComponent className='btn btn-info btn-sm border-start'>+</ButtonComponent>
-                <ButtonComponent className='btn btn-danger btn-sm border-start'>
-                    <i className="bi bi-trash3"></i>
-                </ButtonComponent>
+            <div className=''>
+                <ButtonComponent className='btn flex-fill btn-info btn-sm'>-</ButtonComponent>
+                <span className='text-secondary ps-2 pe-2'>{cantidad}</span>
+                <ButtonComponent className='btn flex-fill btn-info btn-sm border-start'>+</ButtonComponent>
             </div>
         </div>
     </>

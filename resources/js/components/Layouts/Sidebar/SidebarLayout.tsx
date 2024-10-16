@@ -52,7 +52,7 @@ const SidebarLayout = ({ order, productsInOrder }: SidebarProps) => {
                 <TotalItem ammount={subtotal} wrapperClass='text-secondary' label={`Subtotal`}></TotalItem>
                 <TotalItem ammount={descuento} wrapperClass='text-secondary' label={`Descuento`}></TotalItem>
                 <TotalItem ammount={total} label={`Total`}></TotalItem>
-                <div className="d-grid gap-2">
+                <div className="d-grid  mt-2 gap-2">
                     <ButtonComponent className="btn btn-success" type='button'>
                         Pagar ${total}
                     </ButtonComponent>
