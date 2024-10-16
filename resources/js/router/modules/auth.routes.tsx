@@ -1,5 +1,6 @@
-import LoginForm from '@resources/pages/Auth/Login';
-import Register from '@resources/pages/Auth/Register';
+import { lazy } from 'react';
+const LoginForm = lazy(() => import('@resources/pages/Auth/Login'))
+const Register = lazy(() => import('@resources/pages/Auth/Register'))
 
 export enum AuthRoutesEnum {
     Login = '/login',
@@ -8,11 +9,11 @@ export enum AuthRoutesEnum {
 
 export const AuthRoutes = [
     {
-        path: "/login",
+        path: AuthRoutesEnum.Login,
         element: <LoginForm />,
     },
     {
-        path: "/register",
+        path: AuthRoutesEnum.Register,
         element: <Register />,
     },
 ];

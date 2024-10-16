@@ -1,7 +1,8 @@
 import { IUser } from '@/intefaces/IUser';
 import { RoleEnum } from '../../enums/RoleEnum'
-import UserDashboard from '../../pages/Users/index';
-import TakeOrder from '@/pages/TakeOrder';
+import { lazy } from 'react';
+
+const TakeOrder = lazy(() => import('@/pages/TakeOrder'));
 
 export enum RoutesAdmin {
     Dashboard = '/admin/dashboard',

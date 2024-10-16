@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { AxiosContext } from '../contexts/AxiosContext'
+import { AxiosContext } from '@/contexts/AxiosContext'
 
 export const useAxios = () => {
     const context = useContext(AxiosContext);

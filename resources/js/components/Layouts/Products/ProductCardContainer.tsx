@@ -10,12 +10,14 @@ export const ProductCardContainer = ({ categoryId, searchProduct = '', currentOr
     return (
         <>
             {
-                showData && products.map(({ nombre, precio, picture }: IProduct, key: number) =>
+                showData && products.map(({ nombre, precio, picture, id }: IProduct, key: number) =>
                     <ProductCard
                         key={key}
+                        id={id}
                         name={nombre}
                         price={precio}
                         picture={picture}
+                        currentOrderId={currentOrderId}
                     />
                 )
             }

@@ -1,7 +1,7 @@
 import { IFileProps } from "./IFileProps"
 
 export interface IProduct {
-    id?: number
+    id: number
     nombre: string,
     precio: number,
     descripcion: string,
@@ -15,5 +15,13 @@ export interface IProduct {
 export interface IProductContainerProps {
     searchProduct?: string,
     categoryId: number,
+    currentOrderId: number
+}
+
+export interface IProductProps {
+    nombre: string,
+    precio: number,
+    picture: IFileProps,
+    id: number,
     currentOrderId: number
 }
