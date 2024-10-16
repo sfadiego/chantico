@@ -7,19 +7,19 @@ import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';
 import { ProductsContainer } from './Products/ProductsContainer';
-import { useShowOrder } from '@/services/useOrderService';
 import useGetOrderDetail from '@/hooks/useOrderDetail';
 import LoadingComponent from './LoadingComponent';
 
 export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
+    const [searchProduct, setSearchProduct] = useState<string>('');
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
-    const { isLoading, order, productsInOrder } = useGetOrderDetail(1);//useShowOrder(currentOrderId)
+    //TODO: remplazar order id -> useShowOrder(currentOrderId)
+    const { isLoading, order, productsInOrder } = useGetOrderDetail(1);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
-
     return (
         <>
-            <NavBarLayout />
+            <NavBarLayout setSearchProduct={setSearchProduct} />
             <main className="d-flex flex-nowrap">
                 <SidebarLayout
                     productsInOrder={productsInOrder}
@@ -27,7 +27,7 @@ export const TakeOrderLayout = ({ currentOrderId }: { currentOrderId?: number })
                 />
                 <Container fluid >
                     <CategoriesTabs selectCategory={selectCategory} />
-                    <ProductsContainer categoryId={categoryId} />
+                    <ProductsContainer searchProduct={searchProduct} categoryId={categoryId} />
                 </Container>
             </main>
         </>

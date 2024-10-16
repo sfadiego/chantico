@@ -24,7 +24,7 @@ export const CategoriesTabs = ({ selectCategory }: CategoriesTabProps) => {
             </div>
             <div className="col-md-12">
                 <div className="d-flex mb-3 border">
-                    <div className="p-2 border">
+                    <div role="button" onClick={() => selectCategory(0)} className="p-2 border">
                         <i className="bi bi-list-check"></i>
                         <span className='ms-1'>Todos</span>
                     </div>
@@ -41,7 +41,10 @@ export const CategoriesTabs = ({ selectCategory }: CategoriesTabProps) => {
                     {
                         excedLimit && (
                             <div className="border">
-                                <OffCanvasMoreCatgories categories={data} placement={'end'} name={'end'} />
+                                <OffCanvasMoreCatgories selectCategory={selectCategory}
+                                    categories={data}
+                                    placement={'end'}
+                                    name={'end'} />
                             </div>
                         )
                     }

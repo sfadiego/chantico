@@ -6,7 +6,7 @@ export const OffCanvasMoreCatgories = ({ ...props }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const { categories } = props;
+    const { categories, selectCategory } = props;
     return <>
         <Button onClick={handleShow} variant="light" className="h-100">
             <i className="bi bi-three-dots-vertical"></i>Ver mas
@@ -18,8 +18,9 @@ export const OffCanvasMoreCatgories = ({ ...props }) => {
             <Offcanvas.Body>
                 <ListGroup className='rounded-0'>
                     {
-                        categories.map(({ nombre }: ICategory, key: number) =>
-                            <ListGroup.Item action key={key}>{nombre}</ListGroup.Item>)
+                        categories.map(({ nombre, id }: ICategory, key: number) =>
+                            <ListGroup.Item onClick={() => selectCategory(id)} action key={key}>{nombre}</ListGroup.Item>
+                        )
                     }
                 </ListGroup>
             </Offcanvas.Body>

@@ -8,7 +8,7 @@ const options = [
     }
 ];
 
-const NavBarLayout = () => {
+const NavBarLayout = ({ setSearchProduct }: any) => {
     return (
         <>
             <Nav className="navbar navbar-expand-sm border-bottom">
@@ -28,7 +28,9 @@ const NavBarLayout = () => {
                             </li>
                         </ul>
                         <form className="col-md-3" role="search">
-                            <input className="form-control" type="search" placeholder="Buscar productos" aria-label="Search" />
+                            <input className="form-control" type="search"
+                                onChange={(e) => setSearchProduct(e.target.value)}
+                                placeholder="Buscar productos" aria-label="Search" />
                         </form>
                     </div>
                 </div>

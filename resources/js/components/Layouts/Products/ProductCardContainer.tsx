@@ -1,13 +1,12 @@
-import { IProduct } from '@/intefaces/IProduct'
+import { IProduct, IProductContainerProps } from '@/intefaces/IProduct'
 import { useProductByCategory } from '@/services/useCategoriesService';
 import { useIndexProducts } from '@/services/useProductService';
 import { ProductCard } from './ProductCard';
 import { Alert } from 'react-bootstrap';
 import LoadingComponent from '../LoadingComponent';
 
-
-const useHandleProducts = (categoryId: number) => {
-    let { isLoading, data } = categoryId == 0 ? useIndexProducts() : useProductByCategory(categoryId, true);
+const useHandleProducts = ({ categoryId, searchProduct = '' }: IProductContainerProps) => {
+    let { isLoading, data } = categoryId == 0 ? useIndexProducts(searchProduct) : useProductByCategory(categoryId, true);
 
     return {
         showData: (!isLoading && data) && true,
@@ -16,18 +15,18 @@ const useHandleProducts = (categoryId: number) => {
     }
 }
 
-export const ProductCardContainer = ({ categoryId }: { categoryId: number }) => {
-    const { showData, isLoading, products } = useHandleProducts(categoryId);
+export const ProductCardContainer = ({ categoryId, searchProduct }: IProductContainerProps) => {
+    const { showData, isLoading, products } = useHandleProducts({ categoryId, searchProduct });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
             {
-                showData && products.map(({ nombre, precio, picture, foto_id }: IProduct, key: number) =>
+                showData && products.map(({ nombre, precio, picture }: IProduct, key: number) =>
                     <ProductCard
                         key={key}
                         name={nombre}
                         price={precio}
-                        image={foto_id ? picture : null}
+                        picture={picture}
                     />
                 )
             }
