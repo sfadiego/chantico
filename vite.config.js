@@ -15,6 +15,7 @@ export default defineConfig({
             '@components': '/resources/js/components',
             '@assets': '/resources/assets',
             '@resources': '/resources/js',
+            '@hooks': '/resources/js/hooks',
         },
     },
 });

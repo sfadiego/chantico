@@ -1,12 +1,11 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '../intefaces/IAxiosProps';
-import { ApisEnum } from '../configs/apisEnum';
+import { AxiosInstance } from 'axios';
+import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '@/interfaces/IAxiosProps';
+import { ApisEnum } from '@/configs/apisEnum';
 import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { useAxios } from '../hooks/useAxios';
+import { useAxios } from "@hooks/useAxios";
 
 const host = ApisEnum.BaseUrl;
 const headersImage = { 'content-type': 'multipart/form-data' }
-
 export const axiosGET = async <Params>(
     axios: AxiosInstance,
     { url, params, headers = {}, responseType = 'json' }: IAxiosProps<Params>,
