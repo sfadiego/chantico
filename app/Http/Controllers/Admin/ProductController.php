@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index(Request $param): JsonResponse
     {
         return Response::success(
-            ProductModel::getProducts($param->search)
+            ProductModel::getProducts($param?->search)
         );
     }
 

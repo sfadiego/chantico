@@ -2,7 +2,7 @@ import { Row } from 'react-bootstrap'
 import { ProductCardContainer } from './ProductCardContainer';
 import { IProductContainerProps } from '@/intefaces/IProduct';
 
-export const ProductsContainer = ({ currentOrderId, categoryId, searchProduct }: IProductContainerProps) => {
+export const ProductsContainer = ({ currentOrderId, categoryId, productName }: IProductContainerProps) => {
     return (
         <Row className='mt-1'>
             <div className="col-12">
@@ -10,7 +10,7 @@ export const ProductsContainer = ({ currentOrderId, categoryId, searchProduct }:
             </div>
             <ProductCardContainer
                 currentOrderId={currentOrderId}
-                searchProduct={searchProduct}
+                productName={productName}
                 categoryId={categoryId} />
         </Row>
     )

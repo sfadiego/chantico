@@ -11,8 +11,10 @@ class ProductController extends Controller
 {
     public function index(Request $param): JsonResponse
     {
+        $productName = $param?->search ?? '';
+        $categoryId = $param?->categoryId ?? 0;
         return Response::success(
-            ProductModel::getProducts($param->search)
+            ProductModel::getProducts($productName, $categoryId)
         );
     }
 

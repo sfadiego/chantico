@@ -13,7 +13,7 @@ export interface IProduct {
 
 
 export interface IProductContainerProps {
-    searchProduct?: string,
+    productName?: string,
     categoryId: number,
     currentOrderId: number
 }

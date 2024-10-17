@@ -45,14 +45,16 @@ class ProductModel extends Model
         ]);
     }
 
-    public static function getProducts(string $param = null): Collection
+    public static function getProducts(string $productName = '', int $categoriaId = 0): Collection
     {
-        $data = ProductModel::with('picture');
-        if ($param) {
-            $data = $data->where(self::NOMBRE, 'like', "%$param%");
-        }
-
-        return $data->get();
+        return ProductModel::with('picture')
+            ->when($productName !== '', function ($q) use ($productName) {
+                $q->where(self::NOMBRE, 'like', "%$productName%");
+            })
+            ->when($categoriaId !== 0, function ($q) use ($categoriaId) {
+                $q->where(self::CATEGORIA_ID, $categoriaId);
+            })
+            ->get();
     }
 
     public function updateProduct(

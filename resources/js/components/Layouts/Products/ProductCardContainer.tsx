@@ -2,10 +2,10 @@ import { IProduct, IProductContainerProps } from '@/intefaces/IProduct'
 import { ProductCard } from './ProductCard';
 import { Alert } from 'react-bootstrap';
 import LoadingComponent from '../LoadingComponent';
-import useHandleProducts from '@/hooks/useHAndleProducts';
+import useHandleProducts from '@/hooks/useHandleProducts';
 
-export const ProductCardContainer = ({ categoryId, searchProduct = '', currentOrderId }: IProductContainerProps) => {
-    const { showData, isLoading, products } = useHandleProducts({ categoryId, searchProduct });
+export const ProductCardContainer = ({ categoryId, productName = '', currentOrderId }: IProductContainerProps) => {
+    const { showData, isLoading, products } = useHandleProducts({ categoryId, productName });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>

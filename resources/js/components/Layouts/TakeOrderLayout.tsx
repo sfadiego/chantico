@@ -11,7 +11,7 @@ import LoadingComponent from './LoadingComponent';
 
 export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId?: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
-    const [searchProduct, setSearchProduct] = useState<string>('');
+    const [productName, setSearchProduct] = useState<string>('');
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
     //TODO: remplazar order id -> useShowOrder(currentOrderId)
     const { isLoading, order, productsInOrder } = useGetOrderDetail(currentOrderId);
@@ -27,7 +27,7 @@ export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId?: numbe
                 <Container fluid >
                     <CategoriesTabs selectCategory={selectCategory} />
                     <ProductsContainer
-                        searchProduct={searchProduct}
+                        productName={productName}
                         currentOrderId={currentOrderId}
                         categoryId={categoryId} />
                 </Container>
