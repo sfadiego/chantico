@@ -3,5 +3,7 @@ export interface ICategory {
     nombre: string,
     orden?: number,
     foto_id?: number,
-    selectCategory: (category: number) => void
+    selectCategory: (category: number) => void,
+    setactiveTab: (id: number) => void,
+    activeTab: number,
 }

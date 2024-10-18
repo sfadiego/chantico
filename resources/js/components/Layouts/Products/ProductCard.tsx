@@ -2,11 +2,21 @@ import { Card, CardBody, Image, Row } from 'react-bootstrap'
 import LoadingComponent from '../LoadingComponent';
 import useLoadFile from '@/hooks/useLoadFile';
 import { IProductCardProps } from '@/components/Layouts/Products/IProductCardProps';
+import { useAddProductToOrder } from '@/services/useOrderService';
 
 export const ProductCard = ({ picture, price, name, classCard, id, currentOrderId }: IProductCardProps) => {
     const { showImage, isLoading, data } = useLoadFile({ picture });
-    const handleClick = (id) => {
-        console.log(id,currentOrderId);
+
+    const { mutateAsync, isError, isSuccess, error } = useAddProductToOrder(currentOrderId);
+    const handleClick = async (productId: number) => {
+        const data = {
+            cantidad: 1,
+            precio: price,
+            producto_id: productId,
+            pedido_id: currentOrderId,
+        };
+        const resp = await mutateAsync(data);
+        console.log(resp);
     }
 
     return (

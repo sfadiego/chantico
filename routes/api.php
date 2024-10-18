@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
                         ->group(function () {
                             Route::get('', 'index');
                             Route::get('{product}', 'show');
+                            Route::post('', 'store');
                             Route::put('{product}', 'update');
                             Route::delete('{product}', 'delete');
                         });

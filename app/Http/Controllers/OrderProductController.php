@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderProductStoreRequest;
 use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
 use App\Models\OrderProductModel;
@@ -37,6 +38,28 @@ class OrderProductController extends Controller
                 cantidad: $params->cantidad,
                 descuento: $params->descuento ?? 0,
             );
+        return Response::success($data);
+    }
+
+    public function store(string $orderId, OrderProductStoreRequest $params): JsonResponse
+    {
+        if (!OrderModel::find($orderId)) {
+            return  Response::error('no existe la orden');
+        }
+
+        $data = OrderProductModel::updateOrCreate(
+            [
+                OrderProductModel::PRODUCTO_ID => $params->producto_id,
+                OrderProductModel::PEDIDO_ID => $orderId,
+            ],
+            [
+                OrderProductModel::PRODUCTO_ID => $params->producto_id,
+                OrderProductModel::PEDIDO_ID => $orderId,
+                OrderProductModel::CANTIDAD => $params->cantidad,
+                OrderProductModel::PRECIO => $params->precio,
+                OrderProductModel::DESCUENTO => $params->descuento ?? 0,
+            ]
+        );
         return Response::success($data);
     }
 
