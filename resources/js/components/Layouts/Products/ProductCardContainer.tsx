@@ -4,7 +4,7 @@ import { Alert } from 'react-bootstrap';
 import LoadingComponent from '../LoadingComponent';
 import useHandleProducts from '@/hooks/useHandleProducts';
 
-export const ProductCardContainer = ({ categoryId, productName = '', currentOrderId }: IProductContainerProps) => {
+export const ProductCardContainer = ({ categoryId, productName = '', currentOrderId, refetch }: IProductContainerProps) => {
     const { showData, isLoading, products } = useHandleProducts({ categoryId, productName });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
@@ -12,6 +12,7 @@ export const ProductCardContainer = ({ categoryId, productName = '', currentOrde
             {
                 showData && products.map(({ nombre, precio, picture, id }: IProduct, key: number) =>
                     <ProductCard
+                        refetch={refetch}
                         key={key}
                         id={id}
                         name={nombre}

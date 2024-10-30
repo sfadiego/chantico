@@ -47,6 +47,12 @@ class OrderProductController extends Controller
             return  Response::error('no existe la orden');
         }
 
+        $product =  OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
+            ->where(OrderProductModel::PRODUCTO_ID, $params->producto_id)
+            ->first();
+
+        $currentItems = $product?->cantidad ?? 0;
+        $item = $params?->cantidad;
         $data = OrderProductModel::updateOrCreate(
             [
                 OrderProductModel::PRODUCTO_ID => $params->producto_id,
@@ -55,7 +61,7 @@ class OrderProductController extends Controller
             [
                 OrderProductModel::PRODUCTO_ID => $params->producto_id,
                 OrderProductModel::PEDIDO_ID => $orderId,
-                OrderProductModel::CANTIDAD => $params->cantidad,
+                OrderProductModel::CANTIDAD => $currentItems + $item,
                 OrderProductModel::PRECIO => $params->precio,
                 OrderProductModel::DESCUENTO => $params->descuento ?? 0,
             ]

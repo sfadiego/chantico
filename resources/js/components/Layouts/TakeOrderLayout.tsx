@@ -9,13 +9,12 @@ import { ProductsContainer } from './Products/ProductsContainer';
 import useGetOrderDetail from '@/hooks/useOrderDetail';
 import LoadingComponent from './LoadingComponent';
 
-export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId?: number }) => {
+export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId: number }) => {
     const [categoryId, setCategoryId] = useState<number>(0);
     const [productName, setSearchProduct] = useState<string>('');
     const [activeTab, setactiveTab] = useState(0)
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
-    //TODO: remplazar order id -> useShowOrder(currentOrderId)
-    const { isLoading, order, productsInOrder } = useGetOrderDetail(currentOrderId);
+    let { isLoading, order, productsInOrder, refetch } = useGetOrderDetail(currentOrderId);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
@@ -28,6 +27,7 @@ export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId?: numbe
                 <Container fluid >
                     <CategoriesTabs activeTab={activeTab} setactiveTab={setactiveTab} selectCategory={selectCategory} />
                     <ProductsContainer
+                        refetch={refetch}
                         productName={productName}
                         currentOrderId={currentOrderId}
                         categoryId={categoryId} />

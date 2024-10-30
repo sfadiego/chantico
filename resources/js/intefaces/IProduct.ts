@@ -1,3 +1,4 @@
+import { ThrowOnError, UseQueryResult } from "@tanstack/react-query"
 import { IFileProps } from "./IFileProps"
 
 export interface IProduct {
@@ -15,7 +16,8 @@ export interface IProduct {
 export interface IProductContainerProps {
     productName?: string,
     categoryId: number,
-    currentOrderId: number
+    currentOrderId: number,
+    refetch: () => UseQueryResult
 }
 
 export interface IProductProps {

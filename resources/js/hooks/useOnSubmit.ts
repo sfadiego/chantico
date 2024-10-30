@@ -1,10 +1,21 @@
 //valida la respuesta de la api con mutateAsync: tanstack
+import { UseMutateAsyncFunction } from '@tanstack/react-query/build/modern'
+import { AxiosResponse } from 'axios'
+
 export const useOnSubmit = <Request = any, Response = any>({
     mutateAsync,
     onSuccess,
     onError,
+}: {
+    mutateAsync: UseMutateAsyncFunction<
+        AxiosResponse<any, any>,
+        Error,
+        unknown,
+        unknown
+    >
+    onSuccess: (data: Response) => void,
+    onError?: (data: Error) => void
 }) => {
-
     const onSubmit = async (data: Request, { setErrors }: any) => {
         try {
             const res = await mutateAsync(data)

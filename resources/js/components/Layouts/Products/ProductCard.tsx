@@ -3,21 +3,23 @@ import LoadingComponent from '../LoadingComponent';
 import useLoadFile from '@/hooks/useLoadFile';
 import { IProductCardProps } from '@/components/Layouts/Products/IProductCardProps';
 import { useAddProductToOrder } from '@/services/useOrderService';
+import { useAddOrderProduct } from './useAddOrderProduct';
 
-export const ProductCard = ({ picture, price, name, classCard, id, currentOrderId }: IProductCardProps) => {
+export const ProductCard = ({ picture, price, name, classCard, id, currentOrderId, refetch }: IProductCardProps) => {
     const { showImage, isLoading, data } = useLoadFile({ picture });
-
-    const { mutateAsync, isError, isSuccess, error } = useAddProductToOrder(currentOrderId);
+    const mutate = useAddProductToOrder(currentOrderId);
+    const { onSubmit } = useAddOrderProduct({ mutateAsync: mutate.mutateAsync, refetch });
     const handleClick = async (productId: number) => {
         const data = {
             cantidad: 1,
             precio: price,
             producto_id: productId,
-            pedido_id: currentOrderId,
         };
-        const resp = await mutateAsync(data);
-        console.log(resp);
-    }
+        onSubmit(data, {
+            setErrors: (errors: any) =>
+                console.log("error:", errors)
+        })
+    };
 
     return (
         <div onClick={() => handleClick(id)} className={`${classCard ? classCard : 'col-lg-3 col-md-4 col-12 col-sm-6 col-xl-2 p-1'}`}>

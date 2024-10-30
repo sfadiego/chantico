@@ -24,6 +24,13 @@ const SidebarLayout = ({ order, productsInOrder }: SidebarProps) => {
                 <hr className="mt2 mb-2" />
                 <div className="mb-auto">
                     {
+                        !productsInOrder.length && (
+                            <>
+                                <i className="bi bi-cup-hot"></i> Sin Productos
+                            </>
+                        )
+                    }
+                    {
                         productsInOrder.map(({ product: { nombre }, producto_id, cantidad, precio, }, index) =>
                             <ItemAdded productId={producto_id}
                                 key={index}
