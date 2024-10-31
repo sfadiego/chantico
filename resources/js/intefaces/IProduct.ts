@@ -1,4 +1,4 @@
-import { ThrowOnError, UseQueryResult } from "@tanstack/react-query"
+import { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanstack/react-query"
 import { IFileProps } from "./IFileProps"
 
 export interface IProduct {
@@ -17,7 +17,7 @@ export interface IProductContainerProps {
     productName?: string,
     categoryId: number,
     currentOrderId: number,
-    refetch: () => UseQueryResult
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
 }
 
 export interface IProductProps {

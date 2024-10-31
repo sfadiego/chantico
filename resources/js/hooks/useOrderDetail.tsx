@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { useShowOrder } from "@/services/useOrderService";
-
 
 const useGetOrderDetail = (currentOrderId: number) => {
     const { isLoading, data, refetch } = useShowOrder(currentOrderId)

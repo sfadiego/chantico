@@ -1,14 +1,12 @@
 import React from 'react'
 import { useOnSubmit } from '@/hooks/useOnSubmit'
 import { IOrderProduct } from '@/intefaces/IOrderProduct';
-import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
 interface IOrderProductProps {
-    // mutateAsync: UseMutateAsyncFunction,
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any, any>, Error>
-    // data: IOrderProduct,
-    // onError: () => <Promise>
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any, any>, Error>,
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
 }
 export const useAddOrderProduct = ({ mutateAsync, refetch }: IOrderProductProps) => {
     const { onSubmit } = useOnSubmit({

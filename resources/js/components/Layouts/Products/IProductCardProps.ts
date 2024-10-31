@@ -1,4 +1,4 @@
-import { UseQueryResult } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanstack/react-query";
 import { IFileProps } from "../../../intefaces/IFileProps";
 
 export interface IProductCardProps {
@@ -8,5 +8,5 @@ export interface IProductCardProps {
     name: string,
     classCard?: string,
     currentOrderId: number,
-    refetch: () => UseQueryResult
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
 }

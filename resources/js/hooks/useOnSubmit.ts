@@ -7,12 +7,7 @@ export const useOnSubmit = <Request = any, Response = any>({
     onSuccess,
     onError,
 }: {
-    mutateAsync: UseMutateAsyncFunction<
-        AxiosResponse<any, any>,
-        Error,
-        unknown,
-        unknown
-    >
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
     onSuccess: (data: Response) => void,
     onError?: (data: Error) => void
 }) => {
