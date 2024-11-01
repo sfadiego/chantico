@@ -15,6 +15,14 @@ export interface IAxiosPostProps<Data, Params> {
     responseType?: AxiosRequestConfig['responseType']
 }
 
+export interface IUsePUTProps {
+    url: string
+    onSuccess?: () => void
+    onError?: () => void
+    isFile?: boolean
+  }
+  
+
 export interface IUseGetProps {
     url: string
     filters?: object

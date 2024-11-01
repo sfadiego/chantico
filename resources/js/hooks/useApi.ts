@@ -1,8 +1,9 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '@/interfaces/IAxiosProps';
 import { ApisEnum } from '@/configs/apisEnum';
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, UseMutationResult, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useAxios } from "@hooks/useAxios";
+import { IUsePUTProps } from '../intefaces/IAxiosProps';
 
 const host = ApisEnum.BaseUrl;
 const headersImage = { 'content-type': 'multipart/form-data' }
@@ -27,6 +28,17 @@ export const axiosPOST = <Data, Paras>(
         headers,
     })
 }
+
+export const axiosPUT = <Data, Paras>(
+    axios: AxiosInstance,
+    { url, data, params, headers = {} }: IAxiosPostProps<Data, Paras>,
+) => {
+    return axios.put(`${host}${url}`, data, {
+        params,
+        headers,
+    })
+}
+
 
 export const useGet = <Response>({
     url,
@@ -56,4 +68,20 @@ export const usePost = ({ url,
         onSuccess,
         onError,
     });
+}
+
+export function usePUT({
+    url,
+    isFile = false,
+    onSuccess = () => { },
+    onError = () => { },
+}: IUsePUTProps): UseMutationResult<AxiosResponse> {
+    let headers = {}
+    if (isFile) headers = headersImage
+    const { axiosApi } = useAxios()
+    return useMutation({
+        mutationFn: (data) => axiosPUT(axiosApi, { url, data, headers }),
+        onSuccess,
+        onError,
+    })
 }

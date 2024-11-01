@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Response;
 class OrderProductController extends Controller
 {
 
+    /**
+     * index
+     *
+     * @param OrderModel $order
+     * 
+     * @return JsonResponse
+     * 
+     */
     public function index(OrderModel $order): JsonResponse
     {
         return Response::success(
@@ -21,6 +29,15 @@ class OrderProductController extends Controller
         );
     }
 
+    /**
+     * show
+     *
+     * @param OrderModel $order
+     * @param string $productId
+     * 
+     * @return JsonResponse
+     * 
+     */
     public function show(OrderModel $order, string $productId): JsonResponse
     {
         return Response::success(
@@ -30,9 +47,20 @@ class OrderProductController extends Controller
         );
     }
 
-    public function update(string $productId, OrderProductUpdateRequest $params): JsonResponse
+    /**
+     * update
+     *
+     * @param string $orderId
+     * @param string $productId
+     * @param OrderProductUpdateRequest $params
+     * 
+     * @return JsonResponse
+     * 
+     */
+    public function update(string $orderId, string $productId, OrderProductUpdateRequest $params): JsonResponse
     {
-        $data = OrderProductModel::where('producto_id', $productId)
+        $data = OrderProductModel::where('pedido_id', $orderId)
+            ->where('producto_id', $productId)
             ->first()
             ->updateOrderProduct(
                 cantidad: $params->cantidad,
@@ -41,6 +69,15 @@ class OrderProductController extends Controller
         return Response::success($data);
     }
 
+    /**
+     * store
+     *
+     * @param string $orderId
+     * @param OrderProductStoreRequest $params
+     * 
+     * @return JsonResponse
+     * 
+     */
     public function store(string $orderId, OrderProductStoreRequest $params): JsonResponse
     {
         if (!OrderModel::find($orderId)) {
@@ -69,6 +106,14 @@ class OrderProductController extends Controller
         return Response::success($data);
     }
 
+    /**
+     * delete
+     *
+     * @param int $product
+     * 
+     * @return JsonResponse
+     * 
+     */
     public function delete(int $product): JsonResponse
     {
         $delete = OrderProductModel::where('id', $product)

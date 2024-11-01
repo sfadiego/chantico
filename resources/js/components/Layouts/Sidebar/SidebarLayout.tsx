@@ -41,7 +41,9 @@ const SidebarLayout = ({ order, productsInOrder }: SidebarProps) => {
                         )
                     }
                 </div>
-                <ItemDetail orderId={orderId} currentProductId={productId} show={showDetail}></ItemDetail>
+                {
+                    (showDetail && productId) && <ItemDetail orderId={orderId} currentProductId={productId} show={showDetail}></ItemDetail>
+                }
                 <hr className="mt-2 mb-2" />
                 <div className="d-flex text-secondary">
                     <div className="flex-fill ">

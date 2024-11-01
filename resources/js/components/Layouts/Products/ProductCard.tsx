@@ -22,8 +22,8 @@ export const ProductCard = ({ picture, price, name, classCard, id, currentOrderI
     };
 
     return (
-        <div onClick={() => handleClick(id)} className={`${classCard ? classCard : 'col-lg-3 col-md-4 col-12 col-sm-6 col-xl-2 p-1'}`}>
-            <Card className='rounded-0 pb-1'>
+        <div  className={`${classCard ? classCard : 'col-lg-3 col-md-4 col-12 col-sm-6 col-xl-2 p-1'}`}>
+            <Card onClick={() => handleClick(id)} className='rounded-0 pb-1'>
                 {
                     isLoading ? (
                         <LoadingComponent extraClass='text-center' />
