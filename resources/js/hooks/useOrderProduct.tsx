@@ -1,7 +1,7 @@
 
 import { useOnSubmit } from "@/hooks/useOnSubmit";
 import { useGetProductInOrder } from "@/services/useOrderService";
-import { UseMutateAsyncFunction } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
@@ -24,10 +24,40 @@ export const useGetProductDetailInOrder = (currentOrderId: number, productId?: n
     }
 }
 
-export const useUpdateCantidad = ({ mutateAsync }: { mutateAsync: UseMutateAsyncFunction<AxiosResponse<any, any>, Error> }) => {
+export const useUpdateCantidad = ({
+    mutateAsync,
+    onSuccess
+}: {
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any, any>, Error>,
+    onSuccess: (data: any) => void,
+}) => {
     const { onSubmit } = useOnSubmit({
         mutateAsync,
-        onSuccess: (data) => toast.success("Actualizado")
+        onSuccess: (data) => {
+            toast.success("Actualizado")
+            onSuccess(data)
+        }
+    });
+
+    return { onSubmit };
+}
+
+export const useDeleteProduct = ({
+    mutateAsync,
+    refetch,
+    onSuccess
+}: {
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any, any>, Error>,
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>,
+    onSuccess: (data: any) => void,
+}) => {
+    const { onSubmit } = useOnSubmit({
+        mutateAsync,
+        onSuccess: (data) => {
+            toast.success("Borrado")
+            refetch()
+            onSuccess(data)
+        }
     });
 
     return { onSubmit };

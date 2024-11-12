@@ -33,7 +33,24 @@ class OrderModel extends Model
         return $this->hasMany(OrderProductModel::class, 'pedido_id');
     }
 
-    public function totalOrder()
+    public function totalAndSubTotalOrder()
+    {
+        $orderDiscount = $this->descuento ?? 0;
+        $orderSubtotal = $this->totalOrderProducts();
+        if (!$this->descuento) {
+            $orderTotal = $orderSubtotal;
+        } else {
+            $discount = $orderSubtotal * ($orderDiscount / 100);
+            $orderTotal = $orderSubtotal - $discount;
+        }
+
+        return [
+            'total' => $orderTotal,
+            'subtotal' => $orderSubtotal,
+        ];
+    }
+
+    public function totalOrderProducts()
     {
         return $this->load('orderProducts')
             ->orderProducts

@@ -5,12 +5,14 @@ import ItemDetail from './ItemDetail';
 import { IOrderProduct } from '@/intefaces/IOrderProduct';
 import { IOrder } from '@/intefaces/IOrder';
 import { useState } from 'react';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 
 interface SidebarProps {
     order: IOrder,
-    productsInOrder: IOrderProduct[]
+    productsInOrder: IOrderProduct[],
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 };
-const SidebarLayout = ({ order, productsInOrder }: SidebarProps) => {
+const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
     const { id: orderId, total, subtotal, descuento, nombre_pedido } = order;
     const [showSelectedProduct, setshowSelectedProduct] = useState({ productId: 0, showDetail: false });
     const setProduct = (productId: number) => setshowSelectedProduct({ ...showSelectedProduct, productId, showDetail: true });
@@ -42,7 +44,10 @@ const SidebarLayout = ({ order, productsInOrder }: SidebarProps) => {
                     }
                 </div>
                 {
-                    (showDetail && productId) && <ItemDetail orderId={orderId} currentProductId={productId} show={showDetail}></ItemDetail>
+                    (showDetail && productId) && <ItemDetail
+                        orderId={orderId} currentProductId={productId}
+                        refetch={refetch}
+                        show={showDetail}/>
                 }
                 <hr className="mt-2 mb-2" />
                 <div className="d-flex text-secondary">

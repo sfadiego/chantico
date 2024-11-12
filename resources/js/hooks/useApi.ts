@@ -3,7 +3,7 @@ import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '@/int
 import { ApisEnum } from '@/configs/apisEnum';
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useAxios } from "@hooks/useAxios";
-import { IUsePUTProps } from '../intefaces/IAxiosProps';
+import { IUseDELETEProps, IUsePUTProps } from '../intefaces/IAxiosProps';
 
 const host = ApisEnum.BaseUrl;
 const headersImage = { 'content-type': 'multipart/form-data' }
@@ -37,6 +37,13 @@ export const axiosPUT = <Data, Paras>(
         params,
         headers,
     })
+}
+
+export const axiosDELETE = <Params>(
+    axios: AxiosInstance,
+    { url }: IAxiosProps<Params>,
+) => {
+    return axios.delete(`${host}${url}`)
 }
 
 
@@ -81,6 +88,21 @@ export function usePUT({
     const { axiosApi } = useAxios()
     return useMutation({
         mutationFn: (data) => axiosPUT(axiosApi, { url, data, headers }),
+        onSuccess,
+        onError,
+    })
+}
+
+
+
+export function useDELETE<Request>({
+    url,
+    onSuccess = () => { },
+    onError = () => { },
+}: IUseDELETEProps): UseMutationResult<AxiosResponse<Request>> {
+    const { axiosApi } = useAxios()
+    return useMutation({
+        mutationFn: (data) => axiosDELETE(axiosApi, { url }),
         onSuccess,
         onError,
     })

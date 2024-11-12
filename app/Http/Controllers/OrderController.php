@@ -20,6 +20,6 @@ class OrderController extends Controller
 
     public function total(OrderModel $order): JsonResponse
     {
-        return Response::success($order->totalOrder());
+        return Response::success($order->totalOrderProducts());
     }
 }

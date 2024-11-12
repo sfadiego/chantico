@@ -6,6 +6,7 @@ use App\Http\Requests\OrderProductStoreRequest;
 use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
 use App\Models\OrderProductModel;
+use App\Models\ProductModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -59,13 +60,22 @@ class OrderProductController extends Controller
      */
     public function update(string $orderId, string $productId, OrderProductUpdateRequest $params): JsonResponse
     {
+        $discount = $params->descuento ?? 0;
         $data = OrderProductModel::where('pedido_id', $orderId)
             ->where('producto_id', $productId)
             ->first()
             ->updateOrderProduct(
                 cantidad: $params->cantidad,
-                descuento: $params->descuento ?? 0,
+                descuento: $discount,
             );
+
+        $order =  OrderModel::find($orderId);
+        $orderDetail = $order->totalAndSubTotalOrder();
+        $order->update([
+            'total' => $orderDetail['total'],
+            'subtotal' => $orderDetail['subtotal'],
+        ]);
+
         return Response::success($data);
     }
 
@@ -114,9 +124,10 @@ class OrderProductController extends Controller
      * @return JsonResponse
      * 
      */
-    public function delete(int $product): JsonResponse
+    public function delete(int $orderId, int $product): JsonResponse
     {
-        $delete = OrderProductModel::where('id', $product)
+        $delete = OrderProductModel::where('pedido_id', $orderId)
+            ->where('producto_id', $product)
             ->delete();
 
         if (!$delete) {

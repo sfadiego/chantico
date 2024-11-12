@@ -20,8 +20,15 @@ export interface IUsePUTProps {
     onSuccess?: () => void
     onError?: () => void
     isFile?: boolean
-  }
-  
+}
+
+
+export interface IUseDELETEProps {
+    url: string
+    onSuccess?: () => void
+    onError?: () => void
+}
+
 
 export interface IUseGetProps {
     url: string

@@ -23,6 +23,7 @@ export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId: number
                 <SidebarLayout
                     productsInOrder={productsInOrder}
                     order={order}
+                    refetch={refetch}
                 />
                 <Container fluid >
                     <CategoriesTabs activeTab={activeTab} setactiveTab={setactiveTab} selectCategory={selectCategory} />
