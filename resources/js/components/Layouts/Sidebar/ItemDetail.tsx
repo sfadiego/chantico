@@ -10,10 +10,12 @@ interface ItemDetailProps {
     show: boolean;
     orderId: number;
     currentProductId: number;
+    setShowDetail: (options?: boolean) => void,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
 
-const ItemDetail = ({ orderId, currentProductId, show = false, refetch }: ItemDetailProps) => {
+const ItemDetail = ({ orderId, currentProductId, setShowDetail, show, refetch }: ItemDetailProps) => {
+
     const [state, setState] = useState({ order: orderId, productId: currentProductId, isShow: show });
     let { order, productId, isShow } = state;
     const { isLoading, product } = useGetProductDetailInOrder(order, productId);
@@ -29,9 +31,10 @@ const ItemDetail = ({ orderId, currentProductId, show = false, refetch }: ItemDe
 
         setState({
             ...state,
-            isShow, productId: currentProductId
+            isShow: show, productId: currentProductId
         });
-    }, [product, currentProductId, isShow]);
+
+    }, [product, productId, currentProductId, isShow]);
     if (!isShow || !order || !productId) return null;
     if (isLoading || !product) return <LoadingComponent />;
     const { precio, product: { id, nombre } } = [...product].shift();
@@ -41,7 +44,10 @@ const ItemDetail = ({ orderId, currentProductId, show = false, refetch }: ItemDe
         const { onSubmit } = useDeleteProduct({
             mutateAsync: mutateDelete.mutateAsync,
             refetch,
-            onSuccess: (data) => setState({ ...state, isShow: false })
+            onSuccess: (data) => {
+                setState({ ...state, isShow: false })
+                setShowDetail(false);
+            }
         });
 
         onSubmit({}, {

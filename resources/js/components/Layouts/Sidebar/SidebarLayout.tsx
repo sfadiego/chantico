@@ -18,7 +18,9 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
     const { id: orderId, total, subtotal, descuento, nombre_pedido } = order;
     const [showSelectedProduct, setshowSelectedProduct] = useState({ productId: 0, showDetail: false });
     const setProduct = (productId: number) => setshowSelectedProduct({ ...showSelectedProduct, productId, showDetail: true });
+    const setShowProduct = (show: boolean) => setshowSelectedProduct({ ...showSelectedProduct, showDetail: show });
     const { productId, showDetail } = showSelectedProduct
+
     const [show, setShow] = useState(false);
     return (
         <>
@@ -55,6 +57,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                     (showDetail && productId) && <ItemDetail
                         orderId={orderId} currentProductId={productId}
                         refetch={refetch}
+                        setShowDetail={() => setShowProduct(false)}
                         show={showDetail} />
                 }
                 <hr className="mt-2 mb-2" />

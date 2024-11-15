@@ -24,7 +24,7 @@ const useHandleOrder = ({ mutateAsync, refetch, closeModal }) => {
         },
     });
     const validationSchema = Yup.object({
-        descuento: Yup.number().required().positive().integer(),
+        descuento: Yup.number().min(0, 'El porcentaje no es valido').required('Este campo es obligatorio'),
     });
 
     const initialValues = {
