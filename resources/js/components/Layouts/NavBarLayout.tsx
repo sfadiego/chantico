@@ -1,13 +1,14 @@
-import {  Nav } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 const options = [
     {
-        icon: 'bi-journals',
-        href: '/user/order-list',
+        icon: '',
+        name: 'Ordenes',
+        href: '/order-list',
     }
 ];
 
-const NavBarLayout = ({ setSearchProduct }: any) => {
+const NavBarLayout = ({ children, setSearchProduct }: any) => {
     return (
         <>
             <Nav className="navbar navbar-expand-sm border-bottom">
@@ -22,15 +23,15 @@ const NavBarLayout = ({ setSearchProduct }: any) => {
 
                     <div className="collapse navbar-collapse" id="navbarChantico">
                         <ul className="navbar-nav me-auto mb-2 mb-sm-0">
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Mesas</a>
-                            </li>
+                            {
+                                options.map(({ name, href }, key) => {
+                                    return <li key={key} className="nav-item">
+                                        <a className="nav-link" href={`${href}`}>{name}</a>
+                                    </li>
+                                })
+                            }
                         </ul>
-                        <form className="col-md-3" role="search">
-                            <input className="form-control" type="search"
-                                onChange={(e) => setSearchProduct(e.target.value)}
-                                placeholder="Buscar productos" aria-label="Search" />
-                        </form>
+                        {children}
                     </div>
                 </div>
 
