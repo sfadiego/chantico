@@ -18,7 +18,11 @@ class OrderModel extends Model
     const SISTEMA_ID = "sistema_id";
     const FECHA_INICIO = "fecha_inicio";
     const FECHA_FINAL = "fecha_final";
-
+    public static $ALLOWED_UPDATE = [
+        self::DESCUENTO,
+        self::NOMBRE_PEDIDO,
+        self::ESTATUS_PEDIDO_ID,
+    ];
     protected $fillable = [
         self::TOTAL,
         self::SUBTOTAL,

@@ -6,6 +6,7 @@ import { IOrderProduct } from '@/intefaces/IOrderProduct';
 import { IOrder } from '@/intefaces/IOrder';
 import { useState } from 'react';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { ModalDiscountOrder } from '../Modals/ModalDiscountOrder';
 
 interface SidebarProps {
     order: IOrder,
@@ -17,8 +18,10 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
     const [showSelectedProduct, setshowSelectedProduct] = useState({ productId: 0, showDetail: false });
     const setProduct = (productId: number) => setshowSelectedProduct({ ...showSelectedProduct, productId, showDetail: true });
     const { productId, showDetail } = showSelectedProduct
+
     return (
         <>
+            <ModalDiscountOrder orderId={orderId} />
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary content-wrapper">
                 <a href="/" className="d-flex text-dark text-decoration-none">
                     <span className="fs-4">{nombre_pedido}</span>
@@ -47,7 +50,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                     (showDetail && productId) && <ItemDetail
                         orderId={orderId} currentProductId={productId}
                         refetch={refetch}
-                        show={showDetail}/>
+                        show={showDetail} />
                 }
                 <hr className="mt-2 mb-2" />
                 <div className="d-flex text-secondary">
@@ -73,6 +76,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                 </div>
             </div>
             <div className="border-end b-vr calculate-height"></div>
+
         </>
     )
 }

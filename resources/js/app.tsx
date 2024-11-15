@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { AxiosProvider } from './contexts/AxiosContext';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import routes from './router/index.routes';
@@ -18,7 +19,6 @@ const queryClient = new QueryClient({
     },
 })
 // routes
-import { AxiosProvider } from './contexts/AxiosContext';
 
 appRoot && appRoot.render(
     <React.StrictMode>

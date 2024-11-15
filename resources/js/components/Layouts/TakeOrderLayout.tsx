@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import NavBarLayout from './NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@css/dashboardLayout.css'
@@ -31,7 +31,8 @@ export const TakeOrderLayout = ({ currentOrderId = 1 }: { currentOrderId: number
                         refetch={refetch}
                         productName={productName}
                         currentOrderId={currentOrderId}
-                        categoryId={categoryId} />
+                        categoryId={categoryId}
+                    />
                 </Container>
             </main>
         </>
