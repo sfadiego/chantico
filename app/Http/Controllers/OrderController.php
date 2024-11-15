@@ -26,8 +26,16 @@ class OrderController extends Controller
                 return Response::error("Parametro no permitido $param");
             }
         }
-
+        #actualiza porcentaje
         $order->update($params->toArray());
+        #actualiza total/subtotal
+        $orderDetail = $order->totalAndSubTotalOrder();
+        $order->update([
+            'total' => $orderDetail['total'],
+            'subtotal' => $orderDetail['subtotal'],
+        ]);
+
+
         return Response::success($order);
     }
 

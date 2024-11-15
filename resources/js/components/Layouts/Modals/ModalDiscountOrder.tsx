@@ -1,4 +1,5 @@
 import "@css/modal.css";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Button } from 'react-bootstrap';
 import { useUpdateOrder } from '@/services/useOrderService';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -7,13 +8,19 @@ import MyModal from "./Index";
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 
 interface ModalDiscountOrderProps {
-    orderId: number
+    orderId: number,
+    show: boolean,
+    closeModal: (props: boolean) => void,
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
-const useHandleOrder = ({ mutateAsync }) => {
+
+const useHandleOrder = ({ mutateAsync, refetch, closeModal }) => {
     const { onSubmit } = useOnSubmit({
         mutateAsync,
         onSuccess: (data) => {
             console.log(data);
+            refetch()
+            closeModal(false)
         },
     });
     const validationSchema = Yup.object({
@@ -30,12 +37,12 @@ const useHandleOrder = ({ mutateAsync }) => {
     }
 }
 
-export const ModalDiscountOrder = ({ orderId }: ModalDiscountOrderProps) => {
+export const ModalDiscountOrder = ({ show, closeModal, refetch, orderId }: ModalDiscountOrderProps) => {
     const mutate = useUpdateOrder(orderId);
-    const props = useHandleOrder({ mutateAsync: mutate.mutateAsync });
+    const props = useHandleOrder({ mutateAsync: mutate.mutateAsync, closeModal, refetch });
     const title = "Agregar descuento";
     return (
-        <MyModal modalTitle={title} show={true} >
+        <MyModal modalTitle={title} show={show} >
             <Formik {...props} >
                 {({ isSubmitting }) => (
                     <Form>
@@ -50,6 +57,12 @@ export const ModalDiscountOrder = ({ orderId }: ModalDiscountOrderProps) => {
                             <ErrorMessage name="descuento" className="text-danger p-1" component="div" />
                         </div>
                         <div className='pt-3 my-modal-footer'>
+                            <Button
+                                onClick={() => closeModal(false)}
+                                className="me-2"
+                                variant="secondary">
+                                Cerrar
+                            </Button>
                             <Button
                                 disabled={isSubmitting || mutate.isPending}
                                 variant='primary'

@@ -90,7 +90,8 @@ class OrderProductController extends Controller
      */
     public function store(string $orderId, OrderProductStoreRequest $params): JsonResponse
     {
-        if (!OrderModel::find($orderId)) {
+        $order = OrderModel::find($orderId);
+        if (!$order) {
             return  Response::error('no existe la orden');
         }
 
@@ -113,6 +114,12 @@ class OrderProductController extends Controller
                 OrderProductModel::DESCUENTO => $params->descuento ?? 0,
             ]
         );
+
+        $orderDetail = $order->totalAndSubTotalOrder();
+        $order->update([
+            'total' => $orderDetail['total'],
+            'subtotal' => $orderDetail['subtotal'],
+        ]);
         return Response::success($data);
     }
 
