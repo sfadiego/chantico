@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\OrderModel;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +12,9 @@ class OrderController extends Controller
 {
     public function index(): JsonResponse
     {
-        return Response::success(OrderModel::all());
+        return Response::success(
+            OrderModel::with('status')->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)->get()
+        );
     }
 
     public function show(OrderModel $order): JsonResponse

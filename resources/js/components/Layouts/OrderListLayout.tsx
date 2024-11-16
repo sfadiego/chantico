@@ -20,7 +20,7 @@ export const OrderListLayout = () => {
     return (
         <>
             <NavBarLayout ></NavBarLayout>
-            <main className="container">
+            <main className="container-fluid p-4">
                 <Row>
                     <TableOrderList></TableOrderList>
                 </Row>

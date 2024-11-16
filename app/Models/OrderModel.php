@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderModel extends Model
 {
@@ -32,9 +34,14 @@ class OrderModel extends Model
         self::SISTEMA_ID
     ];
 
-    public function orderProducts()
+    public function orderProducts():HasMany
     {
         return $this->hasMany(OrderProductModel::class, 'pedido_id');
+    }
+
+    public function status():HasOne
+    {
+        return $this->hasOne(OrderStatusModel::class,'id','estatus_pedido_id');
     }
 
     public function totalAndSubTotalOrder()

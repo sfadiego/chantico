@@ -1,3 +1,9 @@
+interface IOrderStatus {
+    id: number,
+    nombre: string,
+    icon: string,
+
+}
 export interface IOrder {
     id: number,
     total: number,
@@ -8,4 +14,5 @@ export interface IOrder {
     sistema_id: number,
     created_at: string,
     updated_at: string,
+    status: IOrderStatus
 }
