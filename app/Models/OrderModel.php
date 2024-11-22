@@ -34,14 +34,14 @@ class OrderModel extends Model
         self::SISTEMA_ID
     ];
 
-    public function orderProducts():HasMany
+    public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProductModel::class, 'pedido_id');
     }
 
-    public function status():HasOne
+    public function status(): HasOne
     {
-        return $this->hasOne(OrderStatusModel::class,'id','estatus_pedido_id');
+        return $this->hasOne(OrderStatusModel::class, 'id', 'estatus_pedido_id');
     }
 
     public function totalAndSubTotalOrder()
@@ -63,6 +63,12 @@ class OrderModel extends Model
 
     public function totalOrderProducts()
     {
+        if (!$this->load('orderProducts')
+            ->orderProducts
+            ->count()) {
+            return 0;
+        }
+
         return $this->load('orderProducts')
             ->orderProducts
             ->map(function ($item) {

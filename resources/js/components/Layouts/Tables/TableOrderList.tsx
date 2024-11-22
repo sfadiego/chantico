@@ -1,9 +1,9 @@
-import React from 'react'
 import moment from 'moment';
 import { useIndexOrder } from '@/services/useOrderService';
-import { Button, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import LoadingComponent from '../LoadingComponent';
 import { IOrder } from '@/intefaces/IOrder';
+import { OptionsOrderTable } from './OptionsOrderTable';
 
 
 const getOrders = () => {
@@ -50,13 +50,7 @@ export const TableOrderList = () => {
                             <td>{descuento}</td>
                             <td>{status?.nombre}</td>
                             <td>{date}</td>
-                            <td>
-                                <Button variant='info' className='ms-2'><i className="bi bi-printer"></i></Button>
-                                <Button variant='info' className='ms-2'><i className="bi bi-currency-dollar"></i></Button>
-                                <a className='btn btn-info ms-2 rounded-0' href={`/take-order/${id}`}>
-                                    <i className="bi bi-arrow-right"></i>
-                                </a>
-                            </td>
+                            <td> <OptionsOrderTable orderId={id} /> </td>
                         </tr>
                     })
                 }

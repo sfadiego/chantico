@@ -135,12 +135,22 @@ class OrderProductController extends Controller
     {
         $delete = OrderProductModel::where('pedido_id', $orderId)
             ->where('producto_id', $product)
-            ->delete();
+            ->first();
 
         if (!$delete) {
-            Log::error('producto no borrado', [$product]);
-            return Response::error('producto no borrado');
+            Log::error('producto no encoontrado', [$product]);
+            return Response::error('producto no encontrado');
         }
+
+        $delete->delete();
+        $order = OrderModel::find($orderId);
+        $orderDetails = $order->totalAndSubTotalOrder();
+
+        $order->update([
+            'total' => $orderDetails['total'],
+            'subtotal' => $orderDetails['subtotal'],
+        ]);
+
 
         return Response::success('elemento borrado de la orden');
     }

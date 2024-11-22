@@ -1,4 +1,4 @@
-import { useGet, usePost, usePUT } from "../hooks/useApi";
+import { useDELETE, useGet, usePost, usePUT } from "../hooks/useApi";
 
 export const useIndexOrder = () => useGet({ url: 'order' })
 export const useShowOrder = (orderId: number) => useGet({ url: `order/${orderId}` })
@@ -9,3 +9,5 @@ export const useUpdateOrder = (orderId: number) => usePUT({
 
 export const useAddProductToOrder = (orderId: number) =>
     usePost({ url: `order/${orderId}/product` })
+
+export const useDeleteOrder = (orderId: number) => useDELETE({url: `order/${orderId}`})

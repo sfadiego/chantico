@@ -1,6 +1,7 @@
 //valida la respuesta de la api con mutateAsync: tanstack
 import { UseMutateAsyncFunction } from '@tanstack/react-query/build/modern'
 import { AxiosResponse } from 'axios'
+import { toast } from 'react-toastify'
 
 export const useOnSubmit = <Request = any, Response = any>({
     mutateAsync,
@@ -21,9 +22,8 @@ export const useOnSubmit = <Request = any, Response = any>({
             } else if (onError) {
                 onError(error);
             } else {
-                // TODO: Show a toast message
-                console.log(error);
-                console.log(error.response?.data.message)
+                console.log(error.response);
+                toast.error(error.response?.data.message);
             }
         }
     }

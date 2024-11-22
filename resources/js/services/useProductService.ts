@@ -5,5 +5,4 @@ export const useIndexProducts = ({ productName, categoryId }: { productName: str
     useGet<IProduct[]>({ url: 'product', filters: { search: productName, categoryId } })
 export const useShowProduct = (id: number) => useGet<IProduct>({ url: `product/${id}` })
 export const useUpdateProduct = () => { }
-export const useDeleteProduct = () => { }
 export const useGetFile = (fileName: string) => useGet({ url: `files/${fileName}` })

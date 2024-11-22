@@ -17,12 +17,12 @@ export const useLogin = ({
             saveAuth(access_token, user);
             let { rol_id, activo } = user;
             if (rol_id == RoleEnum.Admin && activo) {
-                navigate(RoutesAdmin.TakeOrder);
+                navigate(RoutesAdmin.Dashboard);
                 return;
             }
 
             if (rol_id == RoleEnum.Employe && activo) {
-                navigate(RoutesUser.OrderList);
+                navigate(RoutesUser.UserDashboard);
                 return;
             }
 

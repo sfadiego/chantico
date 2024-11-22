@@ -21,6 +21,14 @@ class OrderController extends Controller
     {
         return Response::success($order->load('orderProducts.product'));
     }
+   
+    public function delete(OrderModel $order): JsonResponse
+    {
+        if($order->orderProducts->count()){
+            return Response::error("La orden contiene productos");
+        }
+        return Response::success($order->delete());
+    }
 
     public function update(OrderModel $order, OrderUpdateRequest $params): JsonResponse
     {

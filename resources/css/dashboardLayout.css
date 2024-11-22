@@ -26,6 +26,10 @@ button {
 .fs-sm {
     font-size: small;
 }
+.table > tbody,
+.table > thead{
+    text-align: center;
+}
 
 /* media queries */
 
@@ -45,3 +49,4 @@ button {
         height: calc(82vh - 56px) !important;
     }
 }
+
