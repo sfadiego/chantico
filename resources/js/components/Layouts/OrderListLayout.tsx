@@ -3,7 +3,7 @@ import NavBarLayout from './NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@css/dashboardLayout.css'
 // import SidebarLayout from './Sidebar/SidebarLayout';
-import { Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { TableOrderList } from './Tables/TableOrderList';
 // import { CategoriesTabs } from './Categories/CategoriesTabs';
 // import { ProductsContainer } from './Products/ProductsContainer';
@@ -22,7 +22,15 @@ export const OrderListLayout = () => {
             <NavBarLayout ></NavBarLayout>
             <main className="container-fluid p-4">
                 <Row>
-                    <TableOrderList></TableOrderList>
+                    <Col md={12}>
+                        <Button variant="primary">
+                            <i className="bi bi-plus-circle"></i>
+                            Nueva Orden
+                        </Button>
+                    </Col>
+                    <Col md={12}>
+                        <TableOrderList></TableOrderList>
+                    </Col>
                 </Row>
             </main>
         </>

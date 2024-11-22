@@ -1,15 +1,21 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { useDeleteOrder } from '@/services/useOrderService';
-import React from 'react'
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Button } from 'react-bootstrap'
+import { toast } from 'react-toastify';
+interface OptionsOrderTableProps {
+    orderId: number,
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
+}
 
-export const OptionsOrderTable = ({ orderId }: { orderId: number }) => {
+export const OptionsOrderTable = ({ orderId, refetch }: OptionsOrderTableProps) => {
     const mutate = useDeleteOrder(orderId);
     const deleteOrder = ({ mutateAsync }) => {
         const { onSubmit } = useOnSubmit({
             mutateAsync,
             onSuccess: (data) => {
-                console.log("deleteOrder", data);
+                toast.success("Orden borrada");
+                refetch()
             }
         });
 

@@ -22,7 +22,7 @@ export const useLogin = ({
             }
 
             if (rol_id == RoleEnum.Employe && activo) {
-                navigate(RoutesUser.UserDashboard);
+                navigate(RoutesUser.Dashboard);
                 return;
             }
 

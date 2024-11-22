@@ -6,7 +6,7 @@ import OrderList from '@/pages/OrderList';
 
 
 export enum RoutesUser {
-    UserDashboard = '/dashboard',
+    Dashboard = '/dashboard',
     TakeOrder = '/take-order/:id',
     OrderList = '/order-list',
 }
@@ -20,7 +20,7 @@ const hasPermission = ({ rol_id }: IUser) => {
 
 export const UserRoutes = [
     {
-        path: RoutesUser.UserDashboard,
+        path: RoutesUser.Dashboard,
         element: <UserDashboard />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)

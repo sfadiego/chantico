@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
+use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\OrderModel;
 use Illuminate\Http\JsonResponse;
@@ -17,14 +18,19 @@ class OrderController extends Controller
         );
     }
 
+    public function store(OrderStoreRequest $params): JsonResponse
+    {
+        return Response::success(OrderModel::create($params->toArray()));
+    }
+
     public function show(OrderModel $order): JsonResponse
     {
         return Response::success($order->load('orderProducts.product'));
     }
-   
+
     public function delete(OrderModel $order): JsonResponse
     {
-        if($order->orderProducts->count()){
+        if ($order->orderProducts->count()) {
             return Response::error("La orden contiene productos");
         }
         return Response::success($order->delete());

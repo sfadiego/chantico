@@ -4,19 +4,21 @@ import { Table } from 'react-bootstrap'
 import LoadingComponent from '../LoadingComponent';
 import { IOrder } from '@/intefaces/IOrder';
 import { OptionsOrderTable } from './OptionsOrderTable';
+import { useState } from 'react';
 
 
 const getOrders = () => {
-    const { isLoading, data } = useIndexOrder();
+    const { isLoading, refetch, data } = useIndexOrder();
     return {
         isLoading,
+        refetch,
         showData: (!isLoading && data) && true,
         orders: data?.data,
     }
 }
 
 export const TableOrderList = () => {
-    let { isLoading, orders } = getOrders();
+    let { isLoading, orders, refetch } = getOrders();
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <Table striped bordered hover>
@@ -50,7 +52,7 @@ export const TableOrderList = () => {
                             <td>{descuento}</td>
                             <td>{status?.nombre}</td>
                             <td>{date}</td>
-                            <td> <OptionsOrderTable orderId={id} /> </td>
+                            <td> <OptionsOrderTable refetch={refetch} orderId={id} /> </td>
                         </tr>
                     })
                 }
