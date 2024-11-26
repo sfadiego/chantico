@@ -31,10 +31,10 @@ class MainOrderReportModel extends Model
         return $this->hasMany(OrderModel::class, 'sistema_id');
     }
 
-    public static function info(): MainOrderReportModel
+    public static function info(): MainOrderReportModel|array
     {
         return MainOrderReportModel::whereDate('created_at', now())
-            ->first();
+            ->first() ?: [];
     }
 
     public function totalSalesForDay(): float

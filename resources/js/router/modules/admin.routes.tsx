@@ -6,7 +6,7 @@ import Dashboard from '@/pages/Users';
 // const TakeOrder = lazy(() => import('@/pages/TakeOrder'));
 
 export enum RoutesAdmin {
-    Dashboard = '/dashboard',
+    Dashboard = '/admin/dashboard',
     // NewProduct = '/admin/new-products',
     // ProductList = '/admin/product-list',
     // CloseSales = '/admin/close-sales',

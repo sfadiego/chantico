@@ -1,14 +1,9 @@
+import { ReactNode } from 'react';
 import { Nav } from 'react-bootstrap';
+import { NavBarOptions } from './NavBarOptions';
 
-const options = [
-    {
-        icon: '',
-        name: 'Ordenes',
-        href: '/order-list',
-    }
-];
+const NavBarLayout = ({ children }: { children?: ReactNode }) => {
 
-const NavBarLayout = ({ children, setSearchProduct }: any) => {
     return (
         <>
             <Nav className="navbar navbar-expand-sm border-bottom">
@@ -22,15 +17,7 @@ const NavBarLayout = ({ children, setSearchProduct }: any) => {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarChantico">
-                        <ul className="navbar-nav me-auto mb-2 mb-sm-0">
-                            {
-                                options.map(({ name, href }, key) => {
-                                    return <li key={key} className="nav-item">
-                                        <a className="nav-link" href={`${href}`}>{name}</a>
-                                    </li>
-                                })
-                            }
-                        </ul>
+                        <NavBarOptions />
                         {children}
                     </div>
                 </div>

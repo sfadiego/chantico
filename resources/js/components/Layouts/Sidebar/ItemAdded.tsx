@@ -1,5 +1,4 @@
-import React from 'react'
-import ButtonComponent from '../../Button/ButtonComponent';
+import { Button } from 'react-bootstrap';
 
 interface ItemAddedProps {
     label: string,
@@ -8,7 +7,6 @@ interface ItemAddedProps {
     productId: number,
     setProduct: (productId: number) => void
 }
-
 
 const ItemAdded = ({ label, items, productId, price, setProduct }: ItemAddedProps) => {
     return (
@@ -21,9 +19,9 @@ const ItemAdded = ({ label, items, productId, price, setProduct }: ItemAddedProp
                     {label.length > 20 ? label.substring(0, 20) + ' ...' : label}
                 </div>
                 <div className="p-1">${items * price}</div>
-                <ButtonComponent onClickFunction={() => setProduct(productId)} className="btn btn-info btn-sm p-0 text-white">
+                <Button onClick={() => setProduct(productId)} className="btn btn-info btn-sm p-0 text-white">
                     <i className="bi bi-info-lg"></i>
-                </ButtonComponent>
+                </Button>
             </div>
         </>
     )

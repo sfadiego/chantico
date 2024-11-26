@@ -6,14 +6,11 @@ import OrderList from '@/pages/OrderList';
 
 
 export enum RoutesUser {
-    Dashboard = '/dashboard',
+    Dashboard = '/user/dashboard',
     TakeOrder = '/take-order/:id',
     OrderList = '/order-list',
 }
 const UserDashboard = lazy(() => import('@/pages/Users/index'))
-// const TakeOrder = lazy(() => import('@/pages/TakeOrder'))
-// const OrderList = lazy(() => import('@/pages/OrderList'))
-
 const hasPermission = ({ rol_id }: IUser) => {
     return (rol_id === RoleEnum.Employe);
 }
@@ -27,8 +24,8 @@ export const UserRoutes = [
     },
     {
         path: RoutesUser.TakeOrder,
-        element: <TakeOrder/>,
-        private: true,
+        element: <TakeOrder />,
+        private: false,
         hasPermission: (user: IUser) => hasPermission(user)
     },
     {

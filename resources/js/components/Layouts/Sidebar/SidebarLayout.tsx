@@ -1,6 +1,5 @@
 import ItemAdded from './ItemAdded';
 import { TotalItem } from './TotalItem';
-import ButtonComponent from '../../Button/ButtonComponent';
 import ItemDetail from './ItemDetail';
 import { IOrderProduct } from '@/intefaces/IOrderProduct';
 import { IOrder } from '@/intefaces/IOrder';
@@ -78,9 +77,9 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                 <TotalItem ammount={descuento} wrapperClass='text-secondary' label={`Descuento`}></TotalItem>
                 <TotalItem ammount={total} label={`Total`}></TotalItem>
                 <div className="d-grid  mt-2 gap-2">
-                    <ButtonComponent className="btn btn-success" type='button'>
+                    <Button className="btn btn-success" type='button'>
                         Pagar ${total}
-                    </ButtonComponent>
+                    </Button>
                 </div>
             </div>
             <div className="border-end b-vr calculate-height"></div>

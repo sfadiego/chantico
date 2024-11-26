@@ -14,11 +14,21 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         localStorage.getItem('authToken'),
     )
 
+    const [sistemaId, setSistemaId] = useState<string | null>(
+        localStorage.getItem('sistemaId')
+    )
+
     const [user, setUserState] = useState<IUser | null>(
         localStorage.getItem('user')
             ? JSON.parse(localStorage.getItem('user')!)
             : null,
     )
+
+    useEffect(() => {
+        if (sistemaId) {
+            setSistema(sistemaId)
+        }
+    }, [sistemaId])
 
     useEffect(() => {
         if (authToken) {
@@ -47,6 +57,13 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         setUserState(user);
     }
 
+    const setSistema = (sistemaId: string | null) => {
+        sistemaId ? localStorage.setItem('sistemaId', sistemaId)
+            : localStorage.removeItem('sistema');
+
+        setSistemaId(sistemaId)
+    }
+
     // guardar el token y el usuario logeado
     const saveAuth = (token: string, user: IUser) => {
         try {
@@ -72,6 +89,8 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         saveAuth,
         logout,
         axiosApi,
+        sistemaId,
+        setSistemaId
     };
 
     return <AxiosContext.Provider value={value}> {children} </AxiosContext.Provider>
