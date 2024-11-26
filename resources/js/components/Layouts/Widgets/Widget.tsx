@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap'
 interface IWidgetProps {
     cardTitle: string,
     cardHeader?: string,
-    children: ReactNode,
+    children?: ReactNode,
 }
 
 export const Widget = ({ cardTitle, cardHeader, children }: IWidgetProps) => {
@@ -12,7 +12,7 @@ export const Widget = ({ cardTitle, cardHeader, children }: IWidgetProps) => {
         <Card>
             <Card.Header as="h5">{cardTitle}</Card.Header>
             <Card.Body>
-                <Card.Title>{cardHeader}</Card.Title>
+                <Card.Text>{cardHeader}</Card.Text>
                 <Card.Text>
                     {children}
                 </Card.Text>

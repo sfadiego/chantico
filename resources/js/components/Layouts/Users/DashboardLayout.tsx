@@ -2,10 +2,10 @@ import { Container, Row } from 'react-bootstrap';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@css/dashboardLayout.css'
 import { IProduct } from '@resources/interfaces/IProduct';
-import NavBarLayout from './NavBarLayout';
-import SidebarLayout from './Sidebar/SidebarLayout';
-import { CategoriesTabs } from './Categories/CategoriesTabs';
-import { ProductsContainer } from './Products/ProductsContainer';
+import NavBarLayout from '../NavBar/NavBarLayout';
+import SidebarLayout from '../Sidebar/SidebarLayout';
+import { CategoriesTabs } from '../Categories/CategoriesTabs';
+import { ProductsContainer } from '../Products/ProductsContainer';
 
 
 let mesa = 'Mesa 1';

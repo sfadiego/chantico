@@ -1,30 +1,32 @@
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { Widget } from './Widget'
 
 const widgetItems = [
     {
         size: 3,
+        smSize: 4,
         cardTitle: "Ventas del dia",
         cardHeader: "",
-        children: <>Ventas: $2000</>,
+        children: <><b>Ventas:</b> $2000</>,
     },
     {
         size: 3,
+        smSize: 4,
         cardTitle: "Producto mas vendido",
         cardHeader: "",
-        children: <>Panini</>,
+        children: <><b>Panini</b></>,
     },
 ];
 export const WidgetsLayout = () => {
     return (
-        <>
+        <Row>
             {
                 widgetItems.map((item, key) => {
-                    return <Col key={key} md={item.size}>
+                    return <Col sm={item.smSize} xs={item.smSize} key={key} md={item.size}>
                         <Widget {...item} />
                     </Col>
                 })
             }
-        </>
+        </Row>
     )
 }

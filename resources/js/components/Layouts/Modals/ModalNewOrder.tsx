@@ -8,6 +8,9 @@ import MyModal from "./Index";
 import { useOnSubmit } from '@/hooks/useOnSubmit';
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
+import { RoutesAdmin } from "@/router/modules/admin.routes";
+import { useNavigate } from "react-router-dom";
+
 interface ModalNewOrderProps {
     sistemaId: number,
     show: boolean,
@@ -16,11 +19,12 @@ interface ModalNewOrderProps {
 }
 
 const useHandleOrder = ({ mutateAsync, sistemaId, refetch, closeModal }) => {
+    const navigate = useNavigate();
     const { onSubmit } = useOnSubmit({
         mutateAsync,
         onSuccess: (data) => {
-            refetch()
-            closeModal(false)
+            const { id } = data.data;
+            navigate(`/take-order/${id}`);
         },
     });
     const validationSchema = Yup.object({

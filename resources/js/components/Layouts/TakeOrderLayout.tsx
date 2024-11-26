@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import NavBarLayout from './NavBarLayout';
+import NavBarLayout from './NavBar/NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@css/dashboardLayout.css'
 import SidebarLayout from './Sidebar/SidebarLayout';

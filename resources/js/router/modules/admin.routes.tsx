@@ -1,10 +1,9 @@
+import { lazy } from 'react';
 import { IUser } from '@/intefaces/IUser';
 import { RoleEnum } from '../../enums/RoleEnum'
 import TakeOrder from '@/pages/TakeOrder';
-import Dashboard from '@/pages/Users';
 
-// const TakeOrder = lazy(() => import('@/pages/TakeOrder'));
-
+const AdminDashboard = lazy(() => import('@/pages/Admin/index'));
 export enum RoutesAdmin {
     Dashboard = '/admin/dashboard',
     // NewProduct = '/admin/new-products',
@@ -28,7 +27,7 @@ export const AdminRoutes = [
     },
     {
         path: RoutesAdmin.Dashboard,
-        element: <Dashboard />,
+        element: <AdminDashboard />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },
