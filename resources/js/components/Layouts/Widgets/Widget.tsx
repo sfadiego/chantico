@@ -3,19 +3,21 @@ import { Card } from 'react-bootstrap'
 
 interface IWidgetProps {
     cardTitle: string,
-    cardHeader?: string,
+    description?: string,
     children?: ReactNode,
+    image: any
 }
 
-export const Widget = ({ cardTitle, cardHeader, children }: IWidgetProps) => {
+export const Widget = ({ cardTitle, image, description, children }: IWidgetProps) => {
     return (
-        <Card>
-            <Card.Header as="h5">{cardTitle}</Card.Header>
+        <Card className="rounded-0">
+            {
+                image && <Card.Img variant="top" src={image} />
+            }
+            <Card.Header className='border-top'>{cardTitle}</Card.Header>
             <Card.Body>
-                <Card.Text>{cardHeader}</Card.Text>
-                <Card.Text>
-                    {children}
-                </Card.Text>
+                <Card.Text>{description}</Card.Text>
+                {children}
             </Card.Body>
         </Card>
     )

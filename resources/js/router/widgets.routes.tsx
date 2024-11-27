@@ -1,20 +1,24 @@
 import { NavLink } from "react-router-dom";
+import ImgBebida from '@assets/bebida.png'
+import ImgChantico from '@assets/logo_chantico_sm.png'
+import ImgEnsalada from '@assets/ensalada.png'
 
 //REGLAS DE NEGOCIO: validar si es admin,
 //si se muestra para cliente y admin, 
 //si se va a mostrar, etc.
-const validationShow = () => {
+const hasPermissions = () => {
     return true;
 }
 
 const UserDashboardRoutes = [
     {
         cardTitle: 'Ordenes',
-        cardHeader: 'Listado de ordenes',
+        description: 'Listado de ordenes',
+        image: ImgBebida,
         admin: false,
         size: 3,
         children: <>
-            <NavLink className={`btn btn-primary`} to='/order-list' end> {`Listado de ordenes`}</NavLink>
+            <NavLink to='/order-list' end> Ir a listado </NavLink>
         </>
     }
 ];
@@ -22,14 +26,26 @@ const UserDashboardRoutes = [
 const AdminDashboardRoutes = [
     {
         cardTitle: 'Abrir Caja',
-        cardHeader: 'Ir a abrir caja para iniciar ventas',
+        description: 'Ir a abrir caja para iniciar ventas',
         admin: true,
-        validationShow: validationShow(),
+        image: ImgChantico,
+        validationShow: hasPermissions(),
         size: 3,
         children: <>
-            <NavLink className={`btn btn-primary`} to='/admin/open-sales' end> Abrir Caja</NavLink>
+            <NavLink to='/admin/open-sales' end> Abrir Caja </NavLink>
         </>
     },
+    {
+        cardTitle: 'Mas vendido',
+        description: 'Producto mas vendido',
+        admin: true,
+        image: ImgEnsalada,
+        validationShow: hasPermissions(),
+        size: 3,
+        children: <>
+            <b>Pollini</b>
+        </>
+    }
 ];
 
 const dashboardWidgetRoutes = [
