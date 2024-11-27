@@ -1,10 +1,9 @@
 import { ReactNode } from 'react';
 import { Nav } from 'react-bootstrap';
-import { NavBarOptions } from './NavBarOptions';//TODO: moverlo a widgets
 import { useAxios } from '@/hooks/useAxios';
 import { RoleEnum } from '@/enums/RoleEnum';
 
-const NavBarLayout = ({ children, showOptions }: { showOptions?: boolean, children?: ReactNode }) => {
+const NavBarLayout = ({ children }: { children?: ReactNode }) => {
     const { user } = useAxios();
     const dashboardPath = `${user && user.rol_id == RoleEnum.Admin ? '/admin' : '/user'}`;
     return (
@@ -20,7 +19,6 @@ const NavBarLayout = ({ children, showOptions }: { showOptions?: boolean, childr
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarChantico">
-                        <NavBarOptions />
                         {children}
                     </div>
                 </div>
