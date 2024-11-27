@@ -1,10 +1,8 @@
-import React from 'react'
-import { Button, Card, Col, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { Widget } from './Widget';
 import { useAxios } from '@/hooks/useAxios';
 import { RoleEnum } from '@/enums/RoleEnum';
 import dashboardWidgetRoutes from '@/router/widgets.routes';
-import { NavLink } from 'react-router-dom';
 
 export const DashboardWidgets = () => {
     const { user } = useAxios();

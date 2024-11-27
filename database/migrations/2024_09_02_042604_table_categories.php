@@ -23,6 +23,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('product_image');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

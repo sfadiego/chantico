@@ -9,6 +9,7 @@ import { ProductsContainer } from './Products/ProductsContainer';
 import useGetOrderDetail from '@/hooks/useOrderDetail';
 import LoadingComponent from './LoadingComponent';
 import { useParams } from 'react-router-dom';
+import { NavBarOptionContainer } from './NavBar/NavBarOptionContainer';
 
 export const TakeOrderLayout = () => {
     const { id } = useParams();
@@ -25,6 +26,7 @@ export const TakeOrderLayout = () => {
     return (
         <>
             <NavBarLayout >
+                <NavBarOptionContainer/>
                 <form className="col-md-3" role="search">
                     <input className="form-control" type="search"
                         onChange={(e) => setSearchProduct(e.target.value)}

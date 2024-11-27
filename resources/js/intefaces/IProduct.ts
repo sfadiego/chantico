@@ -1,5 +1,6 @@
 import { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanstack/react-query"
 import { IFileProps } from "./IFileProps"
+import { ICategory } from "./ICategory";
 
 export interface IProduct {
     id: number
@@ -9,6 +10,7 @@ export interface IProduct {
     foto_id: number | null,
     picture: IFileProps,
     categoria_id: number,
+    category: ICategory,
     activo: boolean,
 };
 

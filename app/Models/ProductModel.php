@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductModel extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'product';
     const NOMBRE = "nombre";
     const PRECIO = "precio";
@@ -47,7 +48,7 @@ class ProductModel extends Model
 
     public static function getProducts(string $productName = '', int $categoriaId = 0): Collection
     {
-        return ProductModel::with('picture')
+        return ProductModel::with(['picture', 'category'])
             ->when($productName !== '', function ($q) use ($productName) {
                 $q->where(self::NOMBRE, 'like', "%$productName%");
             })
@@ -81,5 +82,10 @@ class ProductModel extends Model
     public function picture(): HasOne
     {
         return $this->hasOne(ProductImageModel::class, 'id', 'foto_id');
+    }
+
+    public function category(): HasOne
+    {
+        return $this->hasOne(CategoriesModel::class, 'id','categoria_id');
     }
 }

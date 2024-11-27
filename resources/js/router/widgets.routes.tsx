@@ -2,6 +2,9 @@ import { NavLink } from "react-router-dom";
 import ImgBebida from '@assets/bebida.png'
 import ImgChantico from '@assets/logo_chantico_sm.png'
 import ImgEnsalada from '@assets/ensalada.png'
+import { RoutesUser } from "./modules/users.routes";
+import { RoutesAdmin } from "./modules/admin.routes";
+
 
 //REGLAS DE NEGOCIO: validar si es admin,
 //si se muestra para cliente y admin, 
@@ -18,7 +21,7 @@ const UserDashboardRoutes = [
         admin: false,
         size: 3,
         children: <>
-            <NavLink to='/order-list' end> Ir a listado </NavLink>
+            <NavLink to={RoutesUser.OrderList} end> Ir a listado </NavLink>
         </>
     }
 ];
@@ -32,7 +35,7 @@ const AdminDashboardRoutes = [
         validationShow: hasPermissions(),
         size: 3,
         children: <>
-            <NavLink to='/admin/open-sales' end> Abrir Caja </NavLink>
+            <NavLink to={RoutesAdmin.OpenCloseSales} end> Abrir Caja </NavLink>
         </>
     },
     {
