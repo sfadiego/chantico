@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId(OrderModel::SISTEMA_ID)
                 ->constrained('main_order_report');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

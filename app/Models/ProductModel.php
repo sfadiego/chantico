@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductModel extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'product';
     const NOMBRE = "nombre";
     const PRECIO = "precio";
@@ -45,14 +46,16 @@ class ProductModel extends Model
         ]);
     }
 
-    public static function getProducts(string $param = null): Collection
+    public static function getProducts(string $productName = '', int $categoriaId = 0): Collection
     {
-        $data = ProductModel::with('picture');
-        if ($param) {
-            $data = $data->where(self::NOMBRE, 'like', "%$param%");
-        }
-
-        return $data->get();
+        return ProductModel::with(['picture', 'category'])
+            ->when($productName !== '', function ($q) use ($productName) {
+                $q->where(self::NOMBRE, 'like', "%$productName%");
+            })
+            ->when($categoriaId !== 0, function ($q) use ($categoriaId) {
+                $q->where(self::CATEGORIA_ID, $categoriaId);
+            })
+            ->get();
     }
 
     public function updateProduct(
@@ -79,5 +82,10 @@ class ProductModel extends Model
     public function picture(): HasOne
     {
         return $this->hasOne(ProductImageModel::class, 'id', 'foto_id');
+    }
+
+    public function category(): HasOne
+    {
+        return $this->hasOne(CategoriesModel::class, 'id','categoria_id');
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
                 ->constrained('categories');
             $table->boolean(ProductModel::ACTIVO)->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

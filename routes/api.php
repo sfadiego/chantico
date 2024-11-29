@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\UserController;
@@ -47,17 +48,28 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
+    Route::prefix('files')->group(function () {
+        Route::controller(FilesController::class)->group(function () {
+            Route::get('{file}', 'show');
+        });
+    });
+
     Route::prefix('order')->group(function () {
         Route::controller(OrderController::class)->group(function () {
             Route::get('/', 'index');
+            Route::post('/', 'store');
             Route::prefix('{order}')->group(function () {
                 Route::get('', 'show');
                 Route::get('total', 'total');
+                Route::put('', 'update');
+                Route::delete('', 'delete');
 
                 Route::prefix('product')->group(function () {
                     Route::controller(OrderProductController::class)
                         ->group(function () {
                             Route::get('', 'index');
+                            Route::get('{product}', 'show');
+                            Route::post('', 'store');
                             Route::put('{product}', 'update');
                             Route::delete('{product}', 'delete');
                         });
@@ -70,6 +82,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{product}', 'show');
+            Route::put('{product}', 'update');
+            Route::post('', 'store');
+            Route::delete('{product}', 'delete');
         });
     });
 

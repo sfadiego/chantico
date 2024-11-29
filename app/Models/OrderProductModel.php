@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderProductModel extends Model
 {
@@ -30,5 +31,10 @@ class OrderProductModel extends Model
         $descuento ? $data[OrderProductModel::DESCUENTO] = $descuento : null;
         $this->update($data);
         return $this->refresh();
+    }
+
+    public function product(): HasOne
+    {
+        return $this->hasOne(ProductModel::class, 'id', self::PRODUCTO_ID);
     }
 }
