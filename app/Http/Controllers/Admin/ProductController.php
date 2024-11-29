@@ -50,4 +50,12 @@ class ProductController extends Controller
             )
         );
     }
+
+    public function delete(ProductModel $product): JsonResponse
+    {
+        if (!$product->count()) {
+            return Response::error("Producto invalido");
+        }
+        return Response::success($product->delete());
+    }
 }

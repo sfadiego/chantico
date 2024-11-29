@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useIndexProducts } from '@/services/useProductService';
 import { IProduct } from '@/intefaces/IProduct';
 import { ModalProduct } from '../Modals/ModalProduct';
+import { OptionsProductTable } from './OptionsProductTable';
 
 
 const getProducts = () => {
@@ -16,9 +17,6 @@ const getProducts = () => {
     }
 }
 
-const handleDelete = (id: number) => {
-
-}
 
 export const TableProductList = () => {
     const [show, setShow] = useState(false);
@@ -52,12 +50,13 @@ export const TableProductList = () => {
                                     <td>{precio}</td>
                                     <td>{category?.nombre}</td>
                                     <td>
-                                        <Button onClick={() => handleDelete(id)} variant='danger' className='ms-2'>
+                                        {/* <Button onClick={() => handleDelete(id)} variant='danger' className='ms-2'>
                                             <i className="bi bi-trash"></i>
                                         </Button>
                                         <Button variant='info' className='ms-2'>
                                             <i className="bi bi-pencil-square"></i>
-                                        </Button>
+                                        </Button> */}
+                                        <OptionsProductTable refetch={refetch} productId={id} />
                                     </td>
                                 </tr>
                             })

@@ -82,9 +82,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{product}', 'show');
-            Route::put('{product}', 'update');
-            Route::post('', 'store');
-            Route::delete('{product}', 'delete');
         });
     });
 
@@ -124,8 +121,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::controller(AdminProductController::class)->group(function () {
                 Route::get('/', 'index');
                 Route::get('{product}', 'show');
-                Route::put('{product}', 'update');
                 Route::post('', 'store');
+                Route::put('{product}', 'update');
+                Route::delete('{product}', 'delete');
             });
 
             Route::prefix('{product}/image')->group(function () {
