@@ -50,12 +50,6 @@ export const TableProductList = () => {
                                     <td>{precio}</td>
                                     <td>{category?.nombre}</td>
                                     <td>
-                                        {/* <Button onClick={() => handleDelete(id)} variant='danger' className='ms-2'>
-                                            <i className="bi bi-trash"></i>
-                                        </Button>
-                                        <Button variant='info' className='ms-2'>
-                                            <i className="bi bi-pencil-square"></i>
-                                        </Button> */}
                                         <OptionsProductTable refetch={refetch} productId={id} />
                                     </td>
                                 </tr>

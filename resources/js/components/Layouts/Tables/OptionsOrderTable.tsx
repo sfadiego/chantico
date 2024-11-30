@@ -27,6 +27,7 @@ export const OptionsOrderTable = ({ orderId, refetch }: OptionsOrderTableProps) 
         onSubmit({}, {
             setErrors: (errors: any) => {
                 console.log(errors.message);
+                errors.message && toast.error(errors.message);
             }
         });
     }

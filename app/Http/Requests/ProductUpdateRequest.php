@@ -23,12 +23,12 @@ class ProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            ProductModel::NOMBRE => 'nullable',
-            ProductModel::PRECIO => 'nullable|decimal:0,2',
-            ProductModel::DESCRIPCION => 'nullable',
-            ProductModel::CATEGORIA_ID => 'nullable|exists:categories,id',
+            ProductModel::NOMBRE => 'required',
+            ProductModel::PRECIO => 'required|decimal:0,2',
+            ProductModel::DESCRIPCION => 'required',
+            ProductModel::CATEGORIA_ID => 'required|exists:categories,id',
             ProductModel::ACTIVO => 'boolean',
-            ProductModel::FOTO_ID => 'nullable|exists:product_image'
+            ProductModel::FOTO_ID => 'required|exists:product_image'
         ];
     }
 }
