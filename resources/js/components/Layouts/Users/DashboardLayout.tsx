@@ -1,6 +1,4 @@
 import { Container, Row } from 'react-bootstrap';
-import "bootstrap-icons/font/bootstrap-icons.css";
-import '@css/dashboardLayout.css'
 import { IProduct } from '@resources/interfaces/IProduct';
 import NavBarLayout from '../NavBar/NavBarLayout';
 import SidebarLayout from '../Sidebar/SidebarLayout';

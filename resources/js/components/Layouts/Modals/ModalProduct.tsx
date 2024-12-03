@@ -2,15 +2,12 @@ import "@css/modal.css";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import MyModal from "./Index";
 import { Button } from 'react-bootstrap';
-import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useOnSubmit } from '@/hooks/useOnSubmit';
-import { useNavigate } from "react-router-dom";
 import { useStoreProduct } from "@/services/useProductService";
 import { SelectCategory } from "@/components/Select/SelectCategory";
+import { useProduct } from "../Products/hooks/useProduct";
+import { Textarea } from "@/components/Textarea/Textarea";
 import { toast } from "react-toastify";
-
-
 
 interface IModalProductProps {
     productId?: number,
@@ -19,43 +16,21 @@ interface IModalProductProps {
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
 
-const useHandleProduct = ({ mutateAsync, refetch, closeModal }) => {
-    const { onSubmit } = useOnSubmit({
-        mutateAsync,
-        onSuccess: ({ data: { nombre } }) => {
+export const ModalProduct = ({ show, closeModal, refetch }: IModalProductProps) => {
+    const mutate = useStoreProduct();
+    const props = useProduct({
+        mutateAsync: mutate.mutateAsync, onSuccess({ data: { nombre } }) {
             refetch()
             toast.success(`El producto ${nombre} se agrego correctamente.`);
-            closeModal(false)
-        },
+            closeModal(false);
+        }
     });
-    const validationSchema = Yup.object({
-        nombre: Yup.string().required('Este campo es obligatorio'),
-        precio: Yup.number().min(1, 'El precio no es valido').required('Este campo es obligatorio'),
-        categoria_id: Yup.number().required('La categoria es requerida'),
-    });
-
-    const initialValues = {
-        nombre: '',
-        precio: 0,
-        categoria_id: ""
-    };
-    return {
-        initialValues,
-        validationSchema,
-        onSubmit,
-    }
-}
-
-export const ModalProduct = ({ productId, show, closeModal, refetch }: IModalProductProps) => {
-    const mutate = useStoreProduct();
-    const props = useHandleProduct({ mutateAsync: mutate.mutateAsync, refetch, closeModal });
-    const title = `${productId ? 'Actualizar' : 'Crear'} Producto`;
+    const title = `Crear Producto`;
 
     return (
         <MyModal modalTitle={title} show={show} >
             <Formik {...props} >
                 {({ isSubmitting, errors, values, handleChange, handleBlur }) => (
-
                     < Form >
 
                         <div className='mb-3'>
@@ -88,6 +63,16 @@ export const ModalProduct = ({ productId, show, closeModal, refetch }: IModalPro
                                     handleBlur={handleBlur}
                                 />
                             }
+                        </div>
+                        <div className='mb-3'>
+                            <Textarea
+                                label='Descripcion'
+                                textareaId='descripcion'
+                                formikErrors={errors}
+                                formikValues={values}
+                                handleChange={handleChange}
+                                handleBlur={handleBlur}
+                            />
                         </div>
                         <div className='pt-3 my-modal-footer'>
                             <Button

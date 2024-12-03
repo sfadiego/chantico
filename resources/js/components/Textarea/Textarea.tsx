@@ -11,8 +11,11 @@ export const Textarea = ({ formikErrors, handleChange, handleBlur, formikValues,
 
     return (
         <>
-            <label className='form-label' htmlFor="">{label} </label>
-            <textarea id={textareaId}
+            <label className='form-label' htmlFor={label}>
+                {label}
+            </label>
+            <textarea
+                id={textareaId}
                 name={textareaId}
                 value={formikValues[textareaId]}
                 onChange={handleChange}

@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import NavBarLayout from './NavBar/NavBarLayout';
-import "bootstrap-icons/font/bootstrap-icons.css";
-import '@css/dashboardLayout.css'
 import SidebarLayout from './Sidebar/SidebarLayout';
 import { Container, Row } from 'react-bootstrap';
 import { CategoriesTabs } from './Categories/CategoriesTabs';

@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify';
 import { AxiosProvider } from './contexts/AxiosContext';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import '@css/dashboardLayout.css'
 import routes from './router/index.routes';
 
 const root = document.getElementById('app');
@@ -18,7 +20,6 @@ const queryClient = new QueryClient({
         },
     },
 })
-// routes
 
 appRoot && appRoot.render(
     <React.StrictMode>

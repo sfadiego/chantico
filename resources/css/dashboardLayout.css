@@ -1,5 +1,8 @@
-button {
-    border-radius: 0px !important;
+.btn,
+button,
+.modal-content,
+.form-control {
+    border-radius: 0px;
 }
 
 .content-wrapper {
@@ -26,8 +29,9 @@ button {
 .fs-sm {
     font-size: small;
 }
-.table > tbody,
-.table > thead{
+
+.table>tbody,
+.table>thead {
     text-align: center;
 }
 
@@ -49,4 +53,3 @@ button {
         height: calc(82vh - 56px) !important;
     }
 }
-

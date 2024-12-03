@@ -19,12 +19,13 @@ const getCategories = () => {
     }
 }
 export const SelectCategory = ({ formikErrors, handleChange, handleBlur, formikValues, selectId }: ISelectCategoryProps) => {
-    let { isLoading, categories } = getCategories();
+    let { isLoading, categories, showData } = getCategories();
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
-            <label className='form-label' htmlFor="">Categoria </label>
-            <select id={selectId}
+            <label className='form-label' htmlFor="categoria">Categoria </label>
+            <select
+                id={selectId}
                 name={selectId}
                 value={formikValues[selectId]}
                 onChange={handleChange}
@@ -32,7 +33,7 @@ export const SelectCategory = ({ formikErrors, handleChange, handleBlur, formikV
                 className="form-control">
                 <option value="">Seleccionar...</option>
                 {
-                    categories.map(({ id, nombre }: ICategory, key: number) =>
+                    showData && categories.map(({ id, nombre }: ICategory, key: number) =>
                         <option key={key} value={id}>{nombre}</option>)
                 }
             </select>
