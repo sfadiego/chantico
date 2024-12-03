@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CategoriesModel extends Model
+class CategoryModel extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'categories';

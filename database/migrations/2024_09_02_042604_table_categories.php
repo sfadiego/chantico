@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\CategoriesModel;
+use App\Models\CategoryModel;
 use App\Models\ProductImageModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string(CategoriesModel::NOMBRE);
-            $table->integer(CategoriesModel::ORDEN)
+            $table->string(CategoryModel::NOMBRE);
+            $table->integer(CategoryModel::ORDEN)
                 ->nullable()
                 ->default(1);
-            $table->foreignId(CategoriesModel::FOTO_ID)
+            $table->foreignId(CategoryModel::FOTO_ID)
                 ->nullable()
                 ->constrained('product_image');
             $table->timestamps();

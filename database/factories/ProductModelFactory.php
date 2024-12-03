@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\CategoriesModel;
+use App\Models\CategoryModel;
 use App\Models\ProductModel as Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +24,7 @@ class ProductModelFactory extends Factory
             Product::NOMBRE => $this->faker->word(),
             Product::PRECIO => $this->faker->numberBetween(40, 60),
             Product::DESCRIPCION => $this->faker->paragraph(),
-            Product::CATEGORIA_ID => CategoriesModel::all()->random()->id,
+            Product::CATEGORIA_ID => CategoryModel::all()->random()->id,
             Product::ACTIVO => true,
             Product::FOTO_ID => null,
         ];

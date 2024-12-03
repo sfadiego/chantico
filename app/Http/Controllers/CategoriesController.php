@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoriesModel;
+use App\Models\CategoryModel;
 use App\Models\ProductModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,15 +12,15 @@ class CategoriesController extends Controller
 {
     public function index(): JsonResponse
     {
-        return Response::success(CategoriesModel::all());
+        return Response::success(CategoryModel::all());
     }
 
-    public function show(CategoriesModel $category): JsonResponse
+    public function show(CategoryModel $category): JsonResponse
     {
         return Response::success($category);
     }
 
-    public function categoryProduct(CategoriesModel $category): JsonResponse
+    public function categoryProduct(CategoryModel $category): JsonResponse
     {
         return Response::success(ProductModel::where(ProductModel::CATEGORIA_ID, $category->id)->get());
     }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CategoriesModel;
+use App\Models\CategoryModel;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
@@ -28,7 +28,7 @@ class CategoriesSeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            CategoriesModel::updateOrCreate(['nombre' => $category]);
+            CategoryModel::updateOrCreate(['nombre' => $category]);
         }
     }
 }
