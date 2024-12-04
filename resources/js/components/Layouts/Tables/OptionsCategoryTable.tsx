@@ -1,4 +1,5 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { useDeleteCategory } from '@/services/useCategoriesService';
 import { useDeleteProduct } from '@/services/useProductService';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Button } from 'react-bootstrap'
@@ -9,12 +10,12 @@ interface OptionsOrderTableProps {
 }
 
 export const OptionsCategoryTable = ({ categoryId, refetch }: OptionsOrderTableProps) => {
-    const mutate = useDeleteProduct(categoryId);
-    const deleteProduct = ({ mutateAsync }) => {
+    const mutate = useDeleteCategory(categoryId);
+    const deleteCategory = ({ mutateAsync }) => {
         const { onSubmit } = useOnSubmit({
             mutateAsync,
             onSuccess: (data) => {
-                toast.success("Producto borrado");
+                toast.success("Categoria borrada");
                 refetch()
             }
         });
@@ -23,7 +24,7 @@ export const OptionsCategoryTable = ({ categoryId, refetch }: OptionsOrderTableP
     }
 
     const handleDelete = () => {
-        const { onSubmit } = deleteProduct({ mutateAsync: mutate.mutateAsync });
+        const { onSubmit } = deleteCategory({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
             setErrors: (errors: any) => {
                 console.log(errors.message);
@@ -37,7 +38,7 @@ export const OptionsCategoryTable = ({ categoryId, refetch }: OptionsOrderTableP
             <Button onClick={() => handleDelete()} variant='danger' className='ms-2'>
                 <i className="bi bi-trash"></i>
             </Button>
-            <a className='btn btn-info ms-2 rounded-0' href={`/admin/product/${categoryId}`}>
+            <a className='btn btn-info ms-2 rounded-0' href={`/admin/category/${categoryId}`}>
                 <i className="bi bi-pencil-square"></i>
             </a>
         </>

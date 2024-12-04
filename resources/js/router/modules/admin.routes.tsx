@@ -3,8 +3,9 @@ import { IUser } from '@/intefaces/IUser';
 import { RoleEnum } from '../../enums/RoleEnum'
 import TakeOrder from '@/pages/TakeOrder';
 import { ProductList } from '@/components/Layouts/Products/ProductList';
-import { UpdateProduct } from '@/pages/Admin/Product/UpdateProduct';
 import { CategoryList } from '@/components/Layouts/Categories/CategoryList';
+import { UpdateCategoryLayout } from '@/pages/Admin/Category/UpdateCategoryLayout';
+import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/index'));
 export enum RoutesAdmin {
@@ -37,7 +38,7 @@ export const AdminRoutes = [
     },
     {
         path: RoutesAdmin.Product,
-        element: <UpdateProduct/>,
+        element: <UpdateProductLayout/>,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },
@@ -50,6 +51,12 @@ export const AdminRoutes = [
     {
         path: RoutesAdmin.CategoryList,
         element: <CategoryList/>,
+        private: true,
+        hasPermission: (user: IUser) => hasPermission(user)
+    },
+    {
+        path: RoutesAdmin.Category,
+        element: <UpdateCategoryLayout/>,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },

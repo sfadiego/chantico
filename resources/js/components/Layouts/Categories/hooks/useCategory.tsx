@@ -14,16 +14,12 @@ export const useCategory = ({ mutateAsync, onSuccess }: IuseCategoryProps) => {
     });
     const validationSchema = Yup.object({
         nombre: Yup.string().required('Este campo es obligatorio'),
-        precio: Yup.number().min(1, 'El precio no es valido').required('Este campo es obligatorio'),
-        categoria_id: Yup.number().required('La categoria es requerida'),
-        descripcion: Yup.string(),
+        orden: Yup.number(),
     });
 
     const initialValues = {
         nombre: '',
-        precio: 0,
-        categoria_id: "",
-        descripcion: "",
+        orden: 1,
     };
     return {
         initialValues,

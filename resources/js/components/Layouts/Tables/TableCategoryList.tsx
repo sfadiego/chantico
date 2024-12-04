@@ -5,6 +5,7 @@ import { IProduct } from '@/intefaces/IProduct';
 import { useIndexCategories } from '@/services/useCategoriesService';
 import { OptionsCategoryTable } from './OptionsCategoryTable';
 import { ModalCategory } from '../Modals/ModalCategory';
+import { ICategory } from '@/intefaces/ICategory';
 
 
 const getCategories = () => {
@@ -41,12 +42,13 @@ export const TableCategoryList = () => {
                     </thead>
                     <tbody>
                         {
-                            categories.map(({ id, nombre }: IProduct) => {
+                            categories.map(({ id, nombre, orden }: ICategory) => {
                                 return <tr key={id}>
                                     <td>{id}</td>
                                     <td>{nombre}</td>
+                                    <td>{orden}</td>
                                     <td>
-                                        <OptionsCategoryTable refetch={refetch} categoryId={id} />
+                                        <OptionsCategoryTable refetch={refetch} categoryId={id!!} />
                                     </td>
                                 </tr>
                             })

@@ -27,13 +27,13 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $param): JsonResponse
     {
         return Response::success(
-            ProductModel::store(
-                nombre: $param->nombre,
-                precio: $param->precio,
-                descripcion: $param->descripcion ?? '',
-                categoriaId: $param->categoria_id,
-                pictureId: $param->picture_id
-            )
+            ProductModel::create([
+                'nombre' => $param->nombre,
+                'precio' => $param->precio,
+                'descripcion' => $param->descripcion ?? '',
+                'categoriaId' => $param->categoria_id,
+                'pictureId' => $param->picture_id
+            ])
         );
     }
 

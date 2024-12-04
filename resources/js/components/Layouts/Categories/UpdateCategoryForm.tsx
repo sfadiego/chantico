@@ -1,17 +1,15 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useProduct } from '../Products/hooks/useProduct';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { SelectCategory } from '@/components/Select/SelectCategory';
-import { Textarea } from '@/components/Textarea/Textarea';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
-import { useShowProduct, useUpdateProduct } from "@/services/useProductService";
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import LoadingComponent from '../LoadingComponent';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useShowCategory, useUpdateCategory } from '@/services/useCategoriesService';
+import { useCategory } from './hooks/useCategory';
 
-const useHandleGetProduct = (productId: number) => {
-  const { isLoading, data, refetch } = useShowProduct(productId)
+const useHandleGetCateogy = (categoryId: number) => {
+  const { isLoading, data, refetch } = useShowCategory(categoryId)
   return {
     isLoading,
     showData: (!isLoading && data) && true,
@@ -24,34 +22,29 @@ export const UpdateCategoryForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   if (!id) {
-    navigate(RoutesAdmin.ProductList);
+    navigate(RoutesAdmin.CategoryList);
   }
 
   const [formValues, setInitialValues] = useState({
     nombre: '',
-    precio: 0,
-    categoria_id: 0,
-    descripcion: ""
+    orden: 1,
   });
 
-  const { isLoading, showData, data } = useHandleGetProduct(parseInt(id!!));
-
+  const { isLoading, showData, data } = useHandleGetCateogy(parseInt(id!!));
   if (isLoading && showData) return <LoadingComponent></LoadingComponent>;
   useEffect(() => {
     if (data) {
       setInitialValues({
         nombre: data.nombre,
-        precio: data.precio,
-        categoria_id: data.categoria_id,
-        descripcion: data.descripcion
+        orden: data.orden ? data.orden : 1,
       });
     }
   }, [data]);
 
-  const mutate = useUpdateProduct(parseInt(id!!));
-  const props = useProduct({
+  const mutate = useUpdateCategory(parseInt(id!!));
+  const props = useCategory({
     mutateAsync: mutate.mutateAsync, onSuccess({ data: { nombre } }) {
-      toast.success(`El producto ${nombre} se actualizo correctamente.`);
+      toast.success(`La categoria ${nombre} se actualizo correctamente`);
     }
   });
   return (
@@ -65,7 +58,7 @@ export const UpdateCategoryForm = () => {
         {({ isSubmitting, errors, values, handleChange, handleBlur }) => (
           <Form>
             <div className='mb-3'>
-              <label className='form-label' htmlFor="">Nombre de Producto </label>
+              <label className='form-label' htmlFor="">Nombre de categoria </label>
               <Field
                 className="form-control"
                 type="text"
@@ -75,41 +68,19 @@ export const UpdateCategoryForm = () => {
               <ErrorMessage name="nombre" className="text-danger p-1" component="div" />
             </div>
             <div className='mb-3'>
-              <label className='form-label'>Precio </label>
+              <label className='form-label' htmlFor="">Orden de secuencia</label>
               <Field
                 className="form-control"
                 type="number"
-                name='precio'
-                placeholder="precio"
+                name='orden'
+                placeholder="orden"
               />
-              <ErrorMessage name="precio" className="text-danger p-1" component="div" />
-            </div>
-            <div className='mb-3'>
-              {
-                <SelectCategory
-                  selectId={`categoria_id`}
-                  formikErrors={errors}
-                  formikValues={values}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                />
-              }
-            </div>
-            <div className='mb-3'>
-              <Textarea
-                label='Descripcion'
-                textareaId='descripcion'
-                formikErrors={errors}
-                formikValues={values}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-              />
-
+              <ErrorMessage name="orden" className="text-danger p-1" component="div" />
             </div>
             <div className='pt-3 my-modal-footer'>
               <Link
                 className='btn btn-secondary me-2'
-                to={RoutesAdmin.ProductList}>
+                to={RoutesAdmin.CategoryList}>
                 Regresar
               </Link>
               <Button

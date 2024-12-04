@@ -32,10 +32,11 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    Route::prefix('categories')->group(function () {
+    Route::prefix('category')->group(function () {
         Route::controller(CategoriesController::class)->group(function () {
             Route::get('/', 'index');
             Route::prefix('{category}')->group(function () {
+                Route::get('', 'show');
                 Route::get('product', 'categoryProduct');
             });
         });
@@ -108,12 +109,13 @@ Route::middleware('auth:sanctum')->group(function () {
                 });
         });
 
-        Route::prefix('categories')->group(function () {
+        Route::prefix('category')->group(function () {
             Route::controller(AdminCategoriesController::class)->group(function () {
                 Route::get('/', 'index');
                 Route::get('{category}', 'show');
                 Route::put('{category}', 'update');
                 Route::post('', 'store');
+                Route::delete('{category}', 'delete');
             });
         });
 
