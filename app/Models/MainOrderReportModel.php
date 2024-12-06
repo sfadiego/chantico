@@ -31,13 +31,23 @@ class MainOrderReportModel extends Model
         return $this->hasMany(OrderModel::class, 'sistema_id');
     }
 
-    public static function info(): MainOrderReportModel|array
+    public function user()
     {
-        return MainOrderReportModel::whereDate('created_at', now())
-            ->first() ?: [];
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function totalSalesForDay(): float
+    public function updateCurrentSales()
+    {
+        $totalSales = $this->totalSalesByDay();
+        $currentTotal = $this->efectivo_caja_inicio;
+        $this->update([
+            "efectivo_caja_cierre" => $currentTotal,
+            "venta_dia" => $totalSales,
+        ]);
+        return $this->refresh();
+    }
+
+    public function totalSalesByDay(): float
     {
         return $this->whereHas('orders.orderProducts')
             ->with(['orders.orderProducts'])
@@ -62,26 +72,38 @@ class MainOrderReportModel extends Model
     {
         $initialCash = $this->efectivo_caja_inicio;
         $this->update([
-            self::VENTA_DIA => $this->totalSalesForDay(),
-            self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesForDay(),
+            self::VENTA_DIA => $this->totalSalesByDay(),
+            self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesByDay(),
             self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSE_SALES
         ]);
 
         return $this->refresh();
     }
 
-    public static function openSales(float $initialCash, int $userId): MainOrderReportModel
+    public static function validateIfOpenSaleActive(): bool
     {
-        $record = MainOrderReportModel::whereDate('created_at', now())
-            ->where('user_id', $userId)
+        $record = MainOrderReportModel::where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
+            ->first()->id;
+        return ($record);
+    }
+
+    public function getActiveSale(): MainOrderReportModel
+    {
+        return MainOrderReportModel::with('user')
+            ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
             ->first();
-        if ($record) {
-            return $record;
-        }
+    }
+
+    public static function openSales(
+        float $initialCash,
+        int $userId,
+        string $observaciones = ''
+    ): MainOrderReportModel {
 
         return MainOrderReportModel::create([
             self::ESTATUS_CAJA => MainOrderStatusEnum::OPEN,
             self::EFECTIVO_CAJA_INICIO => $initialCash,
+            self::OBSERVACION => $observaciones,
             self::CREATED_AT => now(),
             self::USER_ID => $userId,
         ]);

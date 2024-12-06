@@ -12,21 +12,50 @@ use Illuminate\Support\Facades\Response;
 
 class MainOrderReportController extends Controller
 {
-    public function index(): JsonResponse
+    public function show(MainOrderReportModel $system): JsonResponse
     {
         return Response::success(
-            MainOrderReportModel::info()
+            $system->updateCurrentSales()
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        "id" => $item["id"],
+                        "estatus_caja" => $item["estatus_caja"] ? "Abierta" : "Cerrada",
+                        "efectivo_caja_inicio" => $item["efectivo_caja_inicio"],
+                        "efectivo_caja_cierre" => $item["efectivo_caja_cierre"],
+                        "venta_dia" => $item["venta_dia"],
+                        "observaciones" => $item["observaciones"],
+                        "created_at" => date($item["created_at"]),
+                    ];
+                })
+        );
+    }
+
+    public function getActiveSale(): JsonResponse
+    {
+        return Response::success(
+            (new MainOrderReportModel)->getActiveSale()
         );
     }
 
     public function openSales(OpenSalesRequest $params): JsonResponse
     {
-        return Response::success(MainOrderReportModel::openSales($params->efectivo_caja_inicio, $params->user_id));
+        if (MainOrderReportModel::validateIfOpenSaleActive()) {
+            return Response::error("Existe una session de ventas activa");
+        }
+
+        return Response::success(
+            MainOrderReportModel::openSales(
+                $params->efectivo_caja_inicio,
+                $params->user_id,
+                $params->observaciones ?: '',
+            )
+        );
     }
 
     public function totalCloseSales(MainOrderReportModel $system): JsonResponse
     {
-        return Response::success($system->totalSalesForDay());
+        return Response::success($system->totalSalesByDay());
     }
 
     public function detailCloseSales(MainOrderReportModel $system): JsonResponse

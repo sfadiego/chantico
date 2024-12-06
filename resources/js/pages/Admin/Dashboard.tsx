@@ -1,10 +1,12 @@
 import NavBarLayout from "@/components/Layouts/NavBar/NavBarLayout";
 import { NavBarOptions } from "@/components/Layouts/NavBar/NavBarOption";
 import { NavBarOptionContainer } from "@/components/Layouts/NavBar/NavBarOptionContainer";
-import { DashboardWidgets } from "@/components/Layouts/Widgets/dashboardWidgets";
+import { WidgetLayout } from "@/components/Layouts/Widgets/WidgetLayout";
 import { RoutesAdmin } from "@/router/modules/admin.routes";
+import { Row } from "react-bootstrap";
+import OpenSales from "./Sales/OpenSalesLayout";
 
-const AdminDashboard = () => {
+const Dashboard = () => {
     return (
         <>
             <NavBarLayout >
@@ -14,9 +16,11 @@ const AdminDashboard = () => {
                 </NavBarOptionContainer>
             </NavBarLayout>
             <main className="container-fluid p-4">
-                <DashboardWidgets />
+                <WidgetLayout />
+                {/* <OpenSales /> */}
+
             </main>
         </>
     )
 }
-export default AdminDashboard;
+export default Dashboard;

@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { NavLink } from "react-router-dom";
 import ImgBebida from '@assets/bebida.png'
 import ImgChantico from '@assets/logo_chantico_sm.png'
@@ -10,9 +11,10 @@ import { RoutesAdmin } from "./modules/admin.routes";
 //si se muestra para cliente y admin, 
 //si se va a mostrar, etc.
 const hasPermissions = () => {
-    return true;
+    return true
 }
 
+// const OpenSalesLayout = lazy(() => import('../components/Layouts/Sales/OpenSalesLayout'));
 const UserDashboardRoutes = [
     {
         cardTitle: 'Ordenes',
@@ -26,18 +28,20 @@ const UserDashboardRoutes = [
     }
 ];
 
+export const OpenSalesWidgetRoute = {
+    cardTitle: 'Abrir Caja',
+    description: 'Ir a abrir caja para iniciar ventas',
+    admin: true,
+    image: ImgChantico,
+    validationShow: hasPermissions(),
+    size: 3,
+    children: <>
+        <NavLink to={RoutesAdmin.OpenSales} end> Abrir Caja </NavLink>
+    </>
+
+};
+
 const AdminDashboardRoutes = [
-    {
-        cardTitle: 'Abrir Caja',
-        description: 'Ir a abrir caja para iniciar ventas',
-        admin: true,
-        image: ImgChantico,
-        validationShow: hasPermissions(),
-        size: 3,
-        children: <>
-            <NavLink to={RoutesAdmin.OpenCloseSales} end> Abrir Caja </NavLink>
-        </>
-    },
     {
         cardTitle: 'Mas vendido',
         description: 'Producto mas vendido',

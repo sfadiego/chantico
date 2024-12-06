@@ -8,7 +8,6 @@ interface ITextAreaProps {
 }
 
 export const Textarea = ({ formikErrors, handleChange, handleBlur, formikValues, textareaId, label }: ITextAreaProps) => {
-
     return (
         <>
             <label className='form-label' htmlFor={label}>

@@ -1,12 +1,7 @@
-import React, { ReactNode } from 'react'
+import { IWidgetProps } from '@/intefaces/IWidgetProps'
 import { Card } from 'react-bootstrap'
 
-interface IWidgetProps {
-    cardTitle: string,
-    description?: string,
-    children?: ReactNode,
-    image: any
-}
+
 
 export const Widget = ({ cardTitle, image, description, children }: IWidgetProps) => {
     return (

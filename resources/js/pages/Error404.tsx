@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { Button, Card, CardBody, CardHeader, Col, Container, Image, Row } from 'react-bootstrap';
+import {  Card, CardBody, CardHeader, Col, Container, Image, Row } from 'react-bootstrap';
 import img from '@assets/logo_chantico.png';
 import { Link } from 'react-router-dom';
 

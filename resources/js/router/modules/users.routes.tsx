@@ -10,7 +10,7 @@ export enum RoutesUser {
     TakeOrder = '/take-order/:id',
     OrderList = '/order-list',
 }
-const UserDashboard = lazy(() => import('@/pages/Users/index'))
+const UserDashboard = lazy(() => import('@/pages/Users/Dashboard'))
 const hasPermission = ({ rol_id }: IUser) => {
     return (rol_id === RoleEnum.Employe);
 }
