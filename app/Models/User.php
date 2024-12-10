@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
@@ -46,6 +47,12 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public static function authUser($token): User|null
+    {
+        $accessToken = PersonalAccessToken::findToken($token);
+        return $accessToken?->tokenable;
+    }
 
     /**
      * Get the attributes that should be cast.

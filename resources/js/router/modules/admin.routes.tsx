@@ -17,7 +17,7 @@ export enum RoutesAdmin {
     CategoryList = '/admin/category-list',
     Category = '/admin/category/:id',
     OpenSales = '/admin/open-sales',
-    SalesSummary = '/admin/sales-summary',
+    CloseSalesSummary = '/admin/sales-summary/:id',
 }
 
 /**
@@ -31,10 +31,6 @@ export enum RoutesAdmin {
 const hasPermission = ({ rol_id }: IUser) => {
     return (rol_id === RoleEnum.Admin);
 }
-
-// const hasActiveSales = (sistemaId: number | null) => {
-//     return (sistemaId);
-// }
 
 export const AdminRoutes = [
     {
@@ -80,7 +76,7 @@ export const AdminRoutes = [
         hasPermission: (user: IUser) => hasPermission(user)
     },
     {
-        path: RoutesAdmin.SalesSummary,
+        path: RoutesAdmin.CloseSalesSummary,
         element: <>Sales Summary</>,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)

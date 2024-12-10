@@ -1,63 +1,67 @@
-import { lazy } from "react";
 import { NavLink } from "react-router-dom";
 import ImgBebida from '@assets/bebida.png'
 import ImgChantico from '@assets/logo_chantico_sm.png'
 import ImgEnsalada from '@assets/ensalada.png'
 import { RoutesUser } from "./modules/users.routes";
 import { RoutesAdmin } from "./modules/admin.routes";
+import { RoleEnum } from "@/enums/RoleEnum";
 
+
+//widgets
+// sin abrir ventas
+//   abrir caja
+//   ver ventas por fechas
+//   productos mas vendidos
+
+// abriendo ventas
+//   ir a listado de ordenes
 
 //REGLAS DE NEGOCIO: validar si es admin,
 //si se muestra para cliente y admin, 
 //si se va a mostrar, etc.
-const hasPermissions = () => {
-    return true
-}
 
-// const OpenSalesLayout = lazy(() => import('../components/Layouts/Sales/OpenSalesLayout'));
-const UserDashboardRoutes = [
+const allWidgets = [
+    {
+        cardTitle: 'Abrir Caja',
+        description: 'Ir a abrir caja para iniciar ventas',
+        role: [RoleEnum.Admin],
+        usedWhenClosedSales: true,
+        image: ImgChantico,
+        children: <>
+            <NavLink to={RoutesAdmin.OpenSales} end> Abrir Caja </NavLink>
+        </>
+    },
+    {
+        cardTitle: 'Cerrar Ventas',
+        description: 'Cerrar ventas y ver resumen del dia',
+        role: [RoleEnum.Admin],
+        usedWhenClosedSales: false,
+        image: ImgEnsalada,
+        children: <>
+            <NavLink to={RoutesAdmin.CloseSalesSummary} end> Ir a cerrar caja </NavLink>
+        </>
+    },
+    {
+        cardTitle: 'Mas vendido',
+        description: 'Producto mas vendido',
+        role: [RoleEnum.Admin],
+        usedWhenClosedSales: true,
+        image: ImgEnsalada,
+        children: <>
+            <b>Pollini</b>
+        </>
+    },
     {
         cardTitle: 'Ordenes',
         description: 'Listado de ordenes',
         image: ImgBebida,
-        admin: false,
-        size: 3,
+        usedWhenClosedSales: false,
+        role: [RoleEnum.Employe, RoleEnum.Admin],
         children: <>
             <NavLink to={RoutesUser.OrderList} end> Ir a listado </NavLink>
         </>
     }
 ];
 
-export const OpenSalesWidgetRoute = {
-    cardTitle: 'Abrir Caja',
-    description: 'Ir a abrir caja para iniciar ventas',
-    admin: true,
-    image: ImgChantico,
-    validationShow: hasPermissions(),
-    size: 3,
-    children: <>
-        <NavLink to={RoutesAdmin.OpenSales} end> Abrir Caja </NavLink>
-    </>
 
-};
-
-const AdminDashboardRoutes = [
-    {
-        cardTitle: 'Mas vendido',
-        description: 'Producto mas vendido',
-        admin: true,
-        image: ImgEnsalada,
-        validationShow: hasPermissions(),
-        size: 3,
-        children: <>
-            <b>Pollini</b>
-        </>
-    }
-];
-
-const dashboardWidgetRoutes = [
-    ...UserDashboardRoutes,
-    ...AdminDashboardRoutes,
-];
-
-export default dashboardWidgetRoutes;
+export default allWidgets;

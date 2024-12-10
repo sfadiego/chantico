@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string(ProductModel::NOMBRE);
             $table->float(ProductModel::PRECIO);
-            $table->string(ProductModel::DESCRIPCION)->nullable();
+            $table->text(ProductModel::DESCRIPCION)->nullable();
 
             $table->foreignId(ProductModel::FOTO_ID)->nullable()
                 ->constrained('product_image');

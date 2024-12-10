@@ -87,11 +87,11 @@ class MainOrderReportModel extends Model
         return ($record);
     }
 
-    public function getActiveSale(): MainOrderReportModel
+    public function getActiveSale(): MainOrderReportModel | array
     {
         return MainOrderReportModel::with('user')
             ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
-            ->first();
+            ->first() ?? [];
     }
 
     public static function openSales(

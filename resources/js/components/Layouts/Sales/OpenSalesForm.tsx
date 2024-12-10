@@ -16,7 +16,6 @@ export const OpenSalesForm = () => {
     const { user: { id, rol_id } } = useAxios();
     const [currentUserId, setCurrentUserId] = useState(0);
 
-
     useEffect(() => {
         if (id) { setCurrentUserId(id); }
     }, [id]);
@@ -30,7 +29,6 @@ export const OpenSalesForm = () => {
         onError: ({ response }) => {
             const { data: { message } } = response;
             toast.error(message);
-            console.log(response);
         }
     });
     let initialValues = {
@@ -40,6 +38,9 @@ export const OpenSalesForm = () => {
 
     return (
         <>
+            <div className="alert alert-info" role="alert">
+                Indica el efectivo con el que iniciaras las ventas
+            </div>
             <Formik
                 initialValues={initialValues}
                 onSubmit={props.onSubmit}

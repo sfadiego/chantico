@@ -3,8 +3,23 @@ import { AppConfig } from '../../../configs/appConfig';
 import img from '@assets/logo_chantico.png';
 import { OpenSalesForm } from '../../../components/Layouts/Sales/OpenSalesForm';
 import { ActiveSale } from '@/components/Layouts/Sales/ActiveSale';
+import { useActiveSale } from '@/components/Layouts/Sales/hooks/useActiveSale';
+import { SalesStatusEnum } from '@/enums/SalesStatusEnum';
+import LoadingComponent from '@/components/Layouts/LoadingComponent';
+
+const Component = ({ status }: { status: number }) => {
+    if (status == SalesStatusEnum.Open) {
+        return <ActiveSale />;
+    }
+
+    return <OpenSalesForm />
+}
 
 const OpenSalesLayout = () => {
+    let { isLoading, showData, info, refetch } = useActiveSale();
+    if (isLoading && !showData) return <LoadingComponent />;
+    const { estatus_caja } = info;
+
     return (
         <Container>
             <Row className='justify-content-md-center'>
@@ -15,19 +30,13 @@ const OpenSalesLayout = () => {
             <Row className='justify-content-md-center'>
                 <div className="col-md-12 text-center">
                     <h1>Bienvenidos a <b>{AppConfig.AppName}</b></h1>
-                    <div className="alert alert-info" role="alert">
-                        Indica el efectivo con el que iniciaras las ventas
-                    </div>
                 </div>
-                <div className="col-md-12 mb-2">
-                    <ActiveSale />
-                </div>
-                <div className="col-md-12">
-                    <OpenSalesForm />
+                <div className="col-md-12 mt-2 mb-2">
+                    <Component status={estatus_caja} />
                 </div>
             </Row>
         </Container>
     )
 }
 
-export default OpenSalesLayout; 
+export default OpenSalesLayout;

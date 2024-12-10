@@ -1,38 +1,30 @@
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { Widget } from './Widget';
 import { useAxios } from '@/hooks/useAxios';
-import { RoleEnum } from '@/enums/RoleEnum';
-import dashboardWidgetRoutes, { OpenSalesWidgetRoute } from '@/router/widgets.routes';
 import { useEffect, useState } from 'react';
-import { IWidgetProps } from '@/intefaces/IWidgetProps';
-
-
-const OpenSalesWidget = () => {
-    return <Row>
-        <Col md={3}>
-            <Widget {...OpenSalesWidgetRoute} >
-                {OpenSalesWidgetRoute.children}
-            </Widget>
-        </Col>
-    </Row>
-}
+import allWidgets from '@/router/widgets.routes';
 
 export const WidgetLayout = () => {
     const { user: { rol_id }, sistemaId } = useAxios();
-    if (!sistemaId) {
-        return <OpenSalesWidget></OpenSalesWidget>
-    }
-    // console.log(sistemaId);
+    const [widgets, setwidgets] = useState(allWidgets);
+    useEffect(() => {
+        if (!sistemaId) {
+            const widgetWhenOpenSales = allWidgets.filter(item => item.usedWhenClosedSales
+                && item.role.includes(rol_id))
+            setwidgets(widgetWhenOpenSales);
+        } else {
+            const widgetByRole = allWidgets.filter(item => item.role.includes(rol_id)
+                && !item.usedWhenClosedSales
+            )
+            setwidgets(widgetByRole);
+        }
 
-    // const options = rol_id == RoleEnum.Admin ? dashboardWidgetRoutes : dashboardWidgetRoutes.filter(route => {
-    //     return !route.admin;
-    // });
-    // const options = dashboardWidgetRoutes;
+    }, [sistemaId, rol_id])
     return (
         <Row className="mb-3">
-            {/* {
-                options.map((item, key) => {
-                    return <Col sm={item.size} xs={item.size} key={key} md={item.size}>
+            {
+                widgets.map((item, key) => {
+                    return <Col sm={6} xs={3} key={key} md={3}>
                         <Widget {...item} >
                             {
                                 item.children
@@ -40,7 +32,7 @@ export const WidgetLayout = () => {
                         </Widget>
                     </Col>
                 })
-            } */}
+            }
         </Row>
     )
 }

@@ -90,6 +90,7 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         logout,
         axiosApi,
         sistemaId,
+        setSistema
     };
 
     return <AxiosContext.Provider value={value}> {children} </AxiosContext.Provider>
