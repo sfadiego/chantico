@@ -7,19 +7,6 @@ import { RoutesAdmin } from "./modules/admin.routes";
 import { RoleEnum } from "@/enums/RoleEnum";
 
 
-//widgets
-// sin abrir ventas
-//   abrir caja
-//   ver ventas por fechas
-//   productos mas vendidos
-
-// abriendo ventas
-//   ir a listado de ordenes
-
-//REGLAS DE NEGOCIO: validar si es admin,
-//si se muestra para cliente y admin, 
-//si se va a mostrar, etc.
-
 const allWidgets = [
     {
         cardTitle: 'Abrir Caja',
@@ -38,7 +25,7 @@ const allWidgets = [
         usedWhenClosedSales: false,
         image: ImgEnsalada,
         children: <>
-            <NavLink to={RoutesAdmin.CloseSalesSummary} end> Ir a cerrar caja </NavLink>
+            <NavLink to={RoutesAdmin.CloseSales} end> Ir a cerrar caja </NavLink>
         </>
     },
     {

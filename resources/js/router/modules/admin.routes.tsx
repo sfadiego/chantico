@@ -7,6 +7,8 @@ import { CategoryList } from '@/components/Layouts/Categories/CategoryList';
 import { UpdateCategoryLayout } from '@/pages/Admin/Category/UpdateCategoryLayout';
 import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
 import OpenSalesLayout from '@/pages/Admin/Sales/OpenSalesLayout';
+import CloseSalesLayout from '@/components/Layouts/Sales/CloseSalesLayout';
+import { SalesSummaryLayout } from '@/components/Layouts/Sales/SalesSummaryLayout';
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'));
 export enum RoutesAdmin {
@@ -17,7 +19,8 @@ export enum RoutesAdmin {
     CategoryList = '/admin/category-list',
     Category = '/admin/category/:id',
     OpenSales = '/admin/open-sales',
-    CloseSalesSummary = '/admin/sales-summary/:id',
+    CloseSales = '/admin/close-sales',
+    SalesSummary = '/admin/sales-summary/:id',
 }
 
 /**
@@ -76,8 +79,14 @@ export const AdminRoutes = [
         hasPermission: (user: IUser) => hasPermission(user)
     },
     {
-        path: RoutesAdmin.CloseSalesSummary,
-        element: <>Sales Summary</>,
+        path: RoutesAdmin.CloseSales,
+        element: <CloseSalesLayout />,
+        private: true,
+        hasPermission: (user: IUser) => hasPermission(user)
+    },
+    {
+        path: RoutesAdmin.SalesSummary,
+        element: <SalesSummaryLayout/>,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },

@@ -15,7 +15,7 @@ export const ActiveSale = () => {
         cardTitle: `Venta Activa`,
         description: `Existe una venta abierta el dia ${date}`,
         children: <>
-            <NavLink to={RoutesAdmin.CloseSalesSummary} end> Cerrar Caja </NavLink>
+            <NavLink to={RoutesAdmin.CloseSales} end> Cerrar Caja </NavLink>
         </>
     };
     return (

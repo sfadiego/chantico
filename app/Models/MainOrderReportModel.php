@@ -74,7 +74,7 @@ class MainOrderReportModel extends Model
         $this->update([
             self::VENTA_DIA => $this->totalSalesByDay(),
             self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesByDay(),
-            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSE_SALES
+            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSED
         ]);
 
         return $this->refresh();

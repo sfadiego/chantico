@@ -7,5 +7,5 @@ export interface IAuthContextType {
     user: IUser | null,
     axiosApi: AxiosInstance,
     sistemaId: number,
-    setSistema: (sistema: number) => void,
+    setSistema: (sistema: number|null) => void,
 }

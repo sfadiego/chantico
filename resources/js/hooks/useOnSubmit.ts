@@ -22,7 +22,7 @@ export const useOnSubmit = <Request = any, Response = any>({
             } else if (onError) {
                 onError(error);
             } else {
-                console.log(error.response);
+                console.log(error);
                 toast.error(error.response?.data.message);
             }
         }
