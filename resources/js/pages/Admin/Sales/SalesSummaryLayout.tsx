@@ -2,11 +2,12 @@ import React from 'react'
 import { Col, Container, Image, Row, Table } from 'react-bootstrap'
 import img from '@assets/logo_chantico.png';
 import { useDetailOfCloseSales, useTotalCloseSales } from '@/services/useOpenSalesService';
-import { useParams } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import LoadingComponent from '@/components/Layouts/LoadingComponent';
 import moment from 'moment';
 import { IOrder } from '@/intefaces/IOrder';
 import { SummaryOrdersTable } from '@/components/Layouts/Tables/SummaryOrdersTable';
+import { RoutesAdmin } from '@/router/modules/admin.routes';
 
 
 const useDetailSale = (systemId: number) => {
@@ -42,7 +43,12 @@ export const SalesSummaryLayout = () => {
                     <p><b>Venta Total</b>: ${venta_dia}</p>
                 </Col>
                 <Col md={12} className='mt-4'>
-                    <SummaryOrdersTable orders={orders}/>
+                    <NavLink className={`btn btn-secondary`}
+                        to={RoutesAdmin.Dashboard} end> Regresar
+                    </NavLink>
+                </Col>
+                <Col md={12} className='mt-4'>
+                    <SummaryOrdersTable orders={orders} />
                 </Col>
             </Row>
         </Container >

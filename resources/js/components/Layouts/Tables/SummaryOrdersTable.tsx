@@ -17,7 +17,6 @@ export const SummaryOrdersTable = ({ orders }: IOrdersTableProps) => {
                         <th>Total</th>
                         <th>SubTotal</th>
                         <th>Descuento</th>
-                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,14 +27,12 @@ export const SummaryOrdersTable = ({ orders }: IOrdersTableProps) => {
                             nombre_pedido,
                             subtotal,
                             total }: IOrder) => {
-                            const date = moment(created_at).format("ll");
                             return <tr key={id}>
                                 <td>{id}</td>
                                 <td>{nombre_pedido}</td>
                                 <td>{total}</td>
                                 <td>{subtotal}</td>
                                 <td>{descuento}</td>
-                                <td>{date}</td>
                             </tr>
                         })
                     }
