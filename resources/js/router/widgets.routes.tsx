@@ -29,16 +29,6 @@ const allWidgets = [
         </>
     },
     {
-        cardTitle: 'Mas vendido',
-        description: 'Producto mas vendido',
-        role: [RoleEnum.Admin],
-        usedWhenClosedSales: true,
-        image: ImgEnsalada,
-        children: <>
-            <b>Pollini</b>
-        </>
-    },
-    {
         cardTitle: 'Ordenes',
         description: 'Listado de ordenes',
         image: ImgBebida,

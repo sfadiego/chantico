@@ -5,7 +5,8 @@ import { useCloseSales } from '@/services/useOpenSalesService';
 import moment from 'moment';
 import { IMainOrderReport } from '@/intefaces/IMainOrderReport';
 import LoadingComponent from '../LoadingComponent';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { RoutesAdmin } from '@/router/modules/admin.routes';
 
 export const CloseSalesForm = ({ sistemaId, systemInfo }: {
     sistemaId: number,
@@ -52,6 +53,10 @@ export const CloseSalesForm = ({ sistemaId, systemInfo }: {
                     >
                         <i className="bi bi-coin"></i> Cerrar Ventas
                     </Button>
+                    <NavLink className={`btn btn-light ms-2`}
+                        to={RoutesAdmin.Dashboard} end> Regresar
+                    </NavLink>
+
                 </CardBody>
             </Card>
         </div>

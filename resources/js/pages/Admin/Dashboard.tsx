@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const Dashboard = () => {
     const { isLoading, showData, info, refetch } = useActiveSale();
-    const { sistemaId, setSistema } = useAxios();
+    const {  setSistema } = useAxios();
     if (isLoading && showData) return <LoadingComponent />;
     useEffect(() => {
         if (info) {
@@ -24,6 +24,7 @@ const Dashboard = () => {
                 <NavBarOptionContainer>
                     <NavBarOptions label="Productos" href={RoutesAdmin.ProductList} />
                     <NavBarOptions label="Categorias" href={RoutesAdmin.CategoryList} />
+                    <NavBarOptions label="Estadisticas" href={RoutesAdmin.Statistics} />
                 </NavBarOptionContainer>
             </NavBarLayout>
             <main className="container-fluid p-4">

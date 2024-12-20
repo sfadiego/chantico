@@ -9,7 +9,7 @@ import LoadingComponent from './LoadingComponent';
 import { useParams } from 'react-router-dom';
 import { NavBarOptionContainer } from './NavBar/NavBarOptionContainer';
 
-export const TakeOrderLayout = () => {
+export const TakeOrder = () => {
     const { id } = useParams();
     if (!id) {
         return <LoadingComponent></LoadingComponent>;
@@ -51,4 +51,4 @@ export const TakeOrderLayout = () => {
     )
 }
 
-export default TakeOrderLayout;
+export default TakeOrder;

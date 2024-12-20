@@ -1,8 +1,8 @@
 import React from 'react'
-import NavBarLayout from '../NavBar/NavBarLayout'
-import { NavBarOptionContainer } from '../NavBar/NavBarOptionContainer'
+import NavBarLayout from '../../../components/Layouts/NavBar/NavBarLayout'
+import { NavBarOptionContainer } from '../../../components/Layouts/NavBar/NavBarOptionContainer'
 import { Row } from 'react-bootstrap'
-import { TableProductList } from '../Tables/TableProductList'
+import { TableProductList } from '../../../components/Layouts/Tables/TableProductList'
 
 export const ProductList = () => {
   return (

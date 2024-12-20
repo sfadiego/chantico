@@ -13,7 +13,7 @@ export const UpdateCategoryLayout = () => {
         </NavBarOptionContainer>
       </NavBarLayout>
       <main className="container-fluid p-4">
-        <UpdateCategoryForm/>
+        <UpdateCategoryForm />
       </main>
     </>
   )

@@ -3,9 +3,9 @@ import { useAxios } from '@/hooks/useAxios';
 import { Container, Image, Row } from 'react-bootstrap';
 import img from '@assets/logo_chantico.png';
 import { AppConfig } from '@/configs/appConfig';
-import { useActiveSale } from './hooks/useActiveSale';
-import LoadingComponent from '../LoadingComponent';
-import { CloseSalesForm } from './CloseSalesForm';
+import { useActiveSale } from '../../../components/Layouts/Sales/hooks/useActiveSale';
+import LoadingComponent from '../../../components/Layouts/LoadingComponent';
+import { CloseSalesForm } from '../../../components/Layouts/Sales/CloseSalesForm';
 import { useNavigate } from 'react-router-dom';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
 
