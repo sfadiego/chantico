@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatusEnum;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Models\MainOrderReportModel;
 use App\Models\OrderModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -13,9 +14,16 @@ class OrderController extends Controller
 {
     public function index(): JsonResponse
     {
-        return Response::success(
-            OrderModel::with('status')->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)->get()
-        );
+        $activeReportOrders =  (new MainOrderReportModel)->getActiveSale();
+        if (empty($activeReportOrders?->id)) {
+            return Response::success([]);
+        }
+
+        $orders = OrderModel::with('status')
+            ->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)
+            ->where('sistema_id', $activeReportOrders->id)
+            ->get();
+        return Response::success($orders);
     }
 
     public function store(OrderStoreRequest $params): JsonResponse

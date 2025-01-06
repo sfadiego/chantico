@@ -5,7 +5,6 @@ import { useDetailOfCloseSales, useTotalCloseSales } from '@/services/useOpenSal
 import { Link, NavLink, useParams } from 'react-router-dom';
 import LoadingComponent from '@/components/Layouts/LoadingComponent';
 import moment from 'moment';
-import { IOrder } from '@/intefaces/IOrder';
 import { SummaryOrdersTable } from '@/components/Layouts/Tables/SummaryOrdersTable';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
 

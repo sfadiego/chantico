@@ -1,30 +1,32 @@
-import { Button, Col, Image, Row } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useStoreOpenSales } from '@/services/useOpenSalesService.ts';
 import { useOpenSales } from './hooks/useOpenSale.tsx';
 import { Textarea } from '@/components/Textarea/Textarea.tsx';
-import { Link } from 'react-router-dom';
-import { RoutesAdmin } from '@/router/modules/admin.routes.tsx';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAxios } from '@/hooks/useAxios.tsx';
 import { RoleEnum } from '@/enums/RoleEnum.ts';
 import { useEffect, useState } from 'react';
-import LoadingComponent from '../LoadingComponent.tsx';
 import { toast } from 'react-toastify';
-import { ActiveSale } from './ActiveSale.tsx';
 
 export const OpenSalesForm = () => {
     const { user: { id, rol_id } } = useAxios();
+    const navigate = useNavigate();
     const [currentUserId, setCurrentUserId] = useState(0);
 
     useEffect(() => {
         if (id) { setCurrentUserId(id); }
     }, [id]);
 
+
     const dashboardPath = `${rol_id == RoleEnum.Admin ? '/admin' : '/user'}`;
     const mutate = useStoreOpenSales();
     const props = useOpenSales({
-        mutateAsync: mutate.mutateAsync, onSuccess(data) {
-            console.log(data);
+        mutateAsync: mutate.mutateAsync,
+        onSuccess({ success }) {
+            if (success) {
+                navigate(`${dashboardPath}/dashboard`);
+            }
         },
         onError: ({ response }) => {
             const { data: { message } } = response;

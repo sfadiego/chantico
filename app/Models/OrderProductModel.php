@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 class OrderProductModel extends Model
 {
@@ -36,5 +38,26 @@ class OrderProductModel extends Model
     public function product(): HasOne
     {
         return $this->hasOne(ProductModel::class, 'id', self::PRODUCTO_ID);
+    }
+
+    public static function top3BestSeller(string $date = '')
+    {
+        return OrderProductModel::with('product')
+            ->select(DB::raw('SUM(cantidad) as sumatoria'), 'producto_id')
+            ->when($date !== '', function ($q) use ($date) {
+                $q->whereMonth('order_product.created_at', Carbon::parse($date)->month)
+                    ->whereYear('order_product.created_at', Carbon::parse($date)->year);
+            })
+            ->groupBy('producto_id')
+            ->orderByDesc('sumatoria')
+            ->limit(3)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->product->id,
+                    'product' => $item->product->nombre,
+                    'total' => $item->sumatoria,
+                ];
+            });
     }
 }

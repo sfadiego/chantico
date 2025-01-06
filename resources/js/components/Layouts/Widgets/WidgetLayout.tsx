@@ -7,6 +7,7 @@ import allWidgets from '@/router/widgets.routes';
 export const WidgetLayout = () => {
     const { user: { rol_id }, sistemaId } = useAxios();
     const [widgets, setwidgets] = useState(allWidgets);
+    // const [isLoading, setIsLoading] = useState(allWidgets); //TODO: agregar un loading 
     useEffect(() => {
         if (!sistemaId) {
             const widgetWhenOpenSales = allWidgets.filter(item => item.usedWhenClosedSales

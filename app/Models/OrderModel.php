@@ -94,4 +94,5 @@ class OrderModel extends Model
             }])
             ->first()->orders->count();
     }
+
 }

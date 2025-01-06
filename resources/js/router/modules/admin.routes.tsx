@@ -4,14 +4,15 @@ import { RoleEnum } from '../../enums/RoleEnum'
 import { UpdateCategoryLayout } from '@/pages/Admin/Category/UpdateCategoryLayout';
 import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
 import OpenSalesLayout from '@/pages/Admin/Sales/OpenSalesLayout';
-import { StatisticsLayout } from '@/pages/Admin/Statistics/StatisticsLayout';
 import { SalesSummaryLayout } from '@/pages/Admin/Sales/SalesSummaryLayout';
 import CloseSalesLayout from '@/pages/Admin/Sales/CloseSalesLayout';
-import { CategoryList } from '@/pages/Admin/Category/CategoryList';
-import { ProductList } from '@/pages/Admin/Product/ProductList';
 import TakeOrderLayoutTemp from '@/pages/TakeOrderLayoutTemp';
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'));
+const CategoryList = lazy(() => import('@/pages/Admin/Category/CategoryList'));
+const ProductList = lazy(() => import('@/pages/Admin/Product/ProductList'));
+const StatisticsLayout = lazy(() => import('@/pages/Admin/Statistics/StatisticsLayout'));
+
 export enum RoutesAdmin {
     Dashboard = '/admin/dashboard',
     TakeOrder = '/take-order/:id',

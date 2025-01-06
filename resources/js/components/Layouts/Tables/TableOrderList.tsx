@@ -7,6 +7,7 @@ import { OptionsOrderTable } from './OptionsOrderTable';
 import { useEffect, useState } from 'react';
 import { ModalNewOrder } from '../Modals/ModalNewOrder';
 import { useAxios } from '@/hooks/useAxios';
+import { EmptyData } from './EmptyData';
 
 
 const getOrders = () => {
@@ -67,6 +68,9 @@ export const TableOrderList = () => {
                                     <td> <OptionsOrderTable refetch={refetch} orderId={id} /> </td>
                                 </tr>
                             })
+                        }
+                        {
+                            orders.length === 0 && <EmptyData />
                         }
                     </tbody>
                 </Table>

@@ -18,6 +18,9 @@ const ItemAdded = ({ label, items, productId, price, setProduct }: ItemAddedProp
                 <div className="p-1 flex-fill">
                     {label.length > 20 ? label.substring(0, 20) + ' ...' : label}
                 </div>
+                <Button onClick={() => { }} className="btn btn-info btn-sm p-1 text-white">
+                    <i className="bi bi-percent"></i>
+                </Button>
                 <div className="p-1">${items * price}</div>
                 <Button onClick={() => setProduct(productId)} className="btn btn-info btn-sm p-0 text-white">
                     <i className="bi bi-info-lg"></i>

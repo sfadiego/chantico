@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\DashboardWidgetController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\OrderController;
@@ -117,6 +118,12 @@ Route::middleware('auth:sanctum')->group(function () {
                         Route::get('detail-close-sales', 'detailCloseSales');
                         Route::post('close', 'closeSales');
                     });
+                    Route::controller(StatisticsController::class)
+                        ->group(function () {
+                            Route::prefix('statistics')->group(function () {
+                                Route::get('best-seller', 'top3BestSeller'); //ProductController::top3BestSeller
+                            });
+                        });
                 });
         });
 

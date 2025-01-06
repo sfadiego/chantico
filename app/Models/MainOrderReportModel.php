@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MainOrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use stdClass;
 
 class MainOrderReportModel extends Model
 {
@@ -82,16 +83,16 @@ class MainOrderReportModel extends Model
 
     public static function validateIfOpenSaleActive(): bool
     {
-        $record = MainOrderReportModel::where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
-            ->first()->id;
-        return ($record);
+        return MainOrderReportModel::where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
+            ->exists();
     }
 
-    public function getActiveSale(): MainOrderReportModel | array
+    public function getActiveSale(): MainOrderReportModel | stdClass
     {
-        return MainOrderReportModel::with('user')
-            ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN)
-            ->first() ?? [];
+        $order = MainOrderReportModel::with('user')
+            ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN);
+
+        return $order->exists() ? $order->first() : new stdClass();
     }
 
     public static function openSales(

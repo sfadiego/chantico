@@ -9,7 +9,7 @@ export const OrderListLayout = () => {
             <NavBarLayout ></NavBarLayout>
             <main className="container-fluid p-4">
                 <Row>
-                    <TableOrderList></TableOrderList>
+                    <TableOrderList/>
                 </Row>
             </main>
         </>

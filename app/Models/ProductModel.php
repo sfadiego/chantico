@@ -86,6 +86,6 @@ class ProductModel extends Model
 
     public function category(): HasOne
     {
-        return $this->hasOne(CategoryModel::class, 'id','categoria_id');
+        return $this->hasOne(CategoryModel::class, 'id', 'categoria_id');
     }
 }
