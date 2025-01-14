@@ -11,7 +11,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\StatisticsController;
-use App\Http\Controllers\DashboardWidgetController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
@@ -40,15 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::prefix('{category}')->group(function () {
                 Route::get('', 'show');
                 Route::get('product', 'categoryProduct');
-            });
-        });
-    });
-
-    Route::prefix('widget')->group(function () {
-        Route::controller(DashboardWidgetController::class)->group(function () {
-            Route::get('/', 'index');
-            Route::prefix('{widget}')->group(function () {
-                Route::get('', 'show');
             });
         });
     });
@@ -121,7 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::controller(StatisticsController::class)
                         ->group(function () {
                             Route::prefix('statistics')->group(function () {
-                                Route::get('best-seller', 'top3BestSeller'); //ProductController::top3BestSeller
+                                Route::get('best-seller', 'top3BestSeller');
                             });
                         });
                 });

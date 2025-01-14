@@ -6,7 +6,7 @@ import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
 import OpenSalesLayout from '@/pages/Admin/Sales/OpenSalesLayout';
 import { SalesSummaryLayout } from '@/pages/Admin/Sales/SalesSummaryLayout';
 import CloseSalesLayout from '@/pages/Admin/Sales/CloseSalesLayout';
-import TakeOrderLayoutTemp from '@/pages/TakeOrderLayoutTemp';
+import TakeOrderLayout from '@/pages/TakeOrderLayout';
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'));
 const CategoryList = lazy(() => import('@/pages/Admin/Category/CategoryList'));
@@ -39,7 +39,7 @@ export const AdminRoutes = [
     },
     {
         path: RoutesAdmin.TakeOrder,
-        element: <TakeOrderLayoutTemp />,
+        element: <TakeOrderLayout />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },

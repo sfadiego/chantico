@@ -28,7 +28,7 @@ export const ModalCategory = ({ show, closeModal, refetch }: IModalProductProps)
     return (
         <MyModal modalTitle={title} show={show} >
             <Formik {...props} >
-                {({ isSubmitting, errors, values, handleChange, handleBlur }) => (
+                {({ isSubmitting }) => (
                     < Form >
                         <div className='mb-3'>
                             <label className='form-label' htmlFor="">Nombre de categoria </label>

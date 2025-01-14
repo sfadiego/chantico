@@ -6,7 +6,6 @@ use App\Http\Requests\OrderProductStoreRequest;
 use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
 use App\Models\OrderProductModel;
-use App\Models\ProductModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -60,14 +59,24 @@ class OrderProductController extends Controller
      */
     public function update(string $orderId, string $productId, OrderProductUpdateRequest $params): JsonResponse
     {
-        $discount = $params->descuento ?? 0;
-        $data = OrderProductModel::where('pedido_id', $orderId)
-            ->where('producto_id', $productId)
-            ->first()
-            ->updateOrderProduct(
-                cantidad: $params->cantidad,
-                descuento: $discount,
-            );
+        $orderProduct = OrderProductModel::where('pedido_id', $orderId)
+            ->where('producto_id', $productId);
+
+        if (!$orderProduct->exists()) {
+            return Response::error("La orden no contiene este producto");
+        }
+
+        $orderProduct = $orderProduct->first();
+        $data = [];
+        if (isset($params?->cantidad)) {
+            $data[OrderProductModel::CANTIDAD] = $params->cantidad;
+        }
+
+        if (isset($params?->descuento)) {
+            $data[OrderProductModel::DESCUENTO] = $params->descuento;
+        }
+
+        $orderProduct->update($data);
 
         $order =  OrderModel::find($orderId);
         $orderDetail = $order->totalAndSubTotalOrder();
@@ -76,7 +85,7 @@ class OrderProductController extends Controller
             'subtotal' => $orderDetail['subtotal'],
         ]);
 
-        return Response::success($data);
+        return Response::success($orderProduct->refresh());
     }
 
     /**

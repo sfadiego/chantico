@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { RoleEnum } from '@/enums/RoleEnum';
 import { IUser } from '@/intefaces/IUser';
 import OrderList from '@/pages/OrderList';
-import TakeOrderLayoutTemp from '@/pages/TakeOrderLayoutTemp';
+import TakeOrderLayout from '@/pages/TakeOrderLayout';
 
 
 export enum RoutesUser {
@@ -24,7 +24,7 @@ export const UserRoutes = [
     },
     {
         path: RoutesUser.TakeOrder,
-        element: <TakeOrderLayoutTemp />,
+        element: <TakeOrderLayout />,
         private: false,
         hasPermission: (user: IUser) => hasPermission(user)
     },

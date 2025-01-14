@@ -1,6 +1,6 @@
 import { TakeOrder } from "@/components/Layouts/TakeOrder";
 
-const TakeOrderLayoutTemp = () => {
+const TakeOrderLayout = () => {
     return <TakeOrder />
 }
-export default TakeOrderLayoutTemp;
+export default TakeOrderLayout;
