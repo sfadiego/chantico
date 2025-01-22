@@ -21,8 +21,8 @@ export const TakeOrder = () => {
     const [activeTab, setactiveTab] = useState(0)
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
     let { isLoading, order, productsInOrder, refetch } = useGetOrderDetail(orderId);
-    const { estatus_pedido_id } = order;
     if (isLoading) return <LoadingComponent></LoadingComponent>;
+    const { estatus_pedido_id } = order;
     return (
         <>
             <NavBarLayout >
