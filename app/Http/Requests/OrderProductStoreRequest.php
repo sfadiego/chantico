@@ -23,8 +23,8 @@ class OrderProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            OrderProductModel::DESCUENTO => 'nullable|between:1,100',
-            OrderProductModel::CANTIDAD => 'required|between:1,10',
+            OrderProductModel::DESCUENTO => 'nullable|min:0|max:99',
+            OrderProductModel::CANTIDAD => 'required|min:1|max:10',
             OrderProductModel::PRODUCTO_ID => 'required|exists:product,id',
             OrderProductModel::PRECIO => 'required',
         ];

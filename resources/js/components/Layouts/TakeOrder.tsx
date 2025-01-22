@@ -8,6 +8,7 @@ import useGetOrderDetail from '@/hooks/useOrderDetail';
 import LoadingComponent from './LoadingComponent';
 import { useParams } from 'react-router-dom';
 import { NavBarOptionContainer } from './NavBar/NavBarOptionContainer';
+import { OrderStatusEnum } from '@/enums/OrderStatusEnum';
 
 export const TakeOrder = () => {
     const { id } = useParams();
@@ -20,11 +21,12 @@ export const TakeOrder = () => {
     const [activeTab, setactiveTab] = useState(0)
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
     let { isLoading, order, productsInOrder, refetch } = useGetOrderDetail(orderId);
+    const { estatus_pedido_id } = order;
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
             <NavBarLayout >
-                <NavBarOptionContainer/>
+                <NavBarOptionContainer />
                 <form className="col-md-3" role="search">
                     <input className="form-control" type="search"
                         onChange={(e) => setSearchProduct(e.target.value)}
@@ -39,12 +41,15 @@ export const TakeOrder = () => {
                 />
                 <Container fluid >
                     <CategoriesTabs activeTab={activeTab} setactiveTab={setactiveTab} selectCategory={selectCategory} />
-                    <ProductsContainer
-                        refetch={refetch}
-                        productName={productName}
-                        currentOrderId={orderId}
-                        categoryId={categoryId}
-                    />
+                    {
+                        estatus_pedido_id == OrderStatusEnum.InProcess &&
+                        < ProductsContainer
+                            refetch={refetch}
+                            productName={productName}
+                            currentOrderId={orderId}
+                            categoryId={categoryId}
+                        />
+                    }
                 </Container>
             </main>
         </>

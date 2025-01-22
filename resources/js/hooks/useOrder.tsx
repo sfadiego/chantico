@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 interface IuseOrderProps {
     mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
-    closeModal: (props: boolean) => void,
+    closeModal?: (props: boolean) => void,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
 
@@ -15,7 +15,7 @@ export const useOrder = ({ mutateAsync, refetch, closeModal }: IuseOrderProps) =
         onSuccess: (data) => {
             console.log(data);
             refetch()
-            closeModal(false)
+            closeModal && closeModal(false)
         },
     });
     const validationSchema = Yup.object({

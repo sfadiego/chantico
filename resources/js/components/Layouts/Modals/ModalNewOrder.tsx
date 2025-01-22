@@ -1,5 +1,5 @@
 import "@css/modal.css";
-import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from "@tanstack/react-query";
 import { Button } from 'react-bootstrap';
 import { useStoreOrder } from '@/services/useOrderService';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -10,15 +10,20 @@ import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
 import { RoutesAdmin } from "@/router/modules/admin.routes";
 import { useNavigate } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 interface ModalNewOrderProps {
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
     sistemaId: number,
     show: boolean,
     closeModal: (props: boolean) => void,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
 
-const useHandleOrder = ({ mutateAsync, sistemaId, refetch, closeModal }) => {
+const useHandleOrder = ({
+    mutateAsync,
+    sistemaId
+}: ModalNewOrderProps) => {
     const navigate = useNavigate();
     const { onSubmit } = useOnSubmit({
         mutateAsync,
@@ -51,7 +56,12 @@ const useHandleOrder = ({ mutateAsync, sistemaId, refetch, closeModal }) => {
 
 export const ModalNewOrder = ({ show, closeModal, refetch, sistemaId }: ModalNewOrderProps) => {
     const mutate = useStoreOrder();
-    const props = useHandleOrder({ mutateAsync: mutate.mutateAsync, refetch, closeModal, sistemaId });
+    const props = useHandleOrder({
+        mutateAsync: mutate.mutateAsync,
+        refetch,
+        closeModal,
+        sistemaId
+    });
     const title = "Crear Pedido";
     return (
         <MyModal modalTitle={title} show={show} >

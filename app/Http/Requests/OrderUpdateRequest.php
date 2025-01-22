@@ -23,9 +23,9 @@ class OrderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            OrderModel::DESCUENTO => 'numeric|between:0,99',
+            OrderModel::DESCUENTO => 'numeric|min:0|max:99',
             OrderModel::NOMBRE_PEDIDO => 'nullable',
-            OrderModel::ESTATUS_PEDIDO_ID => 'nullable|exists:order_status,id',
+            OrderModel::ESTATUS_PEDIDO_ID => 'exists:order_status,id',
         ];
     }
 }

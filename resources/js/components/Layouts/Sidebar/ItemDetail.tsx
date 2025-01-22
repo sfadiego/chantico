@@ -76,6 +76,10 @@ const ItemDetail = ({ orderId, currentProductId, setShowDetail, show, refetch }:
 
     const handleIncrement = () => {
         let nuevaCantidad = cantidad + 1;
+        if (nuevaCantidad > 10) {
+            toast.error("No puedes agregar mas de 100 elementos");
+            return;
+        }
         setCantidad(prev => nuevaCantidad);
         const { onSubmit } = useUpdateCantidad({
             mutateAsync: mutate.mutateAsync,

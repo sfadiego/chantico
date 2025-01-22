@@ -8,6 +8,8 @@ import { IOrder } from '@/intefaces/IOrder';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { ModalDiscountOrder } from '../Modals/ModalDiscountOrder';
 import { ModalDiscountProduct } from '../Modals/ModalDiscountProduct';
+import { ModalCalculatePayment } from '../Modals/ModalCalculatePayment';
+import { OrderStatusEnum } from '@/enums/OrderStatusEnum';
 
 interface SidebarProps {
     order: IOrder,
@@ -15,7 +17,7 @@ interface SidebarProps {
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 };
 const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
-    const { id: orderId, total, subtotal, descuento, nombre_pedido } = order;
+    const { id: orderId, total, subtotal, estatus_pedido_id, descuento, nombre_pedido } = order;
     const [showSelectedProduct, setshowSelectedProduct] = useState({ productId: 0, showDetail: false });
     const [showSelectedProductModal, setshowSelectedProductModal] = useState({ productId: 0, descuento: 0 });
 
@@ -32,6 +34,8 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
     const { productId: selectedProductIdDiscount, descuento: selectedProductDiscount } = showSelectedProductModal;
     const [show, setShow] = useState(false);
     const [showDiscountProductModal, setShowDiscountProductModal] = useState(false);
+    const [showCalculatePayModal, setShowCalculatePayModal] = useState(false);
+    const handlePay = () => setShowCalculatePayModal(true);
     return (
         <>
             {
@@ -49,6 +53,15 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                     orderId={orderId}
                     refetch={refetch}
                     closeModal={setShowDiscountProductModal}
+                />
+            }
+            {
+                showCalculatePayModal && <ModalCalculatePayment
+                    show={showCalculatePayModal}
+                    total={total}
+                    refetch={refetch}
+                    orderId={orderId}
+                    closeModal={setShowCalculatePayModal}
                 />
             }
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary content-wrapper">
@@ -74,6 +87,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                                 price={precio}
                                 descuento={descuento}
                                 label={nombre}
+                                disabledActions={estatus_pedido_id == OrderStatusEnum.Closed ? true : false}
                                 items={cantidad} />
                         )
                     }
@@ -93,7 +107,9 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                         </Button>
                     </div>
                     <div className="ps-1 flex-fill">
-                        <Button onClick={() => setShow(true)} className="btn btn-warning col-12">
+                        <Button
+                            disabled={estatus_pedido_id == OrderStatusEnum.Closed ? true : false}
+                            onClick={() => setShow(true)} className="btn btn-warning col-12">
                             <i className="bi bi-percent"></i>
                         </Button>
                     </div>
@@ -103,7 +119,9 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                 <TotalItem ammount={descuento} wrapperClass='text-secondary' label={`Descuento`}></TotalItem>
                 <TotalItem ammount={total} label={`Total`}></TotalItem>
                 <div className="d-grid  mt-2 gap-2">
-                    <Button className="btn btn-success" type='button'>
+                    <Button onClick={() => handlePay()}
+                        disabled={estatus_pedido_id == OrderStatusEnum.Closed ? true : false}
+                        className="btn btn-success" type='button'>
                         Pagar ${total}
                     </Button>
                 </div>

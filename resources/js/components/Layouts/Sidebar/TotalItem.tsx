@@ -1,6 +1,10 @@
-import React from 'react'
+interface ITotalProps {
+    label: string,
+    ammount: number,
+    wrapperClass?: string
+}
 
-export const TotalItem = ({ label, ammount, wrapperClass = '' }) => {
+export const TotalItem = ({ label, ammount, wrapperClass = '' }: ITotalProps) => {
     return (
         <div className={`d-flex ${wrapperClass}`}>
             <div className="p-2 flex-grow-1">{label} </div>

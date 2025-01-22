@@ -9,9 +9,10 @@ interface ItemAddedProps {
     setProduct: (productId: number) => void,
     setProductDiscount: (productId: number) => void,
     setShowDiscountProductModal: (show: boolean) => void,
+    disabledActions: boolean
 }
 
-const ItemAdded = ({ label, items, productId, price, descuento,
+const ItemAdded = ({ label, items, productId, price, descuento, disabledActions = false,
     setProduct,
     setProductDiscount,
     setShowDiscountProductModal }: ItemAddedProps) => {
@@ -40,10 +41,14 @@ const ItemAdded = ({ label, items, productId, price, descuento,
                         priceWithDiscount.toFixed(2)
                     }
                 </div>
-                <Button onClick={() => handleProductDiscount(productId)} className="btn btn-info btn-sm me-1 p-1 text-white">
+                <Button
+                    disabled={disabledActions}
+                    onClick={() => handleProductDiscount(productId)} className="btn btn-info btn-sm me-1 p-1 text-white">
                     <i className="bi bi-percent"></i>
                 </Button>
-                <Button onClick={() => setProduct(productId)} className="btn btn-info btn-sm p-1 text-white">
+                <Button
+                    disabled={disabledActions}
+                    onClick={() => setProduct(productId)} className="btn btn-info btn-sm p-1 text-white">
                     <i className="bi bi-info-lg"></i>
                 </Button>
             </div>
