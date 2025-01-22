@@ -7,6 +7,7 @@ import { IMainOrderReport } from '@/intefaces/IMainOrderReport';
 import LoadingComponent from '../LoadingComponent';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
+import Swal from 'sweetalert2';
 
 export const CloseSalesForm = ({ sistemaId, systemInfo }: {
     sistemaId: number,
@@ -23,6 +24,16 @@ export const CloseSalesForm = ({ sistemaId, systemInfo }: {
             navigate(`/admin/sales-summary/${id}`);
         }
     });
+    const confirmCloseSales = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "Estas seguro que quieres cerrar ventas?",
+            showDenyButton: true,
+            confirmButtonText: "Continuar",
+            denyButtonText: `Cancelar`
+        }).then(({ isConfirmed }) => isConfirmed && handleCloseSales());
+    }
+
     const handleCloseSales = () => {
         onSubmit({}, {
             setErrors: (errors: any) =>
@@ -48,7 +59,7 @@ export const CloseSalesForm = ({ sistemaId, systemInfo }: {
                         Observaciones: {observaciones}
                     </CardText>
                     <Button
-                        onClick={handleCloseSales}
+                        onClick={confirmCloseSales}
                         variant='primary'
                     >
                         <i className="bi bi-coin"></i> Cerrar Ventas

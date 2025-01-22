@@ -10,6 +10,9 @@ import { ModalDiscountOrder } from '../Modals/ModalDiscountOrder';
 import { ModalDiscountProduct } from '../Modals/ModalDiscountProduct';
 import { ModalCalculatePayment } from '../Modals/ModalCalculatePayment';
 import { OrderStatusEnum } from '@/enums/OrderStatusEnum';
+import { Link } from 'react-router-dom';
+import { AdminRoutes } from '@/router/modules/admin.routes';
+import { RoutesUser } from '@/router/modules/users.routes';
 
 interface SidebarProps {
     order: IOrder,
@@ -36,6 +39,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
     const [showDiscountProductModal, setShowDiscountProductModal] = useState(false);
     const [showCalculatePayModal, setShowCalculatePayModal] = useState(false);
     const handlePay = () => setShowCalculatePayModal(true);
+    const disabledPay = estatus_pedido_id == OrderStatusEnum.Closed || !productsInOrder.length;
     return (
         <>
             {
@@ -65,9 +69,9 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                 />
             }
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary content-wrapper">
-                <a href="/" className="d-flex text-dark text-decoration-none">
+                <Link className="d-flex text-dark text-decoration-none" to={RoutesUser.OrderList}>
                     <span className="fs-4">{nombre_pedido}</span>
-                </a>
+                </Link>
                 <hr className="mt2 mb-2" />
                 <div className="mb-auto">
                     {
@@ -120,7 +124,7 @@ const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
                 <TotalItem ammount={total} label={`Total`}></TotalItem>
                 <div className="d-grid  mt-2 gap-2">
                     <Button onClick={() => handlePay()}
-                        disabled={estatus_pedido_id == OrderStatusEnum.Closed ? true : false}
+                        disabled={disabledPay}
                         className="btn btn-success" type='button'>
                         Pagar ${total}
                     </Button>
