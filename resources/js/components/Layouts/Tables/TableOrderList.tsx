@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { ModalNewOrder } from '../Modals/ModalNewOrder';
 import { useAxios } from '@/hooks/useAxios';
 import { EmptyData } from './EmptyData';
+import { ModalCalculatePayment } from '../Modals/ModalCalculatePayment';
 
 
 const getOrders = () => {
@@ -25,7 +26,17 @@ export const TableOrderList = () => {
     let { isLoading, orders, refetch } = getOrders();
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show)
+    const [showCalculatePayModal, setShowCalculatePayModal] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState({
+        orderId: 0,
+        total: 0
+    })
     if (isLoading) return <LoadingComponent></LoadingComponent>;
+    const handleSelectedOrder = (orderId: number, total: number) => {
+        setSelectedOrder({ orderId, total });
+        setShowCalculatePayModal(true);
+    }
+    const { orderId, total } = selectedOrder;
     return (
         <>
             <Col md={12} className='mb-3'>
@@ -65,7 +76,10 @@ export const TableOrderList = () => {
                                     <td>{descuento}</td>
                                     <td>{status?.nombre}</td>
                                     <td>{date}</td>
-                                    <td> <OptionsOrderTable refetch={refetch} orderId={id} /> </td>
+                                    <td> <OptionsOrderTable refetch={refetch}
+                                        callbackSelected={handleSelectedOrder}
+                                        total={total}
+                                        orderId={id} /> </td>
                                 </tr>
                             })
                         }
@@ -79,6 +93,16 @@ export const TableOrderList = () => {
                     sistemaId={sistemaId}
                     closeModal={closeModal}
                     show={show} />
+
+                {
+                    showCalculatePayModal && <ModalCalculatePayment
+                        show={showCalculatePayModal}
+                        total={total}
+                        refetch={refetch}
+                        orderId={orderId}
+                        closeModal={setShowCalculatePayModal}
+                    />
+                }
             </Col>
         </>
     )

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Card, CardBody, CardHeader, CardText } from 'react-bootstrap'
 import { useHandleCloseSales } from './hooks/useHandleCloseSales';
 import { useCloseSales } from '@/services/useOpenSalesService';
@@ -8,6 +7,7 @@ import LoadingComponent from '../LoadingComponent';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 export const CloseSalesForm = ({ sistemaId, systemInfo }: {
     sistemaId: number,
@@ -36,8 +36,10 @@ export const CloseSalesForm = ({ sistemaId, systemInfo }: {
 
     const handleCloseSales = () => {
         onSubmit({}, {
-            setErrors: (errors: any) =>
+            setErrors: (errors: any) => {
                 console.log("error:", errors)
+                toast.error("Error al cerrar ventas");
+            }
         })
     }
     const { created_at, observaciones, efectivo_caja_inicio, user } = systemInfo;

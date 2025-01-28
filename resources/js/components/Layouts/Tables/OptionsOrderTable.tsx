@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 interface OptionsOrderTableProps {
     orderId: number,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
+    callbackSelected: (orderId: number, total: number) => void,
+    total: number
 }
 
-export const OptionsOrderTable = ({ orderId, refetch }: OptionsOrderTableProps) => {
+export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }: OptionsOrderTableProps) => {
     const mutate = useDeleteOrder(orderId);
     const deleteOrder = ({ mutateAsync }) => {
         const { onSubmit } = useOnSubmit({
@@ -22,6 +24,7 @@ export const OptionsOrderTable = ({ orderId, refetch }: OptionsOrderTableProps) 
         return { onSubmit };
     }
 
+    const handleCallback = () => callbackSelected(orderId, total);
     const handleDelete = () => {
         const { onSubmit } = deleteOrder({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
@@ -35,8 +38,8 @@ export const OptionsOrderTable = ({ orderId, refetch }: OptionsOrderTableProps) 
     return (
         <>
             <Button onClick={() => handleDelete()} variant='danger' className='ms-2'> <i className="bi bi-trash"></i> </Button>
-            <Button variant='info' className='ms-2'><i className="bi bi-printer"></i></Button>
-            <Button variant='info' className='ms-2'><i className="bi bi-currency-dollar"></i></Button>
+            <Button variant='warning' className='ms-2'><i className="bi bi-printer"></i></Button>
+            <Button onClick={() => handleCallback()} variant='info' className='ms-2'><i className="bi bi-currency-dollar"></i></Button>
             <a className='btn btn-info ms-2 rounded-0' href={`/take-order/${orderId}`}>
                 <i className="bi bi-arrow-right"></i>
             </a>

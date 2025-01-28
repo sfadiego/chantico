@@ -41,7 +41,7 @@ export const ModalCalculatePayment = ({ show, orderId, total, refetch, closeModa
     }
 
     const formValues = {
-        pago,
+        pago
     }
 
     const validationSchema = Yup.object({
@@ -87,17 +87,18 @@ export const ModalCalculatePayment = ({ show, orderId, total, refetch, closeModa
                         </div>
                         <div className='pt-3 my-modal-footer'>
                             <Button
+                                disabled={isSubmitting || cambio <= 0}
+                                variant='primary'
+                                className="me-2"
+                                type='submit'
+                            >
+                                <i className="bi bi-cash-coin"></i> Pagar y Cerrar
+                            </Button>
+                            <Button
                                 onClick={() => closeModal(false)}
                                 className="me-2"
                                 variant="secondary">
                                 Cerrar
-                            </Button>
-                            <Button
-                                disabled={isSubmitting || cambio <= 0}
-                                variant='primary'
-                                type='submit'
-                            >
-                                Continuar
                             </Button>
                         </div>
                     </Form>

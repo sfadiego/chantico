@@ -13,17 +13,23 @@ import { useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
 
 interface ModalNewOrderProps {
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
     sistemaId: number,
     show: boolean,
     closeModal: (props: boolean) => void,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 }
 
+interface IuseHandleOrderProps {
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
+    sistemaId: number,
+    closeModal: (props: boolean) => void,
+}
+
 const useHandleOrder = ({
     mutateAsync,
     sistemaId
-}: ModalNewOrderProps) => {
+}: IuseHandleOrderProps) => {
     const navigate = useNavigate();
     const { onSubmit } = useOnSubmit({
         mutateAsync,
