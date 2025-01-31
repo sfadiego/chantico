@@ -4,13 +4,13 @@ import { RoleEnum } from '../../enums/RoleEnum'
 import { UpdateCategoryLayout } from '@/pages/Admin/Category/UpdateCategoryLayout';
 import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
 import OpenSalesLayout from '@/pages/Admin/Sales/OpenSalesLayout';
-import { SalesSummaryLayout } from '@/pages/Admin/Sales/SalesSummaryLayout';
-import CloseSalesLayout from '@/pages/Admin/Sales/CloseSalesLayout';
-import TakeOrderLayout from '@/pages/TakeOrderLayout';
 
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'));
 const CategoryList = lazy(() => import('@/pages/Admin/Category/CategoryList'));
 const ProductList = lazy(() => import('@/pages/Admin/Product/ProductList'));
+const TakeOrderLayout = lazy(() => import('@/pages/TakeOrderLayout'));
+const CloseSalesLayout = lazy(() => import('@/pages/Admin/Sales/CloseSalesLayout'));
+const SalesSummaryLayout = lazy(() => import('@/pages/Admin/Sales/SalesSummaryLayout'));
 const StatisticsLayout = lazy(() => import('@/pages/Admin/Statistics/StatisticsLayout'));
 
 export enum RoutesAdmin {

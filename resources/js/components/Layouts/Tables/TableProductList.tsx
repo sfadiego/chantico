@@ -5,6 +5,7 @@ import { useIndexProducts } from '@/services/useProductService';
 import { IProduct } from '@/intefaces/IProduct';
 import { ModalProduct } from '../Modals/ModalProduct';
 import { OptionsProductTable } from './OptionsProductTable';
+import useHandleProducts from '@/hooks/useHandleProducts';
 
 
 const getProducts = () => {
@@ -17,11 +18,14 @@ const getProducts = () => {
     }
 }
 
+interface ITableProductList {
+    search?: string
+}
 
-export const TableProductList = () => {
+export const TableProductList = ({ search = '' }: ITableProductList) => {
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show);
-    let { isLoading, products, refetch } = getProducts();
+    const { showData, isLoading, products, refetch } = useHandleProducts({ productName: search });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>

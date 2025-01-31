@@ -19,7 +19,7 @@ const useDetailSale = (systemId: number) => {
     }
 }
 
-export const SalesSummaryLayout = () => {
+const SalesSummaryLayout = () => {
     const { id } = useParams();
     const { isLoading, data, showData } = useDetailSale(parseInt(id!));
     if (isLoading) return <LoadingComponent></LoadingComponent>;
@@ -53,3 +53,5 @@ export const SalesSummaryLayout = () => {
         </Container >
     )
 }
+
+export default SalesSummaryLayout;

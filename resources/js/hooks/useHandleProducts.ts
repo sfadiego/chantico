@@ -1,16 +1,17 @@
 import { useIndexProducts } from "../services/useProductService";
 
 interface IUseHandleProductsProps {
-    categoryId: number,
+    categoryId?: number,
     productName: string
 }
 
 const useHandleProducts = ({ categoryId, productName }: IUseHandleProductsProps) => {
-    let { isLoading, data } = useIndexProducts({ productName, categoryId });
+    let { isLoading, refetch, data } = useIndexProducts({ productName, categoryId });
     return {
         showData: (!isLoading && data) && true,
         products: data?.data,
-        isLoading
+        isLoading,
+        refetch
     }
 
 }

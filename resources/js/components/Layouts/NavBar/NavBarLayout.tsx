@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Nav } from 'react-bootstrap';
 import { useAxios } from '@/hooks/useAxios';
 import { RoleEnum } from '@/enums/RoleEnum';
+import { LogOut } from '../AuthLayout/LogOut';
 
 const NavBarLayout = ({ children }: { children?: ReactNode }) => {
     const { user } = useAxios();
@@ -18,11 +19,14 @@ const NavBarLayout = ({ children }: { children?: ReactNode }) => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <div className="collapse navbar-collapse" id="navbarChantico">
+                    <div className="collapse navbar-collapse me-2" id="navbarChantico">
                         {children}
                     </div>
-                </div>
+                    <div className="d-flex">
+                        <LogOut/>
+                    </div>
 
+                </div>
             </Nav>
         </>
     )
