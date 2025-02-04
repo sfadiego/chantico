@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import axiosApi from '../configs/axiosConfig'
-import { IUser } from "@resources/intefaces/IUser"
 import { IAuthContextType } from "./interfaces/IAuthContextType"
+import { IUser } from "@/intefaces/IUser"
 
 export const AxiosContext = createContext<IAuthContextType | undefined>(undefined)
 

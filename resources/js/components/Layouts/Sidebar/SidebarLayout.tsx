@@ -16,10 +16,10 @@ import { RoutesUser } from '@/router/modules/users.routes';
 
 interface SidebarProps {
     order: IOrder,
-    productsInOrder: IOrderProduct[],
+    productsInOrder: IOrderProduct[] | [],
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
 };
-const SidebarLayout = ({ order, productsInOrder, refetch }: SidebarProps) => {
+const SidebarLayout = ({ order, productsInOrder = [], refetch }: SidebarProps) => {
     const { id: orderId, total, subtotal, estatus_pedido_id, descuento, nombre_pedido } = order;
     const [showSelectedProduct, setshowSelectedProduct] = useState({ productId: 0, showDetail: false });
     const [showSelectedProductModal, setshowSelectedProductModal] = useState({ productId: 0, descuento: 0 });

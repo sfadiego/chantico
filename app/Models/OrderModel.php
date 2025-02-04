@@ -37,7 +37,9 @@ class OrderModel extends Model
 
     public function orderProducts(): HasMany
     {
-        return $this->hasMany(OrderProductModel::class, 'pedido_id');
+        return $this->hasMany(OrderProductModel::class, 'pedido_id')
+            ->whereHas('product')
+            ->with('product');
     }
 
     public function status(): HasOne
@@ -92,7 +94,8 @@ class OrderModel extends Model
                 $q->whereDate('created_at', now());
                 $q->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS);
             }])
-            ->first()->orders->count();
+            ->first()
+            ->orders
+            ->count();
     }
-
 }

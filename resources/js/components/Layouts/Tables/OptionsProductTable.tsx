@@ -3,6 +3,7 @@ import { useDeleteProduct } from '@/services/useProductService';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 interface OptionsOrderTableProps {
     productId: number,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
@@ -22,6 +23,15 @@ export const OptionsProductTable = ({ productId, refetch }: OptionsOrderTablePro
         return { onSubmit };
     }
 
+    const handleConfirmDelete = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "Estas por borrar este producto",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`
+        }).then(({ isConfirmed }) => isConfirmed && handleDelete());
+    };
     const handleDelete = () => {
         const { onSubmit } = deleteProduct({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
@@ -34,7 +44,7 @@ export const OptionsProductTable = ({ productId, refetch }: OptionsOrderTablePro
 
     return (
         <>
-            <Button onClick={() => handleDelete()} variant='danger' className='ms-2'>
+            <Button onClick={() => handleConfirmDelete()} variant='danger' className='ms-2'>
                 <i className="bi bi-trash"></i>
             </Button>
             <a className='btn btn-info ms-2 rounded-0' href={`/admin/product/${productId}`}>

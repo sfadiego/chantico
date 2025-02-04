@@ -33,6 +33,13 @@ class OrderController extends Controller
 
     public function show(OrderModel $order): JsonResponse
     {
+        $orderDetail = $order->totalAndSubTotalOrder();
+        if ($orderDetail['total'] !== $order->total) {
+            $order->update([
+                'total' => $orderDetail['total'],
+                'subtotal' => $orderDetail['subtotal'],
+            ]);
+        }
         return Response::success($order->load('orderProducts.product'));
     }
 
@@ -51,15 +58,15 @@ class OrderController extends Controller
                 return Response::error("Parametro no permitido $param");
             }
         }
-        #actualiza porcentaje
-        $order->update($params->toArray());
-        #actualiza total/subtotal
-        $orderDetail = $order->totalAndSubTotalOrder();
-        $order->update([
-            'total' => $orderDetail['total'],
-            'subtotal' => $orderDetail['subtotal'],
-        ]);
 
+        #actualiza porcentaje
+        $orderDetail = $order->totalAndSubTotalOrder();
+        $order->update(
+            array_merge($params->toArray(), [
+                'total' => $orderDetail['total'],
+                'subtotal' => $orderDetail['subtotal'],
+            ])
+        );
 
         return Response::success($order);
     }
