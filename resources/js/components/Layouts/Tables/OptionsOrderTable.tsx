@@ -3,6 +3,7 @@ import { useDeleteOrder } from '@/services/useOrderService';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 interface OptionsOrderTableProps {
     orderId: number,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
@@ -26,6 +27,15 @@ export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }:
 
     const handleCallback = () => callbackSelected(orderId, total);
     const handleDelete = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "Estas por borrar esta orden",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`
+        }).then(({ isConfirmed }) => isConfirmed && confirmDelete());
+    }
+    const confirmDelete = () => {
         const { onSubmit } = deleteOrder({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
             setErrors: (errors: any) => {

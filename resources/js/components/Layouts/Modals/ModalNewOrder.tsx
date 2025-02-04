@@ -98,6 +98,7 @@ export const ModalNewOrder = ({ show, closeModal, refetch, sistemaId }: ModalNew
                                 className="form-control"
                                 type="number"
                                 name='total'
+                                disabled
                                 placeholder="total"
                             />
                             <ErrorMessage name="total" className="text-danger p-1" component="div" />
@@ -108,6 +109,7 @@ export const ModalNewOrder = ({ show, closeModal, refetch, sistemaId }: ModalNew
                                 className="form-control"
                                 type="number"
                                 name='subtotal'
+                                disabled
                                 placeholder="subtotal"
                             />
                             <ErrorMessage name="subtotal" className="text-danger p-1" component="div" />

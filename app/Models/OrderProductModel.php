@@ -33,7 +33,8 @@ class OrderProductModel extends Model
 
     public static function top3BestSeller(string $date = '')
     {
-        return OrderProductModel::with('product')
+        $query = OrderProductModel::whereHas('product')
+            ->with(['product'])
             ->select(DB::raw('SUM(cantidad) as sumatoria'), 'producto_id')
             ->when($date !== '', function ($q) use ($date) {
                 $q->whereMonth('order_product.created_at', Carbon::parse($date)->month)
@@ -42,13 +43,14 @@ class OrderProductModel extends Model
             ->groupBy('producto_id')
             ->orderByDesc('sumatoria')
             ->limit(3)
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->product->id,
-                    'product' => $item->product->nombre,
-                    'total' => $item->sumatoria,
-                ];
-            });
+            ->get();
+
+        return $query->map(function ($item) {
+            return [
+                'id' => $item->producto_id,
+                'product' => $item->product->nombre,
+                'total' => $item->sumatoria,
+            ];
+        });
     }
 }
