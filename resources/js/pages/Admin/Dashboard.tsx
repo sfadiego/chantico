@@ -25,6 +25,7 @@ const Dashboard = () => {
                     <NavBarOptions label="Productos" href={RoutesAdmin.ProductList} />
                     <NavBarOptions label="Categorias" href={RoutesAdmin.CategoryList} />
                     <NavBarOptions label="Estadisticas" href={RoutesAdmin.Statistics} />
+                    <NavBarOptions label="Ventas" href={RoutesAdmin.SaleList} />
                 </NavBarOptionContainer>
             </NavBarLayout>
             <main className="container-fluid p-4">

@@ -21,7 +21,7 @@ const useDetailSale = (systemId: number) => {
 
 const SalesSummaryLayout = () => {
     const { id } = useParams();
-    const { isLoading, data, showData } = useDetailSale(parseInt(id!));
+    const { isLoading, data } = useDetailSale(parseInt(id!));
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     const { efectivo_caja_inicio, created_at, venta_dia, orders } = data;
     const date = moment(created_at).format("MMMM Do YYYY")

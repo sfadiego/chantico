@@ -12,6 +12,7 @@ const TakeOrderLayout = lazy(() => import('@/pages/TakeOrderLayout'));
 const CloseSalesLayout = lazy(() => import('@/pages/Admin/Sales/CloseSalesLayout'));
 const SalesSummaryLayout = lazy(() => import('@/pages/Admin/Sales/SalesSummaryLayout'));
 const StatisticsLayout = lazy(() => import('@/pages/Admin/Statistics/StatisticsLayout'));
+const SaleListLayout = lazy(() => import('@/pages/Admin/Sales/SaleListLayout'));
 
 export enum RoutesAdmin {
     Dashboard = '/admin/dashboard',
@@ -24,6 +25,7 @@ export enum RoutesAdmin {
     CloseSales = '/admin/close-sales',
     SalesSummary = '/admin/sales-summary/:id',
     Statistics = '/admin/statistics',
+    SaleList = '/admin/sale-list',
 }
 
 const hasPermission = ({ rol_id }: IUser) => {
@@ -88,6 +90,12 @@ export const AdminRoutes = [
     {
         path: RoutesAdmin.Statistics,
         element: <StatisticsLayout />,
+        private: true,
+        hasPermission: (user: IUser) => hasPermission(user)
+    },
+    {
+        path: RoutesAdmin.SaleList,
+        element: <SaleListLayout />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user)
     },

@@ -100,6 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('system')->group(function () {
             Route::controller(MainOrderReportController::class)
                 ->group(function () {
+                    Route::get('', 'index');
                     Route::get('active-sale', 'getActiveSale');
                     Route::post('open', 'openSales');
                     Route::prefix('{system}')->group(function () {

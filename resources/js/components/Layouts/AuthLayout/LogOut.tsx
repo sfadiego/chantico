@@ -15,8 +15,8 @@ export const LogOut = () => {
     }
     return (
         <>
-            <button onClick={handleLogOut} className="btn btn-dark" type="submit">
-                <i className="bi bi-people-fill"></i>
+            <button onClick={handleLogOut} className="btn btn-light border" type="submit">
+                <i className="bi bi-cup-hot-fill"></i>
             </button>
         </>
     )

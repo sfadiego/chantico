@@ -2,10 +2,9 @@ import { IWidgetProps } from '@/intefaces/IWidgetProps'
 import { Card } from 'react-bootstrap'
 
 
-
 export const Widget = ({ cardTitle, image, description, children }: IWidgetProps) => {
     return (
-        <Card className="rounded-0">
+        <Card style={{ height: `100%` }} className="rounded-0">
             {
                 image && <Card.Img variant="top" src={image} />
             }

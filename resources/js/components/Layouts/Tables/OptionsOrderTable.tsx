@@ -39,7 +39,6 @@ export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }:
         const { onSubmit } = deleteOrder({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
             setErrors: (errors: any) => {
-                console.log(errors.message);
                 errors.message && toast.error(errors.message);
             }
         });
@@ -48,8 +47,12 @@ export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }:
     return (
         <>
             <Button onClick={() => handleDelete()} variant='danger' className='ms-2'> <i className="bi bi-trash"></i> </Button>
-            <Button variant='warning' className='ms-2'><i className="bi bi-printer"></i></Button>
-            <Button onClick={() => handleCallback()} variant='info' className='ms-2'><i className="bi bi-currency-dollar"></i></Button>
+            <Button variant='warning' className='ms-2'>
+                <i className="bi bi-printer"></i>
+            </Button>
+            <Button disabled={total == 0 ? true : false} onClick={() => handleCallback()} variant='info' className='ms-2'>
+                <i className="bi bi-currency-dollar"></i>
+            </Button>
             <a className='btn btn-info ms-2 rounded-0' href={`/take-order/${orderId}`}>
                 <i className="bi bi-arrow-right"></i>
             </a>

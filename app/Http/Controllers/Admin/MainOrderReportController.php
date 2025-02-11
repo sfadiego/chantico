@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Response;
 
 class MainOrderReportController extends Controller
 {
+
+    public function index(): JsonResponse
+    {
+        return Response::success(MainOrderReportModel::all());
+    }
+
     public function show(MainOrderReportModel $system): JsonResponse
     {
         return Response::success(
