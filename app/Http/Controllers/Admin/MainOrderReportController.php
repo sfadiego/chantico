@@ -15,7 +15,11 @@ class MainOrderReportController extends Controller
 
     public function index(): JsonResponse
     {
-        return Response::success(MainOrderReportModel::all());
+        return Response::success(
+            MainOrderReportModel::all()
+                ->sortByDesc('id')
+                ->values()
+        );
     }
 
     public function show(MainOrderReportModel $system): JsonResponse

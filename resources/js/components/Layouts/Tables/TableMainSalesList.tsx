@@ -5,6 +5,7 @@ import { ModalProduct } from '../Modals/ModalProduct';
 import { useGetMainSalesIndex } from '@/services/useOpenSalesService';
 import { IMainOrderReport } from '@/intefaces/IMainOrderReport';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 interface ITableMainSalesList {
     search?: string
@@ -35,6 +36,7 @@ export const TableMainSalesList = ({ search = '' }: ITableMainSalesList) => {
                             <th>Efectivo al cerrar</th>
                             <th>Venta del dia</th>
                             <th>Observaciones</th>
+                            <th>Status</th>
                             <th>Fecha</th>
                             <th>--</th>
                         </tr>
@@ -46,23 +48,26 @@ export const TableMainSalesList = ({ search = '' }: ITableMainSalesList) => {
                                 observaciones,
                                 venta_dia,
                                 created_at,
-                                efectivo_caja_cierre
-
+                                efectivo_caja_cierre,
+                                estatus_caja
                             }: IMainOrderReport) => {
                                 return <tr key={id}>
                                     <td>{id}</td>
                                     <td>{efectivo_caja_cierre}</td>
                                     <td>{venta_dia}</td>
                                     <td>{observaciones}</td>
+                                    <td>{estatus_caja == 1 ? 'En curso' : '--'}</td>
                                     <td>
                                         {
                                             created_at ? moment(created_at).format("MMMM Do YYYY") : ' -- '
                                         }
                                     </td>
                                     <td>
-                                        <a className='btn btn-info ms-2 rounded-0' href={`/admin/sales-summary/${id}`}>
-                                            <i className="bi bi-arrow-right"></i>
-                                        </a>
+                                        {
+                                            estatus_caja == 0 && <Link to={`/admin/sales-summary/${id}`} className='btn btn-info ms-2 rounded-0' >
+                                                <i className="bi bi-arrow-right"></i>
+                                            </Link>
+                                        }
                                     </td>
                                 </tr>
                             })

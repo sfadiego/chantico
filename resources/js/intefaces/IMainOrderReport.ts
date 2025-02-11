@@ -2,7 +2,7 @@ import { IUser } from "./IUser";
 
 export interface IMainOrderReport {
     id?: number,
-    estatus_caja?: boolean,
+    estatus_caja: number,
     efectivo_caja_inicio?: number,
     efectivo_caja_cierre?: number,
     venta_dia?: number,
