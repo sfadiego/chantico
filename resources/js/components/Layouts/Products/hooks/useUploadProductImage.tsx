@@ -15,7 +15,7 @@ const useUploadProductImage = ({ mutateAsync, closeModal, refetch }: {
         onSuccess: (data) => {
             toast.success(`La imagen se cargo correctamente`);
             closeModal(false);
-            refetch
+            refetch()
         },
     });
 

@@ -54,7 +54,7 @@ export const ModalUploadProductImage = ({ show, productId, closeModal, refetch }
                     validationSchema={validationSchema}
                     enableReinitialize
                 >
-                    {({ isSubmitting, errors, values, setFieldValue, handleChange }) => (
+                    {({ isSubmitting, errors, setFieldValue, handleChange }) => (
                         < Form >
                             <div className='mb-3'>
                                 <File
