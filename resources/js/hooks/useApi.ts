@@ -23,7 +23,6 @@ export const axiosPOST = <Data, Paras>(
     axios: AxiosInstance,
     { url, data, params, headers = {} }: IAxiosPostProps<Data, Paras>,
 ) => {
-    console.log(params, data, headers);
     return axios.post(`${host}${url}`, data, {
         params,
         headers,

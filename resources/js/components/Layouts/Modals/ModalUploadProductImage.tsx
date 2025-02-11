@@ -9,47 +9,13 @@ import * as Yup from 'yup';
 import { File } from '@/components/Inputs/File/File';
 import { imageTypes } from '@/enums/FileImageTypesEnum';
 import { toast } from 'react-toastify';
+import useUploadProductImage from '../Products/hooks/useUploadProductImage';
 
 interface IModalUploadProductImage {
     show: boolean,
     productId: number,
     closeModal: (props: boolean) => void,
-}
-
-const useUploadProductImage = ({ mutateAsync, closeModal, refetch }: {
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
-    closeModal: (props: boolean) => void,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
-}) => {
-    const MAX_SIZE = 5000000; // 5MB
-    const { onSubmit } = useOnSubmit({
-        mutateAsync,
-        onSuccess: (data) => {
-            toast.success(`La imagen se cargo correctamente`);
-            closeModal(false);
-            refetch();
-        },
-    });
-
-    const validationSchema = Yup.object({
-        file: Yup.mixed()
-            .required('Este campo es obligatorio')
-        // .test('fileSize', 'El archivo es demasiado grande', (value) => value && (value as File).size <= MAX_SIZE)
-        // .test('fileType', 'Solo se aceptan los siguientes tipos: jpg, jpeg, png', (value) => {
-        //     const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-        //     return value instanceof File && allowedTypes.includes((value as File).type);
-        // })
-    });
-
-    const initialValues = {
-        file: undefined,
-    };
-
-    return {
-        initialValues,
-        validationSchema,
-        onSubmit,
-    }
 }
 
 export const ModalUploadProductImage = ({ show, productId, closeModal, refetch }: IModalUploadProductImage) => {
@@ -61,15 +27,19 @@ export const ModalUploadProductImage = ({ show, productId, closeModal, refetch }
         refetch
     });
 
-    const validateFile = (event, setFieldValue) => {
+    const validateFile = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void): void => {
         const MAX_SIZE = 5000000; // 5MB
         const uploadedFile = event.currentTarget?.files ? event.currentTarget.files[0] : undefined;
         if (!uploadedFile) {
-            toast.error(`La no es valida`);
+            toast.error(`El archivo no es válido`);
+            return;
         }
         const { size } = uploadedFile;
         if (size > MAX_SIZE) {
-            toast.error(`La es muy grande`);
+            toast.error(`El archivo es muy grande`);
+            return;
         }
 
         setFieldValue('file', uploadedFile);
