@@ -8,8 +8,8 @@ import { ModalCategory } from '../Modals/ModalCategory';
 import { ICategory } from '@/intefaces/ICategory';
 
 
-const getCategories = () => {
-    let { isLoading, data, refetch } = useIndexCategories();
+const getCategories = (search: string) => {
+    let { isLoading, data, refetch } = useIndexCategories(search);
     return {
         showData: (!isLoading && data) && true,
         categories: data?.data,
@@ -19,10 +19,10 @@ const getCategories = () => {
 }
 
 
-export const TableCategoryList = () => {
+export const TableCategoryList = ({ search = '' }: { search: string }) => {
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show);
-    let { isLoading, categories, refetch } = getCategories();
+    let { isLoading, categories, refetch } = getCategories(search);
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
@@ -37,6 +37,7 @@ export const TableCategoryList = () => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Orden de listado</th>
                             <th>-</th>
                         </tr>
                     </thead>

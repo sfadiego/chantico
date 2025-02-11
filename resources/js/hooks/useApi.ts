@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from '@/interfaces/IAxiosProps';
+import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from './../intefaces/IAxiosProps';
 import { ApisEnum } from '@/configs/apisEnum';
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useAxios } from "@hooks/useAxios";
@@ -23,6 +23,7 @@ export const axiosPOST = <Data, Paras>(
     axios: AxiosInstance,
     { url, data, params, headers = {} }: IAxiosPostProps<Data, Paras>,
 ) => {
+    console.log(params, data, headers);
     return axios.post(`${host}${url}`, data, {
         params,
         headers,
@@ -47,7 +48,7 @@ export const axiosDELETE = <Params>(
 }
 
 
-export const useGet = <Response>({
+export const useGET = <Response>({
     url,
     filters = {},
     headers = {},
@@ -65,13 +66,16 @@ export const useGet = <Response>({
     });
 }
 
-export const usePost = ({ url,
+export const usePOST = ({ url,
     onSuccess = () => { },
     onError = () => { },
-}: IUsePostProps) => {
+    isFile = false,
+}: IUsePostProps): UseMutationResult<AxiosResponse<Request>> => {
+    let headers = {};
+    if (isFile) headers = headersImage;
     const { axiosApi } = useAxios();
     return useMutation({
-        mutationFn: async (data) => await axiosPOST(axiosApi, { url, data }),
+        mutationFn: async (data) => await axiosPOST(axiosApi, { url, data, headers }),
         onSuccess,
         onError,
     });

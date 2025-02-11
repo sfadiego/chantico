@@ -1,3 +1,3 @@
-import { useGet } from "../hooks/useApi"
+import { useGET } from "../hooks/useApi"
 
-export const useBestSeller = () => useGet({ url: 'admin/system/statistics/best-seller' })
+export const useBestSeller = () => useGET({ url: 'admin/system/statistics/best-seller' })

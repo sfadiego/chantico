@@ -5,10 +5,14 @@ import { SelectCategory } from '@/components/Select/SelectCategory';
 import { Textarea } from '@/components/Textarea/Textarea';
 import { RoutesAdmin } from '@/router/modules/admin.routes';
 import { useShowProduct, useUpdateProduct } from "@/services/useProductService";
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import LoadingComponent from '../LoadingComponent';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { ModalUploadProductImage } from '../Modals/ModalUploadProductImage';
+import { Widget } from '../Widgets/Widget';
+import { IPictire } from '@/intefaces/IProductPicture';
+import useLoadFile from '@/hooks/useLoadFile';
 
 const useHandleGetProduct = (productId: number) => {
   const { isLoading, data, refetch } = useShowProduct(productId)
@@ -20,22 +24,34 @@ const useHandleGetProduct = (productId: number) => {
   }
 }
 
+const ComponentImageProduct = ({ data }: { data: IPictire }) => {
+  const { data: picture } = useLoadFile({ picture: data });
+  const props = {
+    cardTitle: "Imagen de Producto",
+    children: <>
+      <Image className='rounded-0 img-fluid' src={URL.createObjectURL(new Blob([picture!!]))} />
+    </>
+  }
+  return <div className='mb-3'>
+    <Widget {...props} />
+  </div>
+}
+
 export const UpdateProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   if (!id) {
     navigate(RoutesAdmin.ProductList);
   }
-
+  const [showUpdateImage, setShowUpdateImage] = useState(false)
   const [formValues, setInitialValues] = useState({
     nombre: '',
     precio: 0,
     categoria_id: 0,
-    descripcion: ""
+    descripcion: "",
   });
 
-  const { isLoading, showData, data } = useHandleGetProduct(parseInt(id!!));
-
+  const { isLoading, showData, data, refetch } = useHandleGetProduct(parseInt(id!!));
   if (isLoading && showData) return <LoadingComponent></LoadingComponent>;
   useEffect(() => {
     if (data) {
@@ -50,10 +66,12 @@ export const UpdateProductForm = () => {
 
   const mutate = useUpdateProduct(parseInt(id!!));
   const props = useProduct({
-    mutateAsync: mutate.mutateAsync, onSuccess({ data: { nombre } }) {
+    mutateAsync: mutate.mutateAsync,
+    onSuccess({ data: { nombre } }) {
       toast.success(`El producto ${nombre} se actualizo correctamente.`);
     }
   });
+
   return (
     <>
       <Formik
@@ -104,7 +122,18 @@ export const UpdateProductForm = () => {
                 handleChange={handleChange}
                 handleBlur={handleBlur}
               />
+            </div>
+            <div className="col-md-3">
+              {
+                data?.picture ? <ComponentImageProduct data={data?.picture} /> :
+                  <div className='mb-3'>
+                    <Widget cardTitle='Sin imagen' description='Imagen no asignada' />
+                  </div>
+              }
 
+              <Button onClick={() => setShowUpdateImage(true)} variant='warning'>
+                <i className="bi bi-cloud-arrow-up"></i> Actualizar imagen
+              </Button>
             </div>
             <div className='pt-3 my-modal-footer'>
               <Link
@@ -123,6 +152,14 @@ export const UpdateProductForm = () => {
           </Form>
         )}
       </Formik>
+      {
+        showUpdateImage && <ModalUploadProductImage
+          show={showUpdateImage}
+          productId={parseInt(id!!)}
+          refetch={refetch}
+          closeModal={setShowUpdateImage}
+        />
+      }
     </>
   )
 }

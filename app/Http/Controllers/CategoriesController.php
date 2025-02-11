@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Response;
 
 class CategoriesController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $param): JsonResponse
     {
-        return Response::success(CategoryModel::all());
+        $searchStatement = $param?->search ?? '';
+        return Response::success(CategoryModel::getCategories($searchStatement));
     }
 
     public function show(CategoryModel $category): JsonResponse

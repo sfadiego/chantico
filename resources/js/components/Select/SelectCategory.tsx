@@ -11,7 +11,7 @@ interface ISelectCategoryProps {
 }
 
 const getCategories = () => {
-    let { isLoading, data, refetch } = useIndexCategories();
+    let { isLoading, data } = useIndexCategories();
     return {
         showData: (!isLoading && data) && true,
         categories: data?.data,

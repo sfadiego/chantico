@@ -1,4 +1,4 @@
-import { Button, Col, Table } from 'react-bootstrap'
+import { Badge, Button, Col, Table } from 'react-bootstrap'
 import LoadingComponent from '../LoadingComponent';
 import { useState } from 'react';
 import { useIndexProducts } from '@/services/useProductService';
@@ -6,18 +6,6 @@ import { IProduct } from '@/intefaces/IProduct';
 import { ModalProduct } from '../Modals/ModalProduct';
 import { OptionsProductTable } from './OptionsProductTable';
 import useHandleProducts from '@/hooks/useHandleProducts';
-
-
-const getProducts = () => {
-    let { isLoading, data, refetch } = useIndexProducts({});
-    return {
-        showData: (!isLoading && data) && true,
-        products: data?.data,
-        isLoading,
-        refetch
-    }
-}
-
 interface ITableProductList {
     search?: string
 }
@@ -25,7 +13,7 @@ interface ITableProductList {
 export const TableProductList = ({ search = '' }: ITableProductList) => {
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show);
-    const { showData, isLoading, products, refetch } = useHandleProducts({ productName: search });
+    const { isLoading, products, refetch } = useHandleProducts({ productName: search });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
@@ -52,7 +40,11 @@ export const TableProductList = ({ search = '' }: ITableProductList) => {
                                     <td>{id}</td>
                                     <td>{nombre}</td>
                                     <td>{precio}</td>
-                                    <td>{category?.nombre}</td>
+                                    <td>{
+                                        category?.nombre
+                                            ? category?.nombre
+                                            : <Badge bg="danger">No asignada</Badge>
+                                    }</td>
                                     <td>
                                         <OptionsProductTable refetch={refetch} productId={id} />
                                     </td>

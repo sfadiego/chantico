@@ -4,6 +4,7 @@ import { useDeleteProduct } from '@/services/useProductService';
 import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 interface OptionsOrderTableProps {
     categoryId: number,
     refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
@@ -24,6 +25,15 @@ export const OptionsCategoryTable = ({ categoryId, refetch }: OptionsOrderTableP
     }
 
     const handleDelete = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "Estas por borrar esta categoria",
+            showDenyButton: true,
+            confirmButtonText: "Confirmar",
+            denyButtonText: `Cancelar`
+        }).then(({ isConfirmed }) => isConfirmed && confirmDelete());
+    }
+    const confirmDelete = () => {
         const { onSubmit } = deleteCategory({ mutateAsync: mutate.mutateAsync });
         onSubmit({}, {
             setErrors: (errors: any) => {
