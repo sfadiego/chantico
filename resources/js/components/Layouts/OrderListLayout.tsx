@@ -6,7 +6,7 @@ import { TableOrderList } from './Tables/TableOrderList';
 export const OrderListLayout = () => {
     return (
         <>
-            <NavBarLayout ></NavBarLayout>
+            <NavBarLayout/>
             <main className="container-fluid p-4">
                 <Row>
                     <TableOrderList/>

@@ -100,7 +100,7 @@ const ItemDetail = ({ orderId, currentProductId, setShowDetail, show, refetch }:
             <div className='d-flex'>
                 <div className='flex-grow-1'>
                     <div className='pt-1'>
-                        <span className='text-danger'>${total}</span> {nombre}
+                        <span className='text-danger'>${total}</span> {nombre.length > 10 ? nombre.substring(0, 20) + '...' : nombre}
                     </div>
                 </div>
                 <div className=''>

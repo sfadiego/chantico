@@ -1,8 +1,7 @@
-import React from 'react'
 import { Col, Container, Image, Row, Table } from 'react-bootstrap'
 import img from '@assets/logo_chantico.png';
-import { useDetailOfCloseSales, useTotalCloseSales } from '@/services/useOpenSalesService';
-import { Link, NavLink, useParams } from 'react-router-dom';
+import { useDetailOfCloseSales } from '@/services/useOpenSalesService';
+import {  NavLink, useParams } from 'react-router-dom';
 import LoadingComponent from '@/components/Layouts/LoadingComponent';
 import moment from 'moment';
 import { SummaryOrdersTable } from '@/components/Layouts/Tables/SummaryOrdersTable';
@@ -23,7 +22,7 @@ const SalesSummaryLayout = () => {
     const { id } = useParams();
     const { isLoading, data } = useDetailSale(parseInt(id!));
     if (isLoading) return <LoadingComponent></LoadingComponent>;
-    const { efectivo_caja_inicio, created_at, venta_dia, orders } = data;
+    const { efectivo_caja_inicio, efectivo_caja_cierre, created_at, venta_dia, orders } = data;
     const date = moment(created_at).format("MMMM Do YYYY")
     return (
         <Container>
@@ -40,6 +39,7 @@ const SalesSummaryLayout = () => {
                     <p><b>Fecha</b>: {date}</p>
                     <p><b>Efectivo al iniciar ventas</b>: ${efectivo_caja_inicio}</p>
                     <p><b>Venta Total</b>: ${venta_dia}</p>
+                    <p><b>Efectivo Total</b>: ${efectivo_caja_cierre}</p>
                 </Col>
                 <Col md={12} className='mt-4'>
                     <NavLink className={`btn btn-secondary`}

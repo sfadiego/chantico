@@ -14,13 +14,14 @@ const StatisticsLayout = () => {
                 <NavBarOptions label="Productos" href={RoutesAdmin.ProductList} />
                 <NavBarOptions label="Categorias" href={RoutesAdmin.CategoryList} />
                 <NavBarOptions label="Estadisticas" href={RoutesAdmin.Statistics} />
+                <NavBarOptions label="Ventas" href={RoutesAdmin.SaleList} />
             </NavBarOptionContainer>
         </NavBarLayout>
         <main className="container-fluid p-4">
             <Row>
                 <Col md={4}>
                     <Widget cardTitle="Best sellers"
-                        description="Top 3 Productos mas vendidos del mes" 
+                        description="Top 3 Productos mas vendidos del mes"
                         children={<BestSellerWidgetContent />}
                     />
                 </Col>

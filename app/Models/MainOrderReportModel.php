@@ -50,7 +50,8 @@ class MainOrderReportModel extends Model
 
     public function totalSalesByDay(): float
     {
-        return $this->whereHas('orders.orderProducts')
+        return $this->where('id', $this->id)
+            ->whereHas('orders.orderProducts')
             ->with(['orders.orderProducts'])
             ->get()
             ->pluck('orders')
