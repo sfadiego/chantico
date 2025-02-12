@@ -1,6 +1,6 @@
 import NavBarLayout from '@/components/Layouts/NavBar/NavBarLayout'
 import { NavBarOptionContainer } from '@/components/Layouts/NavBar/NavBarOptionContainer'
-import { Col, Row } from 'react-bootstrap'
+import { Alert, Col, Row } from 'react-bootstrap'
 import { TableMainSalesList } from '@/components/Layouts/Tables/TableMainSalesList'
 
 const SaleListLayout = () => {
@@ -13,7 +13,10 @@ const SaleListLayout = () => {
             <main className="container-fluid p-4">
                 <Row>
                     <Col md={12}>
-                        <h1>Ordenes generadas</h1>
+                        <h1>Ventas</h1>
+                        <Alert variant='warning' >
+                            Total de ventas por dia despues de cierre de caja
+                        </Alert>
                     </Col>
                 </Row>
                 <Row>
