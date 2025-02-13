@@ -120,7 +120,7 @@
         <div class="container-fluid">
             <div class="row mt-1">
                 <div class="col-12">
-                    <h3>Categorias</h3>
+                    <h3>Categorías</h3>
                 </div>
                 <div class="col-md-12">
                     <div class="d-flex mb-3 border">

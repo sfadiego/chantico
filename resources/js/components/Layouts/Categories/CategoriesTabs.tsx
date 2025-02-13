@@ -22,7 +22,7 @@ export const CategoriesTabs = ({ selectCategory, activeTab, setactiveTab }: Cate
     return (
         <Row className='mt-1'>
             <div className="col-12">
-                <h3>Categorias</h3>
+                <h3>Categorías</h3>
             </div>
             <div className="col-md-12">
                 <div className="d-flex mb-3 border">

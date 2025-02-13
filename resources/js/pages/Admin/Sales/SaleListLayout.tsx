@@ -15,7 +15,7 @@ const SaleListLayout = () => {
                     <Col md={12}>
                         <h1>Ventas</h1>
                         <Alert variant='warning' >
-                            Total de ventas por dia despues de cierre de caja
+                            Total de ventas por dia al cierre de caja
                         </Alert>
                     </Col>
                 </Row>

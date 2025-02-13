@@ -3,8 +3,8 @@ import { IUser } from '@/intefaces/IUser';
 import { RoleEnum } from '../../enums/RoleEnum'
 import { UpdateCategoryLayout } from '@/pages/Admin/Category/UpdateCategoryLayout';
 import { UpdateProductLayout } from '@/pages/Admin/Product/UpdateProductLayout';
-import OpenSalesLayout from '@/pages/Admin/Sales/OpenSalesLayout';
 
+const OpenSalesLayout = lazy(() => import('@/pages/Admin/Sales/OpenSalesLayout'));
 const AdminDashboard = lazy(() => import('@/pages/Admin/Dashboard'));
 const CategoryList = lazy(() => import('@/pages/Admin/Category/CategoryList'));
 const ProductList = lazy(() => import('@/pages/Admin/Product/ProductList'));

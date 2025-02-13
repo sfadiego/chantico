@@ -35,6 +35,10 @@ button,
     text-align: center;
 }
 
+.img-fluid.img-customer-login{
+    width: 25rem;
+}
+
 /* media queries */
 
 /* `sm` applies to x-small devices (portrait phones, less than 576px) */

@@ -28,7 +28,7 @@ const SalesSummaryLayout = () => {
         <Container>
             <Row className='justify-content-md-center'>
                 <div className="col-md-auto">
-                    <Image style={{ width: '15rem' }} className='img-fluid img-customer-login' src={img} />
+                    <Image style={{ width: '15rem' }} className='img-fluid' src={img} />
                 </div>
             </Row>
             <Row className=''>

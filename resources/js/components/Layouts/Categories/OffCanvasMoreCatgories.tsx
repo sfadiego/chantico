@@ -19,7 +19,7 @@ export const OffCanvasMoreCatgories = ({ categories, setactiveTab, activeTab, se
         </Button>
         <Offcanvas show={show} onHide={handleClose} {...props}>
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Categorias</Offcanvas.Title>
+                <Offcanvas.Title>Categorías</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <ListGroup className='rounded-0'>

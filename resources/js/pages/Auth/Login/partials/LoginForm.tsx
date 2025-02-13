@@ -9,9 +9,9 @@ const LoginForm = () => {
   
     return (
         <>
-            <div className='p-5'>
+            <div className='p-5 pt-2'>
                 <div className="text-center">
-                    <h1 className="h4 text-gray-900 mb-4">Bienvenido</h1>
+                    <h1 className="h4 text-gray-900 mb-3">Bienvenido</h1>
                 </div>
                 <Formik {...props} >
                     {({ isSubmitting }) => (

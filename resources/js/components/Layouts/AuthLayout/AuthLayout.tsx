@@ -1,5 +1,5 @@
-import React, { Component, ReactNode } from 'react'
-import { Button, Card, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { ReactNode } from 'react'
+import { Card, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import img from '@assets/logo_chantico.png';
 
 interface IAuthLayout {
@@ -14,7 +14,7 @@ const AuthLayout = ({ children }: IAuthLayout) => {
                         <Card.Body className='p-0'>
                             <Row>
                                 <Col md={12} className='text-center'>
-                                    <div className='p-5'>
+                                    <div className='p-5 pb-3'>
                                         <Image className='img-fluid img-customer-login' src={img}></Image>
                                     </div>
                                 </Col>

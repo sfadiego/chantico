@@ -12,8 +12,8 @@ const StatisticsLayout = () => {
         <NavBarLayout >
             <NavBarOptionContainer>
                 <NavBarOptions label="Productos" href={RoutesAdmin.ProductList} />
-                <NavBarOptions label="Categorias" href={RoutesAdmin.CategoryList} />
-                <NavBarOptions label="Estadisticas" href={RoutesAdmin.Statistics} />
+                <NavBarOptions label="Categorías" href={RoutesAdmin.CategoryList} />
+                <NavBarOptions label="Estadísticas" href={RoutesAdmin.Statistics} />
                 <NavBarOptions label="Ventas" href={RoutesAdmin.SaleList} />
             </NavBarOptionContainer>
         </NavBarLayout>
