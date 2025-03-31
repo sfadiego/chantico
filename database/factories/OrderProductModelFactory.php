@@ -18,6 +18,7 @@ class OrderProductModelFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = OrderProductModel::class;
+
     public function definition(): array
     {
         return [
@@ -25,7 +26,7 @@ class OrderProductModelFactory extends Factory
             OrderProductModel::PEDIDO_ID => OrderModel::all()->random()->id,
             OrderProductModel::DESCUENTO => $this->faker->numberBetween(1, 9),
             OrderProductModel::CANTIDAD => $this->faker->numberBetween(1, 10),
-            OrderProductModel::PRECIO => $this->faker->numberBetween(60, 100)
+            OrderProductModel::PRECIO => $this->faker->numberBetween(60, 100),
         ];
     }
 }

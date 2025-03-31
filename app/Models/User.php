@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Requests\AuthenticationRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
@@ -13,15 +11,24 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
-    const NOMBRE = "nombre";
-    const APELLIDO_MATERNO = "apellido_materno";
-    const APELLIDO_PATERNO = "apellido_paterno";
-    const ROL_ID = "rol_id";
-    const ACTIVO = "activo";
-    const EMAIL = "email";
-    const USUARIO = "usuario";
-    const PASSWORD = "password";
+    use HasApiTokens, HasFactory, Notifiable;
+
+    const NOMBRE = 'nombre';
+
+    const APELLIDO_MATERNO = 'apellido_materno';
+
+    const APELLIDO_PATERNO = 'apellido_paterno';
+
+    const ROL_ID = 'rol_id';
+
+    const ACTIVO = 'activo';
+
+    const EMAIL = 'email';
+
+    const USUARIO = 'usuario';
+
+    const PASSWORD = 'password';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,7 +42,7 @@ class User extends Authenticatable
         self::APELLIDO_PATERNO,
         self::ROL_ID,
         self::ACTIVO,
-        self::PASSWORD
+        self::PASSWORD,
     ];
 
     /**
@@ -48,9 +55,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public static function authUser($token): User|null
+    public static function authUser($token): ?User
     {
         $accessToken = PersonalAccessToken::findToken($token);
+
         return $accessToken?->tokenable;
     }
 
@@ -66,6 +74,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public static function register(
         string $nombre,
         string $apellidoPaterno,
@@ -78,18 +87,18 @@ class User extends Authenticatable
     ): User {
 
         return User::create([
-            "nombre" => $nombre,
-            "email" => $email,
-            "usuario" => $usuario,
-            "apellido_materno" => $apellidoMaterno,
-            "rol_id" => $rolId,
-            "password" => bcrypt($password),
+            'nombre' => $nombre,
+            'email' => $email,
+            'usuario' => $usuario,
+            'apellido_materno' => $apellidoMaterno,
+            'rol_id' => $rolId,
+            'password' => bcrypt($password),
         ]);
     }
 
     public static function login(string $email, string $password): mixed
     {
-        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+        if (! Auth::attempt(['email' => $email, 'password' => $password])) {
             return false;
         }
 

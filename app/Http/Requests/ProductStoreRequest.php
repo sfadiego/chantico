@@ -28,7 +28,7 @@ class ProductStoreRequest extends FormRequest
             ProductModel::DESCRIPCION => 'nullable',
             ProductModel::CATEGORIA_ID => 'required|exists:categories,id',
             ProductModel::ACTIVO => 'bool',
-            ProductModel::FOTO_ID => 'nullable|exists:product_image'
+            ProductModel::FOTO_ID => 'nullable|exists:product_image',
         ];
     }
 }

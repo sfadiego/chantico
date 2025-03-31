@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\CategoryModel;
-use App\Models\ProductModel;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryUpdateRequest extends FormRequest

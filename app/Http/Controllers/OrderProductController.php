@@ -12,14 +12,8 @@ use Illuminate\Support\Facades\Response;
 
 class OrderProductController extends Controller
 {
-
     /**
      * index
-     *
-     * @param OrderModel $order
-     * 
-     * @return JsonResponse
-     * 
      */
     public function index(OrderModel $order): JsonResponse
     {
@@ -31,12 +25,6 @@ class OrderProductController extends Controller
 
     /**
      * show
-     *
-     * @param OrderModel $order
-     * @param string $productId
-     * 
-     * @return JsonResponse
-     * 
      */
     public function show(OrderModel $order, string $productId): JsonResponse
     {
@@ -49,21 +37,14 @@ class OrderProductController extends Controller
 
     /**
      * update
-     *
-     * @param string $orderId
-     * @param string $productId
-     * @param OrderProductUpdateRequest $params
-     * 
-     * @return JsonResponse
-     * 
      */
     public function update(string $orderId, string $productId, OrderProductUpdateRequest $params): JsonResponse
     {
         $orderProduct = OrderProductModel::where('pedido_id', $orderId)
             ->where('producto_id', $productId);
 
-        if (!$orderProduct->exists()) {
-            return Response::error("La orden no contiene este producto");
+        if (! $orderProduct->exists()) {
+            return Response::error('La orden no contiene este producto');
         }
 
         $orderProduct = $orderProduct->first();
@@ -78,7 +59,7 @@ class OrderProductController extends Controller
 
         $orderProduct->update($data);
 
-        $order =  OrderModel::find($orderId);
+        $order = OrderModel::find($orderId);
         $orderDetail = $order->totalAndSubTotalOrder();
         $order->update([
             'total' => $orderDetail['total'],
@@ -90,21 +71,15 @@ class OrderProductController extends Controller
 
     /**
      * store
-     *
-     * @param string $orderId
-     * @param OrderProductStoreRequest $params
-     * 
-     * @return JsonResponse
-     * 
      */
     public function store(string $orderId, OrderProductStoreRequest $params): JsonResponse
     {
         $order = OrderModel::find($orderId);
-        if (!$order) {
-            return  Response::error('no existe la orden');
+        if (! $order) {
+            return Response::error('no existe la orden');
         }
 
-        $product =  OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
+        $product = OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
             ->where(OrderProductModel::PRODUCTO_ID, $params->producto_id)
             ->first();
 
@@ -129,16 +104,12 @@ class OrderProductController extends Controller
             'total' => $orderDetail['total'],
             'subtotal' => $orderDetail['subtotal'],
         ]);
+
         return Response::success($data);
     }
 
     /**
      * delete
-     *
-     * @param int $product
-     * 
-     * @return JsonResponse
-     * 
      */
     public function delete(int $orderId, int $product): JsonResponse
     {
@@ -146,8 +117,9 @@ class OrderProductController extends Controller
             ->where('producto_id', $product)
             ->first();
 
-        if (!$delete) {
+        if (! $delete) {
             Log::error('producto no encoontrado', [$product]);
+
             return Response::error('producto no encontrado');
         }
 
@@ -159,7 +131,6 @@ class OrderProductController extends Controller
             'total' => $orderDetails['total'],
             'subtotal' => $orderDetails['subtotal'],
         ]);
-
 
         return Response::success('elemento borrado de la orden');
     }

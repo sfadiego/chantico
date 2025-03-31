@@ -13,7 +13,7 @@ class ProductImageController extends Controller
     public function store(ProductModel $product, ProductImageStoreRequest $param): ProductModel
     {
         $upload = ProductImageModel::processImage($param->file);
-        if (!$upload) {
+        if (! $upload) {
             Response::error('No se puede subir la imagen');
         }
 
@@ -33,13 +33,14 @@ class ProductImageController extends Controller
         ProductImageStoreRequest $param
     ): ProductModel {
         $upload = ProductImageModel::processImage($param->file);
-        if (!$upload) {
+        if (! $upload) {
             Response::error('No se puede subir la imagen');
         }
 
         $image->nombre_archivo = $upload['nombre_archivo'];
         $image->url = $upload['url'];
         $image->save();
+
         return $product->load('picture');
     }
 }

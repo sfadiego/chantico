@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
-use App\Http\Requests\ProductUpdateRequest;
 use App\Models\ProductModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +14,7 @@ class ProductController extends Controller
     {
         $productName = $param?->search ?? '';
         $categoryId = $param?->categoryId ?? 0;
+
         return Response::success(
             ProductModel::getProducts($productName, $categoryId)
         );
@@ -29,5 +29,4 @@ class ProductController extends Controller
     {
         return Response::success(ProductModel::create($params->toArray()));
     }
-   
 }

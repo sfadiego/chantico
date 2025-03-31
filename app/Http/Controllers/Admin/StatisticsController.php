@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Response;
 
 class StatisticsController extends Controller
 {
-
     public function top3BestSeller(Request $request): JsonResponse
     {
-        $date = Carbon::parse($request?->date ?? Date('Y-m'))->format('Y-m');
+        $date = Carbon::parse($request?->date ?? date('Y-m'))->format('Y-m');
+
         return Response::success(OrderProductModel::top3BestSeller($date));
     }
 }

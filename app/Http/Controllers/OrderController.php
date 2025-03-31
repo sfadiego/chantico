@@ -14,7 +14,7 @@ class OrderController extends Controller
 {
     public function index(): JsonResponse
     {
-        $activeReportOrders =  (new MainOrderReportModel)->getActiveSale();
+        $activeReportOrders = (new MainOrderReportModel)->getActiveSale();
         if (empty($activeReportOrders?->id)) {
             return Response::success([]);
         }
@@ -23,6 +23,7 @@ class OrderController extends Controller
             ->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)
             ->where('sistema_id', $activeReportOrders->id)
             ->get();
+
         return Response::success($orders);
     }
 
@@ -40,26 +41,28 @@ class OrderController extends Controller
                 'subtotal' => $orderDetail['subtotal'],
             ]);
         }
+
         return Response::success($order->load('orderProducts.product'));
     }
 
     public function delete(OrderModel $order): JsonResponse
     {
         if ($order->orderProducts->count()) {
-            return Response::error("La orden contiene productos");
+            return Response::error('La orden contiene productos');
         }
+
         return Response::success($order->delete());
     }
 
     public function update(OrderModel $order, OrderUpdateRequest $params): JsonResponse
     {
         foreach ($params->toArray() as $param => $value) {
-            if (!in_array($param, OrderModel::$ALLOWED_UPDATE)) {
+            if (! in_array($param, OrderModel::$ALLOWED_UPDATE)) {
                 return Response::error("Parametro no permitido $param");
             }
         }
 
-        #actualiza porcentaje
+        // actualiza porcentaje
         $orderDetail = $order->totalAndSubTotalOrder();
         $order->update(
             array_merge($params->toArray(), [

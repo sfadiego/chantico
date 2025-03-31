@@ -7,18 +7,16 @@ use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\CategoryModel;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class CategoriesController extends Controller
 {
-
     public function store(CategoryStoreRequest $param): JsonResponse
     {
         return Response::success(
             CategoryModel::create([
                 'nombre' => $param->nombre,
-                'orden' => $param->orden ?? 1
+                'orden' => $param->orden ?? 1,
             ])
         );
     }
@@ -29,16 +27,17 @@ class CategoriesController extends Controller
             $category->update([
                 'nombre' => $param->has('nombre') ? $param->nombre : null,
                 'foto_id' => $param->has('foto_id') ? $param->foto_id : null,
-                'orden' => $param->has('orden') ? $param->orden : null
+                'orden' => $param->has('orden') ? $param->orden : null,
             ])
         );
     }
 
     public function delete(CategoryModel $category): JsonResponse
     {
-        if (!$category->count()) {
-            return Response::error("Categoria no valida");
+        if (! $category->count()) {
+            return Response::error('Categoria no valida');
         }
+
         return Response::success($category->delete());
     }
 }

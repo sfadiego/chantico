@@ -25,7 +25,7 @@ class AuthController extends Controller
         return Response::success(
             [
                 'user' => $user->toArray(),
-                'token' => $user->createToken('access_token')->plainTextToken
+                'token' => $user->createToken('access_token')->plainTextToken,
             ]
         );
     }
@@ -36,6 +36,7 @@ class AuthController extends Controller
             email: $params->email,
             password: $params->password
         );
-        return $user ? Response::success($user) : Response::error(__("Credenciales no validas."));
+
+        return $user ? Response::success($user) : Response::error(__('Credenciales no validas.'));
     }
 }

@@ -3,21 +3,20 @@
 use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use App\Http\Controllers\Admin\MainOrderReportController;
 use App\Http\Controllers\Admin\OrderStatusController as AdminOrderStatusController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\OrderStatusController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\StatisticsController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::prefix('auth')->group(function () {
     Route::controller(AuthController::class)
@@ -102,7 +101,6 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::get('{user}', 'show');
                 });
         });
-
 
         Route::prefix('system')->group(function () {
             Route::controller(MainOrderReportController::class)

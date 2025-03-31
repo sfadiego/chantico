@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\ProductModel;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
@@ -32,7 +32,7 @@ class ProductController extends Controller
                 ProductModel::PRECIO => $param->precio,
                 ProductModel::DESCRIPCION => $param->descripcion ?? '',
                 ProductModel::CATEGORIA_ID => $param->categoria_id,
-                ProductModel::FOTO_ID => $param?->picture_id ?? null
+                ProductModel::FOTO_ID => $param?->picture_id ?? null,
             ])
         );
     }
@@ -53,9 +53,10 @@ class ProductController extends Controller
 
     public function delete(ProductModel $product): JsonResponse
     {
-        if (!$product->count()) {
-            return Response::error("Producto invalido");
+        if (! $product->count()) {
+            return Response::error('Producto invalido');
         }
+
         return Response::success($product->delete());
     }
 }

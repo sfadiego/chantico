@@ -24,7 +24,7 @@ class OrderProductUpdateRequest extends FormRequest
     {
         return [
             OrderProductModel::DESCUENTO => 'integer|max:99|min:0',
-            OrderProductModel::CANTIDAD => 'integer|max:10|min:1'
+            OrderProductModel::CANTIDAD => 'integer|max:10|min:1',
         ];
     }
 }

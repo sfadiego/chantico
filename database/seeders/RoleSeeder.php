@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
 use App\Models\RoleModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -19,7 +18,7 @@ class RoleSeeder extends Seeder
             RoleEnum::getRoleName(RoleEnum::EMPLOYE),
         ];
 
-        foreach ($roles as  $role) {
+        foreach ($roles as $role) {
             RoleModel::updateOrCreate(['role' => $role]);
         }
     }

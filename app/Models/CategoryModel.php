@@ -11,15 +11,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CategoryModel extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $table = 'categories';
-    const NOMBRE = "nombre";
+
+    const NOMBRE = 'nombre';
+
     const FOTO_ID = 'foto_id';
+
     const ORDEN = 'orden';
 
     protected $fillable = [
         self::NOMBRE,
         self::FOTO_ID,
-        self::ORDEN
+        self::ORDEN,
     ];
 
     public function products(): HasMany

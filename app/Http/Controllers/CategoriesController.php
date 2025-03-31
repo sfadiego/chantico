@@ -13,6 +13,7 @@ class CategoriesController extends Controller
     public function index(Request $param): JsonResponse
     {
         $searchStatement = $param?->search ?? '';
+
         return Response::success(CategoryModel::getCategories($searchStatement));
     }
 

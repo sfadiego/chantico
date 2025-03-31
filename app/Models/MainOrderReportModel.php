@@ -10,12 +10,19 @@ use stdClass;
 class MainOrderReportModel extends Model
 {
     use HasFactory;
+
     protected $table = 'main_order_report';
+
     const ESTATUS_CAJA = 'estatus_caja';
+
     const EFECTIVO_CAJA_INICIO = 'efectivo_caja_inicio';
+
     const EFECTIVO_CAJA_CIERRE = 'efectivo_caja_cierre';
+
     const VENTA_DIA = 'venta_dia';
+
     const OBSERVACION = 'observaciones';
+
     const USER_ID = 'user_id';
 
     protected $fillable = [
@@ -42,9 +49,10 @@ class MainOrderReportModel extends Model
         $totalSales = $this->totalSalesByDay();
         $currentTotal = $this->efectivo_caja_inicio;
         $this->update([
-            "efectivo_caja_cierre" => $currentTotal,
-            "venta_dia" => $totalSales,
+            'efectivo_caja_cierre' => $currentTotal,
+            'venta_dia' => $totalSales,
         ]);
+
         return $this->refresh();
     }
 
@@ -65,6 +73,7 @@ class MainOrderReportModel extends Model
 
                 $total = $precio * $cantidad;
                 $totalWDescuento = $total - (($total * $descuentoPerItem) / 100);
+
                 return round($totalWDescuento, 2);
             })
             ->sum();
@@ -76,7 +85,7 @@ class MainOrderReportModel extends Model
         $this->update([
             self::VENTA_DIA => $this->totalSalesByDay(),
             self::EFECTIVO_CAJA_CIERRE => $initialCash + $this->totalSalesByDay(),
-            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSED
+            self::ESTATUS_CAJA => MainOrderStatusEnum::CLOSED,
         ]);
 
         return $this->refresh();
@@ -88,12 +97,12 @@ class MainOrderReportModel extends Model
             ->exists();
     }
 
-    public function getActiveSale(): MainOrderReportModel | stdClass
+    public function getActiveSale(): MainOrderReportModel|stdClass
     {
         $order = MainOrderReportModel::with('user')
             ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN);
 
-        return $order->exists() ? $order->first() : new stdClass();
+        return $order->exists() ? $order->first() : new stdClass;
     }
 
     public static function openSales(

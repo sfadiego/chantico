@@ -11,12 +11,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductModel extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $table = 'product';
-    const NOMBRE = "nombre";
-    const PRECIO = "precio";
-    const DESCRIPCION = "descripcion";
-    const CATEGORIA_ID = "categoria_id";
-    const ACTIVO = "activo";
+
+    const NOMBRE = 'nombre';
+
+    const PRECIO = 'precio';
+
+    const DESCRIPCION = 'descripcion';
+
+    const CATEGORIA_ID = 'categoria_id';
+
+    const ACTIVO = 'activo';
+
     const FOTO_ID = 'foto_id';
 
     protected $fillable = [
@@ -25,7 +32,7 @@ class ProductModel extends Model
         self::DESCRIPCION,
         self::CATEGORIA_ID,
         self::ACTIVO,
-        self::FOTO_ID
+        self::FOTO_ID,
     ];
 
     public static function store(
@@ -33,7 +40,7 @@ class ProductModel extends Model
         float $precio,
         string $descripcion,
         int $categoriaId,
-        string $pictureId = null,
+        ?string $pictureId = null,
     ): ProductModel {
 
         return ProductModel::create([
@@ -42,7 +49,7 @@ class ProductModel extends Model
             ProductModel::DESCRIPCION => $descripcion,
             ProductModel::CATEGORIA_ID => $categoriaId,
             ProductModel::ACTIVO => 1,
-            ProductModel::FOTO_ID => $pictureId
+            ProductModel::FOTO_ID => $pictureId,
         ]);
     }
 
@@ -76,6 +83,7 @@ class ProductModel extends Model
         $pictureId ? $data[ProductModel::FOTO_ID] = $pictureId : null;
 
         $this->update($data);
+
         return $this->refresh();
     }
 

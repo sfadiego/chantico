@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\OrderStatusModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OrderStatusSeeder extends Seeder
@@ -17,7 +16,7 @@ class OrderStatusSeeder extends Seeder
         $data = [
             [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::IN_PROCESS)],
             [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CANCELED)],
-            [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CLOSED)]
+            [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CLOSED)],
         ];
 
         OrderStatusModel::insert($data);

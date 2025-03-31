@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ProductImageModel;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductImageStoreRequest extends FormRequest
@@ -23,7 +22,7 @@ class ProductImageStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:jpeg,jpg,png'
+            'file' => 'required|mimes:jpeg,jpg,png',
         ];
     }
 }
