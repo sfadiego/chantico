@@ -6,7 +6,7 @@ import { useLogin } from '../useLogin';
 const LoginForm = () => {
     const mutation = useServiceLogin();
     const props = useLogin({ mutateAsync: mutation.mutateAsync });
-  
+
     return (
         <>
             <div className='p-5 pt-2'>
@@ -17,7 +17,7 @@ const LoginForm = () => {
                     {({ isSubmitting }) => (
                         <Form>
                             <div className='mb-3'>
-                                <label className='form-label' htmlFor="firstName">First Name</label>
+                                <label className='form-label' htmlFor="firstName">Correo</label>
                                 <Field
                                     className="form-control"
                                     type="email"
@@ -27,7 +27,7 @@ const LoginForm = () => {
                                 <ErrorMessage name="email" className="text-danger p-1" component="div" />
                             </div>
                             <div className="mb-3">
-                                <label className='form-label' htmlFor="password">password</label>
+                                <label className='form-label' htmlFor="password">Contraseña</label>
                                 <Field type="password"
                                     name='password'
                                     className="form-control"
