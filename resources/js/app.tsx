@@ -29,7 +29,8 @@ appRoot && appRoot.render(
                     <RouterProvider router={routes}></RouterProvider>
                     <ToastContainer
                         hideProgressBar
-                        autoClose={2000}
+                        autoClose={1000}
+                        position="bottom-right"
                         draggable={false}
                         closeOnClick />
                 </Suspense>

@@ -9,6 +9,8 @@ import LoadingComponent from './LoadingComponent';
 import { useParams } from 'react-router-dom';
 import { NavBarOptionContainer } from './NavBar/NavBarOptionContainer';
 import { OrderStatusEnum } from '@/enums/OrderStatusEnum';
+import { NavBarOptions } from './NavBar/NavBarOption';
+import { RoutesUser } from '@/router/modules/users.routes';
 
 export const TakeOrder = () => {
     const { id } = useParams();
@@ -26,7 +28,9 @@ export const TakeOrder = () => {
     return (
         <>
             <NavBarLayout >
-                <NavBarOptionContainer />
+                <NavBarOptionContainer>
+                    <NavBarOptions label="Ventas" href={RoutesUser.OrderList} />
+                </NavBarOptionContainer>
                 <form className="col-md-3" role="search">
                     <input className="form-control" type="search"
                         onChange={(e) => setSearchProduct(e.target.value)}
