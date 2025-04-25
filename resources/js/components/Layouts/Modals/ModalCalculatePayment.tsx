@@ -82,12 +82,12 @@ export const ModalCalculatePayment = ({ show, orderId, total, refetch, closeModa
                         </div>
                         <div className='mb-3'>
                             <Alert variant={`warning`}>
-                                Tu cambio es: ${cambio <= 0 ? 0 : cambio}
+                                Tu cambio es: ${cambio < 0 ? 0 : cambio}
                             </Alert>
                         </div>
                         <div className='pt-3 my-modal-footer'>
                             <Button
-                                disabled={isSubmitting || cambio <= 0}
+                                disabled={isSubmitting || cambio < 0}
                                 variant='primary'
                                 className="me-2"
                                 type='submit'
