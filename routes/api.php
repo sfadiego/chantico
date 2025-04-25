@@ -68,7 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
                 Route::prefix('print')->group(function () {
                     Route::controller(PrintController::class)->group(function () {
-                        Route::get('', 'print');
+                        Route::post('', 'print');
                     });
                 });
 

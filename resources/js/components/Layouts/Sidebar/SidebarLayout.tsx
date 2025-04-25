@@ -5,15 +5,31 @@ import { TotalItem } from './TotalItem';
 import ItemDetail from './ItemDetail';
 import { IOrderProduct } from '@/intefaces/IOrderProduct';
 import { IOrder } from '@/intefaces/IOrder';
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ModalDiscountOrder } from '../Modals/ModalDiscountOrder';
 import { ModalDiscountProduct } from '../Modals/ModalDiscountProduct';
 import { ModalCalculatePayment } from '../Modals/ModalCalculatePayment';
 import { OrderStatusEnum } from '@/enums/OrderStatusEnum';
 import { Link } from 'react-router-dom';
-import { AdminRoutes } from '@/router/modules/admin.routes';
 import { RoutesUser } from '@/router/modules/users.routes';
+import { useIndexPrintOrder } from '@/services/useOrderService';
+import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
+//TODO: MOVER A HOOK
+const usePrintOrder = (
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>
+) => {
+    const { onSubmit } = useOnSubmit({
+        mutateAsync,
+        onSuccess: (data) => { return; }
+    });
+
+    onSubmit({}, {
+        setErrors: (errors: any) => toast.error(errors.message)
+    });
+}
 interface SidebarProps {
     order: IOrder,
     productsInOrder: IOrderProduct[] | [],
@@ -40,6 +56,9 @@ const SidebarLayout = ({ order, productsInOrder = [], refetch }: SidebarProps) =
     const [showCalculatePayModal, setShowCalculatePayModal] = useState(false);
     const handlePay = () => setShowCalculatePayModal(true);
     const disabledPay = estatus_pedido_id == OrderStatusEnum.Closed || !productsInOrder.length;
+
+    const mutate = useIndexPrintOrder(orderId);
+    const handlePrint = () => usePrintOrder(mutate.mutateAsync);
     return (
         <>
             {
@@ -106,7 +125,7 @@ const SidebarLayout = ({ order, productsInOrder = [], refetch }: SidebarProps) =
                 <hr className="mt-2 mb-2" />
                 <div className="d-flex text-secondary">
                     <div className="flex-fill ">
-                        <Button className="btn btn-info col-12" type='button'>
+                        <Button className="btn btn-info col-12" onClick={handlePrint} type='submit'>
                             <i className="bi bi-printer"></i>
                         </Button>
                     </div>

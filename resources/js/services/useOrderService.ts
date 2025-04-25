@@ -11,4 +11,7 @@ export const useUpdateOrder = (orderId: number) => usePUT({
 export const useAddProductToOrder = (orderId: number) =>
     usePOST({ url: `order/${orderId}/product` })
 
-export const useDeleteOrder = (orderId: number) => useDELETE({url: `order/${orderId}`})
+export const useDeleteOrder = (orderId: number) => useDELETE({ url: `order/${orderId}` })
+
+
+export const useIndexPrintOrder = (orderId: number) => usePOST({ url: `order/${orderId}/print` })
