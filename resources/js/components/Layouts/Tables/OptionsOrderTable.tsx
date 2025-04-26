@@ -1,6 +1,7 @@
 import { useOnSubmit } from '@/hooks/useOnSubmit';
-import { useDeleteOrder } from '@/services/useOrderService';
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { useDeleteOrder, useIndexPrintOrder } from '@/services/useOrderService';
+import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -11,6 +12,19 @@ interface OptionsOrderTableProps {
     total: number
 }
 
+//TODO: MOVER A HOOK
+const usePrintOrder = (
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>
+) => {
+    const { onSubmit } = useOnSubmit({
+        mutateAsync,
+        onSuccess: (data) => { return; }
+    });
+
+    onSubmit({}, {
+        setErrors: (errors: any) => toast.error(errors.message)
+    });
+}
 export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }: OptionsOrderTableProps) => {
     const mutate = useDeleteOrder(orderId);
     const deleteOrder = ({ mutateAsync }) => {
@@ -44,10 +58,12 @@ export const OptionsOrderTable = ({ orderId, refetch, total, callbackSelected }:
         });
     }
 
+    const mutatePrint = useIndexPrintOrder(orderId);
+    const handlePrint = () => usePrintOrder(mutatePrint.mutateAsync);
     return (
         <>
             <Button onClick={() => handleDelete()} variant='danger' className='ms-2'> <i className="bi bi-trash"></i> </Button>
-            <Button variant='warning' className='ms-2'>
+            <Button variant='warning' onClick={handlePrint} className='ms-2'>
                 <i className="bi bi-printer"></i>
             </Button>
             <Button disabled={total == 0 ? true : false} onClick={() => handleCallback()} variant='info' className='ms-2'>
