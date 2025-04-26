@@ -34,11 +34,11 @@ class PrintController extends Controller
             $printer->setTextSize(1, 1);
             $printer->setEmphasis(true);
 
-            $imagePath = realpath(__DIR__.'/../../../resources/assets/bebida.png');
-            if (file_exists($imagePath)) {
-                $img = EscposImage::load($imagePath);
-                $printer->bitImage($img);
-            }
+            // $imagePath = realpath(__DIR__.'/../../../resources/assets/bebida.png');
+            // if (file_exists($imagePath)) {
+            //     $img = EscposImage::load($imagePath);
+            //     $printer->bitImage($img);
+            // }
 
             $printer->text("CHANTICO Café\n");
             $printer->setEmphasis(false);
