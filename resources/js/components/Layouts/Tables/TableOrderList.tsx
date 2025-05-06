@@ -1,10 +1,11 @@
+import React from 'react';
 import moment from 'moment';
 import { useIndexOrder } from '@/services/useOrderService';
 import { Button, Col, Table } from 'react-bootstrap'
 import LoadingComponent from '../LoadingComponent';
 import { IOrder } from '@/intefaces/IOrder';
 import { OptionsOrderTable } from './OptionsOrderTable';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { ModalNewOrder } from '../Modals/ModalNewOrder';
 import { useAxios } from '@/hooks/useAxios';
 import { EmptyData } from './EmptyData';
@@ -23,7 +24,7 @@ const getOrders = () => {
 
 export const TableOrderList = () => {
     const { sistemaId } = useAxios();
-    let { isLoading, orders, refetch } = getOrders();
+    const { isLoading, orders, refetch } = getOrders();
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show)
     const [showCalculatePayModal, setShowCalculatePayModal] = useState(false);

@@ -1,3 +1,4 @@
+import React from 'react';
 import NavBarLayout from './NavBar/NavBarLayout';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Row } from 'react-bootstrap';
