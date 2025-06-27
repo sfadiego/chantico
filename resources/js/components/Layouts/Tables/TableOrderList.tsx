@@ -32,7 +32,7 @@ export const TableOrderList = () => {
         orderId: 0,
         total: 0
     })
-    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    if (isLoading || !orders) return <LoadingComponent></LoadingComponent>;
     const handleSelectedOrder = (orderId: number, total: number) => {
         setSelectedOrder({ orderId, total });
         setShowCalculatePayModal(true);
@@ -85,7 +85,7 @@ export const TableOrderList = () => {
                             })
                         }
                         {
-                            orders.length === 0 && <EmptyData />
+                            orders && orders.length === 0 && <EmptyData />
                         }
                     </tbody>
                 </Table>

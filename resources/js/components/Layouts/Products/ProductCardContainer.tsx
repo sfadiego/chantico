@@ -23,7 +23,7 @@ export const ProductCardContainer = ({ categoryId, productName = '', currentOrde
                 )
             }
             {
-                !products.length && (
+               products && !products.length && (
                     <div className='col-md-12'>
                         <Alert variant={`warning`}>
                             Sin productos

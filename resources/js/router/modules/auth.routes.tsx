@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, React } from 'react';
 const LoginForm = lazy(() => import('@resources/pages/Auth/Login'))
 const Register = lazy(() => import('@resources/pages/Auth/Register'))
 

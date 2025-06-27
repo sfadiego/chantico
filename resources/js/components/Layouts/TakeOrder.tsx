@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react'
 import NavBarLayout from './NavBar/NavBarLayout';
 import SidebarLayout from './Sidebar/SidebarLayout';
@@ -22,8 +23,8 @@ export const TakeOrder = () => {
     const [productName, setSearchProduct] = useState<string>('');
     const [activeTab, setactiveTab] = useState(0)
     const selectCategory = (categoryId: number) => setCategoryId(categoryId);
-    let { isLoading, order, productsInOrder, refetch } = useGetOrderDetail(orderId);
-    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    const { isLoading, order, productsInOrder, refetch } = useGetOrderDetail(orderId);
+    if (isLoading || !order) return <LoadingComponent></LoadingComponent>;
     const { estatus_pedido_id } = order;
     return (
         <>

@@ -1,8 +1,9 @@
+import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
 import routes from './routes'
 
-let finalRoutes = routes.map(route => {
+const finalRoutes = routes.map(route => {
     return {
         ...route,
         element: route.private ? (
