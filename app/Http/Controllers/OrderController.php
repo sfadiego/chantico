@@ -48,7 +48,8 @@ class OrderController extends Controller
     public function delete(OrderModel $order): JsonResponse
     {
         $order->orderProducts()->delete();
-        return Response::success( $order->delete());
+
+        return Response::success($order->delete());
     }
 
     public function update(OrderModel $order, OrderUpdateRequest $params): JsonResponse
