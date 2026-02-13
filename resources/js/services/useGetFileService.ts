@@ -1,7 +1,8 @@
-import { useGET } from "../hooks/useApi"
+import { useGET } from "../hooks/useApi";
 
-export const useGetFile = ($fileName: string, enable: boolean) => useGET<Blob>({
-    url: `files/${$fileName}`,
-    responseType: 'blob',
-    enable
-})
+export const useGetFile = ($fileName: string, enable: boolean) =>
+    useGET<Blob>({
+        url: `files/${$fileName}`,
+        responseType: "blob",
+        enable,
+    });

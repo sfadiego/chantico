@@ -1,14 +1,12 @@
 //regresa los props para Formik
-import { useOnSubmit } from '@/hooks/useOnSubmit';
-import { useAxios } from '../../../hooks/useAxios'
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { RoleEnum } from '@/enums/RoleEnum';
-import { RoutesAdmin } from '@/router/modules/admin.routes';
-import { RoutesUser } from '@/router/modules/users.routes';
-export const useLogin = ({
-    mutateAsync
-}) => {
+import { useOnSubmit } from "@/hooks/useOnSubmit";
+import { useAxios } from "../../../hooks/useAxios";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { RoleEnum } from "@/enums/RoleEnum";
+import { RoutesAdmin } from "@/router/modules/admin.routes";
+import { RoutesUser } from "@/router/modules/users.routes";
+export const useLogin = ({ mutateAsync }) => {
     const { saveAuth } = useAxios();
     const navigate = useNavigate();
     const { onSubmit } = useOnSubmit({
@@ -31,17 +29,17 @@ export const useLogin = ({
     });
 
     const validationSchema = Yup.object({
-        email: Yup.string().required('Requerido').email('Email inválido'),
-        password: Yup.string().required('Requerido'),
+        email: Yup.string().required("Requerido").email("Email inválido"),
+        password: Yup.string().required("Requerido"),
     });
 
     const initialValues = {
-        email: '',
-        password: ''
+        email: "",
+        password: "",
     };
     return {
         initialValues,
         validationSchema,
         onSubmit,
-    }
-}
+    };
+};

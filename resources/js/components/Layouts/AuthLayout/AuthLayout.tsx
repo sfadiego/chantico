@@ -1,26 +1,27 @@
-import { ReactNode } from 'react'
-import { Card, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import img from '@assets/logo_chantico.png';
+import { ReactNode } from "react";
+import { Card, Col, Container, Form, Image, Row } from "react-bootstrap";
+import img from "@assets/logo_chantico.png";
 
 interface IAuthLayout {
-    children: ReactNode
+    children: ReactNode;
 }
 const AuthLayout = ({ children }: IAuthLayout) => {
     return (
         <Container>
-            <Row className='justify-content-center'>
-                <Col xl={6} lg={10} md={10} >
-                    <Card className='o-hidden border-0 shadow-lg my-5'>
-                        <Card.Body className='p-0'>
+            <Row className="justify-content-center">
+                <Col xl={6} lg={10} md={10}>
+                    <Card className="o-hidden border-0 shadow-lg my-5">
+                        <Card.Body className="p-0">
                             <Row>
-                                <Col md={12} className='text-center'>
-                                    <div className='p-5 pb-3'>
-                                        <Image className='img-fluid img-customer-login' src={img}></Image>
+                                <Col md={12} className="text-center">
+                                    <div className="p-5 pb-3">
+                                        <Image
+                                            className="img-fluid img-customer-login"
+                                            src={img}
+                                        ></Image>
                                     </div>
                                 </Col>
-                                <Col md={12}>
-                                    {children}
-                                </Col>
+                                <Col md={12}>{children}</Col>
                             </Row>
                         </Card.Body>
                     </Card>
@@ -28,6 +29,6 @@ const AuthLayout = ({ children }: IAuthLayout) => {
             </Row>
         </Container>
     );
-}
+};
 
 export default AuthLayout;

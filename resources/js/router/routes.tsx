@@ -4,18 +4,18 @@ import { UserRoutes } from "./modules/users.routes";
 import { AdminRoutes } from "./modules/admin.routes";
 
 export enum BaseRoutes {
-    Index = '/',
-    Forbidden = '/forbidden',
-    Error = '*',
-};
+    Index = "/",
+    Forbidden = "/forbidden",
+    Error = "*",
+}
 
-const ERROR404 = lazy(() => import('../pages/Error404'))
+const ERROR404 = lazy(() => import("../pages/Error404"));
 
 export default [
     {
         path: BaseRoutes.Index,
         element: <></>,
-        private: true
+        private: true,
     },
     ...AuthRoutes,
     ...AdminRoutes,

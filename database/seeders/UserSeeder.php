@@ -13,25 +13,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            User::NOMBRE => 'Ana Gabriela',
-            User::EMAIL => 'chantico@chantico.com',
+        User::updateOrCreate([
+            User::USUARIO => env('APP_ADMIN_USER'),
+        ], [
+            User::NOMBRE => 'Admin',
+            User::EMAIL => env('APP_ADMIN_EMAIL'),
             'email_verified_at' => now(),
-            User::USUARIO => 'gabyZepeda',
-            User::PASSWORD => bcrypt('chantico'),
-            User::APELLIDO_PATERNO => 'Zepeda',
+            User::USUARIO => env('APP_ADMIN_USER'),
+            User::PASSWORD => bcrypt(env('APP_ADMIN_PASSWORD')),
+            User::APELLIDO_PATERNO => '',
             User::APELLIDO_MATERNO => 'Trujillo',
             User::ROL_ID => RoleEnum::ADMIN,
             User::ACTIVO => 1,
         ]);
-        User::create([
+        User::updateOrCreate([
+            User::USUARIO => env('APP_USER_USER'),
+        ], [
             User::NOMBRE => 'Empleado',
             User::APELLIDO_PATERNO => '',
             User::APELLIDO_MATERNO => '',
-            User::EMAIL => 'empleado@gmail.com',
+            User::EMAIL => env('APP_USER_EMAIL'),
             'email_verified_at' => now(),
-            User::USUARIO => 'employe',
-            User::PASSWORD => bcrypt('chantico'),
+            User::USUARIO => env('APP_USER_USER'),
+            User::PASSWORD => bcrypt(env('APP_USER_PASSWORD')),
             User::ROL_ID => RoleEnum::EMPLOYE,
             User::ACTIVO => 1,
         ]);

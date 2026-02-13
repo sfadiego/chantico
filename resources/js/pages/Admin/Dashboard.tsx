@@ -10,21 +10,30 @@ import { useEffect } from "react";
 
 const Dashboard = () => {
     const { isLoading, showData, info, refetch } = useActiveSale();
-    const {  setSistema } = useAxios();
+    const { setSistema } = useAxios();
     if (isLoading && showData) return <LoadingComponent />;
     useEffect(() => {
         if (info) {
-            setSistema(info.id)
+            setSistema(info.id);
         }
-    }, [info])
+    }, [info]);
 
     return (
         <>
-            <NavBarLayout >
+            <NavBarLayout>
                 <NavBarOptionContainer>
-                    <NavBarOptions label="Productos" href={RoutesAdmin.ProductList} />
-                    <NavBarOptions label="Categorías" href={RoutesAdmin.CategoryList} />
-                    <NavBarOptions label="Estadísticas" href={RoutesAdmin.Statistics} />
+                    <NavBarOptions
+                        label="Productos"
+                        href={RoutesAdmin.ProductList}
+                    />
+                    <NavBarOptions
+                        label="Categorías"
+                        href={RoutesAdmin.CategoryList}
+                    />
+                    <NavBarOptions
+                        label="Estadísticas"
+                        href={RoutesAdmin.Statistics}
+                    />
                     <NavBarOptions label="Ventas" href={RoutesAdmin.SaleList} />
                 </NavBarOptionContainer>
             </NavBarLayout>
@@ -32,6 +41,6 @@ const Dashboard = () => {
                 <WidgetLayout />
             </main>
         </>
-    )
-}
+    );
+};
 export default Dashboard;

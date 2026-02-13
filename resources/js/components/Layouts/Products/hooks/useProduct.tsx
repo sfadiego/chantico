@@ -1,11 +1,11 @@
 import { useOnSubmit } from "@/hooks/useOnSubmit";
 import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 interface IuseProductProps {
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
-    onSuccess: (data: any) => void,
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>;
+    onSuccess: (data: any) => void;
 }
 export const useProduct = ({ mutateAsync, onSuccess }: IuseProductProps) => {
     const { onSubmit } = useOnSubmit({
@@ -13,14 +13,16 @@ export const useProduct = ({ mutateAsync, onSuccess }: IuseProductProps) => {
         onSuccess: (data) => onSuccess(data),
     });
     const validationSchema = Yup.object({
-        nombre: Yup.string().required('Este campo es obligatorio'),
-        precio: Yup.number().min(1, 'El precio no es valido').required('Este campo es obligatorio'),
-        categoria_id: Yup.number().required('La categoria es requerida'),
+        nombre: Yup.string().required("Este campo es obligatorio"),
+        precio: Yup.number()
+            .min(1, "El precio no es valido")
+            .required("Este campo es obligatorio"),
+        categoria_id: Yup.number().required("La categoria es requerida"),
         descripcion: Yup.string(),
     });
 
     const initialValues = {
-        nombre: '',
+        nombre: "",
         precio: 0,
         categoria_id: "",
         descripcion: "",
@@ -29,5 +31,5 @@ export const useProduct = ({ mutateAsync, onSuccess }: IuseProductProps) => {
         initialValues,
         validationSchema,
         onSubmit,
-    }
-}
+    };
+};

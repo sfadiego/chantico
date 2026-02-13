@@ -1,11 +1,15 @@
 import "@css/modal.css";
-import { QueryObserverResult, RefetchOptions, UseMutateAsyncFunction } from "@tanstack/react-query";
-import { Button } from 'react-bootstrap';
-import { useStoreOrder } from '@/services/useOrderService';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import * as Yup from 'yup';
+import {
+    QueryObserverResult,
+    RefetchOptions,
+    UseMutateAsyncFunction,
+} from "@tanstack/react-query";
+import { Button } from "react-bootstrap";
+import { useStoreOrder } from "@/services/useOrderService";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 import MyModal from "./Index";
-import { useOnSubmit } from '@/hooks/useOnSubmit';
+import { useOnSubmit } from "@/hooks/useOnSubmit";
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
 import { RoutesAdmin } from "@/router/modules/admin.routes";
@@ -13,23 +17,20 @@ import { useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
 
 interface ModalNewOrderProps {
-    sistemaId: number,
-    show: boolean,
-    closeModal: (props: boolean) => void,
-    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
+    sistemaId: number;
+    show: boolean;
+    closeModal: (props: boolean) => void;
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
 }
 
 interface IuseHandleOrderProps {
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
-    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
-    sistemaId: number,
-    closeModal: (props: boolean) => void,
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>;
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
+    sistemaId: number;
+    closeModal: (props: boolean) => void;
 }
 
-const useHandleOrder = ({
-    mutateAsync,
-    sistemaId
-}: IuseHandleOrderProps) => {
+const useHandleOrder = ({ mutateAsync, sistemaId }: IuseHandleOrderProps) => {
     const navigate = useNavigate();
     const { onSubmit } = useOnSubmit({
         mutateAsync,
@@ -39,11 +40,17 @@ const useHandleOrder = ({
         },
     });
     const validationSchema = Yup.object({
-        total: Yup.number().min(0, 'El total no es valido').required('Este campo es obligatorio'),
-        subtotal: Yup.number().min(0, 'El subtotal no es valido').required('Este campo es obligatorio'),
-        sistema_id: Yup.number().required('El Id del sistema no se encuentra en la peticion'),
-        nombre_pedido: Yup.string().required('Este campo es obligatorio'),
-        estatus_pedido_id: Yup.number().required('Este campo es obligatorio'),
+        total: Yup.number()
+            .min(0, "El total no es valido")
+            .required("Este campo es obligatorio"),
+        subtotal: Yup.number()
+            .min(0, "El subtotal no es valido")
+            .required("Este campo es obligatorio"),
+        sistema_id: Yup.number().required(
+            "El Id del sistema no se encuentra en la peticion",
+        ),
+        nombre_pedido: Yup.string().required("Este campo es obligatorio"),
+        estatus_pedido_id: Yup.number().required("Este campo es obligatorio"),
     });
 
     const initialValues = {
@@ -57,74 +64,109 @@ const useHandleOrder = ({
         initialValues,
         validationSchema,
         onSubmit,
-    }
-}
+    };
+};
 
-export const ModalNewOrder = ({ show, closeModal, refetch, sistemaId }: ModalNewOrderProps) => {
+export const ModalNewOrder = ({
+    show,
+    closeModal,
+    refetch,
+    sistemaId,
+}: ModalNewOrderProps) => {
     const mutate = useStoreOrder();
     const props = useHandleOrder({
         mutateAsync: mutate.mutateAsync,
         refetch,
         closeModal,
-        sistemaId
+        sistemaId,
     });
     const title = "Crear Pedido";
     return (
-        <MyModal modalTitle={title} show={show} >
-            <Formik {...props} >
+        <MyModal modalTitle={title} show={show}>
+            <Formik {...props}>
                 {({ isSubmitting }) => (
                     <Form>
-                        <div className='mb-3'>
-                            <label className='form-label' htmlFor="firstName">Nombre de la mesa </label>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="firstName">
+                                Nombre de la mesa{" "}
+                            </label>
                             <Field
                                 className="form-control"
                                 type="text"
-                                name='nombre_pedido'
+                                name="nombre_pedido"
                                 placeholder="Nombre de la mesa"
                             />
-                            <ErrorMessage name="nombre_pedido" className="text-danger p-1" component="div" />
+                            <ErrorMessage
+                                name="nombre_pedido"
+                                className="text-danger p-1"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
+                        <div className="mb-3">
                             <Field type="hidden" name="sistema_id"></Field>
-                            <ErrorMessage name="sistema_id" className="text-danger" component="div" />
+                            <ErrorMessage
+                                name="sistema_id"
+                                className="text-danger"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
-                            <Field type="hidden" name="estatus_pedido_id"></Field>
-                            <ErrorMessage name="estatus_pedido_id" className="text-danger" component="div" />
+                        <div className="mb-3">
+                            <Field
+                                type="hidden"
+                                name="estatus_pedido_id"
+                            ></Field>
+                            <ErrorMessage
+                                name="estatus_pedido_id"
+                                className="text-danger"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
-                            <label className='form-label' htmlFor="firstName">Total </label>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="firstName">
+                                Total{" "}
+                            </label>
                             <Field
                                 className="form-control"
                                 type="number"
-                                name='total'
+                                name="total"
                                 disabled
                                 placeholder="total"
                             />
-                            <ErrorMessage name="total" className="text-danger p-1" component="div" />
+                            <ErrorMessage
+                                name="total"
+                                className="text-danger p-1"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
-                            <label className='form-label' htmlFor="firstName">Subtotal </label>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="firstName">
+                                Subtotal{" "}
+                            </label>
                             <Field
                                 className="form-control"
                                 type="number"
-                                name='subtotal'
+                                name="subtotal"
                                 disabled
                                 placeholder="subtotal"
                             />
-                            <ErrorMessage name="subtotal" className="text-danger p-1" component="div" />
+                            <ErrorMessage
+                                name="subtotal"
+                                className="text-danger p-1"
+                                component="div"
+                            />
                         </div>
-                        <div className='pt-3 my-modal-footer'>
+                        <div className="pt-3 my-modal-footer">
                             <Button
                                 onClick={() => closeModal(false)}
                                 className="me-2"
-                                variant="secondary">
+                                variant="secondary"
+                            >
                                 Cerrar
                             </Button>
                             <Button
                                 disabled={isSubmitting || mutate.isPending}
-                                variant='primary'
-                                type='submit'
+                                variant="primary"
+                                type="submit"
                             >
                                 Crear
                             </Button>
@@ -133,5 +175,5 @@ export const ModalNewOrder = ({ show, closeModal, refetch, sistemaId }: ModalNew
                 )}
             </Formik>
         </MyModal>
-    )
-}
+    );
+};

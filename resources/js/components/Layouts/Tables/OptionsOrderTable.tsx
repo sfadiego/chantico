@@ -23,7 +23,7 @@ interface OptionsOrderTableProps {
 
 //TODO: MOVER A HOOK
 const usePrintOrder = (
-    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>
+    mutateAsync: UseMutateAsyncFunction<AxiosResponse<any>, Error, any>,
 ) => {
     const { onSubmit } = useOnSubmit({
         mutateAsync,
@@ -36,7 +36,7 @@ const usePrintOrder = (
         {},
         {
             setErrors: (errors: any) => toast.error(errors.message),
-        }
+        },
     );
 };
 export const OptionsOrderTable = ({
@@ -111,7 +111,7 @@ export const OptionsOrderTable = ({
             {
                 setErrors: (errors: any) =>
                     errors.message && toast.error(errors.message),
-            }
+            },
         );
     };
 

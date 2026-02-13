@@ -1,10 +1,10 @@
-import { IOrder } from '@/intefaces/IOrder';
-import moment from 'moment';
-import React from 'react'
-import { Table } from 'react-bootstrap';
+import { IOrder } from "@/intefaces/IOrder";
+import moment from "moment";
+import React from "react";
+import { Table } from "react-bootstrap";
 
 interface IOrdersTableProps {
-    orders: IOrder[]
+    orders: IOrder[];
 }
 export const SummaryOrdersTable = ({ orders }: IOrdersTableProps) => {
     return (
@@ -20,24 +20,28 @@ export const SummaryOrdersTable = ({ orders }: IOrdersTableProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        orders.map(({ created_at,
+                    {orders.map(
+                        ({
+                            created_at,
                             descuento,
                             id,
                             nombre_pedido,
                             subtotal,
-                            total }: IOrder) => {
-                            return <tr key={id}>
-                                <td>{id}</td>
-                                <td>{nombre_pedido}</td>
-                                <td>{total}</td>
-                                <td>{subtotal}</td>
-                                <td>{descuento}</td>
-                            </tr>
-                        })
-                    }
+                            total,
+                        }: IOrder) => {
+                            return (
+                                <tr key={id}>
+                                    <td>{id}</td>
+                                    <td>{nombre_pedido}</td>
+                                    <td>{total}</td>
+                                    <td>{subtotal}</td>
+                                    <td>{descuento}</td>
+                                </tr>
+                            );
+                        },
+                    )}
                 </tbody>
             </Table>
         </>
-    )
-}
+    );
+};

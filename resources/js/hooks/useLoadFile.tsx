@@ -1,15 +1,14 @@
-import { IFileProps } from '@/intefaces/IFileProps';
-import { useGetFile } from '@/services/useGetFileService';
+import { IFileProps } from "@/intefaces/IFileProps";
+import { useGetFile } from "@/services/useGetFileService";
 
-const useLoadFile = ({ picture }: { picture: IFileProps|undefined }) => {
-    const fileName = picture?.nombre_archivo || '';
+const useLoadFile = ({ picture }: { picture: IFileProps | undefined }) => {
+    const fileName = picture?.nombre_archivo || "";
     let { isLoading, data } = useGetFile(fileName, !!fileName);
     return {
-        showImage: (!isLoading && data),
+        showImage: !isLoading && data,
         isLoading,
-        data
-    }
+        data,
+    };
+};
 
-}
-
-export default useLoadFile
+export default useLoadFile;

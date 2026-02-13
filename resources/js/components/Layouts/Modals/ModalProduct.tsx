@@ -1,8 +1,8 @@
 import "@css/modal.css";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import MyModal from "./Index";
-import { Button } from 'react-bootstrap';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Button } from "react-bootstrap";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useStoreProduct } from "@/services/useProductService";
 import { SelectCategory } from "@/components/Select/SelectCategory";
 import { useProduct } from "../Products/hooks/useProduct";
@@ -10,50 +10,72 @@ import { Textarea } from "@/components/Textarea/Textarea";
 import { toast } from "react-toastify";
 
 interface IModalProductProps {
-    productId?: number,
-    show: boolean,
-    closeModal: (props: boolean) => void,
-    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>
+    productId?: number;
+    show: boolean;
+    closeModal: (props: boolean) => void;
+    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult>;
 }
 
-export const ModalProduct = ({ show, closeModal, refetch }: IModalProductProps) => {
+export const ModalProduct = ({
+    show,
+    closeModal,
+    refetch,
+}: IModalProductProps) => {
     const mutate = useStoreProduct();
     const props = useProduct({
-        mutateAsync: mutate.mutateAsync, onSuccess({ data: { nombre } }) {
-            refetch()
+        mutateAsync: mutate.mutateAsync,
+        onSuccess({ data: { nombre } }) {
+            refetch();
             toast.success(`El producto ${nombre} se agrego correctamente.`);
             closeModal(false);
-        }
+        },
     });
     const title = `Crear Producto`;
 
     return (
-        <MyModal modalTitle={title} show={show} >
-            <Formik {...props} >
-                {({ isSubmitting, errors, values, handleChange, handleBlur }) => (
-                    < Form >
-
-                        <div className='mb-3'>
-                            <label className='form-label' htmlFor="">Nombre de Producto </label>
+        <MyModal modalTitle={title} show={show}>
+            <Formik {...props}>
+                {({
+                    isSubmitting,
+                    errors,
+                    values,
+                    handleChange,
+                    handleBlur,
+                }) => (
+                    <Form>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="">
+                                Nombre de Producto{" "}
+                            </label>
                             <Field
                                 className="form-control"
                                 type="text"
-                                name='nombre'
+                                name="nombre"
                                 placeholder="Producto"
                             />
-                            <ErrorMessage name="nombre" className="text-danger p-1" component="div" />
+                            <ErrorMessage
+                                name="nombre"
+                                className="text-danger p-1"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
-                            <label className='form-label' htmlFor="">Precio </label>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="">
+                                Precio{" "}
+                            </label>
                             <Field
                                 className="form-control"
                                 type="number"
-                                name='precio'
+                                name="precio"
                                 placeholder="precio"
                             />
-                            <ErrorMessage name="precio" className="text-danger p-1" component="div" />
+                            <ErrorMessage
+                                name="precio"
+                                className="text-danger p-1"
+                                component="div"
+                            />
                         </div>
-                        <div className='mb-3'>
+                        <div className="mb-3">
                             {
                                 <SelectCategory
                                     selectId={`categoria_id`}
@@ -64,27 +86,28 @@ export const ModalProduct = ({ show, closeModal, refetch }: IModalProductProps) 
                                 />
                             }
                         </div>
-                        <div className='mb-3'>
+                        <div className="mb-3">
                             <Textarea
-                                label='Descripcion'
-                                textareaId='descripcion'
+                                label="Descripcion"
+                                textareaId="descripcion"
                                 formikErrors={errors}
                                 formikValues={values}
                                 handleChange={handleChange}
                                 handleBlur={handleBlur}
                             />
                         </div>
-                        <div className='pt-3 my-modal-footer'>
+                        <div className="pt-3 my-modal-footer">
                             <Button
                                 onClick={() => closeModal(false)}
                                 className="me-2"
-                                variant="secondary">
+                                variant="secondary"
+                            >
                                 Cerrar
                             </Button>
                             <Button
                                 disabled={isSubmitting || mutate.isPending}
-                                variant='primary'
-                                type='submit'
+                                variant="primary"
+                                type="submit"
                             >
                                 Crear
                             </Button>
@@ -92,6 +115,6 @@ export const ModalProduct = ({ show, closeModal, refetch }: IModalProductProps) 
                     </Form>
                 )}
             </Formik>
-        </MyModal >
-    )
-}
+        </MyModal>
+    );
+};

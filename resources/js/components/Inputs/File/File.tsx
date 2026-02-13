@@ -1,9 +1,9 @@
 interface IInputFileProps {
-    inputId: string,
+    inputId: string;
     formikErrors?: { [key: string]: string };
-    label: string,
-    acceptInputTypes: string,
-    onChangeEvent: (e: any) => void
+    label: string;
+    acceptInputTypes: string;
+    onChangeEvent: (e: any) => void;
 }
 
 export const File = ({
@@ -11,24 +11,24 @@ export const File = ({
     onChangeEvent,
     acceptInputTypes,
     label,
-    inputId
+    inputId,
 }: IInputFileProps) => {
-
     return (
         <>
-            <label className='form-label' htmlFor={inputId}>{label} </label>
+            <label className="form-label" htmlFor={inputId}>
+                {label}{" "}
+            </label>
             <input
-                type='file'
+                type="file"
                 id={inputId}
                 name={inputId}
                 onChange={onChangeEvent}
                 accept={acceptInputTypes}
-                className="form-control">
-            </input>
-            {
-                (formikErrors && formikErrors[inputId])
-                && <div className="text-danger p-1">{formikErrors[inputId]}</div>
-            }
+                className="form-control"
+            ></input>
+            {formikErrors && formikErrors[inputId] && (
+                <div className="text-danger p-1">{formikErrors[inputId]}</div>
+            )}
         </>
-    )
-}
+    );
+};

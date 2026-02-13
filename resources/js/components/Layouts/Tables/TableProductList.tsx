@@ -1,23 +1,25 @@
-import { Badge, Button, Col, Table } from 'react-bootstrap'
-import LoadingComponent from '../LoadingComponent';
-import { useState } from 'react';
-import { useIndexProducts } from '@/services/useProductService';
-import { IProduct } from '@/intefaces/IProduct';
-import { ModalProduct } from '../Modals/ModalProduct';
-import { OptionsProductTable } from './OptionsProductTable';
-import useHandleProducts from '@/hooks/useHandleProducts';
+import { Badge, Button, Col, Table } from "react-bootstrap";
+import LoadingComponent from "../LoadingComponent";
+import { useState } from "react";
+import { useIndexProducts } from "@/services/useProductService";
+import { IProduct } from "@/intefaces/IProduct";
+import { ModalProduct } from "../Modals/ModalProduct";
+import { OptionsProductTable } from "./OptionsProductTable";
+import useHandleProducts from "@/hooks/useHandleProducts";
 interface ITableProductList {
-    search?: string
+    search?: string;
 }
 
-export const TableProductList = ({ search = '' }: ITableProductList) => {
+export const TableProductList = ({ search = "" }: ITableProductList) => {
     const [show, setShow] = useState(false);
     const closeModal = (show: boolean) => setShow(show);
-    const { isLoading, products, refetch } = useHandleProducts({ productName: search });
+    const { isLoading, products, refetch } = useHandleProducts({
+        productName: search,
+    });
     if (isLoading) return <LoadingComponent></LoadingComponent>;
     return (
         <>
-            <Col md={12} className='mb-3'>
+            <Col md={12} className="mb-3">
                 <Button onClick={() => setShow(true)} variant="primary">
                     <i className="bi bi-plus-circle"></i> Nuevo Producto
                 </Button>
@@ -34,30 +36,46 @@ export const TableProductList = ({ search = '' }: ITableProductList) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            products.map(({ id, nombre, precio, categoria_id, category }: IProduct) => {
-                                return <tr key={id}>
-                                    <td>{id}</td>
-                                    <td>{nombre}</td>
-                                    <td>{precio}</td>
-                                    <td>{
-                                        category?.nombre
-                                            ? category?.nombre
-                                            : <Badge bg="danger">No asignada</Badge>
-                                    }</td>
-                                    <td>
-                                        <OptionsProductTable refetch={refetch} productId={id} />
-                                    </td>
-                                </tr>
-                            })
-                        }
+                        {products.map(
+                            ({
+                                id,
+                                nombre,
+                                precio,
+                                categoria_id,
+                                category,
+                            }: IProduct) => {
+                                return (
+                                    <tr key={id}>
+                                        <td>{id}</td>
+                                        <td>{nombre}</td>
+                                        <td>{precio}</td>
+                                        <td>
+                                            {category?.nombre ? (
+                                                category?.nombre
+                                            ) : (
+                                                <Badge bg="danger">
+                                                    No asignada
+                                                </Badge>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <OptionsProductTable
+                                                refetch={refetch}
+                                                productId={id}
+                                            />
+                                        </td>
+                                    </tr>
+                                );
+                            },
+                        )}
                     </tbody>
                 </Table>
                 <ModalProduct
                     refetch={refetch}
                     closeModal={closeModal}
-                    show={show} />
+                    show={show}
+                />
             </Col>
         </>
-    )
-}
+    );
+};
