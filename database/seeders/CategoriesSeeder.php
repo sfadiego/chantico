@@ -27,8 +27,9 @@ class CategoriesSeeder extends Seeder
             'EXTRAS',
         ];
 
-        foreach ($categories as $category) {
-            CategoryModel::updateOrCreate(['nombre' => $category]);
-        }
+        collect($categories)
+            ->each(function ($category) {
+                CategoryModel::updateOrCreate(['nombre' => $category]);
+            });
     }
 }
