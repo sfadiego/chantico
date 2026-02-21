@@ -1,9 +1,10 @@
-import React from "react";
-import { IUser } from "./IUser";
+import { IUser } from "@/models/IUser";
+import { ReactElement } from "react";
 
 export default interface IRoute {
     path: string;
-    element: React.ReactNode;
+    element: ReactElement;
     private?: boolean;
     hasPermission?: (props: IUser) => boolean;
+    layout?: string;
 }

@@ -1,11 +1,13 @@
+import { IUser } from "@/models/IUser";
 import { AxiosInstance } from "axios";
-import { IUser } from "../../intefaces/IUser";
 
 export interface IAuthContextType {
     authToken: string | null;
-    isAuthenticated: boolean;
+    isAuth: boolean;
     user: IUser | null;
     axiosApi: AxiosInstance;
+    saveAuth: (accessToken: string, user: IUser) => void;
+    //TODO: revisar variables
     sistemaId: number;
     logout: () => void;
     setSistema: (sistema: number | null) => void;

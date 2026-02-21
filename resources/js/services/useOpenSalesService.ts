@@ -1,12 +1,16 @@
-import { useGET, usePOST, usePUT } from "../hooks/useApi";
+import { IMainOrderReport } from "@/models/IMainOrderReport";
+import { useGET, usePOST } from "../hooks/useApi";
+import { ISingleResponse } from "@/intefaces/ISingleResponse";
 
-export const useGetMainSalesIndex = () => useGET({ url: `admin/system` });
+const url = "admin/system";
+export const useGetMainSalesIndex = () => useGET({ url: `${url}` });
 export const useGetActiveSale = () =>
-    useGET({ url: `admin/system/active-sale` });
-export const useStoreOpenSales = () => usePOST({ url: `admin/system/open` });
+    useGET<ISingleResponse<IMainOrderReport>>({ url: `${url}/active-sale` });
+export const useStoreOpenSales = () => usePOST({ url: `${url}/open` });
 export const useCloseSales = (systemId: number) =>
-    usePOST({ url: `admin/system/${systemId}/close` });
+    usePOST({ url: `${url}/${systemId}/close` });
 export const useTotalCloseSales = (systemId: number) =>
-    useGET({ url: `admin/system/${systemId}/total-close-sales` });
+    useGET({ url: `${url}/${systemId}/total-close-sales` });
+
 export const useDetailOfCloseSales = (systemId: number) =>
-    useGET({ url: `admin/system/${systemId}/detail-close-sales` });
+    useGET({ url: `${url}/${systemId}/detail-close-sales` });

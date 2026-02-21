@@ -1,6 +1,6 @@
 import { useIndexCategories } from "@/services/useCategoriesService";
-import LoadingComponent from "../Layouts/LoadingComponent";
 import { ICategory } from "@/intefaces/ICategory";
+import LoadingComponent from "@/Layouts/LoadingComponent";
 
 interface ISelectCategoryProps {
     selectId: string;
@@ -26,11 +26,11 @@ export const SelectCategory = ({
     selectId,
 }: ISelectCategoryProps) => {
     let { isLoading, categories, showData } = getCategories();
-    if (isLoading) return <LoadingComponent></LoadingComponent>;
+    if (isLoading) return <LoadingComponent />;
     return (
         <>
             <label className="form-label" htmlFor="categoria">
-                Categoria{" "}
+                Categoria
             </label>
             <select
                 id={selectId}

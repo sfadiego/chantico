@@ -1,25 +1,55 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAxios } from "@hooks/useAxios";
+// import React from "react";
+// import { Navigate } from "react-router-dom";
+// import { useAxios } from "@hooks/useAxios";
+// import IRoute from "@/intefaces/IRoutes";
+// import { AuthRoutesEnum } from "@/router/modules/auth.routes";
+// import { BaseRoutes } from "@/router/routes";
+
+// const PrivateRoute = ({
+//     route,
+//     element,
+// }: {
+//     route: IRoute;
+//     element: React.ReactElement;
+// }) => {
+//     const { isAuthenticated, user } = useAxios();
+
+//     if (!isAuthenticated) return <Navigate to={AuthRoutesEnum.Login} />;
+//     if (route.hasPermission != undefined && !route.hasPermission(user!)) {
+//         return <Navigate to={BaseRoutes.Forbidden} />;
+//     }
+
+//     return element;
+// };
+
+// export default PrivateRoute;
+
+import { useAxios } from "@/hooks/useAxios";
 import IRoute from "@/intefaces/IRoutes";
-import { AuthRoutesEnum } from "@/router/modules/auth.routes";
-import { BaseRoutes } from "@/router/routes";
+import { AuthRoutes } from "@/router/modules/auth.routes";
+import { ErrorRoutes } from "@/router/modules/error.routes";
+import React, { ReactElement } from "react";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({
-    route,
     element,
+    route,
 }: {
+    element: ReactElement;
     route: IRoute;
-    element: React.ReactElement;
 }) => {
-    const { isAuthenticated, user } = useAxios();
+    const { isAuth, user } = useAxios();
+    if (!isAuth) return <Navigate to={AuthRoutes.Login} />;
 
-    if (!isAuthenticated) return <Navigate to={AuthRoutesEnum.Login} />;
     if (route.hasPermission != undefined && !route.hasPermission(user!)) {
-        return <Navigate to={BaseRoutes.Forbidden} />;
+        return <Navigate to={ErrorRoutes.Forbidden} />;
     }
 
-    return element;
+    return React.isValidElement(element) ? (
+        element
+    ) : (
+        <Navigate to={ErrorRoutes.Forbidden} />
+    );
 };
 
 export default PrivateRoute;

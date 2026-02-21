@@ -1,36 +1,66 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import axiosApi from "../configs/axiosConfig";
+import axiosApi from "@/configs/axiosConfig";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { IAuthContextType } from "./interfaces/IAuthContextType";
-import { IUser } from "@/intefaces/IUser";
+import { IAuthProviderProps } from "./interfaces/IAuthProviderProps";
+import { IUser } from "@/models/IUser";
 
 export const AxiosContext = createContext<IAuthContextType | undefined>(
     undefined,
 );
 
-interface IAuthProviderProps {
-    children: ReactNode;
-}
-
 export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     const [authToken, setAuthToken] = useState<string | null>(
         localStorage.getItem("authToken"),
     );
-
-    const [sistemaId, setSistemaId] = useState<string | null>(
-        localStorage.getItem("sistemaId"),
-    );
-
-    const [user, setUserState] = useState<IUser | null>(
+    const [user, setUser] = useState<IUser | null>(
         localStorage.getItem("user")
             ? JSON.parse(localStorage.getItem("user")!)
             : null,
     );
+
+    const [sistemaId, setSistemaId] = useState<number>(
+        localStorage.getItem("sistemaId")
+            ? Number(localStorage.getItem("sistemaId"))
+            : 0,
+    );
+
+    const logout = useCallback(() => {
+        configureAxiosHeaders(null);
+        configUser(null);
+        setSistema(null);
+        window.location.replace("/login");
+    }, []);
 
     useEffect(() => {
         if (sistemaId) {
             setSistema(sistemaId);
         }
     }, [sistemaId]);
+
+    //TODO: reestructurar componentes para dejar el interceptor aqui
+    // useEffect(() => {
+    //     const responseInterceptor = axiosApi.interceptors.response.use(
+    //         (response) => {
+    //             if (
+    //                 response.status === 200 &&
+    //                 response.config.responseType != "blob"
+    //             ) {
+    //                 response.data = response.data.data;
+    //             }
+    //             return response;
+    //         },
+    //         (error) => {
+    //             if (error.response && error.response.status === 401) {
+    //                 logout();
+    //             }
+    //             return Promise.reject(error);
+    //         },
+    //     );
+
+    //     return () => {
+    //         axiosApi.interceptors.response.eject(responseInterceptor);
+    //     };
+    // }, [logout]);
 
     useEffect(() => {
         if (authToken) {
@@ -39,13 +69,22 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         }
     }, [authToken]);
 
-    //TODO: revisar si se necesita volver a hacer request de usuario y setear valores en localStorage
-    const setAxiosHeaders = (token: string | null) => {
+    // TODO: revisar, por que no se usa o implementar
+    const updateUser = useCallback((user: IUser) => {
+        configUser(user);
+    }, []);
+
+    const setSistema = (sistema: number | null) => {
+        const value = sistema ?? 0;
+        localStorage.setItem("sistemaId", value.toString());
+        setSistemaId(value);
+    };
+
+    const configureAxiosHeaders = (token: string | null) => {
         if (token) {
             axiosApi.defaults.headers.common["Authorization"] =
                 `Bearer ${token}`;
             localStorage.setItem("authToken", token);
-            setAuthToken(token);
         } else {
             delete axiosApi.defaults.headers.common["Authorization"];
             localStorage.removeItem("authToken");
@@ -53,56 +92,40 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         setAuthToken(token);
     };
 
-    const setUser = (user: IUser | null) => {
-        localStorage.setItem("user", JSON.stringify(user));
-        user
-            ? localStorage.setItem("user", JSON.stringify(user))
-            : localStorage.removeItem("user");
-
-        setUserState(user);
+    const configUser = (user: IUser | null) => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+        setUser(user);
     };
 
-    const setSistema = (sistemaId: string | null) => {
-        sistemaId
-            ? localStorage.setItem("sistemaId", sistemaId)
-            : localStorage.removeItem("sistema");
-
-        setSistemaId(sistemaId);
-    };
-
-    // guardar el token y el usuario logeado
-    const saveAuth = (token: string, user: IUser) => {
+    const saveAuth = (accessToken: string, user: IUser) => {
         try {
-            setAxiosHeaders(token);
-            setUser(user);
+            configureAxiosHeaders(accessToken);
+            configUser(user);
         } catch (error) {
-            console.log("saveAuth-error:", error);
+            console.error("Error de autenticación", error);
             throw error;
         }
     };
 
-    const logout = () => {
-        setAxiosHeaders(null);
-        setUser(null);
-        window.location.replace("/login");
-    };
-    //regresa si el usuario esta autenticado
-    const isAuthenticated = !!authToken;
+    const isAuth = !!authToken;
+
     const value = {
         authToken,
+        isAuth,
         user,
-        isAuthenticated,
-        saveAuth,
-        logout,
         axiosApi,
+        saveAuth,
+        //revisar estos valores
         sistemaId,
+        logout,
         setSistema,
     };
 
     return (
-        <AxiosContext.Provider value={value}>
-            {" "}
-            {children}{" "}
-        </AxiosContext.Provider>
+        <AxiosContext.Provider value={value}>{children}</AxiosContext.Provider>
     );
 };

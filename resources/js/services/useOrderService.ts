@@ -1,21 +1,22 @@
 import { useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
 
-export const useStoreOrder = () => usePOST({ url: "order" });
-export const useIndexOrder = () => useGET({ url: "order" });
+const url = "order";
+export const useStoreOrder = () => usePOST({ url });
+export const useIndexOrder = () => useGET({ url });
 export const useShowOrder = (orderId: number) =>
-    useGET({ url: `order/${orderId}` });
+    useGET({ url: `${url}/${orderId}` });
 export const useGetProductInOrder = (orderId: number, productId: number) =>
-    useGET({ url: `order/${orderId}/product/${productId}` });
+    useGET({ url: `${url}/${orderId}/product/${productId}` });
 export const useUpdateOrder = (orderId: number) =>
     usePUT({
-        url: `order/${orderId}`,
+        url: `${url}/${orderId}`,
     });
 
 export const useAddProductToOrder = (orderId: number) =>
-    usePOST({ url: `order/${orderId}/product` });
+    usePOST({ url: `${url}/${orderId}/product` });
 
 export const useDeleteOrder = (orderId: number) =>
-    useDELETE({ url: `order/${orderId}` });
+    useDELETE({ url: `${url}/${orderId}` });
 
 export const useIndexPrintOrder = (orderId: number) =>
-    usePOST({ url: `order/${orderId}/print` });
+    usePOST({ url: `${url}/${orderId}/print` });

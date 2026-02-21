@@ -1,37 +1,45 @@
 import { lazy } from "react";
-import { IUser } from "@/intefaces/IUser";
 import { RoleEnum } from "../../enums/RoleEnum";
-import { UpdateCategoryLayout } from "@/pages/Admin/Category/UpdateCategoryLayout";
-import { UpdateProductLayout } from "@/pages/Admin/Product/UpdateProductLayout";
+import { IUser } from "@/models/IUser";
+import IRoute from "@/intefaces/IRoutes";
 
-const OpenSalesLayout = lazy(
-    () => import("@/pages/Admin/Sales/OpenSalesLayout"),
+const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage")); //TODO: ajustar a dashbardPage
+const OpenSalesPage = lazy(
+    () => import("@/pages/Sales/partials/OpenSales/OpenSalesPage"),
 );
-const AdminDashboard = lazy(() => import("@/pages/Admin/Dashboard"));
-const CategoryList = lazy(() => import("@/pages/Admin/Category/CategoryList"));
-const ProductList = lazy(() => import("@/pages/Admin/Product/ProductList"));
-const TakeOrderLayout = lazy(() => import("@/pages/TakeOrderLayout"));
-const CloseSalesLayout = lazy(
-    () => import("@/pages/Admin/Sales/CloseSalesLayout"),
+const CloseSalesPage = lazy(
+    () => import("@/pages/Sales/partials/CloseSales/CloseSalesPage"),
 );
-const SalesSummaryLayout = lazy(
-    () => import("@/pages/Admin/Sales/SalesSummaryLayout"),
+const CategoriesPage = lazy(() => import("@/pages/Category/CategoriesPage"));
+const UpdateCategoryPage = lazy(
+    () => import("@/pages/Category/UpdateCategoryPage"),
 );
-const StatisticsLayout = lazy(
-    () => import("@/pages/Admin/Statistics/StatisticsLayout"),
+const ProductsPage = lazy(() => import("@/pages/Product/ProductsPage"));
+const UpdateProductPage = lazy(
+    () => import("@/pages/Product/UpdateProductPage"),
 );
-const SaleListLayout = lazy(() => import("@/pages/Admin/Sales/SaleListLayout"));
 
-export enum RoutesAdmin {
-    Dashboard = "/admin/dashboard",
+const OrderListPage = lazy(() => import("@/pages/Orders/OrderListPage"));
+const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
+const SalesSummaryPage = lazy(
+    () => import("@/pages/Sales/partials/SalesSummary/SalesSummaryPage"),
+);
+const StatisticsPage = lazy(() => import("@/pages/Statistics/StatisticsPage"));
+const SalesListPage = lazy(
+    () => import("@/pages/Sales/partials/SalesList/SalesListPage"),
+);
+
+export enum AdminRoutes {
+    Dashboard = "/",
+    OpenSales = "/admin/open-sales",
+    CloseSales = "/admin/close-sales",
+    ProductsPage = "/admin/product-list",
+    SalesSummary = "/admin/sales-summary/:id",
+    OrderList = "/order-list",
     TakeOrder = "/take-order/:id",
-    ProductList = "/admin/product-list",
     Product = "/admin/product/:id",
     CategoryList = "/admin/category-list",
     Category = "/admin/category/:id",
-    OpenSales = "/admin/open-sales",
-    CloseSales = "/admin/close-sales",
-    SalesSummary = "/admin/sales-summary/:id",
     Statistics = "/admin/statistics",
     SaleList = "/admin/sale-list",
 }
@@ -40,71 +48,76 @@ const hasPermission = ({ rol_id }: IUser) => {
     return rol_id === RoleEnum.Admin;
 };
 
-export const AdminRoutes = [
+export const adminRoutes: IRoute[] = [
     {
-        path: RoutesAdmin.Dashboard,
-        element: <AdminDashboard />,
+        path: AdminRoutes.Dashboard,
+        element: <DashboardPage />,
+        private: true,
+    },
+    {
+        path: AdminRoutes.TakeOrder,
+        element: <TakeOrderPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.TakeOrder,
-        element: <TakeOrderLayout />,
+        path: AdminRoutes.Product,
+        element: <UpdateProductPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.Product,
-        element: <UpdateProductLayout />,
+        path: AdminRoutes.ProductsPage,
+        element: <ProductsPage />,
+        private: true,
+        // hasPermission: (user: IUser) => hasPermission(user),
+    },
+    {
+        path: AdminRoutes.CategoryList,
+        element: <CategoriesPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.ProductList,
-        element: <ProductList />,
+        path: AdminRoutes.Category,
+        element: <UpdateCategoryPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.CategoryList,
-        element: <CategoryList />,
+        path: AdminRoutes.OpenSales,
+        element: <OpenSalesPage />,
+        private: true,
+        // hasPermission: (user: IUser) => hasPermission(user),
+    },
+    {
+        path: AdminRoutes.CloseSales,
+        element: <CloseSalesPage />,
+        private: true,
+        // hasPermission: (user: IUser) => hasPermission(user),
+    },
+    {
+        path: AdminRoutes.SalesSummary,
+        element: <SalesSummaryPage />,
+        private: true,
+        // hasPermission: (user: IUser) => hasPermission(user),
+    },
+    {
+        path: AdminRoutes.Statistics,
+        element: <StatisticsPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.Category,
-        element: <UpdateCategoryLayout />,
+        path: AdminRoutes.SaleList,
+        element: <SalesListPage />,
         private: true,
         hasPermission: (user: IUser) => hasPermission(user),
     },
     {
-        path: RoutesAdmin.OpenSales,
-        element: <OpenSalesLayout />,
+        path: AdminRoutes.OrderList,
+        element: <OrderListPage />,
         private: true,
-        hasPermission: (user: IUser) => hasPermission(user),
-    },
-    {
-        path: RoutesAdmin.CloseSales,
-        element: <CloseSalesLayout />,
-        private: true,
-        hasPermission: (user: IUser) => hasPermission(user),
-    },
-    {
-        path: RoutesAdmin.SalesSummary,
-        element: <SalesSummaryLayout />,
-        private: true,
-        hasPermission: (user: IUser) => hasPermission(user),
-    },
-    {
-        path: RoutesAdmin.Statistics,
-        element: <StatisticsLayout />,
-        private: true,
-        hasPermission: (user: IUser) => hasPermission(user),
-    },
-    {
-        path: RoutesAdmin.SaleList,
-        element: <SaleListLayout />,
-        private: true,
-        hasPermission: (user: IUser) => hasPermission(user),
+        // hasPermission: (user: IUser) => true,
     },
 ];

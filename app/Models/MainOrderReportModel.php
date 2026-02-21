@@ -97,12 +97,12 @@ class MainOrderReportModel extends Model
             ->exists();
     }
 
-    public function getActiveSale(): MainOrderReportModel|stdClass
+    public function getActiveSale(): MainOrderReportModel|null
     {
         $order = MainOrderReportModel::with('user')
             ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN);
 
-        return $order->exists() ? $order->first() : new stdClass;
+        return $order->exists() ? $order->first() : null;
     }
 
     public static function openSales(

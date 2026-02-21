@@ -1,3 +1,4 @@
+import { ApisEnum } from "@/configs/apisEnum";
 import { AxiosRequestConfig } from "axios";
 
 export interface IAxiosProps<Params> {
@@ -5,6 +6,7 @@ export interface IAxiosProps<Params> {
     params?: Params;
     headers?: AxiosRequestConfig["headers"];
     responseType?: AxiosRequestConfig["responseType"];
+    customHost?: ApisEnum;
 }
 
 export interface IAxiosPostProps<Data, Params> {
@@ -13,6 +15,33 @@ export interface IAxiosPostProps<Data, Params> {
     params?: Params;
     headers?: AxiosRequestConfig["headers"];
     responseType?: AxiosRequestConfig["responseType"];
+    customHost?: ApisEnum;
+}
+
+export interface IUseGETProps {
+    filters?: object;
+    url: string;
+    enable?: boolean;
+    nameQuery?: string | null;
+    params?: object;
+    headers?: AxiosRequestConfig["headers"];
+    responseType?: AxiosRequestConfig["responseType"];
+    customHost?: ApisEnum;
+}
+
+export interface IUseGETMutation {
+    url: string;
+    onSuccess: () => void;
+    headers?: AxiosRequestConfig["headers"];
+    responseType?: AxiosRequestConfig["responseType"];
+}
+
+export interface IUsePOSTProps {
+    url: string;
+    onSuccess?: () => void;
+    onError?: () => void;
+    isFile?: boolean;
+    customHost?: ApisEnum;
 }
 
 export interface IUsePUTProps {
@@ -26,21 +55,4 @@ export interface IUseDELETEProps {
     url: string;
     onSuccess?: () => void;
     onError?: () => void;
-}
-
-export interface IUseGetProps {
-    url: string;
-    filters?: object;
-    enable?: boolean;
-    params?: object;
-    headers?: AxiosRequestConfig["headers"];
-    responseType?: AxiosRequestConfig["responseType"];
-}
-
-export interface IUsePostProps {
-    url: string;
-    params?: object;
-    onSuccess?: () => void;
-    onError?: () => void;
-    isFile?: boolean;
 }

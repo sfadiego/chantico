@@ -43,7 +43,7 @@ const Error404 = () => {
                                                 </p>
                                                 <div className="mb-3 d-grid gap-2">
                                                     <Link to="/">
-                                                        &larr; Regresar{" "}
+                                                        &larr; Regresar
                                                     </Link>
                                                 </div>
                                             </CardBody>

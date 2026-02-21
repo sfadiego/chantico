@@ -1,19 +1,25 @@
-import { lazy, React } from "react";
-const LoginForm = lazy(() => import("@resources/pages/Auth/Login"));
-const Register = lazy(() => import("@resources/pages/Auth/Register"));
+import IRoute from "@/intefaces/IRoutes";
+import { lazy } from "react";
 
-export enum AuthRoutesEnum {
+const LoginPage = lazy(() => import("@/pages/Auth/LoginPage"));
+const RegisterPage = lazy(() => import("@/pages/Auth/RegisterPage"));
+
+export enum AuthRoutes {
     Login = "/login",
     Register = "/register",
 }
 
-export const AuthRoutes = [
+export const authRoutes: IRoute[] = [
     {
-        path: AuthRoutesEnum.Login,
-        element: <LoginForm />,
+        path: AuthRoutes.Login,
+        // name: "Login",
+        layout: "blank",
+        element: <LoginPage />,
     },
     {
-        path: AuthRoutesEnum.Register,
-        element: <Register />,
+        path: AuthRoutes.Register,
+        // name: "Register",
+        layout: "blank",
+        element: <RegisterPage />,
     },
 ];

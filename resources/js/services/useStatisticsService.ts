@@ -1,4 +1,4 @@
 import { useGET } from "../hooks/useApi";
 
-export const useBestSeller = () =>
-    useGET({ url: "admin/system/statistics/best-seller" });
+const url = "admin/system";
+export const useBestSeller = () => useGET({ url: `${url}/statistics/best-seller` });

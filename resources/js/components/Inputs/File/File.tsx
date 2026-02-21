@@ -16,7 +16,7 @@ export const File = ({
     return (
         <>
             <label className="form-label" htmlFor={inputId}>
-                {label}{" "}
+                {label}
             </label>
             <input
                 type="file"
