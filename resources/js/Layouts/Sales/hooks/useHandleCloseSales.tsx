@@ -12,7 +12,7 @@ export const useHandleCloseSales = ({
 }: IuseHandleCloseSaleProps) => {
     const { onSubmit } = useOnSubmit({
         mutateAsync,
-        onSuccess: (data) => onSuccess(data)
+        onSuccess: (data) => onSuccess(data),
     });
 
     return {

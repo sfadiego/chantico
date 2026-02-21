@@ -42,7 +42,6 @@ const ItemAdded = ({
                         : label}
                     {descuento > 0 && (
                         <span className="fst-italic fs-sm text-secondary">
-                            
                             %
                         </span>
                     )}

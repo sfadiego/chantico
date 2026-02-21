@@ -13,7 +13,6 @@ export const NavBarOptions = ({
         <>
             <li className="nav-item">
                 <NavLink className={`nav-link ${extraClass}`} to={href} end>
-                    
                     {label}
                 </NavLink>
             </li>

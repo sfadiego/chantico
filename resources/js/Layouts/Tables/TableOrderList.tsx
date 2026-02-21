@@ -80,7 +80,6 @@ export const TableOrderList = () => {
                                         <td>{status?.nombre}</td>
                                         <td>{date}</td>
                                         <td>
-                                            
                                             <OptionsOrderTable
                                                 refetch={refetch}
                                                 callbackSelected={
