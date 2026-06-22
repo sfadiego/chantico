@@ -1,5 +1,5 @@
 //valida la respuesta de la api con mutateAsync: tanstack
-import { UseMutateAsyncFunction } from "@tanstack/react-query/build/modern";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 

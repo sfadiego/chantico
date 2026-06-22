@@ -9,7 +9,7 @@
     <title>{{ env('APP_NAME') }}</title>
     @routes
     @viteReactRefresh
-    @vite(['resources/js/main.tsx'])
+    @vite(['resources/css/app.css', 'resources/js/main.tsx'])
 </head>
 
 <body>

@@ -1,56 +1,54 @@
-import React, { lazy } from "react";
-import { authRoutes } from "./modules/auth.routes";
-import IRoute from "@/intefaces/IRoutes";
-import { createBrowserRouter } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
+import React, { lazy, Suspense } from "react";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import AppLayout from "@/layouts/AppLayout";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
-import { adminRoutes } from "./modules/admin.routes";
+import IRoute from "@/intefaces/IRoutes";
 
-// export enum BaseRoutes {
-//     Index = "/",
-//     Forbidden = "/forbidden",
-//     Error = "*",
-// }
+const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
+const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
+const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
 
-// const ERROR404 = lazy(() => import("../pages/Error404"));
-
-// export default [
-//     {
-//         path: BaseRoutes.Index,
-//         element: <></>,
-//         private: true,
-//     },
-//     ...AuthRoutes,
-//     ...AdminRoutes,
-//     ...UserRoutes,
-//     {
-//         path: BaseRoutes.Error,
-//         element: <ERROR404 />,
-//     },
-//     {
-//         path: BaseRoutes.Forbidden,
-//         element: <ERROR404 />,
-//     },
-// ];
-
-const routes: IRoute[] = [...authRoutes, ...adminRoutes].map(
-    (route: IRoute) => {
-        const element =
-            route.layout === "blank" ? (
-                route.element
-            ) : (
-                <AppLayout>{route.element}</AppLayout>
-            );
-
-        return {
-            ...route,
-            element: route?.private ? (
-                <PrivateRoute route={route} element={element} />
-            ) : (
-                element
-            ),
-        };
-    },
+const PageLoader = () => (
+    <div className="flex items-center justify-center h-full min-h-32">
+        <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+    </div>
 );
 
-export const router = createBrowserRouter(routes);
+const FullPageLoader = () => (
+    <div className="flex items-center justify-center min-h-screen bg-stone-50">
+        <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+);
+
+const withPrivateLayout = (element: React.ReactElement, route: IRoute) => (
+    <AppLayout>
+        <PrivateRoute
+            element={<Suspense fallback={<PageLoader />}>{element}</Suspense>}
+            route={route}
+        />
+    </AppLayout>
+);
+
+const privateRoutes: IRoute[] = [
+    { path: "/", element: <DashboardPage />, private: true },
+    { path: "/take-order", element: <TakeOrderPage />, private: true },
+];
+
+export const router = createBrowserRouter([
+    {
+        path: "/login",
+        element: (
+            <Suspense fallback={<FullPageLoader />}>
+                <LoginPage />
+            </Suspense>
+        ),
+    },
+    ...privateRoutes.map((route) => ({
+        path: route.path,
+        element: withPrivateLayout(route.element, route),
+    })),
+    {
+        path: "*",
+        element: <Navigate to="/" replace />,
+    },
+]);

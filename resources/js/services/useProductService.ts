@@ -1,17 +1,30 @@
+import { IProduct } from "@/models/IProduct";
 import { useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
-import { IProduct } from "../intefaces/IProduct";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { IPaginateServiceProps } from "@/intefaces/IPaginateServiceProps";
+import { IPaginate } from "@/intefaces/IPaginate";
 
-const url = "product";
+const url = ApiRoutes.Product;
+// export const useIndexProducts = ({
+//     productName,
+//     categoryId,
+// }: {
+//     productName?: string;
+//     categoryId?: number;
+// }) =>
+//     useGET<IProduct[]>({
+//         url,
+//         filters: { search: productName, categoryId },
+//     });
 export const useIndexProducts = ({
-    productName,
-    categoryId,
-}: {
-    productName?: string;
-    categoryId?: number;
-}) =>
-    useGET<IProduct[]>({
+    filters = [],
+    order = "desc",
+    page = 1,
+    limit = 10,
+}: IPaginateServiceProps) =>
+    useGET<IPaginate<IProduct>>({
         url,
-        filters: { search: productName, categoryId },
+        filters: { filters, order, page, limit },
     });
 export const useShowProduct = (id: number) =>
     useGET<IProduct>({ url: `${url}/${id}` });
@@ -19,7 +32,7 @@ export const useGetFile = (fileName: string) =>
     useGET({ url: `files/${fileName}` });
 
 // Admin
-const adminUrl = "admin/product";
+const adminUrl = "/api/admin/product";
 export const useUpdateProductImage = (productId: number) =>
     usePOST({ url: `${adminUrl}/${productId}/image`, isFile: true });
 export const useUpdateProduct = (productId: number) =>

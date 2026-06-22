@@ -1,0 +1,14 @@
+export enum AdminRoutes {
+    Dashboard = "/",
+    OpenSales = "/open-sales",
+    CloseSales = "/close-sales",
+    ProductsPage = "/products",
+    SalesSummary = "/sales-summary/:id",
+    OrderList = "/orders",
+    TakeOrder = "/take-order/:id",
+    Product = "/product/:id",
+    CategoryList = "/categories",
+    Category = "/category/:id",
+    Statistics = "/statistics",
+    SaleList = "/sales",
+}

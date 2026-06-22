@@ -8,7 +8,7 @@ export interface IAuthContextType {
     axiosApi: AxiosInstance;
     saveAuth: (accessToken: string, user: IUser) => void;
     //TODO: revisar variables
-    sistemaId: number;
+    sistemaId: number | null;
     logout: () => void;
     setSistema: (sistema: number | null) => void;
 }

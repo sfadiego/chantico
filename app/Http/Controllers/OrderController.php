@@ -2,29 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatusEnum;
+use App\Core\Data\IndexData;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use App\Models\MainOrderReportModel;
 use App\Models\OrderModel;
+use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class OrderController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(IndexData $data, OrderService $service): JsonResponse
     {
-        $activeReportOrders = (new MainOrderReportModel)->getActiveSale();
-        if (empty($activeReportOrders?->id)) {
-            return Response::success([]);
-        }
-
-        $orders = OrderModel::with('status')
-            ->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)
-            ->where('sistema_id', $activeReportOrders->id)
-            ->get();
-
-        return Response::success($orders);
+        return $service->run($data);
     }
 
     public function store(OrderStoreRequest $params): JsonResponse
@@ -54,13 +44,6 @@ class OrderController extends Controller
 
     public function update(OrderModel $order, OrderUpdateRequest $params): JsonResponse
     {
-        foreach ($params->toArray() as $param => $value) {
-            if (! in_array($param, OrderModel::$ALLOWED_UPDATE)) {
-                return Response::error("Parametro no permitido $param");
-            }
-        }
-
-        // actualiza porcentaje
         $orderDetail = $order->totalAndSubTotalOrder();
         $order->update(
             array_merge($params->toArray(), [

@@ -1,0 +1,26 @@
+import { SidebarBrand } from "./SidebarBrand";
+import { SidebarNav } from "./SidebarNav";
+import { SidebarUser } from "./SidebarUser";
+
+interface SidebarProps {
+    open: boolean;
+    onClose: () => void;
+    onLogout: () => void;
+    userName: string;
+    userRole: string;
+}
+
+export function Sidebar({ open, onClose, onLogout, userName, userRole }: SidebarProps) {
+    return (
+        <aside
+            className={`fixed inset-y-0 left-0 z-30 w-64 bg-stone-900 flex flex-col
+                transform transition-transform duration-300 ease-in-out
+                ${open ? "translate-x-0" : "-translate-x-full"}
+                lg:relative lg:translate-x-0`}
+        >
+            <SidebarBrand onClose={onClose} />
+            <SidebarNav onItemClick={onClose} />
+            <SidebarUser name={userName} role={userRole} onLogout={onLogout} />
+        </aside>
+    );
+}

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\MainOrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use stdClass;
 
 class MainOrderReportModel extends Model
 {
@@ -97,7 +96,7 @@ class MainOrderReportModel extends Model
             ->exists();
     }
 
-    public function getActiveSale(): MainOrderReportModel|null
+    public function getActiveSale(): ?MainOrderReportModel
     {
         $order = MainOrderReportModel::with('user')
             ->where(self::ESTATUS_CAJA, MainOrderStatusEnum::OPEN);

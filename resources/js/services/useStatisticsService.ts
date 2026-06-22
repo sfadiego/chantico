@@ -1,5 +1,5 @@
 import { useGET } from "../hooks/useApi";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 
-const url = "admin/system";
-export const useBestSeller = () =>
-    useGET({ url: `${url}/statistics/best-seller` });
+const url = ApiRoutes.Statistics;
+export const useBestSeller = () => useGET({ url: `${url}/best-seller` });

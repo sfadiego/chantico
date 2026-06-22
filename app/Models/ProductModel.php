@@ -53,6 +53,7 @@ class ProductModel extends Model
         ]);
     }
 
+    // @deprecated
     public static function getProducts(string $productName = '', int $categoriaId = 0): Collection
     {
         return ProductModel::with(['picture', 'category'])

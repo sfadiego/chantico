@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { RoleEnum } from "../../enums/RoleEnum";
 import { IUser } from "@/models/IUser";
 import IRoute from "@/intefaces/IRoutes";
+import { AdminRoutes } from "@/enums/RoutesEnum";
 
 const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage")); //TODO: ajustar a dashbardPage
 const OpenSalesPage = lazy(
@@ -29,26 +30,11 @@ const SalesListPage = lazy(
     () => import("@/pages/Sales/partials/SalesList/SalesListPage"),
 );
 
-export enum AdminRoutes {
-    Dashboard = "/",
-    OpenSales = "/admin/open-sales",
-    CloseSales = "/admin/close-sales",
-    ProductsPage = "/admin/product-list",
-    SalesSummary = "/admin/sales-summary/:id",
-    OrderList = "/order-list",
-    TakeOrder = "/take-order/:id",
-    Product = "/admin/product/:id",
-    CategoryList = "/admin/category-list",
-    Category = "/admin/category/:id",
-    Statistics = "/admin/statistics",
-    SaleList = "/admin/sale-list",
-}
-
 const hasPermission = ({ rol_id }: IUser) => {
     return rol_id === RoleEnum.Admin;
 };
 
-export const adminRoutes: IRoute[] = [
+export const allRoutes: IRoute[] = [
     {
         path: AdminRoutes.Dashboard,
         element: <DashboardPage />,

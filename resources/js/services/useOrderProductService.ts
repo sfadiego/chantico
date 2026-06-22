@@ -1,6 +1,7 @@
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 import { useDELETE, usePUT } from "../hooks/useApi";
 
-const url = "order";
+const url = ApiRoutes.Orders;
 export const useUpdateOrderProduct = (orderId: number, productId: number) =>
     usePUT({
         url: `${url}/${orderId}/product/${productId}`,

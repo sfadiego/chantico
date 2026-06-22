@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AxiosProvider } from "./contexts/AxiosContext";
 import { router } from "./router/routes";
+import { MantineProvider } from "@mantine/core";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,12 +25,14 @@ const toastConfig = {
 export const App = () => {
     return (
         <AxiosProvider>
-            <QueryClientProvider client={queryClient}>
-                <Suspense>
-                    <ToastContainer {...toastConfig} />
-                    <RouterProvider router={router} />
-                </Suspense>
-            </QueryClientProvider>
+            <MantineProvider>
+                <QueryClientProvider client={queryClient}>
+                    <Suspense>
+                        <ToastContainer {...toastConfig} />
+                        <RouterProvider router={router} />
+                    </Suspense>
+                </QueryClientProvider>
+            </MantineProvider>
         </AxiosProvider>
     );
 };

@@ -7,13 +7,14 @@ import path from "path";
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/js/main.tsx"],
+            input: ["resources/css/app.css", "resources/js/main.tsx"],
             refresh: true,
         }),
         react(),
     ],
     resolve: {
         alias: {
+            "@/": path.resolve(__dirname, "resources/js") + "/",
             "@css": "/resources/css",
             "@assets": path.resolve(__dirname, "resources/assets"),
             "@components": "/resources/js/components",

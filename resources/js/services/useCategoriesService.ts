@@ -1,8 +1,9 @@
+import { IProduct } from "@/models/IProduct";
 import { useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
-import { ICategory } from "../intefaces/ICategory";
-import { IProduct } from "../intefaces/IProduct";
+import { ICategory } from "../models/ICategory";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 
-const url = "category";
+const url = ApiRoutes.Category;
 export const useIndexCategories = (search = "") =>
     useGET<ICategory[]>({ url: `${url}?search=${search}` });
 export const useShowCategory = (id: number) =>

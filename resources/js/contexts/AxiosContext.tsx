@@ -18,10 +18,10 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
             : null,
     );
 
-    const [sistemaId, setSistemaId] = useState<number>(
+    const [sistemaId, setSistemaId] = useState<number | null>(
         localStorage.getItem("sistemaId")
             ? Number(localStorage.getItem("sistemaId"))
-            : 0,
+            : null,
     );
 
     const logout = useCallback(() => {
@@ -37,30 +37,6 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         }
     }, [sistemaId]);
 
-    //TODO: reestructurar componentes para dejar el interceptor aqui
-    // useEffect(() => {
-    //     const responseInterceptor = axiosApi.interceptors.response.use(
-    //         (response) => {
-    //             if (
-    //                 response.status === 200 &&
-    //                 response.config.responseType != "blob"
-    //             ) {
-    //                 response.data = response.data.data;
-    //             }
-    //             return response;
-    //         },
-    //         (error) => {
-    //             if (error.response && error.response.status === 401) {
-    //                 logout();
-    //             }
-    //             return Promise.reject(error);
-    //         },
-    //     );
-
-    //     return () => {
-    //         axiosApi.interceptors.response.eject(responseInterceptor);
-    //     };
-    // }, [logout]);
 
     useEffect(() => {
         if (authToken) {
@@ -75,8 +51,8 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     }, []);
 
     const setSistema = (sistema: number | null) => {
-        const value = sistema ?? 0;
-        localStorage.setItem("sistemaId", value.toString());
+        const value = sistema ?? null;
+        localStorage.setItem("sistemaId", value?.toString() ?? "");
         setSistemaId(value);
     };
 
