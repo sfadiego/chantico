@@ -3,6 +3,7 @@ export interface ICategory {
     nombre: string;
     orden?: number;
     foto_id?: number;
+    icon_name?: string;
     selectCategory: (category: number) => void;
     setactiveTab: (id: number) => void;
     activeTab: number;

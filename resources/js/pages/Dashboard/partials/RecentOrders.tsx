@@ -1,6 +1,8 @@
 import { IOrder } from "@/models/IOrder";
 import { ArrowRight, ClipboardList, Loader } from "lucide-react";
 import { OrderCard } from "./OrderCard";
+import { EmptyState } from "@/components/ui/interactions/EmptyState";
+import { LoadingSkeleton } from "@/components/ui/interactions/LoadingSkeleton";
 
 interface RecentOrdersProps {
     orders: IOrder[];
@@ -77,30 +79,3 @@ export const RecentOrders = ({
         </div>
     );
 };
-
-const EmptyState = ({ message }: { message: string }) => (
-    <div className="py-10 flex flex-col items-center gap-2">
-        <div className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center">
-            <ClipboardList size={18} className="text-stone-300" />
-        </div>
-        <p className="text-stone-400 text-sm">{message}</p>
-    </div>
-);
-
-const LoadingSkeleton = () => (
-    <div className="flex flex-col gap-2">
-        {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-stone-50 animate-pulse">
-                <div className="w-10 h-10 rounded-xl bg-stone-200 shrink-0" />
-                <div className="flex-1 space-y-2">
-                    <div className="h-3 bg-stone-200 rounded w-2/5" />
-                    <div className="h-2.5 bg-stone-200 rounded w-1/4" />
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                    <div className="h-3 bg-stone-200 rounded w-14" />
-                    <div className="h-4 bg-stone-200 rounded-full w-16" />
-                </div>
-            </div>
-        ))}
-    </div>
-);

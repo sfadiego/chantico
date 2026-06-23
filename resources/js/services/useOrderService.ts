@@ -1,10 +1,10 @@
 import { IPaginate } from "@/intefaces/IPaginate";
-import { axiosGET, useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
+import { axiosGET, axiosPUT, axiosDELETE, useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
 import { IOrder } from "@/models/IOrder";
 import { IOrderProduct } from "@/models/IOrderProduct";
 import { IPaginateServiceProps } from "@/intefaces/IPaginateServiceProps";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { useAxios } from "@/hooks/useAxios";
 
 const url = ApiRoutes.Orders;
@@ -71,3 +71,28 @@ export const useDeleteOrder = (orderId: number) =>
 
 export const useIndexPrintOrder = (orderId: number) =>
     usePOST({ url: `${url}/${orderId}/print` });
+
+export const useUpdateProductInOrder = (orderId: number) => {
+    const { axiosApi } = useAxios();
+    return useMutation({
+        mutationFn: ({ productId, data }: { productId: number; data: Record<string, unknown> }) =>
+            axiosPUT(axiosApi, { url: `${url}/${orderId}/product/${productId}`, data }),
+    });
+};
+
+export const useDeleteProductInOrder = (orderId: number) => {
+    const { axiosApi } = useAxios();
+    return useMutation({
+        mutationFn: (productId: number) =>
+            axiosDELETE(axiosApi, { url: `${url}/${orderId}/product/${productId}` }),
+    });
+};
+
+// Deletes any order_product by its own id (works for both products and extras)
+export const useDeleteItemFromOrder = (orderId: number) => {
+    const { axiosApi } = useAxios();
+    return useMutation({
+        mutationFn: (orderProductId: number) =>
+            axiosDELETE(axiosApi, { url: `${url}/${orderId}/extra/${orderProductId}` }),
+    });
+};

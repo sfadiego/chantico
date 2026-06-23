@@ -6,7 +6,7 @@ import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 const url = ApiRoutes.System;
 export const useGetMainSalesIndex = () => useGET({ url: `${url}` });
 export const useGetActiveSale = () =>
-    useGET<ISingleResponse<IMainOrderReport>>({
+    useGET<IMainOrderReport>({
         url: `${url}/active-sale`,
     });
 export const useStoreOpenSales = () => usePOST({ url: `${url}/open` });

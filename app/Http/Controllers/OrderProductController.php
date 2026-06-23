@@ -79,25 +79,34 @@ class OrderProductController extends Controller
             return Response::error('no existe la orden');
         }
 
-        $product = OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
-            ->where(OrderProductModel::PRODUCTO_ID, $params->producto_id)
-            ->first();
-
-        $currentItems = $product?->cantidad ?? 0;
-        $item = $params?->cantidad;
-        $data = OrderProductModel::updateOrCreate(
-            [
-                OrderProductModel::PRODUCTO_ID => $params->producto_id,
+        if ($params->nombre_extra) {
+            $data = OrderProductModel::create([
                 OrderProductModel::PEDIDO_ID => $orderId,
-            ],
-            [
-                OrderProductModel::PRODUCTO_ID => $params->producto_id,
-                OrderProductModel::PEDIDO_ID => $orderId,
-                OrderProductModel::CANTIDAD => $currentItems + $item,
+                OrderProductModel::NOMBRE_EXTRA => $params->nombre_extra,
+                OrderProductModel::CANTIDAD => $params->cantidad,
                 OrderProductModel::PRECIO => $params->precio,
                 OrderProductModel::DESCUENTO => $params->descuento ?? 0,
-            ]
-        );
+            ]);
+        } else {
+            $product = OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
+                ->where(OrderProductModel::PRODUCTO_ID, $params->producto_id)
+                ->first();
+
+            $currentItems = $product?->cantidad ?? 0;
+            $data = OrderProductModel::updateOrCreate(
+                [
+                    OrderProductModel::PRODUCTO_ID => $params->producto_id,
+                    OrderProductModel::PEDIDO_ID => $orderId,
+                ],
+                [
+                    OrderProductModel::PRODUCTO_ID => $params->producto_id,
+                    OrderProductModel::PEDIDO_ID => $orderId,
+                    OrderProductModel::CANTIDAD => $currentItems + $params->cantidad,
+                    OrderProductModel::PRECIO => $params->precio,
+                    OrderProductModel::DESCUENTO => $params->descuento ?? 0,
+                ]
+            );
+        }
 
         $orderDetail = $order->totalAndSubTotalOrder();
         $order->update([
@@ -106,6 +115,31 @@ class OrderProductController extends Controller
         ]);
 
         return Response::success($data);
+    }
+
+    /**
+     * deleteExtra — deletes any order_product record by its own id
+     */
+    public function deleteExtra(int $orderId, int $extra): JsonResponse
+    {
+        $item = OrderProductModel::where('pedido_id', $orderId)
+            ->where('id', $extra)
+            ->first();
+
+        if (! $item) {
+            return Response::error('elemento no encontrado');
+        }
+
+        $item->delete();
+
+        $order = OrderModel::find($orderId);
+        $orderDetails = $order->totalAndSubTotalOrder();
+        $order->update([
+            'total' => $orderDetails['total'],
+            'subtotal' => $orderDetails['subtotal'],
+        ]);
+
+        return Response::success('elemento borrado de la orden');
     }
 
     /**

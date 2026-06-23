@@ -1,4 +1,5 @@
 import { IOrderStatus } from "./IOrderStatus";
+import { IOrderProduct } from "./IOrderProduct";
 
 export interface IOrder {
     id: number;
@@ -11,4 +12,5 @@ export interface IOrder {
     created_at: string;
     updated_at: string;
     status: IOrderStatus;
+    order_products?: IOrderProduct[];
 }

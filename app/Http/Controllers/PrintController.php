@@ -15,6 +15,7 @@ use Mike42\Escpos\Printer;
 class PrintController extends Controller
 {
 
+    // Todo: mejorar impresion
     public function print(OrderModel $order)
     {
         try {

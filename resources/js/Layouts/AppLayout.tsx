@@ -14,7 +14,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     const { data: activeSale } = useGetActiveSale();
 
     useEffect(() => {
-        setSistema(activeSale?.data?.id ?? null);
+        setSistema(activeSale?.id ?? null);
     }, [activeSale]);
 
     const userName = user

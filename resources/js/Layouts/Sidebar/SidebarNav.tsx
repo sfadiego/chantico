@@ -7,6 +7,7 @@ import {
     BarChart2,
     ShoppingBag,
     LucideIcon,
+    Coffee,
 } from "lucide-react";
 
 interface NavItem {
@@ -18,7 +19,7 @@ interface NavItem {
 const navItems: NavItem[] = [
     { label: "Dashboard", icon: LayoutDashboard, path: "/" },
     { label: "Orders", icon: Package, path: "/orders" },
-    { label: "Productos", icon: Package, path: "/products" },
+    { label: "Productos", icon: Coffee, path: "/products" },
     { label: "Categorías", icon: Tag, path: "/categories" },
     { label: "Ventas", icon: ShoppingBag, path: "/sales" },
     { label: "Estadísticas", icon: BarChart2, path: "/statistics" },

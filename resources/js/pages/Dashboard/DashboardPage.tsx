@@ -3,6 +3,8 @@ import { DollarSign, ShoppingCart, Package, Landmark, Plus } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { useDashboard } from "./useDashboard";
 import { RecentOrders } from "./partials/RecentOrders";
+import { NewOrderModal } from "./partials/NewOrderModal";
+import { useNewOrderModal } from "./partials/useNewOrderModal";
 
 const mockStats = [
     {
@@ -46,6 +48,7 @@ const mockStats = [
 export default function DashboardPage() {
     const navigate = useNavigate();
     const { orders, ordersLoading, isFetchingNextPage, hasNextPage, fetchNextPage, sistemaId } = useDashboard();
+    const { isOpen, openModal, handleClose, formik, isPending } = useNewOrderModal();
 
     const today = new Date().toLocaleDateString("es-MX", {
         weekday: "long",
@@ -62,7 +65,7 @@ export default function DashboardPage() {
                     <p className="text-stone-500 text-sm mt-0.5 capitalize">{today}</p>
                 </div>
                 <button
-                    onClick={() => navigate("/orders")}
+                    onClick={openModal}
                     className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm self-start sm:self-auto"
                 >
                     <Plus size={16} />
@@ -84,6 +87,13 @@ export default function DashboardPage() {
                 sistemaId={sistemaId}
                 onViewAll={() => navigate("/orders")}
                 onLoadMore={fetchNextPage}
+            />
+
+            <NewOrderModal
+                isOpen={isOpen}
+                isPending={isPending}
+                formik={formik}
+                onClose={handleClose}
             />
         </div>
     );

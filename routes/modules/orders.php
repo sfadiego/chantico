@@ -24,6 +24,12 @@ Route::prefix('order')->group(function () {
                     Route::delete('{product}', 'delete');
                 });
             });
+
+            Route::prefix('extra')->group(function () {
+                Route::controller(OrderProductController::class)->group(function () {
+                    Route::delete('{extra}', 'deleteExtra');
+                });
+            });
         });
     });
 });

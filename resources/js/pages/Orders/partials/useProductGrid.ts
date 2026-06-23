@@ -4,6 +4,7 @@ import { IProduct } from "@/models/IProduct";
 export type CategoryOption = {
     name: string;
     count: number;
+    icon?: string;
 };
 
 export const useProductGrid = (products: IProduct[]) => {
@@ -18,10 +19,14 @@ export const useProductGrid = (products: IProduct[]) => {
         );
         return [
             { name: "Todos", count: activeProducts.length },
-            ...names.map((name) => ({
-                name,
-                count: activeProducts.filter((p) => p.category?.nombre === name).length,
-            })),
+            ...names.map((name) => {
+                const sample = activeProducts.find((p) => p.category?.nombre === name);
+                return {
+                    name,
+                    count: activeProducts.filter((p) => p.category?.nombre === name).length,
+                    icon: sample?.category?.icon_name,
+                };
+            }),
         ];
     }, [activeProducts]);
 

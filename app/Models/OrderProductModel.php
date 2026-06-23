@@ -24,12 +24,15 @@ class OrderProductModel extends Model
 
     const PRECIO = 'precio';
 
+    const NOMBRE_EXTRA = 'nombre_extra';
+
     protected $fillable = [
         self::PRODUCTO_ID,
         self::PEDIDO_ID,
         self::DESCUENTO,
         self::CANTIDAD,
         self::PRECIO,
+        self::NOMBRE_EXTRA,
     ];
 
     public function product(): HasOne

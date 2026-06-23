@@ -51,7 +51,10 @@ class OrderModel extends Model
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProductModel::class, 'pedido_id')
-            ->whereHas('product')
+            ->where(function ($query) {
+                $query->whereHas('product')
+                    ->orWhereNotNull('nombre_extra');
+            })
             ->with('product');
     }
 

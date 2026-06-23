@@ -110,6 +110,7 @@ resources/js/
 ### Estructura
 - Cada página vive en `pages/<Feature>/<FeaturePage>.tsx` con lazy loading en `admin.routes.tsx`.
 - Componentes reutilizables de la página van en subcarpeta `partials/` dentro de la página, o en `components/` si son globales.
+- Todos los componentes deben ser responsivos
 
 ### peticiones http
 no hacer peticiones directamete a axios, utiliza la capa de servicios como esta declarado en services/*.ts cuando se necesita consultar el backend desde la UI
@@ -117,7 +118,11 @@ no hacer peticiones directamete a axios, utiliza la capa de servicios como esta 
 ### Componentes
 - Crea **componentes** en vez de funciones inline en la page.
 - crea hooks si es necesario por cada componente creado para separar la logica de cada componente
+- Crea componentes separados, evita crear varios componentes en un solo archivo
 
+### Pages
+- en la carpeta pages solo debe existir un componente el cual debe llamar componenes reutilizables ubicados en la carpeta Components/{module}/component.tsx
+- crea hooks si es necesario en la carpeta de pages donde contendra la logica solo de esta pagina en especifico
 
 ### Tipos
 - Definir tipos de dominio en `models/` (interfaces `IXxx`).
@@ -129,6 +134,24 @@ no hacer peticiones directamete a axios, utiliza la capa de servicios como esta 
 - Los servicios van en `services/useXxxService.ts`; cada archivo agrupa un recurso.
 - No usar Zustand. Solo TanStack Query para estado del servidor.
 - Invalidar queries con `queryClient.invalidateQueries` tras mutaciones.
+- Cuando una mutación necesita un ID dinámico **en la URL** (no solo en el body), usar `useMutation` + `axiosPUT` / `axiosDELETE` directamente dentro del service, ya que `usePUT`/`useDELETE` fijan la URL en el momento de la llamada al hook.
+
+#### `useOrderService.ts` — hooks disponibles
+
+| Hook | Método | Endpoint |
+|---|---|---|
+| `useIndexOrder(params)` | GET | `/order` — lista paginada |
+| `useInfiniteIndexOrder(sistemaId)` | GET | `/order` — lista infinita |
+| `useShowOrder(orderId)` | GET | `/order/{id}` |
+| `useStoreOrder()` | POST | `/order` |
+| `useUpdateOrder(orderId)` | PUT | `/order/{id}` |
+| `useDeleteOrder(orderId)` | DELETE | `/order/{id}` |
+| `useIndexOrderProducts(orderId)` | GET | `/order/{id}/product` |
+| `useGetProductInOrder(orderId, productId)` | GET | `/order/{id}/product/{pid}` |
+| `useAddProductToOrder(orderId)` | POST | `/order/{id}/product` |
+| `useUpdateProductInOrder(orderId)` | PUT | `/order/{id}/product/{pid}` — recibe `{ productId, data }` |
+| `useDeleteProductInOrder(orderId)` | DELETE | `/order/{id}/product/{pid}` — recibe `productId` |
+| `useIndexPrintOrder(orderId)` | POST | `/order/{id}/print` |
 
 ### Estilos
 - Tailwind CSS + CSS variables del proyecto (`resources/css/`). No inventar colores fuera del design system.

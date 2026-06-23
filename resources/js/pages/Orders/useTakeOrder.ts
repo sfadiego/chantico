@@ -1,74 +1,142 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useShowOrder, useIndexOrderProducts } from "@/services/useOrderService";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
+import {
+    useShowOrder,
+    useAddProductToOrder,
+    useUpdateProductInOrder,
+    useDeleteItemFromOrder,
+} from "@/services/useOrderService";
 
 export type CartItem = {
-    id: number;
+    orderProductId: number; // order_product.id — key for remove/update
+    id: number | null;      // producto_id (null for extras)
     name: string;
     price: number;
     quantity: number;
+    isExtra: boolean;
 };
 
 export const useTakeOrder = () => {
     const { id } = useParams<{ id: string }>();
     const orderId = Number(id);
+    const queryClient = useQueryClient();
 
-    const [cart, setCart] = useState<CartItem[]>([]);
-    const [cartSeeded, setCartSeeded] = useState(false);
+    const orderQueryKey = `${ApiRoutes.Orders}/${orderId}`;
+    const invalidateOrder = () =>
+        queryClient.invalidateQueries({ queryKey: [orderQueryKey] });
 
     const { data: order, isLoading: loadingOrder } = useShowOrder(orderId);
-    const { data: orderProducts } = useIndexOrderProducts(orderId);
 
-    useEffect(() => {
-        if (cartSeeded || !orderProducts?.length) return;
-        setCart(
-            orderProducts.map((op) => ({
-                id: op.producto_id,
-                name: op.product.nombre,
-                price: op.precio,
-                quantity: op.cantidad,
-            })),
-        );
-        setCartSeeded(true);
-    }, [orderProducts, cartSeeded]);
+    const isReadOnly = !!order && order.estatus_pedido_id !== OrderStatusEnum.InProcess;
 
-    const addToCart = (productId: number, name: string, price: number) => {
-        setCart((prev) => {
-            const existing = prev.find((item) => item.id === productId);
-            if (existing) {
-                return prev.map((item) =>
-                    item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+    const cart: CartItem[] = (order?.order_products ?? []).map((op) => ({
+        orderProductId: op.id!,
+        id: op.producto_id ?? null,
+        name: op.nombre_extra ?? op.product?.nombre ?? "",
+        price: op.precio,
+        quantity: op.cantidad,
+        isExtra: !op.producto_id,
+    }));
+
+    const { mutateAsync: addProduct } = useAddProductToOrder(orderId);
+    const { mutateAsync: updateProduct } = useUpdateProductInOrder(orderId);
+    const { mutateAsync: deleteItem } = useDeleteItemFromOrder(orderId);
+
+    // Add regular product (click on ProductCard)
+    const addToCart = async (productId: number, _name: string, price: number) => {
+        if (isReadOnly) return;
+        try {
+            await addProduct(
+                { producto_id: productId, cantidad: 1, precio: price, descuento: 0 },
+                { onSuccess: invalidateOrder },
+            );
+        } catch {
+            toast.error("Error al agregar producto");
+        }
+    };
+
+    // Add custom extra (no producto_id)
+    const addExtra = async (nombre: string, precio: number, cantidad: number) => {
+        if (isReadOnly) return;
+        try {
+            await addProduct(
+                { nombre_extra: nombre, cantidad, precio, descuento: 0 },
+                { onSuccess: invalidateOrder },
+            );
+        } catch {
+            toast.error("Error al agregar extra");
+        }
+    };
+
+    // Update quantity — only valid for regular products
+    const updateQuantity = async (productId: number, delta: number) => {
+        if (isReadOnly) return;
+        const existing = cart.find((item) => item.id === productId);
+        if (!existing) return;
+        const newQty = existing.quantity + delta;
+        try {
+            if (newQty <= 0) {
+                await deleteItem(existing.orderProductId, { onSuccess: invalidateOrder });
+            } else {
+                await updateProduct(
+                    { productId, data: { cantidad: newQty } },
+                    { onSuccess: invalidateOrder },
                 );
             }
-            return [...prev, { id: productId, name, price, quantity: 1 }];
+        } catch {
+            toast.error("Error al actualizar producto");
+        }
+    };
+
+    // Remove any item (product or extra) by orderProductId
+    const removeFromCart = async (orderProductId: number) => {
+        if (isReadOnly) return;
+        try {
+            await deleteItem(orderProductId, { onSuccess: invalidateOrder });
+        } catch {
+            toast.error("Error al eliminar producto");
+        }
+    };
+
+    const clearCart = async () => {
+        if (isReadOnly) return;
+        const result = await Swal.fire({
+            title: "¿Limpiar pedido?",
+            text: "Se eliminarán todos los productos de la orden.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ef4444",
+            cancelButtonColor: "#78716c",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Sí, limpiar",
+            reverseButtons: true,
+        });
+        if (!result.isConfirmed) return;
+        cart.forEach((item) => {
+            deleteItem(item.orderProductId, { onSuccess: invalidateOrder }).catch(() =>
+                toast.error("Error al limpiar pedido"),
+            );
         });
     };
 
-    const updateQuantity = (productId: number, delta: number) => {
-        setCart((prev) =>
-            prev
-                .map((item) =>
-                    item.id === productId ? { ...item, quantity: item.quantity + delta } : item,
-                )
-                .filter((item) => item.quantity > 0),
-        );
-    };
-
-    const removeFromCart = (productId: number) => {
-        setCart((prev) => prev.filter((item) => item.id !== productId));
-    };
-
-    const clearCart = () => setCart([]);
-
     const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     return {
         orderId,
         order,
         loadingOrder,
+        loadingCart: loadingOrder,
+        isReadOnly,
         cart,
         cartCount,
+        subtotal,
         addToCart,
+        addExtra,
         updateQuantity,
         removeFromCart,
         clearCart,

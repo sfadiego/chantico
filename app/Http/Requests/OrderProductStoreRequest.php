@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\OrderProductModel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class OrderProductStoreRequest extends FormRequest
 {
@@ -24,9 +25,19 @@ class OrderProductStoreRequest extends FormRequest
     {
         return [
             OrderProductModel::DESCUENTO => 'nullable|min:0|max:99',
-            OrderProductModel::CANTIDAD => 'required|min:1|max:10',
-            OrderProductModel::PRODUCTO_ID => 'required|exists:product,id',
-            OrderProductModel::PRECIO => 'required',
+            OrderProductModel::CANTIDAD => 'required|min:1',
+            OrderProductModel::PRODUCTO_ID => 'nullable|exists:product,id',
+            OrderProductModel::PRECIO => 'required|numeric|min:0',
+            OrderProductModel::NOMBRE_EXTRA => 'nullable|string|max:255',
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            if (! $this->producto_id && ! $this->nombre_extra) {
+                $validator->errors()->add('producto_id', 'Se requiere un producto o un nombre de extra.');
+            }
+        });
     }
 }

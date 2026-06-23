@@ -19,3 +19,18 @@ Para detener el proyecto se debe usar el comando:
 ```bash
 docker compose down
 ```
+
+### Migrations
+se agrego columna correr migraciones
+
+```
+php artisan migrate
+```
+
+### Seeds
+
+se agregaron iconos, correr manualmente 
+```
+php artisan db:seed --class=CategoriesIconsSeeder
+php artisan db:seed --class={SeederName}
+```

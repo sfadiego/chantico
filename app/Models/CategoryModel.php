@@ -19,11 +19,13 @@ class CategoryModel extends Model
     const FOTO_ID = 'foto_id';
 
     const ORDEN = 'orden';
+    const ICON_NAME = 'icon_name';
 
     protected $fillable = [
         self::NOMBRE,
         self::FOTO_ID,
         self::ORDEN,
+        self::ICON_NAME,
     ];
 
     public function products(): HasMany

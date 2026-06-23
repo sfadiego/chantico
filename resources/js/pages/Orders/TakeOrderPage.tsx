@@ -1,17 +1,33 @@
 import { useState } from "react";
-import { ShoppingCart, ChevronLeft, Package } from "lucide-react";
+import { ShoppingCart, ChevronLeft, Package, Lock, PackagePlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useIndexProducts } from "@/services/useProductService";
 import { useTakeOrder } from "./useTakeOrder";
 import { ProductGrid } from "./partials/ProductGrid";
 import { CartPanel } from "./partials/CartPanel";
+import { AddExtraModal } from "./partials/AddExtraModal";
+import { useAddExtraModal } from "./partials/useAddExtraModal";
 
 export default function TakeOrderPage() {
     const navigate = useNavigate();
     const [mobileTab, setMobileTab] = useState<"products" | "cart">("products");
 
-    const { order, cart, cartCount, addToCart, updateQuantity, removeFromCart, clearCart } =
-        useTakeOrder();
+    const {
+        order,
+        cart,
+        cartCount,
+        subtotal,
+        loadingCart,
+        isReadOnly,
+        addToCart,
+        addExtra,
+        updateQuantity,
+        removeFromCart,
+        clearCart,
+    } = useTakeOrder();
+
+    const { isOpen: extraOpen, openModal: openExtra, handleClose: closeExtra, formik: extraFormik } =
+        useAddExtraModal(addExtra);
 
     const { data: productsPage, isLoading: loadingProducts } = useIndexProducts({ limit: 200 });
     const products = productsPage?.data ?? [];
@@ -22,7 +38,9 @@ export default function TakeOrderPage() {
             <div className="hidden lg:flex flex-col h-full overflow-hidden">
                 <Header
                     title={order?.nombre_pedido ?? "Tomar pedido"}
+                    isReadOnly={isReadOnly}
                     onBack={() => navigate(-1)}
+                    onAddExtra={openExtra}
                 />
                 <div className="flex flex-1 overflow-hidden">
                     <div className="flex-1 overflow-hidden bg-stone-50 border-r border-stone-200">
@@ -30,6 +48,7 @@ export default function TakeOrderPage() {
                             products={products}
                             isLoading={loadingProducts}
                             cart={cart}
+                            isReadOnly={isReadOnly}
                             onAdd={addToCart}
                         />
                     </div>
@@ -37,6 +56,9 @@ export default function TakeOrderPage() {
                         <CartPanel
                             order={order}
                             cart={cart}
+                            subtotal={subtotal}
+                            isLoading={loadingCart}
+                            isReadOnly={isReadOnly}
                             onUpdate={updateQuantity}
                             onRemove={removeFromCart}
                             onClear={clearCart}
@@ -49,7 +71,9 @@ export default function TakeOrderPage() {
             <div className="lg:hidden flex flex-col h-full overflow-hidden">
                 <Header
                     title={order?.nombre_pedido ?? "Tomar pedido"}
+                    isReadOnly={isReadOnly}
                     onBack={() => navigate(-1)}
+                    onAddExtra={openExtra}
                     compact
                 />
                 <div className="flex-1 overflow-hidden">
@@ -58,12 +82,16 @@ export default function TakeOrderPage() {
                             products={products}
                             isLoading={loadingProducts}
                             cart={cart}
+                            isReadOnly={isReadOnly}
                             onAdd={addToCart}
                         />
                     ) : (
                         <CartPanel
                             order={order}
                             cart={cart}
+                            subtotal={subtotal}
+                            isLoading={loadingCart}
+                            isReadOnly={isReadOnly}
                             onUpdate={updateQuantity}
                             onRemove={removeFromCart}
                             onClear={clearCart}
@@ -76,17 +104,21 @@ export default function TakeOrderPage() {
                     onTabChange={setMobileTab}
                 />
             </div>
+
+            <AddExtraModal isOpen={extraOpen} formik={extraFormik} onClose={closeExtra} />
         </div>
     );
 }
 
 interface HeaderProps {
     title: string;
+    isReadOnly: boolean;
     onBack: () => void;
+    onAddExtra: () => void;
     compact?: boolean;
 }
 
-const Header = ({ title, onBack, compact = false }: HeaderProps) => (
+const Header = ({ title, isReadOnly, onBack, onAddExtra, compact = false }: HeaderProps) => (
     <div
         className={`bg-white border-b border-stone-200 flex items-center gap-3 flex-shrink-0 ${
             compact ? "px-4 py-3.5" : "px-6 py-4"
@@ -98,14 +130,35 @@ const Header = ({ title, onBack, compact = false }: HeaderProps) => (
         >
             <ChevronLeft size={20} />
         </button>
-        <div>
-            <h1 className={`font-semibold text-stone-900 ${compact ? "text-sm" : ""}`}>
-                {title}
-            </h1>
+        <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+                <h1 className={`font-semibold text-stone-900 truncate ${compact ? "text-sm" : ""}`}>
+                    {title}
+                </h1>
+                {isReadOnly && (
+                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-xs font-medium shrink-0">
+                        <Lock size={10} />
+                        Solo lectura
+                    </span>
+                )}
+            </div>
             {!compact && (
-                <p className="text-stone-400 text-xs">Selecciona los productos del menú</p>
+                <p className="text-stone-400 text-xs mt-0.5">
+                    {isReadOnly
+                        ? "Esta orden ya fue cerrada o cancelada"
+                        : "Selecciona los productos del menú"}
+                </p>
             )}
         </div>
+        {!isReadOnly && (
+            <button
+                onClick={onAddExtra}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-violet-50 hover:bg-violet-100 text-violet-600 font-medium text-xs transition-colors border border-violet-200 shrink-0"
+            >
+                <PackagePlus size={14} />
+                {!compact && <span>Agregar extra</span>}
+            </button>
+        )}
     </div>
 );
 

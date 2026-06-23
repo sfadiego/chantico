@@ -35,7 +35,12 @@ export const axiosGET = async <Params>(
         headers,
         responseType,
     });
-    return response.data;
+    const body = response.data;
+    // Unwrap Laravel Response::success() macro: { status: 'OK', message, data: T }
+    if (body && typeof body === 'object' && body.status === 'OK' && 'data' in body) {
+        return body.data;
+    }
+    return body;
 };
 
 export const axiosPOST = <Data, Paras>(
