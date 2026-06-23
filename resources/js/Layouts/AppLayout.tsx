@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAxios } from "@/hooks/useAxios";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Navbar } from "./Navbar/Navbar";
+import { useGetActiveSale } from "@/services/useOpenSalesService";
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -9,7 +10,12 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { user, logout } = useAxios();
+    const { user, logout, setSistema } = useAxios();
+    const { data: activeSale } = useGetActiveSale();
+
+    useEffect(() => {
+        setSistema(activeSale?.data?.id ?? null);
+    }, [activeSale]);
 
     const userName = user
         ? `${user.nombre} ${user.apellido_paterno}`

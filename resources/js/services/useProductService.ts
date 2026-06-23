@@ -5,17 +5,6 @@ import { IPaginateServiceProps } from "@/intefaces/IPaginateServiceProps";
 import { IPaginate } from "@/intefaces/IPaginate";
 
 const url = ApiRoutes.Product;
-// export const useIndexProducts = ({
-//     productName,
-//     categoryId,
-// }: {
-//     productName?: string;
-//     categoryId?: number;
-// }) =>
-//     useGET<IProduct[]>({
-//         url,
-//         filters: { search: productName, categoryId },
-//     });
 export const useIndexProducts = ({
     filters = [],
     order = "desc",

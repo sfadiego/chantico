@@ -5,7 +5,7 @@ export interface IOrder {
     total: number;
     subtotal: number;
     descuento: number;
-    nombre_pedido: number;
+    nombre_pedido: string;
     estatus_pedido_id: number;
     sistema_id: number;
     created_at: string;

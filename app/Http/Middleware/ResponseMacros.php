@@ -17,7 +17,7 @@ class ResponseMacros
         Response::macro(
             'success',
             function (
-                array|bool|Model|Collection|JsonResource|JsonResponse|null $data,
+                array|bool|int|float|Model|Collection|JsonResource|JsonResponse|null $data,
                 ?string $message = null,
                 Http $status = Http::Success
             ): JsonResponse {

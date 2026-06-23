@@ -17,7 +17,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     { label: "Dashboard", icon: LayoutDashboard, path: "/" },
-    { label: "Órdenes", icon: ClipboardList, path: "/orders" },
+    { label: "Orders", icon: Package, path: "/orders" },
     { label: "Productos", icon: Package, path: "/products" },
     { label: "Categorías", icon: Tag, path: "/categories" },
     { label: "Ventas", icon: ShoppingBag, path: "/sales" },
@@ -51,10 +51,9 @@ function SidebarNavItem({ item, onClick }: SidebarNavItemProps) {
             onClick={onClick}
             className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-                transition-colors duration-150 ${
-                    isActive
-                        ? "bg-amber-500 text-white"
-                        : "text-stone-400 hover:bg-stone-800 hover:text-stone-100"
+                transition-colors duration-150 ${isActive
+                    ? "bg-amber-500 text-white"
+                    : "text-stone-400 hover:bg-stone-800 hover:text-stone-100"
                 }`
             }
         >

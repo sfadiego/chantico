@@ -18,7 +18,7 @@ export const useDataTable = ({
     service,
     payload = {},
     renderersMap = {},
-    columnProperties = {} as ColumnProperties<any>,
+    columnProperties = {} as ColumnProperties<unknown>,
 }: UseDataTableParams) => {
     const [page, setPage] = useState(1);
     const pageSize = [10, 20, 30, 50, 100];

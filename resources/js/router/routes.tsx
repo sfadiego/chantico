@@ -3,9 +3,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import AppLayout from "@/layouts/AppLayout";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import IRoute from "@/intefaces/IRoutes";
+import OrderListPage from "@/pages/Orders/OrderListPage";
 
-const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
-const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
+const LoginPage = lazy(() => import("@/pages/Auth/LoginPage"));
+const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage"));
 const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
 
 const PageLoader = () => (
@@ -31,7 +32,8 @@ const withPrivateLayout = (element: React.ReactElement, route: IRoute) => (
 
 const privateRoutes: IRoute[] = [
     { path: "/", element: <DashboardPage />, private: true },
-    { path: "/take-order", element: <TakeOrderPage />, private: true },
+    { path: "/orders", element: <OrderListPage />, private: true },
+    { path: "/take-order/:id", element: <TakeOrderPage />, private: true },
 ];
 
 export const router = createBrowserRouter([

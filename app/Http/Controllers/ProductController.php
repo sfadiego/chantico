@@ -13,15 +13,6 @@ use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
 {
-    // public function index(Request $param): JsonResponse
-    // {
-    //     $productName = $param?->search ?? '';
-    //     $categoryId = $param?->categoryId ?? 0;
-
-    //     return Response::success(
-    //         ProductModel::getProducts($productName, $categoryId)
-    //     );
-    // }
     public function index(IndexData $data, ProductsService $service): JsonResponse
     {
         return $service->run($data);

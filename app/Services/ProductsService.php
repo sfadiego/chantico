@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Core\Data\IndexData;
 use App\Core\Paginator\DataTable;
 use App\Models\ProductModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class ProductsService extends DataTable
@@ -21,19 +22,27 @@ class ProductsService extends DataTable
             'nombre' => 'Nombre',
             'precio' => 'Precio',
             'descripcion' => 'Descripcion',
-            // 'categoria_id' => 'Categoria',
             'activo' => 'Activo',
-            // 'foto_id' => 'Foto',
             'actions' => '#',
         ];
     }
 
-    public function customQueryFilters(): array
+    public function makeQuery(): Builder
     {
-        return [
-            'nombre' => '',
-            'categoria_id' => '',
-        ];
+        $query = $this->model->newQuery()->with(['category', 'picture']);
+
+        $nombre = request()->query('nombre');
+        $categoriaId = request()->query('categoria_id');
+
+        if ($nombre) {
+            $query->where('nombre', 'like', "%{$nombre}%");
+        }
+
+        if ($categoriaId) {
+            $query->where('categoria_id', (int) $categoriaId);
+        }
+
+        return $query;
     }
 
     public function run(IndexData $data): JsonResponse

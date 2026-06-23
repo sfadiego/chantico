@@ -1,3 +1,16 @@
+@import "@mantine/core/styles.layer.css";
+@import "mantine-datatable/styles.layer.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Evita que el preflight de Tailwind rompa los estilos internos de Toastify */
+@layer base {
+    .Toastify__toast-body {
+        font-family: inherit;
+    }
+    .Toastify__progress-bar {
+        height: 3px;
+    }
+}

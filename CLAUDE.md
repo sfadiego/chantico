@@ -1,6 +1,6 @@
-# Chantico – POS para cafetería
+# sistema POS para cafetería
 
-Sistema POS para cafetería. El **backend está completamente desarrollado** en Laravel 12. El trabajo activo es el **frontend** en React + TypeScript.
+Sistema POS para cafetería.
 
 ---
 
@@ -38,6 +38,7 @@ resources/js/
 │   └── Statistics/
 ├── components/               # Componentes reutilizables globales
 │   └── PrivateRoute/
+│   └── .../ 
 ├── services/                 # Hooks de TanStack Query por recurso (useXxxService.ts)
 │   ├── useOrderService.ts
 │   ├── useProductService.ts
@@ -109,7 +110,14 @@ resources/js/
 ### Estructura
 - Cada página vive en `pages/<Feature>/<FeaturePage>.tsx` con lazy loading en `admin.routes.tsx`.
 - Componentes reutilizables de la página van en subcarpeta `partials/` dentro de la página, o en `components/` si son globales.
+
+### peticiones http
+no hacer peticiones directamete a axios, utiliza la capa de servicios como esta declarado en services/*.ts cuando se necesita consultar el backend desde la UI
+
+### Componentes
 - Crea **componentes** en vez de funciones inline en la page.
+- crea hooks si es necesario por cada componente creado para separar la logica de cada componente
+
 
 ### Tipos
 - Definir tipos de dominio en `models/` (interfaces `IXxx`).

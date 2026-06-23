@@ -17,49 +17,15 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
             ? JSON.parse(localStorage.getItem("user")!)
             : null,
     );
-
     const [sistemaId, setSistemaId] = useState<number | null>(
         localStorage.getItem("sistemaId")
             ? Number(localStorage.getItem("sistemaId"))
             : null,
     );
 
-    const logout = useCallback(() => {
-        configureAxiosHeaders(null);
-        configUser(null);
-        setSistema(null);
-        window.location.replace("/login");
-    }, []);
-
-    useEffect(() => {
-        if (sistemaId) {
-            setSistema(sistemaId);
-        }
-    }, [sistemaId]);
-
-
-    useEffect(() => {
-        if (authToken) {
-            axiosApi.defaults.headers.common["Authorization"] =
-                `Bearer ${authToken}`;
-        }
-    }, [authToken]);
-
-    // TODO: revisar, por que no se usa o implementar
-    const updateUser = useCallback((user: IUser) => {
-        configUser(user);
-    }, []);
-
-    const setSistema = (sistema: number | null) => {
-        const value = sistema ?? null;
-        localStorage.setItem("sistemaId", value?.toString() ?? "");
-        setSistemaId(value);
-    };
-
     const configureAxiosHeaders = (token: string | null) => {
         if (token) {
-            axiosApi.defaults.headers.common["Authorization"] =
-                `Bearer ${token}`;
+            axiosApi.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             localStorage.setItem("authToken", token);
         } else {
             delete axiosApi.defaults.headers.common["Authorization"];
@@ -77,15 +43,52 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         setUser(user);
     };
 
-    const saveAuth = (accessToken: string, user: IUser) => {
-        try {
-            configureAxiosHeaders(accessToken);
-            configUser(user);
-        } catch (error) {
-            console.error("Error de autenticación", error);
-            throw error;
-        }
+    const setSistema = (sistema: number | null) => {
+        const value = sistema ?? null;
+        localStorage.setItem("sistemaId", value?.toString() ?? "");
+        setSistemaId(value);
     };
+
+    const logout = useCallback(() => {
+        configureAxiosHeaders(null);
+        configUser(null);
+        setSistema(null);
+        window.location.replace("/login");
+    }, []);
+
+    const saveAuth = useCallback((accessToken: string, user: IUser) => {
+        configureAxiosHeaders(accessToken);
+        configUser(user);
+    }, []);
+
+    // Sincroniza el header de axios cuando el token cambia
+    useEffect(() => {
+        if (authToken) {
+            axiosApi.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
+        }
+    }, [authToken]);
+
+    // Interceptor de respuesta: redirige al login en cualquier 401
+    useEffect(() => {
+        const interceptorId = axiosApi.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response?.status === 401) {
+                    logout();
+                }
+                return Promise.reject(error);
+            },
+        );
+        return () => {
+            axiosApi.interceptors.response.eject(interceptorId);
+        };
+    }, [logout]);
+
+    useEffect(() => {
+        if (sistemaId) {
+            setSistema(sistemaId);
+        }
+    }, [sistemaId]);
 
     const isAuth = !!authToken;
 
@@ -95,7 +98,6 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         user,
         axiosApi,
         saveAuth,
-        //revisar estos valores
         sistemaId,
         logout,
         setSistema,

@@ -55,7 +55,6 @@ class DataTable implements DataTableBuilder
         }
 
         $this->queryBuilder = $this->makeQuery();
-
         if (! empty($this->customQueryFilters())) {
             $this->runCustomQueryFilters();
         }

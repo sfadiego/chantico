@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { AxiosProvider } from "./contexts/AxiosContext";
 import { router } from "./router/routes";
 import { MantineProvider } from "@mantine/core";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -15,8 +16,8 @@ const queryClient = new QueryClient({
 });
 
 const toastConfig = {
-    hideProgressBar: true,
-    autoClose: 1000,
+    hideProgressBar: false,
+    autoClose: 3500,
     position: "bottom-right" as const,
     draggable: false,
     closeOnClick: true,

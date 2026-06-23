@@ -12,8 +12,9 @@ export const useGetActiveSale = () =>
 export const useStoreOpenSales = () => usePOST({ url: `${url}/open` });
 export const useCloseSales = (systemId: number) =>
     usePOST({ url: `${url}/${systemId}/close` });
-export const useTotalCloseSales = (systemId: number) =>
-    useGET({ url: `${url}/${systemId}/total-close-sales` });
+
+export const useCurrentTotalSale = (systemId: number) =>
+    useGET({ url: `${url}/${systemId}/total-current-sales` });
 
 export const useDetailOfCloseSales = (systemId: number) =>
     useGET({ url: `${url}/${systemId}/detail-close-sales` });

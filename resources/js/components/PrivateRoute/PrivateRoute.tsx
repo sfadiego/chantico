@@ -1,7 +1,5 @@
 import { useAxios } from "@/hooks/useAxios";
 import IRoute from "@/intefaces/IRoutes";
-import { AuthRoutes } from "@/router/modules/auth.routes";
-import { ErrorRoutes } from "@/router/modules/error.routes";
 import React, { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
 
@@ -13,17 +11,16 @@ const PrivateRoute = ({
     route: IRoute;
 }) => {
     const { isAuth, user } = useAxios();
-    if (!isAuth) return <Navigate to={AuthRoutes.Login} />;
 
-    if (route.hasPermission != undefined && !route.hasPermission(user!)) {
-        return <Navigate to={ErrorRoutes.Forbidden} />;
+    if (!isAuth) {
+        return <Navigate to="/login" replace />;
     }
 
-    return React.isValidElement(element) ? (
-        element
-    ) : (
-        <Navigate to={ErrorRoutes.Forbidden} />
-    );
+    if (route.hasPermission !== undefined && !route.hasPermission(user!)) {
+        return <Navigate to="/forbidden" replace />;
+    }
+
+    return React.isValidElement(element) ? element : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

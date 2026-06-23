@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
-import "dotenv/config";
 import path from "path";
 
 export default defineConfig({
@@ -12,6 +11,13 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        host: "localhost",
+        port: 5173,
+        hmr: {
+            host: "localhost",
+        },
+    },
     resolve: {
         alias: {
             "@/": path.resolve(__dirname, "resources/js") + "/",
