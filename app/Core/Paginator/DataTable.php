@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Response;
 class DataTable implements DataTableBuilder
 {
     public ?Model $model = null;
+
     protected bool $withPagination = true;
+
     public ?Builder $queryBuilder = null;
 
     public function __construct(Model $model)
@@ -76,6 +78,7 @@ class DataTable implements DataTableBuilder
         }
 
         $results = $this->queryBuilder->get();
+
         return Response::success($results);
     }
 

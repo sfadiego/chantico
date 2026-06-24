@@ -10,6 +10,6 @@ class WindowsConnector extends AbstractConnector
     public function init(): void
     {
         $this->connector = new WindowsPrintConnector($this->printerName);
-        $this->printer   = new Printer($this->connector);
+        $this->printer = new Printer($this->connector);
     }
 }

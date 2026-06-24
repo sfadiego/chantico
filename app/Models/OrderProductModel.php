@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,22 +41,24 @@ class OrderProductModel extends Model
         return $this->hasOne(ProductModel::class, 'id', self::PRODUCTO_ID);
     }
 
-    public static function top3BestSeller(Carbon $start, Carbon $end)
+    public static function top3BestSeller(?Carbon $start = null, ?Carbon $end = null)
     {
         $query = OrderProductModel::whereHas('product')
             ->with(['product'])
-            ->select(DB::raw('SUM(cantidad) as sumatoria'), 'producto_id')
-            ->whereBetween('order_product.created_at', [$start, $end])
-            ->groupBy('producto_id')
+            ->join('order', 'order.id', '=', 'order_product.pedido_id')
+            ->where('order.estatus_pedido_id', OrderStatusEnum::CLOSED->value)
+            ->select(DB::raw('SUM(order_product.cantidad) as sumatoria'), 'order_product.producto_id')
+            ->when($start && $end, fn ($q) => $q->whereBetween('order_product.created_at', [$start, $end]))
+            ->groupBy('order_product.producto_id')
             ->orderByDesc('sumatoria')
             ->limit(3)
             ->get();
 
         return $query->map(function ($item) {
             return [
-                'id'      => $item->producto_id,
+                'id' => $item->producto_id,
                 'product' => $item->product->nombre,
-                'total'   => (int) $item->sumatoria,
+                'total' => (int) $item->sumatoria,
             ];
         });
     }

@@ -12,7 +12,7 @@ class AuthTest extends TestCase
         $user = User::where('rol_id', 1)->first();
 
         $response = $this->postJson('/api/auth/login', [
-            'email'    => $user->email,
+            'email' => $user->email,
             'password' => env('APP_ADMIN_PASSWORD'),
         ]);
 
@@ -30,7 +30,7 @@ class AuthTest extends TestCase
         $user = User::where('rol_id', 1)->first();
 
         $response = $this->postJson('/api/auth/login', [
-            'email'    => $user->email,
+            'email' => $user->email,
             'password' => 'password_incorrecta',
         ]);
 
@@ -42,7 +42,7 @@ class AuthTest extends TestCase
     {
         // Email inexistente falla la regla exists:users,email → ValidationException → 400
         $response = $this->postJson('/api/auth/login', [
-            'email'    => 'noexiste@example.com',
+            'email' => 'noexiste@example.com',
             'password' => 'cualquiera',
         ]);
 

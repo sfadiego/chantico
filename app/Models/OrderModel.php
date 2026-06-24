@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderModel extends Model
 {
-    use HasFactory, SoftDeletes, HasTenant;
+    use HasFactory, HasTenant, SoftDeletes;
 
     protected $table = 'order';
 
@@ -26,10 +26,13 @@ class OrderModel extends Model
 
     const ESTATUS_PEDIDO_ID = 'estatus_pedido_id';
 
-    const SISTEMA_ID  = 'sistema_id';
+    const SISTEMA_ID = 'sistema_id';
+
     const FECHA_INICIO = 'fecha_inicio';
-    const FECHA_FINAL  = 'fecha_final';
-    const TENANT_ID    = 'tenant_id';
+
+    const FECHA_FINAL = 'fecha_final';
+
+    const TENANT_ID = 'tenant_id';
 
     public static $ALLOWED_UPDATE = [
         self::DESCUENTO,

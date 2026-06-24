@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useAxios } from "@/hooks/useAxios";
 import { useBestSeller } from "@/services/useStatisticsService";
+import { useCurrentTotalSale } from "@/services/useOpenSalesService";
 
 const currentMonth = () => {
     const now = new Date();
@@ -14,16 +16,24 @@ const formatMonth = (month: string) =>
         month: "long",
     });
 
+const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value);
+
 export const useStatisticsPage = () => {
     const [month, setMonth] = useState<string>(currentMonth());
+    const { sistemaId } = useAxios();
 
     const { data: bestSellers = [], isLoading } = useBestSeller(month);
+    const { data: totalVentasRaw } = useCurrentTotalSale(sistemaId);
+
+    const totalVentas = formatCurrency((totalVentasRaw as number) ?? 0);
 
     return {
         month,
         formattedMonth: formatMonth(month),
         bestSellers,
         isLoading,
+        totalVentas,
         handleMonthChange: (value: string) => setMonth(value),
     };
 };

@@ -1,19 +1,19 @@
 import { Widget } from "@/components/dashboard/widgets/Widget";
 import {
-    DollarSign, ShoppingCart, Package, Landmark,
+    Award, ShoppingCart, Package, Landmark,
     Plus, Lock, Unlock, LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDashboard } from "./useDashboard";
 import { RecentOrders } from "./partials/RecentOrders";
-import { NewOrderModal } from "./partials/NewOrderModal";
-import { useNewOrderModal } from "./partials/useNewOrderModal";
+import { NewOrderModal } from "@/components/orders/NewOrderModal";
+import { useNewOrderModal } from "@/components/orders/useNewOrderModal";
 import { OpenSalesModal } from "./partials/OpenSalesModal";
 import { useOpenSalesModal } from "./partials/useOpenSalesModal";
 import { AdminRoutes } from "@/enums/RoutesEnum";
 
 const ICON_MAP: Record<string, LucideIcon> = {
-    DollarSign,
+    Award,
     ShoppingCart,
     Package,
     Landmark,

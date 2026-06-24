@@ -1,9 +1,11 @@
 import { DataTable } from "mantine-datatable";
-import { ClipboardList, RefreshCw } from "lucide-react";
+import { ClipboardList, RefreshCw, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "@/models/IOrder";
 import { useOrderList } from "./useOrderList";
 import { OrderFilters } from "./partials/OrderFilters";
+import { NewOrderModal } from "@/components/orders/NewOrderModal";
+import { useNewOrderModal } from "@/components/orders/useNewOrderModal";
 
 export default function OrderListPage() {
     const navigate = useNavigate();
@@ -19,6 +21,10 @@ export default function OrderListPage() {
         handleClearFilters,
     } = useOrderList();
 
+    const {
+        isOpen, openModal, handleClose, formik, isPending,
+    } = useNewOrderModal();
+
     return (
         <div className="px-5 py-6 max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-6">
@@ -28,15 +34,29 @@ export default function OrderListPage() {
                         {sistemaId ? `Sesión #${sistemaId}` : "Sin caja abierta"}
                     </p>
                 </div>
-                <button
-                    onClick={() => refetch()}
-                    className="flex items-center gap-2 text-sm font-medium text-stone-500
-                        hover:text-stone-700 bg-white border border-stone-200 px-3 py-2
-                        rounded-xl hover:bg-stone-50 transition-colors"
-                >
-                    <RefreshCw size={15} />
-                    Actualizar
-                </button>
+
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => refetch()}
+                        className="flex items-center gap-2 text-sm font-medium text-stone-500
+                            hover:text-stone-700 bg-white border border-stone-200 px-3 py-2
+                            rounded-xl hover:bg-stone-50 transition-colors"
+                    >
+                        <RefreshCw size={15} />
+                        Actualizar
+                    </button>
+
+                    {sistemaId && (
+                        <button
+                            onClick={openModal}
+                            className="flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
+                            style={{ backgroundColor: "var(--color-primary)" }}
+                        >
+                            <Plus size={15} />
+                            Nueva orden
+                        </button>
+                    )}
+                </div>
             </div>
 
             {!sistemaId ? (
@@ -66,6 +86,13 @@ export default function OrderListPage() {
                     />
                 </div>
             )}
+
+            <NewOrderModal
+                isOpen={isOpen}
+                isPending={isPending}
+                formik={formik}
+                onClose={handleClose}
+            />
         </div>
     );
 }

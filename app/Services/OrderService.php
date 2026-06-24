@@ -41,7 +41,7 @@ class OrderService extends DataTable
         $sistemaId = request()->query('sistema_id');
 
         // When filtering by non-active statuses (e.g. sales history), don't restrict by session
-        if (!$sistemaId && $estatusId === OrderStatusEnum::IN_PROCESS->value) {
+        if (! $sistemaId && $estatusId === OrderStatusEnum::IN_PROCESS->value) {
             $activeSale = (new MainOrderReportModel)->getActiveSale();
             $sistemaId = $activeSale ? $activeSale->id : 0;
         }
@@ -63,7 +63,7 @@ class OrderService extends DataTable
         if ($fecha) {
             $tz = config('app.timezone');
             $start = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->startOfDay()->utc();
-            $end   = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->endOfDay()->utc();
+            $end = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->endOfDay()->utc();
             $this->queryBuilder->whereBetween('created_at', [$start, $end]);
         }
 

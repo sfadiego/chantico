@@ -22,8 +22,8 @@ class CategoryTest extends TestCase
     public function test_crea_categoria(): void
     {
         $response = $this->postJson('/api/category', [
-            'nombre'    => 'Nueva Categoría',
-            'orden'     => 5,
+            'nombre' => 'Nueva Categoría',
+            'orden' => 5,
             'icon_name' => 'Coffee',
         ], $this->authHeaders());
 
@@ -72,8 +72,8 @@ class CategoryTest extends TestCase
         $category = CategoryModel::first();
 
         $this->putJson("/api/category/{$category->id}", [
-            'nombre'    => 'Nombre Actualizado',
-            'orden'     => 2,
+            'nombre' => 'Nombre Actualizado',
+            'orden' => 2,
             'icon_name' => 'Star',
         ], $this->authHeaders())
             ->assertStatus(200)
@@ -90,8 +90,8 @@ class CategoryTest extends TestCase
         // ?? '' porque SQLite aplica NOT NULL en icon_name y las categorías
         // sembradas sin icon_name explícito pueden retornar null en el modelo
         $this->putJson("/api/category/{$category->id}", [
-            'nombre'    => $category->nombre,
-            'orden'     => $category->orden ?? 1,
+            'nombre' => $category->nombre,
+            'orden' => $category->orden ?? 1,
             'icon_name' => $category->icon_name ?? '',
         ], $this->authHeaders())
             ->assertStatus(200)
@@ -103,8 +103,8 @@ class CategoryTest extends TestCase
     public function test_elimina_categoria(): void
     {
         $category = CategoryModel::create([
-            'nombre'    => 'Para Eliminar',
-            'orden'     => 99,
+            'nombre' => 'Para Eliminar',
+            'orden' => 99,
             'icon_name' => 'Trash',
         ]);
 

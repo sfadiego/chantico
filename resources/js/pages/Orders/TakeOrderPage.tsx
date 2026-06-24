@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ShoppingCart, ChevronLeft, Package, Lock, PackagePlus } from "lucide-react";
+import { ShoppingCart, ChevronLeft, Package, Lock, PackagePlus, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLayout } from "@/contexts/LayoutContext";
 import { useIndexProducts } from "@/services/useProductService";
 import { useTakeOrder } from "./useTakeOrder";
 import { ProductGrid } from "./partials/ProductGrid";
@@ -10,6 +11,7 @@ import { useAddExtraModal } from "./partials/useAddExtraModal";
 
 export default function TakeOrderPage() {
     const navigate = useNavigate();
+    const { toggleSidebar } = useLayout();
     const [mobileTab, setMobileTab] = useState<"products" | "cart">("products");
 
     const {
@@ -41,6 +43,7 @@ export default function TakeOrderPage() {
                     isReadOnly={isReadOnly}
                     onBack={() => navigate(-1)}
                     onAddExtra={openExtra}
+                    onMenuClick={toggleSidebar}
                 />
                 <div className="flex flex-1 overflow-hidden">
                     <div className="flex-1 overflow-hidden bg-stone-50 border-r border-stone-200">
@@ -115,15 +118,25 @@ interface HeaderProps {
     isReadOnly: boolean;
     onBack: () => void;
     onAddExtra: () => void;
+    onMenuClick?: () => void;
     compact?: boolean;
 }
 
-const Header = ({ title, isReadOnly, onBack, onAddExtra, compact = false }: HeaderProps) => (
+const Header = ({ title, isReadOnly, onBack, onAddExtra, onMenuClick, compact = false }: HeaderProps) => (
     <div
         className={`bg-white border-b border-stone-200 flex items-center gap-3 flex-shrink-0 ${
             compact ? "px-4 py-3.5" : "px-6 py-4"
         }`}
     >
+        {onMenuClick && (
+            <button
+                onClick={onMenuClick}
+                className="p-1.5 rounded-lg hover:bg-stone-100 text-stone-500 transition-colors"
+                aria-label="Abrir menú"
+            >
+                <Menu size={20} />
+            </button>
+        )}
         <button
             onClick={onBack}
             className={`p-1.5 rounded-lg hover:bg-stone-100 text-stone-500 transition-colors ${compact ? "-ml-1" : ""}`}

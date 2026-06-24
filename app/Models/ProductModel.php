@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductModel extends Model
 {
-    use HasFactory, SoftDeletes, HasTenant;
+    use HasFactory, HasTenant, SoftDeletes;
 
     protected $table = 'product';
 
@@ -25,7 +25,8 @@ class ProductModel extends Model
 
     const ACTIVO = 'activo';
 
-    const FOTO_ID   = 'foto_id';
+    const FOTO_ID = 'foto_id';
+
     const TENANT_ID = 'tenant_id';
 
     protected $fillable = [

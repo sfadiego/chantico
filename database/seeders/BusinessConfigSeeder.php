@@ -17,6 +17,7 @@ class BusinessConfigSeeder extends Seeder
 
         if ($existing) {
             $existing->update(['slug' => $slug]);
+
             return;
         }
 
@@ -24,10 +25,10 @@ class BusinessConfigSeeder extends Seeder
             [BusinessConfigModel::SLUG => $slug],
             [
                 BusinessConfigModel::BUSINESS_NAME => env('APP_NAME', 'POS cafeteria'),
-                BusinessConfigModel::PRIMARY_COLOR  => '#f59e0b',
-                BusinessConfigModel::SIDEBAR_COLOR  => '#1c1917',
-                BusinessConfigModel::FONT_COLOR     => '#ffffff',
-                BusinessConfigModel::LABEL_COLOR    => '#1c1917',
+                BusinessConfigModel::PRIMARY_COLOR => '#f59e0b',
+                BusinessConfigModel::SIDEBAR_COLOR => '#1c1917',
+                BusinessConfigModel::FONT_COLOR => '#ffffff',
+                BusinessConfigModel::LABEL_COLOR => '#1c1917',
             ]
         );
     }

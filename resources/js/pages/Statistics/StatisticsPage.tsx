@@ -1,10 +1,10 @@
-import { BarChart2, TrendingUp, ShoppingBag, Award } from "lucide-react";
+import { BarChart2, TrendingUp, ShoppingBag, Award, DollarSign } from "lucide-react";
 import { useStatisticsPage } from "./useStatisticsPage";
 import { BestSellerChart, BestSellerRanking } from "./partials/BestSellerChart";
 import { MonthPicker } from "./partials/MonthPicker";
 
 export default function StatisticsPage() {
-    const { month, formattedMonth, bestSellers, isLoading, handleMonthChange } = useStatisticsPage();
+    const { month, formattedMonth, bestSellers, isLoading, totalVentas, handleMonthChange } = useStatisticsPage();
 
     const topProduct = bestSellers[0];
     const totalUnits = bestSellers.reduce((sum, item) => sum + item.total, 0);
@@ -38,7 +38,20 @@ export default function StatisticsPage() {
             ) : (
                 <div className="space-y-5">
                     {/* Summary cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-5 flex items-start gap-4">
+                            <div className="p-2.5 rounded-xl bg-green-100 shrink-0">
+                                <DollarSign size={20} className="text-green-600" />
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-xs text-stone-500 font-medium">Ventas del día</p>
+                                <p className="text-base font-bold text-stone-900 mt-0.5 truncate">
+                                    {totalVentas}
+                                </p>
+                                <p className="text-xs text-stone-400 mt-0.5">sesión actual</p>
+                            </div>
+                        </div>
+
                         <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-5 flex items-start gap-4">
                             <div className="p-2.5 rounded-xl bg-amber-100 shrink-0">
                                 <Award size={20} className="text-amber-600" />

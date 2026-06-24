@@ -1,4 +1,4 @@
-import { Menu, Coffee } from "lucide-react";
+import { Menu } from "lucide-react";
 
 interface NavbarProps {
     onMenuClick: () => void;
@@ -14,12 +14,6 @@ export function Navbar({ onMenuClick }: NavbarProps) {
             >
                 <Menu size={20} />
             </button>
-            <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-amber-500 rounded flex items-center justify-center">
-                    <Coffee size={13} className="text-white" />
-                </div>
-                <span className="font-bold text-stone-900 text-sm">Chantico POS</span>
-            </div>
         </header>
     );
 }
