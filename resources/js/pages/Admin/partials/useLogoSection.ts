@@ -16,7 +16,9 @@ export const useLogoSection = (config: IBusinessConfig | undefined) => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        upload(file, {
+        const form = new FormData();
+        form.append("logo", file);
+        upload(form, {
             onSuccess: () => toast.success("Logo actualizado"),
             onError: () => toast.error("Error al subir el logo"),
         });

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useGET, axiosPOST, axiosPUT, axiosDELETE } from "@/hooks/useApi";
+import { useGET, usePOST, axiosPUT, axiosDELETE } from "@/hooks/useApi";
 import { useAxios } from "@/hooks/useAxios";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 import { IBusinessConfig } from "@/models/IBusinessConfig";
@@ -22,19 +22,10 @@ export const useUpdateBusinessConfig = () => {
 };
 
 export const useUploadLogo = () => {
-    const { axiosApi } = useAxios();
     const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: (file: File) => {
-            const form = new FormData();
-            form.append("logo", file);
-            return axiosPOST(axiosApi, {
-                url: `${url}/logo`,
-                data: form,
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-        },
+    return usePOST<FormData>({
+        url: `${url}/logo`,
+        isFile: true,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
     });
 };

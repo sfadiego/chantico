@@ -18,7 +18,7 @@ import {
 import { useAxios } from "./useAxios";
 
 const host = ApisEnum.BaseUrl;
-const headersImage = { "content-type": "multipart/form-data" };
+const headersImage = { "content-type": "multipart/form-data", "Accept": "application/json" };
 
 export const axiosGET = async <Params>(
     axios: AxiosInstance,
