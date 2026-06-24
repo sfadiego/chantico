@@ -9,11 +9,26 @@ abstract class AbstractConnector implements PrinterConnectorInterface
 {
     protected $connector;
 
-    protected $printer;
+    protected Printer $printer;
+
+    protected string $printerName;
+
+    public function __construct()
+    {
+        $this->printerName = env('PRINTER_NAME', '');
+    }
 
     abstract public function init(): void;
 
-    public function initialize(): void {}
+    public function initialize(): void
+    {
+        $this->printer->initialize();
+    }
+
+    public function isActiveConnection(): bool
+    {
+        return true;
+    }
 
     public function write(string $data): void
     {

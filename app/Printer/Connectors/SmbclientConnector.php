@@ -2,23 +2,11 @@
 
 namespace App\Printer\Connectors;
 
-use App\Printer\Interface\PrinterConnectorInterface;
 use Mike42\Escpos\PrintConnectors\DummyPrintConnector;
 use Mike42\Escpos\Printer;
 
-class SmbclientConnector extends AbstractConnector implements PrinterConnectorInterface
+class SmbclientConnector extends AbstractConnector
 {
-    protected $connector;
-
-    protected $printer;
-
-    protected $printerName;
-
-    public function __construct()
-    {
-        $this->printerName = env('PRINTER_NAME');
-    }
-
     public function init(): void
     {
         $this->connector = new DummyPrintConnector;

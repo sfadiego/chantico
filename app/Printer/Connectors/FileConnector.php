@@ -2,17 +2,12 @@
 
 namespace App\Printer\Connectors;
 
-use App\Printer\Interface\PrinterConnectorInterface;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 
-class FileConnector extends AbstractConnector implements PrinterConnectorInterface
+class FileConnector extends AbstractConnector
 {
     protected $fileName;
-
-    protected $connector;
-
-    protected $printer;
 
     protected $tempFile = null;
 

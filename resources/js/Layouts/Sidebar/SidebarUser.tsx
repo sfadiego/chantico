@@ -15,19 +15,33 @@ export function SidebarUser({ name, role, onLogout }: SidebarUserProps) {
         .toUpperCase();
 
     return (
-        <div className="px-3 py-4 border-t border-stone-700/60">
+        <div className="px-3 py-4 border-t border-white/10">
             <div className="flex items-center gap-3 px-3 py-2 mb-1">
-                <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
+                    style={{ backgroundColor: "var(--color-primary)" }}
+                >
                     {initials}
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{name}</p>
-                    <p className="text-stone-400 text-xs truncate">{role}</p>
+                    <p
+                        className="text-sm font-medium truncate"
+                        style={{ color: "var(--color-font)" }}
+                    >
+                        {name}
+                    </p>
+                    <p
+                        className="text-xs truncate"
+                        style={{ color: "color-mix(in srgb, var(--color-font) 55%, transparent)" }}
+                    >
+                        {role}
+                    </p>
                 </div>
             </div>
             <button
                 onClick={onLogout}
-                className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-stone-400 hover:bg-stone-800 hover:text-white text-sm transition-colors"
+                className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm transition-colors hover:bg-white/10"
+                style={{ color: "color-mix(in srgb, var(--color-font) 55%, transparent)" }}
             >
                 <LogOut size={16} />
                 Cerrar sesión

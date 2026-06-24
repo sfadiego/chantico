@@ -3,6 +3,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Navbar } from "./Navbar/Navbar";
 import { useGetActiveSale } from "@/services/useOpenSalesService";
+import { useGetBusinessConfig } from "@/services/useBusinessConfigService";
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -12,10 +13,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { user, logout, setSistema } = useAxios();
     const { data: activeSale } = useGetActiveSale();
+    const { data: config } = useGetBusinessConfig();
 
     useEffect(() => {
         setSistema(activeSale?.id ?? null);
     }, [activeSale]);
+
+    useEffect(() => {
+        if (!config) return;
+        const root = document.documentElement;
+        root.style.setProperty("--color-primary", config.primary_color);
+        root.style.setProperty("--color-sidebar", config.sidebar_color);
+        root.style.setProperty("--color-font", config.font_color);
+        root.style.setProperty("--color-label", config.label_color);
+    }, [config]);
 
     const userName = user
         ? `${user.nombre} ${user.apellido_paterno}`

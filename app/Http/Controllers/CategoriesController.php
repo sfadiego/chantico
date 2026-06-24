@@ -39,7 +39,7 @@ class CategoriesController extends Controller
         $category->update([
             CategoryModel::NOMBRE    => $param->nombre,
             CategoryModel::ORDEN     => $param->orden,
-            CategoryModel::ICON_NAME => $param->icon_name,
+            CategoryModel::ICON_NAME => $param->icon_name ?? '',
         ]);
 
         return Response::success($category);

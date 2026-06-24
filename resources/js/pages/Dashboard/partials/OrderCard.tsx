@@ -1,9 +1,10 @@
 import { IOrder } from "@/models/IOrder";
-import { Clock, Receipt, Printer, Pencil, Trash2, Check, X, Loader } from "lucide-react";
+import { Clock, Receipt, Pencil, Trash2, Check, X, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getStatusStyle, formatOrderTime } from "../useDashboard";
 import { useOrderActions } from "@/components/orders/useOrderActions";
 import { PayOrderButton } from "@/components/orders/PayOrderButton";
+import { PrintTicketButton } from "@/components/orders/PrintTicketButton";
 
 interface OrderCardProps {
     order: IOrder;
@@ -25,11 +26,6 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         handleKeyDown,
         handleDelete,
     } = useOrderActions(order);
-
-    const handlePrint = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        // TODO: imprimir ticket
-    };
 
     return (
         <div
@@ -94,14 +90,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                     </>
                 ) : (
                     <>
-                        <button
-                            onClick={handlePrint}
-                            title="Imprimir ticket"
-                            className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-stone-500 hover:text-stone-700 hover:bg-white border border-transparent hover:border-stone-200 transition-all text-xs font-medium"
-                        >
-                            <Printer size={14} />
-                            <span className="hidden sm:inline">Imprimir</span>
-                        </button>
+                        <PrintTicketButton orderId={order.id} showLabel />
                         <PayOrderButton order={order} />
                         <button
                             onClick={handleEditStart}

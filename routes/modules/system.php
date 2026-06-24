@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\BusinessConfigController;
 use App\Http\Controllers\Admin\MainOrderReportController;
 use App\Http\Controllers\Admin\StatisticsController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
     Route::prefix('users')->group(function () {
-        Route::controller(AdminUserController::class)->group(function () {
+        Route::controller(UserController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('{user}', 'show');
         });
@@ -29,6 +30,15 @@ Route::prefix('admin')->group(function () {
             Route::controller(StatisticsController::class)->group(function () {
                 Route::get('best-seller', 'top3BestSeller');
             });
+        });
+    });
+
+    Route::prefix('config')->group(function () {
+        Route::controller(BusinessConfigController::class)->group(function () {
+            Route::get('', 'show');
+            Route::put('', 'update');
+            Route::post('logo', 'uploadLogo');
+            Route::delete('logo', 'removeLogo');
         });
     });
 });

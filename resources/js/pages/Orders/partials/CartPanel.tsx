@@ -1,8 +1,9 @@
-import { Plus, Minus, Trash2, ShoppingCart, Printer, Tag, Loader, Banknote, Lock } from "lucide-react";
+import { Plus, Minus, Trash2, ShoppingCart, Tag, Loader, Banknote, Lock } from "lucide-react";
 import { IOrder } from "@/models/IOrder";
 import { CartItem } from "../useTakeOrder";
 import { usePayModal } from "./usePayModal";
 import { PayModal } from "@/components/orders/PayModal";
+import { PrintTicketButton } from "@/components/orders/PrintTicketButton";
 
 interface CartPanelProps {
     order: IOrder | undefined;
@@ -77,7 +78,7 @@ export const CartPanel = ({ order, cart, subtotal, isLoading, isReadOnly = false
                     )}
                 </div>
 
-                <CartFooter subtotal={subtotal} hasItems={cart.length > 0} isReadOnly={isReadOnly} onPay={openPay} />
+                <CartFooter subtotal={subtotal} hasItems={cart.length > 0} isReadOnly={isReadOnly} orderId={order?.id ?? 0} onPay={openPay} />
             </div>
 
             <PayModal
@@ -163,10 +164,11 @@ interface CartFooterProps {
     subtotal: number;
     hasItems: boolean;
     isReadOnly?: boolean;
+    orderId: number;
     onPay: () => void;
 }
 
-const CartFooter = ({ subtotal, hasItems, isReadOnly = false, onPay }: CartFooterProps) => (
+const CartFooter = ({ subtotal, hasItems, isReadOnly = false, orderId, onPay }: CartFooterProps) => (
     <div className="px-5 py-4 border-t border-stone-100 bg-stone-50 flex-shrink-0">
         <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between text-sm">
@@ -204,13 +206,11 @@ const CartFooter = ({ subtotal, hasItems, isReadOnly = false, onPay }: CartFoote
                     Pagar
                 </button>
             )}
-            <button
-                disabled={!hasItems}
+            <PrintTicketButton
+                orderId={orderId}
+                showLabel
                 className="w-full flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 disabled:opacity-40 disabled:cursor-not-allowed text-stone-700 font-medium py-2.5 rounded-xl transition-colors text-sm"
-            >
-                <Printer size={15} />
-                Imprimir ticket
-            </button>
+            />
         </div>
     </div>
 );

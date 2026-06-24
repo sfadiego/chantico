@@ -1,9 +1,10 @@
-import { Printer, Pencil, Trash2, Check, X, Loader, ExternalLink } from "lucide-react";
+import { Pencil, Trash2, Check, X, Loader, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "@/models/IOrder";
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 import { useOrderActions } from "./useOrderActions";
 import { PayOrderButton } from "./PayOrderButton";
+import { PrintTicketButton } from "./PrintTicketButton";
 
 interface OrderActionButtonsProps {
     order: IOrder;
@@ -76,13 +77,7 @@ export const OrderActionButtons = ({ order, onSuccess }: OrderActionButtonsProps
                 <ExternalLink size={13} />
             </button>
 
-            <button
-                onClick={(e) => e.stopPropagation()}
-                title="Imprimir ticket"
-                className="flex items-center justify-center w-7 h-7 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-white border border-transparent hover:border-stone-200 transition-all"
-            >
-                <Printer size={13} />
-            </button>
+            <PrintTicketButton orderId={order.id} />
 
             {isInProcess && (
                 <PayOrderButton

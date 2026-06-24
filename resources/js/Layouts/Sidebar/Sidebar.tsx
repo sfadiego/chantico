@@ -13,7 +13,8 @@ interface SidebarProps {
 export function Sidebar({ open, onClose, onLogout, userName, userRole }: SidebarProps) {
     return (
         <aside
-            className={`fixed inset-y-0 left-0 z-30 w-64 bg-stone-900 flex flex-col
+            style={{ backgroundColor: "var(--color-sidebar)" }}
+            className={`fixed inset-y-0 left-0 z-30 w-64 flex flex-col
                 transform transition-transform duration-300 ease-in-out
                 ${open ? "translate-x-0" : "-translate-x-full"}
                 lg:relative lg:translate-x-0`}

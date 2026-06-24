@@ -8,7 +8,7 @@ use App\Utils\Utils;
 
 class VentaTicketData implements TicketDataInterface
 {
-    private $venta;
+    private OrderModel $venta;
 
     public function __construct(OrderModel $venta)
     {
@@ -22,48 +22,32 @@ class VentaTicketData implements TicketDataInterface
 
     public function toArray(): array
     {
-        dd($this->venta);
-        // $order = $order->load('orderProducts.product');
-        // $orderId = $order->id;
-        // $total = $order->total;
-        // $subtotal = $order->subtotal;
-        // $descuento = $order->descuento;
-        // $nombrePedido = $order->nombre_pedido;
-        // $date = $order->created_at;
-        // $dateString = Utils::getDateAsString($date);
-        // $orderProducts = $order->orderProducts;
-        return [
-            
-        ];
-        // $this->venta->load('ventaProductos');
-        // $venta_total = $this->venta->venta_total;
-        // $nombre_venta = $this->venta->nombre_venta;
-        // $folio = $this->venta->folio;
-        // $cliente_id = $this->venta->cliente_id;
-        // $tipo_compra = $this->venta->tipo_compra;
-        // $status_venta = $this->venta->status_venta;
-        // $created_at = $this->venta->created_at;
+        $order = $this->venta->load('orderProducts.product');
 
-        // return [
-        //     'venta_total' => $venta_total,
-        //     'nombre_venta' => $nombre_venta,
-        //     'folio' => $folio,
-        //     'cliente_id' => $cliente_id,
-        //     'tipo_compra' => $tipo_compra,
-        //     'status_venta' => $status_venta,
-        //     'created_at' => $created_at,
-        //     'ventaProductos' => $this->venta->ventaProductos->map(function ($item) {
-        //         return [
-        //             'cantidad' => $item->cantidad,
-        //             'precio' => $item->precio,
-        //             'descuento' => $item->descuento,
-        //             'producto_id' => $item->producto_id,
-        //             'producto_nombre' => $item->producto->nombre,
-        //             'producto_precio' => $item->producto->precio,
-        //             'codigo' => $item->producto->codigo,
-        //             'venta_id' => $item->venta_id,
-        //         ];
-        //     }),
-        // ];
+        $products = $order->orderProducts->map(function ($item) {
+            $lineTotal = $item->precio * $item->cantidad;
+            $discount  = $lineTotal * ($item->descuento / 100);
+
+            return [
+                'nombre'    => $item->nombre_extra ?? $item->product?->nombre ?? '—',
+                'cantidad'  => (int) $item->cantidad,
+                'precio'    => (float) $item->precio,
+                'descuento' => (float) $item->descuento,
+                'total'     => round($lineTotal - $discount, 2),
+                'es_extra'  => !is_null($item->nombre_extra),
+            ];
+        })->toArray();
+
+        return [
+            'id'             => $order->id,
+            'nombre_pedido'  => $order->nombre_pedido,
+            'subtotal'       => (float) $order->subtotal,
+            'descuento'      => (float) $order->descuento,
+            'total'          => (float) $order->total,
+            'created_at'     => $order->created_at,
+            'fecha_string'   => Utils::getDateAsString((string) $order->created_at),
+            'hora'           => date('H:i', strtotime((string) $order->created_at)),
+            'products'       => $products,
+        ];
     }
 }

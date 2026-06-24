@@ -5,5 +5,6 @@ export enum ApiRoutes {
     Product = "/api/product",
     System = "/api/admin/system",
     Statistics = "/api/admin/system/statistics",
+    BusinessConfig = "/api/admin/config",
     Files = "/api/files",
 }

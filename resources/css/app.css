@@ -5,7 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Evita que el preflight de Tailwind rompa los estilos internos de Toastify */
+:root {
+    --color-primary: #f59e0b;
+    --color-sidebar: #1c1917;
+    --color-font: #1c1917;
+    --color-label: #1c1917;
+}
+
 @layer base {
     .Toastify__toast-body {
         font-family: inherit;
@@ -14,3 +20,16 @@
         height: 3px;
     }
 }
+
+/*
+  Sobrescribir las clases de texto oscuro de Tailwind para que usen --color-font.
+  Al estar fuera de @layer tienen mayor especificidad y ganan a las utilidades generadas.
+  Solo se tocan los tonos "primarios" (900, 800, 700); los tonos apagados (400-600)
+  se mantienen fijos para conservar la jerarquía visual (labels, placeholders, etc.).
+*/
+/* Texto del área de contenido principal */
+.text-stone-900 { color: var(--color-label); }
+.text-stone-800 { color: var(--color-label); }
+.text-stone-700 { color: var(--color-label); }
+
+body { color: var(--color-label); }
