@@ -12,8 +12,9 @@ class VentaFormatter implements TicketFormatterInterface
     private const WIDTH = 32;
 
     // Columnas para línea de producto
-    private const COL_NAME  = 23; // nombre del producto
-    private const COL_TOTAL =  9; // total (right-aligned, incluye $)
+    private const COL_NAME = 23; // nombre del producto
+
+    private const COL_TOTAL = 9; // total (right-aligned, incluye $)
 
     public function format(TicketDataInterface $data, Printer $printer): void
     {
@@ -23,66 +24,66 @@ class VentaFormatter implements TicketFormatterInterface
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
         $printer->setTextSize(2, 1);
-        $printer->text(env('APP_FULL_NAME', 'CHANTICO') . "\n");
+        $printer->text(env('APP_FULL_NAME', 'CHANTICO')."\n");
         $printer->setTextSize(1, 1);
         $printer->setEmphasis(false);
         $printer->feed(1);
-        $printer->text($d['fecha_string'] . '  ' . $d['hora'] . "\n");
+        $printer->text($d['fecha_string'].'  '.$d['hora']."\n");
         $printer->feed(1);
-        $printer->text($this->line('=') . "\n");
+        $printer->text($this->line('=')."\n");
 
         // ─── Info del pedido ──────────────────────────────────
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->setEmphasis(true);
-        $printer->text('Mesa : ' . $d['nombre_pedido'] . "\n");
+        $printer->text('Mesa : '.$d['nombre_pedido']."\n");
         $printer->setEmphasis(false);
-        $printer->text('Folio: CHAN-' . str_pad($d['id'], 4, '0', STR_PAD_LEFT) . "\n");
+        $printer->text('Folio: CHAN-'.str_pad($d['id'], 4, '0', STR_PAD_LEFT)."\n");
         $printer->feed(1);
 
         // ─── Encabezado de productos ──────────────────────────
-        $printer->text($this->line('-') . "\n");
+        $printer->text($this->line('-')."\n");
         $printer->setEmphasis(true);
-        $printer->text($this->productHeader() . "\n");
+        $printer->text($this->productHeader()."\n");
         $printer->setEmphasis(false);
-        $printer->text($this->line('-') . "\n");
+        $printer->text($this->line('-')."\n");
 
         // ─── Productos ────────────────────────────────────────
         foreach ($d['products'] as $item) {
-            $printer->text($this->productLine($item) . "\n");
+            $printer->text($this->productLine($item)."\n");
         }
 
         // ─── Totales ──────────────────────────────────────────
-        $printer->text($this->line('=') . "\n");
+        $printer->text($this->line('=')."\n");
         $printer->setJustification(Printer::JUSTIFY_LEFT);
 
-        $printer->text($this->totalRow('Subtotal:', '$' . number_format($d['subtotal'], 2)) . "\n");
+        $printer->text($this->totalRow('Subtotal:', '$'.number_format($d['subtotal'], 2))."\n");
 
         if ($d['descuento'] > 0) {
             $printer->text($this->totalRow(
-                'Desc. ' . $d['descuento'] . '%:',
-                '-$' . number_format($d['subtotal'] * $d['descuento'] / 100, 2)
-            ) . "\n");
+                'Desc. '.$d['descuento'].'%:',
+                '-$'.number_format($d['subtotal'] * $d['descuento'] / 100, 2)
+            )."\n");
         }
 
         $printer->setEmphasis(true);
-        $printer->text($this->totalRow('TOTAL:', '$' . number_format($d['total'], 2)) . "\n");
+        $printer->text($this->totalRow('TOTAL:', '$'.number_format($d['total'], 2))."\n");
         $printer->setEmphasis(false);
 
         $propina = round($d['total'] * 0.10, 2);
         $printer->feed(1);
-        $printer->text($this->totalRow('Propina 10%:', '$' . number_format($propina, 2)) . "\n");
+        $printer->text($this->totalRow('Propina 10%:', '$'.number_format($propina, 2))."\n");
 
         // ─── Pie del ticket ───────────────────────────────────
         $printer->feed(1);
-        $printer->text($this->line('=') . "\n");
+        $printer->text($this->line('=')."\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
         $printer->text("Gracias por su visita!\n");
         $printer->setEmphasis(false);
         $printer->feed(1);
-        $printer->text('Tel: ' . env('APP_PHONE', '(312) 303-35-58') . "\n");
-        $printer->text(env('SOCIAL_MEDIA', 'fb & ig: @chantico.cafe') . "\n");
-        $printer->text($this->line('=') . "\n");
+        $printer->text('Tel: '.env('APP_PHONE', '(312) 303-35-58')."\n");
+        $printer->text(env('SOCIAL_MEDIA', 'fb & ig: @chantico.cafe')."\n");
+        $printer->text($this->line('=')."\n");
         $printer->feed(4);
     }
 
@@ -100,7 +101,7 @@ class VentaFormatter implements TicketFormatterInterface
     private function productHeader(): string
     {
         return str_pad('PRODUCTO', self::COL_NAME)
-            . str_pad('TOTAL', self::COL_TOTAL, ' ', STR_PAD_LEFT);
+            .str_pad('TOTAL', self::COL_TOTAL, ' ', STR_PAD_LEFT);
     }
 
     /**
@@ -110,15 +111,15 @@ class VentaFormatter implements TicketFormatterInterface
      */
     private function productLine(array $item): string
     {
-        $name  = mb_substr($item['nombre'], 0, self::COL_NAME);
-        $total = '$' . number_format($item['total'], 2);
+        $name = mb_substr($item['nombre'], 0, self::COL_NAME);
+        $total = '$'.number_format($item['total'], 2);
 
         $line1 = str_pad($name, self::COL_NAME)
-            . str_pad($total, self::COL_TOTAL, ' ', STR_PAD_LEFT);
+            .str_pad($total, self::COL_TOTAL, ' ', STR_PAD_LEFT);
 
-        $line2 = '  ' . $item['cantidad'] . ' x $' . number_format($item['precio'], 2);
+        $line2 = '  '.$item['cantidad'].' x $'.number_format($item['precio'], 2);
 
-        $lines = $line1 . "\n" . $line2;
+        $lines = $line1."\n".$line2;
 
         if ($item['es_extra']) {
             $lines .= "\n  [Extra]";
@@ -135,6 +136,6 @@ class VentaFormatter implements TicketFormatterInterface
         $valueLen = strlen($value);
         $labelLen = self::WIDTH - $valueLen;
 
-        return str_pad($label, $labelLen) . $value;
+        return str_pad($label, $labelLen).$value;
     }
 }

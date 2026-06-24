@@ -9,13 +9,19 @@ class BusinessConfigModel extends Model
 {
     protected $table = 'business_config';
 
-    const SLUG          = 'slug';
+    const SLUG = 'slug';
+
     const BUSINESS_NAME = 'business_name';
+
     const PRIMARY_COLOR = 'primary_color';
+
     const SIDEBAR_COLOR = 'sidebar_color';
-    const FONT_COLOR    = 'font_color';
-    const LABEL_COLOR   = 'label_color';
-    const LOGO_PATH     = 'logo_path';
+
+    const FONT_COLOR = 'font_color';
+
+    const LABEL_COLOR = 'label_color';
+
+    const LOGO_PATH = 'logo_path';
 
     protected $fillable = [
         self::SLUG,
@@ -41,8 +47,8 @@ class BusinessConfigModel extends Model
                 self::BUSINESS_NAME => env('APP_FULL_NAME', 'Chantico'),
                 self::PRIMARY_COLOR => '#f59e0b',
                 self::SIDEBAR_COLOR => '#1c1917',
-                self::FONT_COLOR    => '#ffffff',
-                self::LABEL_COLOR   => '#1c1917',
+                self::FONT_COLOR => '#ffffff',
+                self::LABEL_COLOR => '#1c1917',
             ]
         );
     }

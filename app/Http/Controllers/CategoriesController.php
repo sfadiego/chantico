@@ -22,8 +22,8 @@ class CategoriesController extends Controller
     {
         return Response::success(
             CategoryModel::create([
-                CategoryModel::NOMBRE   => $param->nombre,
-                CategoryModel::ORDEN    => $param->orden ?? 1,
+                CategoryModel::NOMBRE => $param->nombre,
+                CategoryModel::ORDEN => $param->orden ?? 1,
                 CategoryModel::ICON_NAME => $param->icon_name ?? '',
             ])
         );
@@ -37,8 +37,8 @@ class CategoriesController extends Controller
     public function update(CategoryModel $category, CategoryUpdateRequest $param): JsonResponse
     {
         $category->update([
-            CategoryModel::NOMBRE    => $param->nombre,
-            CategoryModel::ORDEN     => $param->orden,
+            CategoryModel::NOMBRE => $param->nombre,
+            CategoryModel::ORDEN => $param->orden,
             CategoryModel::ICON_NAME => $param->icon_name ?? '',
         ]);
 

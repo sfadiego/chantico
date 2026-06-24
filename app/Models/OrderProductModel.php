@@ -56,9 +56,9 @@ class OrderProductModel extends Model
 
         return $query->map(function ($item) {
             return [
-                'id'      => $item->producto_id,
+                'id' => $item->producto_id,
                 'product' => $item->product->nombre,
-                'total'   => (int) $item->sumatoria,
+                'total' => (int) $item->sumatoria,
             ];
         });
     }

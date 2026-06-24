@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryModel extends Model
 {
-    use HasFactory, SoftDeletes, HasTenant;
+    use HasFactory, HasTenant, SoftDeletes;
 
     protected $table = 'categories';
 
@@ -20,6 +20,7 @@ class CategoryModel extends Model
     const FOTO_ID = 'foto_id';
 
     const ORDEN = 'orden';
+
     const ICON_NAME = 'icon_name';
 
     const TENANT_ID = 'tenant_id';

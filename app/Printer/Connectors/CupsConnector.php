@@ -10,6 +10,6 @@ class CupsConnector extends AbstractConnector
     public function init(): void
     {
         $this->connector = new CupsPrintConnector($this->printerName);
-        $this->printer   = new Printer($this->connector);
+        $this->printer = new Printer($this->connector);
     }
 }

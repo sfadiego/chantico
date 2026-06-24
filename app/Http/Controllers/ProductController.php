@@ -8,7 +8,6 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\ProductModel;
 use App\Services\ProductsService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller

@@ -23,7 +23,8 @@ class MainOrderReportModel extends Model
 
     const OBSERVACION = 'observaciones';
 
-    const USER_ID   = 'user_id';
+    const USER_ID = 'user_id';
+
     const TENANT_ID = 'tenant_id';
 
     protected $fillable = [

@@ -14,13 +14,13 @@ class StatisticsController extends Controller
     public function top3BestSeller(Request $request): JsonResponse
     {
         $start = null;
-        $end   = null;
+        $end = null;
 
         if ($raw = $request->input('date')) {
-            $tz    = config('app.timezone');
-            $date  = Carbon::parse($raw, $tz);
+            $tz = config('app.timezone');
+            $date = Carbon::parse($raw, $tz);
             $start = $date->copy()->startOfMonth()->utc();
-            $end   = $date->copy()->endOfMonth()->utc();
+            $end = $date->copy()->endOfMonth()->utc();
         }
 
         return Response::success(OrderProductModel::top3BestSeller($start, $end));

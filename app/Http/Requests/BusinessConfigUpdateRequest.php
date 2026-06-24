@@ -14,11 +14,11 @@ class BusinessConfigUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'business_name'  => 'required|string|max:100',
-            'primary_color'  => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'sidebar_color'  => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'font_color'     => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'label_color'    => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'business_name' => 'required|string|max:100',
+            'primary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'sidebar_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'font_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'label_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
         ];
     }
 }

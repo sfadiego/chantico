@@ -26,28 +26,28 @@ class VentaTicketData implements TicketDataInterface
 
         $products = $order->orderProducts->map(function ($item) {
             $lineTotal = $item->precio * $item->cantidad;
-            $discount  = $lineTotal * ($item->descuento / 100);
+            $discount = $lineTotal * ($item->descuento / 100);
 
             return [
-                'nombre'    => $item->nombre_extra ?? $item->product?->nombre ?? '—',
-                'cantidad'  => (int) $item->cantidad,
-                'precio'    => (float) $item->precio,
+                'nombre' => $item->nombre_extra ?? $item->product?->nombre ?? '—',
+                'cantidad' => (int) $item->cantidad,
+                'precio' => (float) $item->precio,
                 'descuento' => (float) $item->descuento,
-                'total'     => round($lineTotal - $discount, 2),
-                'es_extra'  => !is_null($item->nombre_extra),
+                'total' => round($lineTotal - $discount, 2),
+                'es_extra' => ! is_null($item->nombre_extra),
             ];
         })->toArray();
 
         return [
-            'id'             => $order->id,
-            'nombre_pedido'  => $order->nombre_pedido,
-            'subtotal'       => (float) $order->subtotal,
-            'descuento'      => (float) $order->descuento,
-            'total'          => (float) $order->total,
-            'created_at'     => $order->created_at,
-            'fecha_string'   => Utils::getDateAsString((string) $order->created_at),
-            'hora'           => date('H:i', strtotime((string) $order->created_at)),
-            'products'       => $products,
+            'id' => $order->id,
+            'nombre_pedido' => $order->nombre_pedido,
+            'subtotal' => (float) $order->subtotal,
+            'descuento' => (float) $order->descuento,
+            'total' => (float) $order->total,
+            'created_at' => $order->created_at,
+            'fecha_string' => Utils::getDateAsString((string) $order->created_at),
+            'hora' => date('H:i', strtotime((string) $order->created_at)),
+            'products' => $products,
         ];
     }
 }

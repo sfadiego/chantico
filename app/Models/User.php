@@ -13,17 +13,25 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasTenant;
+    use HasApiTokens, HasFactory, HasTenant, Notifiable;
 
-    const NOMBRE           = 'nombre';
+    const NOMBRE = 'nombre';
+
     const APELLIDO_MATERNO = 'apellido_materno';
+
     const APELLIDO_PATERNO = 'apellido_paterno';
-    const ROL_ID           = 'rol_id';
-    const ACTIVO           = 'activo';
-    const EMAIL            = 'email';
-    const USUARIO          = 'usuario';
-    const PASSWORD         = 'password';
-    const TENANT_ID        = 'tenant_id';
+
+    const ROL_ID = 'rol_id';
+
+    const ACTIVO = 'activo';
+
+    const EMAIL = 'email';
+
+    const USUARIO = 'usuario';
+
+    const PASSWORD = 'password';
+
+    const TENANT_ID = 'tenant_id';
 
     protected $fillable = [
         self::NOMBRE,
@@ -43,7 +51,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
+            'password' => 'hashed',
         ];
     }
 
@@ -70,12 +78,12 @@ class User extends Authenticatable
         string $apellidoMaterno = '',
     ): User {
         return User::create([
-            'nombre'           => $nombre,
-            'email'            => $email,
-            'usuario'          => $usuario,
+            'nombre' => $nombre,
+            'email' => $email,
+            'usuario' => $usuario,
             'apellido_materno' => $apellidoMaterno,
-            'rol_id'           => $rolId,
-            'password'         => bcrypt($password),
+            'rol_id' => $rolId,
+            'password' => bcrypt($password),
         ]);
     }
 
@@ -88,7 +96,7 @@ class User extends Authenticatable
         $user = User::where('email', $email)->first();
 
         return [
-            'user'         => $user,
+            'user' => $user,
             'access_token' => $user->createToken('access_token')->plainTextToken,
         ];
     }

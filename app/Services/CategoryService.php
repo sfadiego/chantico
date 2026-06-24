@@ -17,10 +17,10 @@ class CategoryService extends DataTable
     public function tableHeaders(): array
     {
         return [
-            'id'        => '#',
-            'nombre'    => 'Nombre',
+            'id' => '#',
+            'nombre' => 'Nombre',
             'icon_name' => 'Ícono',
-            'orden'     => 'Orden',
+            'orden' => 'Orden',
         ];
     }
 

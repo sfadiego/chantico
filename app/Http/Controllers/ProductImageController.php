@@ -18,7 +18,7 @@ class ProductImageController extends Controller
 
         $picture = ProductImageModel::create([
             ProductImageModel::NOMBRE_ARCHIVO => $upload['nombre_archivo'],
-            ProductImageModel::URL            => $upload['url'],
+            ProductImageModel::URL => $upload['url'],
         ]);
         $product->foto_id = $picture->id;
         $product->save();
@@ -37,7 +37,7 @@ class ProductImageController extends Controller
         }
 
         $image->nombre_archivo = $upload['nombre_archivo'];
-        $image->url            = $upload['url'];
+        $image->url = $upload['url'];
         $image->save();
 
         return $product->load('picture');

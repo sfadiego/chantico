@@ -11,9 +11,9 @@ class ProductTest extends TestCase
     private function createProduct(string $nombre = 'Producto Test'): ProductModel
     {
         return ProductModel::create([
-            'nombre'       => $nombre,
-            'precio'       => 35,
-            'descripcion'  => '',
+            'nombre' => $nombre,
+            'precio' => 35,
+            'descripcion' => '',
             'categoria_id' => CategoryModel::first()->id,
         ]);
     }
@@ -33,8 +33,8 @@ class ProductTest extends TestCase
     public function test_crea_producto(): void
     {
         $response = $this->postJson('/api/product', [
-            'nombre'       => 'Espresso Test',
-            'precio'       => 35,
+            'nombre' => 'Espresso Test',
+            'precio' => 35,
             'categoria_id' => CategoryModel::first()->id,
         ], $this->authHeaders());
 
@@ -58,8 +58,8 @@ class ProductTest extends TestCase
 
         // Violación de unique → ValidationException → 400
         $this->postJson('/api/product', [
-            'nombre'       => $existing->nombre,
-            'precio'       => 20,
+            'nombre' => $existing->nombre,
+            'precio' => 20,
             'categoria_id' => CategoryModel::first()->id,
         ], $this->authHeaders())
             ->assertStatus(400);
@@ -69,8 +69,8 @@ class ProductTest extends TestCase
     {
         // exists:categories,id falla → ValidationException → 400
         $this->postJson('/api/product', [
-            'nombre'       => 'Producto Sin Categoría',
-            'precio'       => 20,
+            'nombre' => 'Producto Sin Categoría',
+            'precio' => 20,
             'categoria_id' => 99999,
         ], $this->authHeaders())
             ->assertStatus(400);
@@ -96,9 +96,9 @@ class ProductTest extends TestCase
         $categoryId = CategoryModel::first()->id;
 
         $this->putJson("/api/product/{$product->id}", [
-            'nombre'       => 'Producto Actualizado',
-            'precio'       => 50,
-            'descripcion'  => 'Descripción actualizada',
+            'nombre' => 'Producto Actualizado',
+            'precio' => 50,
+            'descripcion' => 'Descripción actualizada',
             'categoria_id' => $categoryId,
         ], $this->authHeaders())
             ->assertStatus(200)

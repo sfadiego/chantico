@@ -23,8 +23,8 @@ class BusinessConfigController extends Controller
             'business_name' => $request->business_name,
             'primary_color' => $request->primary_color,
             'sidebar_color' => $request->sidebar_color,
-            'font_color'    => $request->font_color,
-            'label_color'   => $request->label_color,
+            'font_color' => $request->font_color,
+            'label_color' => $request->label_color,
         ]);
 
         return Response::success($tenant->fresh());
