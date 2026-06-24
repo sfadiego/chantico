@@ -1,7 +1,8 @@
 import { useAxios } from "@/hooks/useAxios";
 import { useInfiniteIndexOrder } from "@/services/useOrderService";
-import { useGetActiveSale, useCurrentTotalSale } from "@/services/useOpenSalesService";
+import { useGetActiveSale } from "@/services/useOpenSalesService";
 import { useIndexProducts } from "@/services/useProductService";
+import { useBestSeller } from "@/services/useStatisticsService";
 import { IOrder } from "@/models/IOrder";
 
 const statusStyles: Record<string, string> = {
@@ -19,8 +20,10 @@ export const formatOrderTime = (dateStr: string) =>
         minute: "2-digit",
     });
 
-const formatCurrency = (value: number) =>
-    new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value);
+const currentMonth = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+};
 
 export const useDashboard = () => {
     const { sistemaId } = useAxios();
@@ -29,12 +32,12 @@ export const useDashboard = () => {
         useInfiniteIndexOrder(sistemaId);
 
     const { data: activeSale } = useGetActiveSale();
-    const { data: totalVentas } = useCurrentTotalSale(sistemaId);
     const { data: productsData } = useIndexProducts({ page: 1, limit: 1 });
+    const { data: bestSellers = [] } = useBestSeller(currentMonth());
 
     const orders: IOrder[] = ordersData?.pages.flatMap((page) => page.data) ?? [];
 
-    const totalDia = (totalVentas as number) ?? 0;
+    const topProduct = bestSellers[0] ?? null;
     const ordenesActivas = ordersData?.pages[0]?.total ?? 0;
     const totalProductos = productsData?.total ?? 0;
     const cajaAbierta = !!sistemaId;
@@ -44,13 +47,13 @@ export const useDashboard = () => {
 
     const stats = [
         {
-            title: "Ventas del día",
-            value: formatCurrency(totalDia),
-            trend: totalDia > 0 ? "Con ventas registradas" : "Sin ventas aún",
-            up: totalDia > 0,
+            title: "Más vendido",
+            value: topProduct?.product ?? "—",
+            trend: topProduct ? `${topProduct.total} unidades este mes` : "Sin ventas este mes",
+            up: !!topProduct,
             iconBg: "bg-amber-100",
             iconColor: "text-amber-600",
-            icon: "DollarSign",
+            icon: "Award",
         },
         {
             title: "Órdenes activas",
