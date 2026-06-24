@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import AppLayout from "@/layouts/AppLayout";
+import AppLayout from "@/Layouts/AppLayout";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import IRoute from "@/intefaces/IRoutes";
 import OrderListPage from "@/pages/Orders/OrderListPage";
