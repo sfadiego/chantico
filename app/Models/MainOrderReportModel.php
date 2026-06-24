@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\MainOrderStatusEnum;
+use App\Models\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MainOrderReportModel extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTenant;
 
     protected $table = 'main_order_report';
 
@@ -22,7 +23,8 @@ class MainOrderReportModel extends Model
 
     const OBSERVACION = 'observaciones';
 
-    const USER_ID = 'user_id';
+    const USER_ID   = 'user_id';
+    const TENANT_ID = 'tenant_id';
 
     protected $fillable = [
         self::ESTATUS_CAJA,
@@ -31,6 +33,7 @@ class MainOrderReportModel extends Model
         self::VENTA_DIA,
         self::OBSERVACION,
         self::USER_ID,
+        self::TENANT_ID,
     ];
 
     public function orders()

@@ -29,7 +29,9 @@ class CategoriesSeeder extends Seeder
 
         collect($categories)
             ->each(function ($category) {
-                CategoryModel::updateOrCreate(['nombre' => $category]);
+                CategoryModel::updateOrCreate(
+                    ['nombre' => $category, CategoryModel::TENANT_ID => 1]
+                );
             });
     }
 }

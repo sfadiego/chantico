@@ -1,6 +1,4 @@
-import { BarChart2, Coffee, ShoppingBag } from 'lucide-react'
-import React from 'react'
-
+import { BarChart2, Coffee, ShoppingBag } from 'lucide-react';
 
 const features = [
     { icon: Coffee, label: "Gestión de pedidos" },
@@ -9,7 +7,7 @@ const features = [
 ];
 
 export const SidePanel = () => {
-    const appName = import.meta.env.VITE_APP_NAME
+    const appName = import.meta.env.VITE_APP_NAME;
     return (
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-amber-600 via-amber-500 to-orange-500 flex-col items-center justify-center p-12 relative overflow-hidden">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -41,5 +39,5 @@ export const SidePanel = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

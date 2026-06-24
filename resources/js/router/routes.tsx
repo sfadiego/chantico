@@ -8,6 +8,7 @@ import ProductsPage from "@/pages/Product/ProductsPage";
 import CategoriesPage from "@/pages/Category/CategoriesPage";
 
 const LoginPage = lazy(() => import("@/pages/Auth/LoginPage"));
+const TenantLoginPage = lazy(() => import("@/pages/Auth/TenantLoginPage"));
 const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage"));
 const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
 const CloseSalesPage = lazy(() => import("@/pages/Sales/partials/CloseSales/CloseSalesPage"));
@@ -54,6 +55,14 @@ export const router = createBrowserRouter([
         element: (
             <Suspense fallback={<FullPageLoader />}>
                 <LoginPage />
+            </Suspense>
+        ),
+    },
+    {
+        path: "/:slug/login",
+        element: (
+            <Suspense fallback={<FullPageLoader />}>
+                <TenantLoginPage />
             </Suspense>
         ),
     },

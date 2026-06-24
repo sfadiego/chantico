@@ -1,5 +1,6 @@
 export interface IBusinessConfig {
     id: number;
+    slug: string;
     business_name: string;
     primary_color: string;
     sidebar_color: string;

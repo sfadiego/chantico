@@ -1,10 +1,9 @@
-import { Coffee, ShoppingBag, BarChart2 } from "lucide-react";
+import { Coffee } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { SidePanel } from "@/components/auth/SidePanel";
 
-
 export default function LoginPage() {
-    const appName = import.meta.env.VITE_APP_NAME
+    const appName = import.meta.env.VITE_APP_NAME;
     return (
         <div className="min-h-screen flex">
             <SidePanel />

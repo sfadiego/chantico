@@ -53,7 +53,8 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         configureAxiosHeaders(null);
         configUser(null);
         setSistema(null);
-        window.location.replace("/login");
+        const slug = localStorage.getItem("tenantSlug");
+        window.location.replace(slug ? `/${slug}/login` : "/login");
     }, []);
 
     const saveAuth = useCallback((accessToken: string, user: IUser) => {

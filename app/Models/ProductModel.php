@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductModel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasTenant;
 
     protected $table = 'product';
 
@@ -24,7 +25,8 @@ class ProductModel extends Model
 
     const ACTIVO = 'activo';
 
-    const FOTO_ID = 'foto_id';
+    const FOTO_ID   = 'foto_id';
+    const TENANT_ID = 'tenant_id';
 
     protected $fillable = [
         self::NOMBRE,
@@ -33,6 +35,7 @@ class ProductModel extends Model
         self::CATEGORIA_ID,
         self::ACTIVO,
         self::FOTO_ID,
+        self::TENANT_ID,
     ];
 
     public static function store(
