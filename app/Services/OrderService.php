@@ -7,6 +7,7 @@ use App\Core\Paginator\DataTable;
 use App\Enums\OrderStatusEnum;
 use App\Models\MainOrderReportModel;
 use App\Models\OrderModel;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 class OrderService extends DataTable
@@ -36,19 +37,22 @@ class OrderService extends DataTable
 
     public function customQueryFilters(): array
     {
+        $estatusId = (int) request()->query('estatus_pedido_id', OrderStatusEnum::IN_PROCESS->value);
         $sistemaId = request()->query('sistema_id');
 
-        if ($sistemaId) {
-            $sistema = (int) $sistemaId;
-        } else {
+        // When filtering by non-active statuses (e.g. sales history), don't restrict by session
+        if (!$sistemaId && $estatusId === OrderStatusEnum::IN_PROCESS->value) {
             $activeSale = (new MainOrderReportModel)->getActiveSale();
-            $sistema = $activeSale ? $activeSale->id : 0;
+            $sistemaId = $activeSale ? $activeSale->id : 0;
         }
 
-        return [
-            'sistema_id' => $sistema,
-            'estatus_pedido_id' => (int) request()->query('estatus_pedido_id', OrderStatusEnum::IN_PROCESS->value),
-        ];
+        $filters = ['estatus_pedido_id' => $estatusId];
+
+        if ($sistemaId) {
+            $filters['sistema_id'] = (int) $sistemaId;
+        }
+
+        return $filters;
     }
 
     public function runCustomQueryFilters(): \Illuminate\Database\Eloquent\Builder
@@ -57,7 +61,10 @@ class OrderService extends DataTable
 
         $fecha = request()->query('fecha');
         if ($fecha) {
-            $this->queryBuilder->whereDate('created_at', $fecha);
+            $tz = config('app.timezone');
+            $start = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->startOfDay()->utc();
+            $end   = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->endOfDay()->utc();
+            $this->queryBuilder->whereBetween('created_at', [$start, $end]);
         }
 
         return $this->queryBuilder;

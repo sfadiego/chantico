@@ -1,9 +1,12 @@
 import { DataTable } from "mantine-datatable";
 import { ClipboardList, RefreshCw } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { IOrder } from "@/models/IOrder";
 import { useOrderList } from "./useOrderList";
 import { OrderFilters } from "./partials/OrderFilters";
 
 export default function OrderListPage() {
+    const navigate = useNavigate();
     const {
         dataTableProps,
         isLoading,
@@ -53,7 +56,14 @@ export default function OrderListPage() {
                         onEstatusChange={handleEstatusChange}
                         onClear={handleClearFilters}
                     />
-                    <DataTable fetching={isLoading} {...dataTableProps} />
+                    <DataTable
+                        fetching={isLoading}
+                        {...dataTableProps}
+                        onRowClick={({ record }: { record: IOrder }) =>
+                            navigate(`/take-order/${record.id}`)
+                        }
+                        rowStyle={() => ({ cursor: "pointer" })}
+                    />
                 </div>
             )}
         </div>

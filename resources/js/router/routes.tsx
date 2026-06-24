@@ -4,10 +4,15 @@ import AppLayout from "@/layouts/AppLayout";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import IRoute from "@/intefaces/IRoutes";
 import OrderListPage from "@/pages/Orders/OrderListPage";
+import ProductsPage from "@/pages/Product/ProductsPage";
+import CategoriesPage from "@/pages/Category/CategoriesPage";
 
 const LoginPage = lazy(() => import("@/pages/Auth/LoginPage"));
 const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage"));
 const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
+const CloseSalesPage = lazy(() => import("@/pages/Sales/partials/CloseSales/CloseSalesPage"));
+const SalesPage = lazy(() => import("@/pages/Sales/SalesPage"));
+const StatisticsPage = lazy(() => import("@/pages/Statistics/StatisticsPage"));
 
 const PageLoader = () => (
     <div className="flex items-center justify-center h-full min-h-32">
@@ -33,7 +38,12 @@ const withPrivateLayout = (element: React.ReactElement, route: IRoute) => (
 const privateRoutes: IRoute[] = [
     { path: "/", element: <DashboardPage />, private: true },
     { path: "/orders", element: <OrderListPage />, private: true },
+    { path: "/products", element: <ProductsPage />, private: true },
+    { path: "/categories", element: <CategoriesPage />, private: true },
     { path: "/take-order/:id", element: <TakeOrderPage />, private: true },
+    { path: "/close-sales", element: <CloseSalesPage />, private: true },
+    { path: "/sales", element: <SalesPage />, private: true },
+    { path: "/statistics", element: <StatisticsPage />, private: true },
 ];
 
 export const router = createBrowserRouter([

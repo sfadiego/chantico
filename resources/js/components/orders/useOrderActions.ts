@@ -3,9 +3,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { IOrder } from "@/models/IOrder";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 import { useUpdateOrder, useDeleteOrder } from "@/services/useOrderService";
 
-export const useOrderCard = (order: IOrder) => {
+export const useOrderActions = (order: IOrder, onSuccess?: () => void) => {
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(order.nombre_pedido);
@@ -13,11 +14,17 @@ export const useOrderCard = (order: IOrder) => {
     const { mutateAsync: updateOrder, isPending: isUpdating } = useUpdateOrder(order.id);
     const { mutateAsync: deleteOrder, isPending: isDeleting } = useDeleteOrder(order.id);
 
+    const invalidate = () => {
+        queryClient.invalidateQueries({ queryKey: ["orders-infinite"] });
+        queryClient.invalidateQueries({ queryKey: [ApiRoutes.Orders] });
+        onSuccess?.();
+    };
+
     const confirmEdit = async () => {
         const trimmed = editedName.trim();
         if (!trimmed) return;
         await updateOrder({ nombre_pedido: trimmed });
-        queryClient.invalidateQueries({ queryKey: ["orders-infinite"] });
+        invalidate();
         setIsEditing(false);
         toast.success("Nombre de orden actualizado");
     };
@@ -61,11 +68,9 @@ export const useOrderCard = (order: IOrder) => {
             confirmButtonText: "Sí, eliminar",
             reverseButtons: true,
         });
-
         if (!result.isConfirmed) return;
-
         await deleteOrder({});
-        queryClient.invalidateQueries({ queryKey: ["orders-infinite"] });
+        invalidate();
         toast.success("Orden eliminada");
     };
 

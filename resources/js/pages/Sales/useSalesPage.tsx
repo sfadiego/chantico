@@ -1,18 +1,25 @@
 import { useMemo, useState } from "react";
-import { useAxios } from "@/hooks/useAxios";
+import { DataTableColumn } from "mantine-datatable";
+import { Eye } from "lucide-react";
 import { useDataTable, DataTableRenderersMap } from "@/hooks/useDatatable";
 import { useIndexOrder } from "@/services/useOrderService";
 import { IOrder } from "@/models/IOrder";
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
-import { getStatusStyle, formatOrderTime } from "@/pages/Dashboard/useDashboard";
-import { DataTableColumn } from "mantine-datatable";
-import { OrderActionButtons } from "@/components/orders/OrderActionButtons";
+import { getStatusStyle } from "@/pages/Dashboard/useDashboard";
+import { useOrderDetailModal } from "./partials/useOrderDetailModal";
 
 const renderersMap: DataTableRenderersMap = {
     total: (o: IOrder) => `$${o.total.toFixed(2)}`,
     subtotal: (o: IOrder) => `$${o.subtotal.toFixed(2)}`,
     descuento: (o: IOrder) => (o.descuento > 0 ? `${o.descuento}%` : "—"),
-    created_at: (o: IOrder) => formatOrderTime(o.created_at),
+    created_at: (o: IOrder) =>
+        new Date(o.created_at).toLocaleString("es-MX", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        }),
     status: (o: IOrder) => (
         <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.status?.nombre)}`}>
             {o.status?.nombre ?? "—"}
@@ -20,23 +27,37 @@ const renderersMap: DataTableRenderersMap = {
     ),
 };
 
-const actionsColumn: DataTableColumn<IOrder> = {
-    accessor: "_acciones" as keyof IOrder,
-    title: "Acciones",
-    width: 200,
-    render: (order: IOrder) => <OrderActionButtons order={order} />,
-};
-
-export const useOrderList = () => {
-    const { sistemaId } = useAxios();
+export const useSalesPage = () => {
     const [fecha, setFecha] = useState<string | null>(null);
-    const [estatusId, setEstatusId] = useState<number>(OrderStatusEnum.InProcess);
+    const modal = useOrderDetailModal();
+
+    const actionsColumn: DataTableColumn<IOrder> = useMemo(
+        () => ({
+            accessor: "_detalle" as keyof IOrder,
+            title: "",
+            width: 60,
+            render: (order: IOrder) => (
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        modal.open(order);
+                    }}
+                    className="p-1.5 rounded-lg text-stone-400 hover:text-amber-600
+                        hover:bg-amber-50 transition-colors"
+                    title="Ver detalle"
+                >
+                    <Eye size={16} />
+                </button>
+            ),
+        }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
+    );
 
     const { dataTableProps, isLoading, refetch, setPage } = useDataTable({
         service: useIndexOrder,
         payload: {
-            sistema_id: sistemaId,
-            estatus_pedido_id: estatusId,
+            estatus_pedido_id: OrderStatusEnum.Closed,
             ...(fecha ? { fecha } : {}),
         },
         renderersMap,
@@ -50,8 +71,7 @@ export const useOrderList = () => {
                     ? ([...dataTableProps.columns, actionsColumn] as DataTableColumn<IOrder>[])
                     : [],
         }),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [dataTableProps],
+        [dataTableProps, actionsColumn],
     );
 
     const handleFechaChange = (value: string | null) => {
@@ -59,14 +79,8 @@ export const useOrderList = () => {
         setPage(1);
     };
 
-    const handleEstatusChange = (value: number) => {
-        setEstatusId(value);
-        setPage(1);
-    };
-
-    const handleClearFilters = () => {
+    const handleClear = () => {
         setFecha(null);
-        setEstatusId(OrderStatusEnum.InProcess);
         setPage(1);
     };
 
@@ -74,11 +88,9 @@ export const useOrderList = () => {
         dataTableProps: enhancedDataTableProps,
         isLoading,
         refetch,
-        sistemaId,
         fecha,
-        estatusId,
         handleFechaChange,
-        handleEstatusChange,
-        handleClearFilters,
+        handleClear,
+        modal,
     };
 };

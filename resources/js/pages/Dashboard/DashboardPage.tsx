@@ -1,54 +1,41 @@
 import { Widget } from "@/components/dashboard/widgets/Widget";
-import { DollarSign, ShoppingCart, Package, Landmark, Plus } from "lucide-react";
+import {
+    DollarSign, ShoppingCart, Package, Landmark,
+    Plus, Lock, Unlock, LucideIcon,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDashboard } from "./useDashboard";
 import { RecentOrders } from "./partials/RecentOrders";
 import { NewOrderModal } from "./partials/NewOrderModal";
 import { useNewOrderModal } from "./partials/useNewOrderModal";
+import { OpenSalesModal } from "./partials/OpenSalesModal";
+import { useOpenSalesModal } from "./partials/useOpenSalesModal";
+import { AdminRoutes } from "@/enums/RoutesEnum";
 
-const mockStats = [
-    {
-        title: "Ventas del día",
-        value: "$1,250.00",
-        wicon: DollarSign,
-        trend: "+12% vs ayer",
-        up: true,
-        iconBg: "bg-amber-100",
-        iconColor: "text-amber-600",
-    },
-    {
-        title: "Órdenes activas",
-        value: "8",
-        wicon: ShoppingCart,
-        trend: "2 en espera",
-        up: true,
-        iconBg: "bg-blue-100",
-        iconColor: "text-blue-600",
-    },
-    {
-        title: "Productos disponibles",
-        value: "43",
-        wicon: Package,
-        trend: "2 sin stock",
-        up: false,
-        iconBg: "bg-emerald-100",
-        iconColor: "text-emerald-600",
-    },
-    {
-        title: "Estado de caja",
-        value: "Abierta",
-        wicon: Landmark,
-        trend: "desde las 8:00 AM",
-        up: true,
-        iconBg: "bg-purple-100",
-        iconColor: "text-purple-600",
-    },
-];
+const ICON_MAP: Record<string, LucideIcon> = {
+    DollarSign,
+    ShoppingCart,
+    Package,
+    Landmark,
+};
 
 export default function DashboardPage() {
     const navigate = useNavigate();
-    const { orders, ordersLoading, isFetchingNextPage, hasNextPage, fetchNextPage, sistemaId } = useDashboard();
-    const { isOpen, openModal, handleClose, formik, isPending } = useNewOrderModal();
+    const {
+        orders, ordersLoading, isFetchingNextPage, hasNextPage, fetchNextPage, sistemaId, stats,
+    } = useDashboard();
+
+    const {
+        isOpen: newOrderOpen, openModal: openNewOrder,
+        handleClose: closeNewOrder, formik: newOrderFormik, isPending: newOrderPending,
+    } = useNewOrderModal();
+
+    const {
+        isOpen: openSalesOpen, openModal: openSales,
+        handleClose: closeSales, formik: openSalesFormik, isPending: openSalesPending,
+    } = useOpenSalesModal();
+
+    const cajaAbierta = !!sistemaId;
 
     const today = new Date().toLocaleDateString("es-MX", {
         weekday: "long",
@@ -64,18 +51,49 @@ export default function DashboardPage() {
                     <h1 className="text-2xl font-bold text-stone-900">Dashboard</h1>
                     <p className="text-stone-500 text-sm mt-0.5 capitalize">{today}</p>
                 </div>
-                <button
-                    onClick={openModal}
-                    className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm self-start sm:self-auto"
-                >
-                    <Plus size={16} />
-                    Nueva orden
-                </button>
+
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                    {cajaAbierta ? (
+                        <>
+                            <button
+                                onClick={() => navigate(AdminRoutes.CloseSales)}
+                                className="flex items-center gap-2 bg-stone-100 hover:bg-red-100 text-stone-600 hover:text-red-600 font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
+                            >
+                                <Lock size={16} />
+                                Cerrar caja
+                            </button>
+                            <button
+                                onClick={openNewOrder}
+                                className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
+                            >
+                                <Plus size={16} />
+                                Nueva orden
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            onClick={openSales}
+                            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
+                        >
+                            <Unlock size={16} />
+                            Abrir caja
+                        </button>
+                    )}
+                </div>
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                {mockStats.map((stat) => (
-                    <Widget key={stat.title} {...stat} />
+                {stats.map((stat) => (
+                    <Widget
+                        key={stat.title}
+                        title={stat.title}
+                        value={stat.value}
+                        trend={stat.trend}
+                        up={stat.up}
+                        iconBg={stat.iconBg}
+                        iconColor={stat.iconColor}
+                        wicon={ICON_MAP[stat.icon]}
+                    />
                 ))}
             </div>
 
@@ -90,10 +108,17 @@ export default function DashboardPage() {
             />
 
             <NewOrderModal
-                isOpen={isOpen}
-                isPending={isPending}
-                formik={formik}
-                onClose={handleClose}
+                isOpen={newOrderOpen}
+                isPending={newOrderPending}
+                formik={newOrderFormik}
+                onClose={closeNewOrder}
+            />
+
+            <OpenSalesModal
+                isOpen={openSalesOpen}
+                isPending={openSalesPending}
+                formik={openSalesFormik}
+                onClose={closeSales}
             />
         </div>
     );

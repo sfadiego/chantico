@@ -2,7 +2,7 @@ import { Plus, Minus, Trash2, ShoppingCart, Printer, Tag, Loader, Banknote, Lock
 import { IOrder } from "@/models/IOrder";
 import { CartItem } from "../useTakeOrder";
 import { usePayModal } from "./usePayModal";
-import { PayModal } from "./PayModal";
+import { PayModal } from "@/components/orders/PayModal";
 
 interface CartPanelProps {
     order: IOrder | undefined;

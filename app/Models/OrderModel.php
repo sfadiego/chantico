@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderModel extends Model
 {
@@ -114,36 +112,5 @@ class OrderModel extends Model
             ->first()
             ->orders
             ->count();
-    }
-
-    public static function orders(int $orderId, bool $paginate = true, int $page = 1, int $limit = 10): LengthAwarePaginator|Collection
-    {
-        $queryBuilder = OrderModel::with('status')
-            ->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS)
-            ->where('sistema_id', $orderId);
-
-        if ($paginate) {
-            // $pagination = $queryBuilder->paginate($limit, ['*'], 'page', $page);
-            // // $response = $pagination->getCollection();
-
-            // return new LengthAwarePaginator(
-            //     $pagination->getCollection(),
-            //     $pagination->total(),
-            //     $pagination->perPage(),
-            //     $pagination->currentPage()
-            // );
-
-        }
-        // return Response::successDataTable(
-        //     new LengthAwarePaginator(
-        //         $this->withResource(),
-        //         $this->pagination->total(),
-        //         $this->pagination->perPage(),
-        //         $this->pagination->currentPage()
-        //     ),
-        //     $this->tableHeaders()
-        // );
-
-        return $queryBuilder->get();
     }
 }

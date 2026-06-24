@@ -10,10 +10,17 @@ export const useIndexProducts = ({
     order = "desc",
     page = 1,
     limit = 10,
-}: IPaginateServiceProps) =>
+    categoria_id,
+}: IPaginateServiceProps & { categoria_id?: number | null }) =>
     useGET<IPaginate<IProduct>>({
         url,
-        filters: { filters, order, page, limit },
+        filters: {
+            filters,
+            order,
+            page,
+            limit,
+            ...(categoria_id ? { categoria_id } : {}),
+        },
     });
 export const useShowProduct = (id: number) =>
     useGET<IProduct>({ url: `${url}/${id}` });
@@ -21,7 +28,7 @@ export const useGetFile = (fileName: string) =>
     useGET({ url: `files/${fileName}` });
 
 // Admin
-const adminUrl = "/api/admin/product";
+const adminUrl = "/api/product";
 export const useUpdateProductImage = (productId: number) =>
     usePOST({ url: `${adminUrl}/${productId}/image`, isFile: true });
 export const useUpdateProduct = (productId: number) =>

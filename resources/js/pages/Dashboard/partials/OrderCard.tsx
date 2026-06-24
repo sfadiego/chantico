@@ -1,8 +1,9 @@
 import { IOrder } from "@/models/IOrder";
-import { Clock, Receipt, Printer, Banknote, Pencil, Trash2, Check, X, Loader } from "lucide-react";
+import { Clock, Receipt, Printer, Pencil, Trash2, Check, X, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getStatusStyle, formatOrderTime } from "../useDashboard";
-import { useOrderCard } from "./useOrderCard";
+import { useOrderActions } from "@/components/orders/useOrderActions";
+import { PayOrderButton } from "@/components/orders/PayOrderButton";
 
 interface OrderCardProps {
     order: IOrder;
@@ -23,16 +24,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         handleEditCancel,
         handleKeyDown,
         handleDelete,
-    } = useOrderCard(order);
+    } = useOrderActions(order);
 
     const handlePrint = (e: React.MouseEvent) => {
         e.stopPropagation();
         // TODO: imprimir ticket
-    };
-
-    const handlePay = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        // TODO: flujo de pago
     };
 
     return (
@@ -106,15 +102,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                             <Printer size={14} />
                             <span className="hidden sm:inline">Imprimir</span>
                         </button>
-                        <button
-                            onClick={handlePay}
-                            disabled={order.total === 0}
-                            title="Pagar"
-                            className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border border-transparent hover:border-emerald-200 transition-all text-xs font-medium disabled:opacity-40"
-                        >
-                            <Banknote size={14} />
-                            <span className="hidden sm:inline">Pagar</span>
-                        </button>
+                        <PayOrderButton order={order} />
                         <button
                             onClick={handleEditStart}
                             title="Editar nombre"
