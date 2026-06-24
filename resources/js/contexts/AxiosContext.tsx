@@ -17,11 +17,10 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
             ? JSON.parse(localStorage.getItem("user")!)
             : null,
     );
-    const [sistemaId, setSistemaId] = useState<number | null>(
-        localStorage.getItem("sistemaId")
-            ? Number(localStorage.getItem("sistemaId"))
-            : null,
-    );
+    const [sistemaId, setSistemaId] = useState<number | null>(() => {
+        const stored = Number(localStorage.getItem("sistemaId"));
+        return stored > 0 ? stored : null;
+    });
 
     const configureAxiosHeaders = (token: string | null) => {
         if (token) {
@@ -44,7 +43,7 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
     };
 
     const setSistema = (sistema: number | null) => {
-        const value = sistema ?? null;
+        const value = sistema && sistema > 0 ? sistema : null;
         localStorage.setItem("sistemaId", value?.toString() ?? "");
         setSistemaId(value);
     };

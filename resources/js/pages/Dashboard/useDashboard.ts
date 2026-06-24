@@ -29,7 +29,7 @@ export const useDashboard = () => {
         useInfiniteIndexOrder(sistemaId);
 
     const { data: activeSale } = useGetActiveSale();
-    const { data: totalVentas } = useCurrentTotalSale(sistemaId ?? 0);
+    const { data: totalVentas } = useCurrentTotalSale(sistemaId);
     const { data: productsData } = useIndexProducts({ page: 1, limit: 1 });
 
     const orders: IOrder[] = ordersData?.pages.flatMap((page) => page.data) ?? [];
