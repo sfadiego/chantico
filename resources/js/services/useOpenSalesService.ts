@@ -13,8 +13,8 @@ export const useStoreOpenSales = () => usePOST({ url: `${url}/open` });
 export const useCloseSales = (systemId: number) =>
     usePOST({ url: `${url}/${systemId}/close` });
 
-export const useCurrentTotalSale = (systemId: number) =>
-    useGET({ url: `${url}/${systemId}/total-current-sales` });
+export const useCurrentTotalSale = (systemId: number | null) =>
+    useGET({ url: `${url}/${systemId}/total-current-sales`, enable: !!systemId && systemId > 0 });
 
 export const useDetailOfCloseSales = (systemId: number) =>
     useGET({ url: `${url}/${systemId}/detail-close-sales` });
