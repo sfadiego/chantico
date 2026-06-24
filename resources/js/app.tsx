@@ -30,7 +30,7 @@ export const App = () => {
                 <QueryClientProvider client={queryClient}>
                     <Suspense>
                         <ToastContainer {...toastConfig} />
-                        <RouterProvider router={router} />
+                        <RouterProvider router={router} future={{ v7_startTransition: true }} />
                     </Suspense>
                 </QueryClientProvider>
             </MantineProvider>
