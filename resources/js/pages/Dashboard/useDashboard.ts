@@ -33,7 +33,8 @@ export const useDashboard = () => {
 
     const { data: activeSale } = useGetActiveSale();
     const { data: productsData } = useIndexProducts({ page: 1, limit: 1 });
-    const { data: bestSellers = [] } = useBestSeller(currentMonth());
+    const { data: bestSellers = [] } = useBestSeller();
+    console.log(bestSellers)
 
     const orders: IOrder[] = ordersData?.pages.flatMap((page) => page.data) ?? [];
 
@@ -49,7 +50,7 @@ export const useDashboard = () => {
         {
             title: "Más vendido",
             value: topProduct?.product ?? "—",
-            trend: topProduct ? `${topProduct.total} unidades este mes` : "Sin ventas este mes",
+            trend: topProduct ? `${topProduct.total} unidades` : "Sin ventas",
             up: !!topProduct,
             iconBg: "bg-amber-100",
             iconColor: "text-amber-600",
