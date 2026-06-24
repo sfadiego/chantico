@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use App\Models\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderModel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasTenant;
 
     protected $table = 'order';
 
@@ -25,11 +26,10 @@ class OrderModel extends Model
 
     const ESTATUS_PEDIDO_ID = 'estatus_pedido_id';
 
-    const SISTEMA_ID = 'sistema_id';
-
+    const SISTEMA_ID  = 'sistema_id';
     const FECHA_INICIO = 'fecha_inicio';
-
-    const FECHA_FINAL = 'fecha_final';
+    const FECHA_FINAL  = 'fecha_final';
+    const TENANT_ID    = 'tenant_id';
 
     public static $ALLOWED_UPDATE = [
         self::DESCUENTO,
@@ -44,12 +44,16 @@ class OrderModel extends Model
         self::NOMBRE_PEDIDO,
         self::ESTATUS_PEDIDO_ID,
         self::SISTEMA_ID,
+        self::TENANT_ID,
     ];
 
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProductModel::class, 'pedido_id')
-            ->whereHas('product')
+            ->where(function ($query) {
+                $query->whereHas('product')
+                    ->orWhereNotNull('nombre_extra');
+            })
             ->with('product');
     }
 

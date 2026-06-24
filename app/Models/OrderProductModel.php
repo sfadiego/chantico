@@ -24,12 +24,15 @@ class OrderProductModel extends Model
 
     const PRECIO = 'precio';
 
+    const NOMBRE_EXTRA = 'nombre_extra';
+
     protected $fillable = [
         self::PRODUCTO_ID,
         self::PEDIDO_ID,
         self::DESCUENTO,
         self::CANTIDAD,
         self::PRECIO,
+        self::NOMBRE_EXTRA,
     ];
 
     public function product(): HasOne
@@ -37,15 +40,12 @@ class OrderProductModel extends Model
         return $this->hasOne(ProductModel::class, 'id', self::PRODUCTO_ID);
     }
 
-    public static function top3BestSeller(string $date = '')
+    public static function top3BestSeller(Carbon $start, Carbon $end)
     {
         $query = OrderProductModel::whereHas('product')
             ->with(['product'])
             ->select(DB::raw('SUM(cantidad) as sumatoria'), 'producto_id')
-            ->when($date !== '', function ($q) use ($date) {
-                $q->whereMonth('order_product.created_at', Carbon::parse($date)->month)
-                    ->whereYear('order_product.created_at', Carbon::parse($date)->year);
-            })
+            ->whereBetween('order_product.created_at', [$start, $end])
             ->groupBy('producto_id')
             ->orderByDesc('sumatoria')
             ->limit(3)
@@ -53,9 +53,9 @@ class OrderProductModel extends Model
 
         return $query->map(function ($item) {
             return [
-                'id' => $item->producto_id,
+                'id'      => $item->producto_id,
                 'product' => $item->product->nombre,
-                'total' => $item->sumatoria,
+                'total'   => (int) $item->sumatoria,
             ];
         });
     }

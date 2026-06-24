@@ -1,13 +1,38 @@
-import { useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi"
-import { IProduct } from "../intefaces/IProduct"
+import { IProduct } from "@/models/IProduct";
+import { useDELETE, useGET, usePOST, usePUT } from "../hooks/useApi";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { IPaginateServiceProps } from "@/intefaces/IPaginateServiceProps";
+import { IPaginate } from "@/intefaces/IPaginate";
 
-export const useIndexProducts = ({ productName, categoryId }: { productName?: string, categoryId?: number }) =>
-    useGET<IProduct[]>({ url: 'product', filters: { search: productName, categoryId } })
-export const useShowProduct = (id: number) => useGET<IProduct>({ url: `product/${id}` })
-export const useGetFile = (fileName: string) => useGET({ url: `files/${fileName}` })
+const url = ApiRoutes.Product;
+export const useIndexProducts = ({
+    filters = [],
+    order = "desc",
+    page = 1,
+    limit = 10,
+    categoria_id,
+}: IPaginateServiceProps & { categoria_id?: number | null }) =>
+    useGET<IPaginate<IProduct>>({
+        url,
+        filters: {
+            filters,
+            order,
+            page,
+            limit,
+            ...(categoria_id ? { categoria_id } : {}),
+        },
+    });
+export const useShowProduct = (id: number) =>
+    useGET<IProduct>({ url: `${url}/${id}` });
+export const useGetFile = (fileName: string) =>
+    useGET({ url: `files/${fileName}` });
 
 // Admin
-export const useUpdateProductImage = (productId: number) => usePOST({ url: `admin/product/${productId}/image`, isFile: true })
-export const useUpdateProduct = (productId: number) => usePUT({ url: `admin/product/${productId}` })
-export const useStoreProduct = () => usePOST({ url: `admin/product` })
-export const useDeleteProduct = (productId: number) => useDELETE({ url: `admin/product/${productId}` })
+const adminUrl = "/api/product";
+export const useUpdateProductImage = (productId: number) =>
+    usePOST({ url: `${adminUrl}/${productId}/image`, isFile: true });
+export const useUpdateProduct = (productId: number) =>
+    usePUT({ url: `${adminUrl}/${productId}` });
+export const useStoreProduct = () => usePOST({ url: adminUrl });
+export const useDeleteProduct = (productId: number) =>
+    useDELETE({ url: `${adminUrl}/${productId}` });

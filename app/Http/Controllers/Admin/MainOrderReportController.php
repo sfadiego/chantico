@@ -15,29 +15,15 @@ class MainOrderReportController extends Controller
     public function index(): JsonResponse
     {
         return Response::success(
-            MainOrderReportModel::all()
-                ->sortByDesc('id')
-                ->values()
+            MainOrderReportModel::with('user')
+                ->orderByDesc('id')
+                ->get()
         );
     }
 
     public function show(MainOrderReportModel $system): JsonResponse
     {
-        return Response::success(
-            $system->updateCurrentSales()
-                ->get()
-                ->map(function ($item) {
-                    return [
-                        'id' => $item['id'],
-                        'estatus_caja' => $item['estatus_caja'] ? 'Abierta' : 'Cerrada',
-                        'efectivo_caja_inicio' => $item['efectivo_caja_inicio'],
-                        'efectivo_caja_cierre' => $item['efectivo_caja_cierre'],
-                        'venta_dia' => $item['venta_dia'],
-                        'observaciones' => $item['observaciones'],
-                        'created_at' => date($item['created_at']),
-                    ];
-                })
-        );
+        return Response::success($system->load('user'));
     }
 
     public function getActiveSale(): JsonResponse
@@ -62,14 +48,9 @@ class MainOrderReportController extends Controller
         );
     }
 
-    public function totalCloseSales(MainOrderReportModel $system): JsonResponse
+    public function totalCurrentSales(MainOrderReportModel $system): JsonResponse
     {
         return Response::success($system->totalSalesByDay());
-    }
-
-    public function detailCloseSales(MainOrderReportModel $system): JsonResponse
-    {
-        return Response::success($system->load('orders'));
     }
 
     public function closeSales(MainOrderReportModel $system): JsonResponse
@@ -82,8 +63,6 @@ class MainOrderReportController extends Controller
             return Response::error('Debes de finalizar todos las mesas para cerrar sistema.');
         }
 
-        $test = $system->closeSales();
-
-        return Response::success($test);
+        return Response::success($system->closeSales());
     }
 }

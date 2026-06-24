@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryModel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasTenant;
 
     protected $table = 'categories';
 
@@ -19,11 +20,16 @@ class CategoryModel extends Model
     const FOTO_ID = 'foto_id';
 
     const ORDEN = 'orden';
+    const ICON_NAME = 'icon_name';
+
+    const TENANT_ID = 'tenant_id';
 
     protected $fillable = [
         self::NOMBRE,
         self::FOTO_ID,
         self::ORDEN,
+        self::ICON_NAME,
+        self::TENANT_ID,
     ];
 
     public function products(): HasMany

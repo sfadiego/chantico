@@ -7,11 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ env('APP_NAME') }}</title>
+    @routes
     @viteReactRefresh
-    @vite('resources/js/app.tsx')
+    @vite(['resources/css/app.css', 'resources/js/main.tsx'])
 </head>
 
-<body class="">
-    <div id="app"></div>
+<body>
+    <div id="root">
+        <noscript>
+            <strong>
+                Lo sentimos, este sitio no funciona correctamente sin Javascript. Habilitalo para poder
+                continuar
+            </strong>
+        </noscript>
+    </div>
 </body>
 </html>

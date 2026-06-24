@@ -1,33 +1,63 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
-import { IAxiosPostProps, IAxiosProps, IUseGetProps, IUsePostProps } from './../intefaces/IAxiosProps';
-import { ApisEnum } from '@/configs/apisEnum';
-import { useMutation, UseMutationResult, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { useAxios } from "@hooks/useAxios";
-import { IUseDELETEProps, IUsePUTProps } from '../intefaces/IAxiosProps';
+import { AxiosInstance, AxiosResponse } from "axios";
+import {
+    IAxiosPostProps,
+    IAxiosProps,
+    IUseDELETEProps,
+    IUseGETProps,
+    IUsePOSTProps,
+    IUsePUTProps,
+} from "./../intefaces/IAxiosProps";
+import { ApisEnum } from "@/configs/apisEnum";
+import {
+    useMutation,
+    UseMutationResult,
+    useQuery,
+    UseQueryResult,
+} from "@tanstack/react-query";
+
+import { useAxios } from "./useAxios";
 
 const host = ApisEnum.BaseUrl;
-const headersImage = { 'content-type': 'multipart/form-data' }
+const headersImage = { "content-type": "multipart/form-data", "Accept": "application/json" };
+
 export const axiosGET = async <Params>(
     axios: AxiosInstance,
-    { url, params, headers = {}, responseType = 'json' }: IAxiosProps<Params>,
+    {
+        url,
+        params,
+        headers = {},
+        responseType = "json",
+        customHost = host,
+    }: IAxiosProps<Params>,
 ) => {
-    const response = await axios.get(`${host}${url}`, {
+    const response = await axios.get(`${customHost}${url}`, {
         params,
         headers,
         responseType,
-    })
-    return response.data;
-}
+    });
+    const body = response.data;
+    // Unwrap Laravel Response::success() macro: { status: 'OK', message, data: T }
+    if (body && typeof body === 'object' && body.status === 'OK' && 'data' in body) {
+        return body.data;
+    }
+    return body;
+};
 
 export const axiosPOST = <Data, Paras>(
     axios: AxiosInstance,
-    { url, data, params, headers = {} }: IAxiosPostProps<Data, Paras>,
+    {
+        url,
+        data,
+        params,
+        headers = {},
+        customHost = host,
+    }: IAxiosPostProps<Data, Paras>,
 ) => {
-    return axios.post(`${host}${url}`, data, {
+    return axios.post(`${customHost}${url}`, data, {
         params,
         headers,
-    })
-}
+    });
+};
 
 export const axiosPUT = <Data, Paras>(
     axios: AxiosInstance,
@@ -36,77 +66,86 @@ export const axiosPUT = <Data, Paras>(
     return axios.put(`${host}${url}`, data, {
         params,
         headers,
-    })
-}
+    });
+};
 
 export const axiosDELETE = <Params>(
     axios: AxiosInstance,
     { url }: IAxiosProps<Params>,
 ) => {
-    return axios.delete(`${host}${url}`)
-}
+    return axios.delete(`${host}${url}`);
+};
 
-
-export const useGET = <Response>({
-    url,
+export function useGET<Response>({
     filters = {},
+    url,
+    nameQuery = url,
     headers = {},
-    responseType = 'json',
-    enable = true
-}: IUseGetProps): UseQueryResult<Response> => {
+    enable = true,
+    responseType = "json",
+    customHost,
+}: IUseGETProps): UseQueryResult<Response> {
     const { axiosApi } = useAxios();
     return useQuery({
-        queryKey: [url, filters],
+        queryKey: [nameQuery, filters],
         queryFn: async () =>
-            await axiosGET(axiosApi, { url, params: filters, headers, responseType }),
+            await axiosGET(axiosApi, {
+                url,
+                params: filters,
+                headers,
+                responseType,
+                customHost,
+            }),
         retry: false,
         enabled: enable,
         refetchOnWindowFocus: false,
     });
 }
 
-export const usePOST = ({ url,
-    onSuccess = () => { },
-    onError = () => { },
+export function usePUT<Response>({
+    url,
     isFile = false,
-}: IUsePostProps): UseMutationResult<AxiosResponse<Request>> => {
+    onSuccess = () => {},
+    onError = () => {},
+}: IUsePUTProps): UseMutationResult<AxiosResponse<Response>> {
     let headers = {};
     if (isFile) headers = headersImage;
     const { axiosApi } = useAxios();
     return useMutation({
-        mutationFn: async (data) => await axiosPOST(axiosApi, { url, data, headers }),
+        mutationFn: (data) => axiosPUT(axiosApi, { url, data, headers }),
         onSuccess,
         onError,
     });
 }
 
-export function usePUT({
+export function usePOST<Request>({
     url,
+    onSuccess = () => {},
+    onError = () => {},
     isFile = false,
-    onSuccess = () => { },
-    onError = () => { },
-}: IUsePUTProps): UseMutationResult<AxiosResponse> {
-    let headers = {}
-    if (isFile) headers = headersImage
-    const { axiosApi } = useAxios()
+    customHost,
+}: IUsePOSTProps): UseMutationResult<AxiosResponse<Request>> {
+    let headers = {};
+
+    if (isFile) headers = headersImage;
+    const { axiosApi } = useAxios();
     return useMutation({
-        mutationFn: (data) => axiosPUT(axiosApi, { url, data, headers }),
+        mutationFn: (data) =>
+            axiosPOST(axiosApi, { url, data, headers, customHost }),
         onSuccess,
         onError,
-    })
+    });
 }
-
-
 
 export function useDELETE<Request>({
     url,
-    onSuccess = () => { },
-    onError = () => { },
+    onSuccess = () => {},
+    onError = () => {},
 }: IUseDELETEProps): UseMutationResult<AxiosResponse<Request>> {
-    const { axiosApi } = useAxios()
+    const { axiosApi } = useAxios();
     return useMutation({
-        mutationFn: (data) => axiosDELETE(axiosApi, { url }),
+        mutationFn: () => axiosDELETE(axiosApi, { url }),
         onSuccess,
         onError,
-    })
+    });
 }

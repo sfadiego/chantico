@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
-    public function show(User $user): JsonResponse
+    public function index(): JsonResponse
     {
         return Response::success(User::all());
+    }
+
+    public function show(User $user): JsonResponse
+    {
+        return Response::success($user);
     }
 }

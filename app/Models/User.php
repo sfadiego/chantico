@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -11,29 +13,18 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasTenant;
 
-    const NOMBRE = 'nombre';
-
+    const NOMBRE           = 'nombre';
     const APELLIDO_MATERNO = 'apellido_materno';
-
     const APELLIDO_PATERNO = 'apellido_paterno';
+    const ROL_ID           = 'rol_id';
+    const ACTIVO           = 'activo';
+    const EMAIL            = 'email';
+    const USUARIO          = 'usuario';
+    const PASSWORD         = 'password';
+    const TENANT_ID        = 'tenant_id';
 
-    const ROL_ID = 'rol_id';
-
-    const ACTIVO = 'activo';
-
-    const EMAIL = 'email';
-
-    const USUARIO = 'usuario';
-
-    const PASSWORD = 'password';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         self::NOMBRE,
         self::EMAIL,
@@ -43,36 +34,29 @@ class User extends Authenticatable
         self::ROL_ID,
         self::ACTIVO,
         self::PASSWORD,
+        self::TENANT_ID,
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password'          => 'hashed',
+        ];
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(BusinessConfigModel::class, self::TENANT_ID);
+    }
 
     public static function authUser($token): ?User
     {
         $accessToken = PersonalAccessToken::findToken($token);
 
         return $accessToken?->tokenable;
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
     }
 
     public static function register(
@@ -85,14 +69,13 @@ class User extends Authenticatable
         bool $activo = true,
         string $apellidoMaterno = '',
     ): User {
-
         return User::create([
-            'nombre' => $nombre,
-            'email' => $email,
-            'usuario' => $usuario,
+            'nombre'           => $nombre,
+            'email'            => $email,
+            'usuario'          => $usuario,
             'apellido_materno' => $apellidoMaterno,
-            'rol_id' => $rolId,
-            'password' => bcrypt($password),
+            'rol_id'           => $rolId,
+            'password'         => bcrypt($password),
         ]);
     }
 
@@ -105,7 +88,7 @@ class User extends Authenticatable
         $user = User::where('email', $email)->first();
 
         return [
-            'user' => $user,
+            'user'         => $user,
             'access_token' => $user->createToken('access_token')->plainTextToken,
         ];
     }
