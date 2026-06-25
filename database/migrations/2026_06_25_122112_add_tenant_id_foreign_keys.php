@@ -17,7 +17,7 @@ return new class extends Migration
     public function up(): void
     {
         foreach ($this->tables as $table) {
-            Schema::table($table, function (Blueprint $blueprint) use ($table) {
+            Schema::table($table, function (Blueprint $blueprint) {
                 $blueprint->foreign('tenant_id')
                     ->references('id')
                     ->on('business_config')

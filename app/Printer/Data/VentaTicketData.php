@@ -31,34 +31,34 @@ class VentaTicketData implements TicketDataInterface
             $discount = $lineTotal * ($item->descuento / 100);
 
             return [
-                'nombre'      => $item->nombre_extra ?? $item->product?->nombre ?? '—',
-                'cantidad'    => (int) $item->cantidad,
-                'precio'      => (float) $item->precio,
-                'descuento'   => (float) $item->descuento,
-                'total'       => round($lineTotal - $discount, 2),
-                'es_extra'    => ! is_null($item->nombre_extra),
+                'nombre' => $item->nombre_extra ?? $item->product?->nombre ?? '—',
+                'cantidad' => (int) $item->cantidad,
+                'precio' => (float) $item->precio,
+                'descuento' => (float) $item->descuento,
+                'total' => round($lineTotal - $discount, 2),
+                'es_extra' => ! is_null($item->nombre_extra),
                 'observacion' => $item->observacion, // solo para cocina, no se imprime
             ];
         })->toArray();
 
         return [
-            'id'           => $order->id,
+            'id' => $order->id,
             'nombre_pedido' => $order->nombre_pedido,
-            'subtotal'     => (float) $order->subtotal,
-            'descuento'    => (float) $order->descuento,
-            'total'        => (float) $order->total,
-            'created_at'   => $order->created_at,
+            'subtotal' => (float) $order->subtotal,
+            'descuento' => (float) $order->descuento,
+            'total' => (float) $order->total,
+            'created_at' => $order->created_at,
             'fecha_string' => Utils::getDateAsString((string) $order->created_at),
-            'hora'         => date('H:i', strtotime((string) $order->created_at)),
-            'products'     => $products,
-            'business'     => [
-                'name'          => $config?->business_name ?? env('APP_FULL_NAME', 'Punto de venta'),
-                'phone'         => $config?->phone,
-                'address'       => $config?->address,
-                'facebook'      => $config?->facebook,
-                'instagram'     => $config?->instagram,
-                'whatsapp'      => $config?->whatsapp,
-                'website'       => $config?->website,
+            'hora' => date('H:i', strtotime((string) $order->created_at)),
+            'products' => $products,
+            'business' => [
+                'name' => $config?->business_name ?? env('APP_FULL_NAME', 'Punto de venta'),
+                'phone' => $config?->phone,
+                'address' => $config?->address,
+                'facebook' => $config?->facebook,
+                'instagram' => $config?->instagram,
+                'whatsapp' => $config?->whatsapp,
+                'website' => $config?->website,
                 'ticket_footer' => $config?->ticket_footer,
             ],
         ];

@@ -18,8 +18,8 @@ class TenantService extends DataTable
     public function tableHeaders(): array
     {
         return [
-            'id'            => '#',
-            'slug'          => 'Slug',
+            'id' => '#',
+            'slug' => 'Slug',
             'business_name' => 'Negocio',
         ];
     }
@@ -42,7 +42,7 @@ class TenantService extends DataTable
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where(BusinessConfigModel::BUSINESS_NAME, 'like', "%{$search}%")
-                  ->orWhere(BusinessConfigModel::SLUG, 'like', "%{$search}%");
+                    ->orWhere(BusinessConfigModel::SLUG, 'like', "%{$search}%");
             });
         }
 

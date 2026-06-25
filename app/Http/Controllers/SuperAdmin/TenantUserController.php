@@ -27,15 +27,15 @@ class TenantUserController extends Controller
     public function store(BusinessConfigModel $tenant, TenantUserStoreRequest $param): JsonResponse
     {
         $user = User::create([
-            User::NOMBRE            => $param->nombre,
-            User::APELLIDO_PATERNO  => $param->apellido_paterno,
-            User::APELLIDO_MATERNO  => $param->apellido_materno ?? '',
-            User::EMAIL             => $param->email,
-            User::USUARIO           => $param->usuario,
-            User::PASSWORD          => bcrypt($param->password),
-            User::ROL_ID            => $param->rol_id,
-            User::ACTIVO            => $param->activo ?? true,
-            User::TENANT_ID         => $tenant->id,
+            User::NOMBRE => $param->nombre,
+            User::APELLIDO_PATERNO => $param->apellido_paterno,
+            User::APELLIDO_MATERNO => $param->apellido_materno ?? '',
+            User::EMAIL => $param->email,
+            User::USUARIO => $param->usuario,
+            User::PASSWORD => bcrypt($param->password),
+            User::ROL_ID => $param->rol_id,
+            User::ACTIVO => $param->activo ?? true,
+            User::TENANT_ID => $tenant->id,
         ]);
 
         return Response::success($user);
@@ -48,13 +48,13 @@ class TenantUserController extends Controller
             ->findOrFail($user);
 
         $data = [
-            User::NOMBRE            => $param->nombre,
-            User::APELLIDO_PATERNO  => $param->apellido_paterno,
-            User::APELLIDO_MATERNO  => $param->apellido_materno ?? '',
-            User::EMAIL             => $param->email,
-            User::USUARIO           => $param->usuario,
-            User::ROL_ID            => $param->rol_id,
-            User::ACTIVO            => $param->activo ?? $model->activo,
+            User::NOMBRE => $param->nombre,
+            User::APELLIDO_PATERNO => $param->apellido_paterno,
+            User::APELLIDO_MATERNO => $param->apellido_materno ?? '',
+            User::EMAIL => $param->email,
+            User::USUARIO => $param->usuario,
+            User::ROL_ID => $param->rol_id,
+            User::ACTIVO => $param->activo ?? $model->activo,
         ];
 
         if ($param->filled('password')) {

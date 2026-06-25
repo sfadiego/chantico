@@ -16,14 +16,14 @@ class TenantUserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre'           => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'apellido_paterno' => 'required|string|max:100',
             'apellido_materno' => 'nullable|string|max:100',
-            'email'            => 'required|email|unique:users,email',
-            'usuario'          => 'required|string|max:80|unique:users,usuario',
-            'password'         => 'required|string|min:8',
-            'rol_id'           => ['required', new Enum(RoleEnum::class)],
-            'activo'           => 'boolean',
+            'email' => 'required|email|unique:users,email',
+            'usuario' => 'required|string|max:80|unique:users,usuario',
+            'password' => 'required|string|min:8',
+            'rol_id' => ['required', new Enum(RoleEnum::class)],
+            'activo' => 'boolean',
         ];
     }
 }

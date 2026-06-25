@@ -19,14 +19,14 @@ class TenantUserUpdateRequest extends FormRequest
         $userId = $this->route('user');
 
         return [
-            'nombre'           => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'apellido_paterno' => 'required|string|max:100',
             'apellido_materno' => 'nullable|string|max:100',
-            'email'            => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
-            'usuario'          => ['required', 'string', 'max:80', Rule::unique('users', 'usuario')->ignore($userId)],
-            'password'         => 'nullable|string|min:8',
-            'rol_id'           => ['required', new Enum(RoleEnum::class)],
-            'activo'           => 'boolean',
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
+            'usuario' => ['required', 'string', 'max:80', Rule::unique('users', 'usuario')->ignore($userId)],
+            'password' => 'nullable|string|min:8',
+            'rol_id' => ['required', new Enum(RoleEnum::class)],
+            'activo' => 'boolean',
         ];
     }
 }

@@ -20,7 +20,7 @@ class TenantController extends Controller
         if (! $tenant->activo) {
             return Response::json([
                 'message' => 'Este negocio ha sido desactivado temporalmente. Contacta al administrador.',
-                'code'    => 'TENANT_INACTIVE',
+                'code' => 'TENANT_INACTIVE',
             ], 403);
         }
 

@@ -22,7 +22,7 @@ class ResolveTenant
             if (! $tenant->activo) {
                 return Response::json([
                     'message' => 'La suscripción está desactivada. Contacta al administrador.',
-                    'code'    => 'TENANT_INACTIVE',
+                    'code' => 'TENANT_INACTIVE',
                 ], 403);
             }
 

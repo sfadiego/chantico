@@ -23,25 +23,25 @@ class TenantManagementController extends Controller
     public function store(TenantStoreRequest $param): JsonResponse
     {
         $tenant = BusinessConfigModel::create([
-            BusinessConfigModel::SLUG          => $param->slug,
-            BusinessConfigModel::ACTIVO        => true,
+            BusinessConfigModel::SLUG => $param->slug,
+            BusinessConfigModel::ACTIVO => true,
             BusinessConfigModel::BUSINESS_NAME => $param->business_name,
             BusinessConfigModel::PRIMARY_COLOR => $param->primary_color,
             BusinessConfigModel::SIDEBAR_COLOR => $param->sidebar_color,
-            BusinessConfigModel::FONT_COLOR    => $param->font_color,
-            BusinessConfigModel::LABEL_COLOR   => $param->label_color,
+            BusinessConfigModel::FONT_COLOR => $param->font_color,
+            BusinessConfigModel::LABEL_COLOR => $param->label_color,
         ]);
 
         User::create([
-            User::NOMBRE            => $param->admin_nombre,
-            User::APELLIDO_PATERNO  => $param->admin_apellido,
-            User::APELLIDO_MATERNO  => '',
-            User::EMAIL             => $param->admin_email,
-            User::USUARIO           => $param->admin_usuario,
-            User::PASSWORD          => bcrypt($param->admin_password),
-            User::ROL_ID            => RoleEnum::ADMIN->value,
-            User::ACTIVO            => true,
-            User::TENANT_ID         => $tenant->id,
+            User::NOMBRE => $param->admin_nombre,
+            User::APELLIDO_PATERNO => $param->admin_apellido,
+            User::APELLIDO_MATERNO => '',
+            User::EMAIL => $param->admin_email,
+            User::USUARIO => $param->admin_usuario,
+            User::PASSWORD => bcrypt($param->admin_password),
+            User::ROL_ID => RoleEnum::ADMIN->value,
+            User::ACTIVO => true,
+            User::TENANT_ID => $tenant->id,
         ]);
 
         return Response::success($tenant);
@@ -55,12 +55,12 @@ class TenantManagementController extends Controller
     public function update(BusinessConfigModel $tenant, TenantUpdateRequest $param): JsonResponse
     {
         $tenant->update([
-            BusinessConfigModel::SLUG          => $param->slug,
+            BusinessConfigModel::SLUG => $param->slug,
             BusinessConfigModel::BUSINESS_NAME => $param->business_name,
             BusinessConfigModel::PRIMARY_COLOR => $param->primary_color,
             BusinessConfigModel::SIDEBAR_COLOR => $param->sidebar_color,
-            BusinessConfigModel::FONT_COLOR    => $param->font_color,
-            BusinessConfigModel::LABEL_COLOR   => $param->label_color,
+            BusinessConfigModel::FONT_COLOR => $param->font_color,
+            BusinessConfigModel::LABEL_COLOR => $param->label_color,
         ]);
 
         return Response::success($tenant);

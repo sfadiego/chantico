@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             User::USUARIO => env('APP_SUPER_ADMIN_USER'),
         ], [
             User::NOMBRE => 'Super Admin',
-            User::EMAIL => strtolower(str_replace(" ", "_", env('APP_SUPER_ADMIN_EMAIL'))),
+            User::EMAIL => strtolower(str_replace(' ', '_', env('APP_SUPER_ADMIN_EMAIL'))),
             'email_verified_at' => now(),
             User::USUARIO => env('APP_SUPER_ADMIN_USER'),
             User::PASSWORD => bcrypt(env('APP_SUPER_ADMIN_PASSWORD')),
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             User::USUARIO => env('APP_ADMIN_USER'),
         ], [
             User::NOMBRE => 'Admin',
-            User::EMAIL => strtolower(str_replace(" ", "_", env('APP_ADMIN_EMAIL'))), //env('APP_ADMIN_EMAIL'),
+            User::EMAIL => strtolower(str_replace(' ', '_', env('APP_ADMIN_EMAIL'))), // env('APP_ADMIN_EMAIL'),
             'email_verified_at' => now(),
             User::USUARIO => env('APP_ADMIN_USER'),
             User::PASSWORD => bcrypt(env('APP_ADMIN_PASSWORD')),
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
             User::NOMBRE => 'Empleado',
             User::APELLIDO_PATERNO => '',
             User::APELLIDO_MATERNO => '',
-            User::EMAIL => strtolower(str_replace(" ", "_", env('APP_USER_EMAIL'))),
+            User::EMAIL => strtolower(str_replace(' ', '_', env('APP_USER_EMAIL'))),
             'email_verified_at' => now(),
             User::USUARIO => env('APP_USER_USER'),
             User::PASSWORD => bcrypt(env('APP_USER_PASSWORD')),
