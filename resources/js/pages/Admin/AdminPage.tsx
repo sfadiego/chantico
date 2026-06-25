@@ -1,6 +1,7 @@
 import { Settings } from "lucide-react";
 import { LogoSection } from "./partials/LogoSection";
 import { ColorsSection } from "./partials/ColorsSection";
+import { BusinessInfoSection } from "./partials/BusinessInfoSection";
 import { useAdminPage } from "./useAdminPage";
 
 function AdminPage() {
@@ -26,6 +27,7 @@ function AdminPage() {
                 <div className="flex flex-col gap-5">
                     <LogoSection config={config} />
                     <ColorsSection config={config} />
+                    <BusinessInfoSection config={config} />
                 </div>
             )}
         </div>

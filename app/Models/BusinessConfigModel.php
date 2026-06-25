@@ -27,6 +27,20 @@ class BusinessConfigModel extends Model
 
     const LOGO_PATH = 'logo_path';
 
+    const PHONE = 'phone';
+
+    const ADDRESS = 'address';
+
+    const FACEBOOK = 'facebook';
+
+    const INSTAGRAM = 'instagram';
+
+    const WHATSAPP = 'whatsapp';
+
+    const WEBSITE = 'website';
+
+    const TICKET_FOOTER = 'ticket_footer';
+
     protected $casts = [
         self::ACTIVO => 'boolean',
     ];
@@ -40,6 +54,13 @@ class BusinessConfigModel extends Model
         self::FONT_COLOR,
         self::LABEL_COLOR,
         self::LOGO_PATH,
+        self::PHONE,
+        self::ADDRESS,
+        self::FACEBOOK,
+        self::INSTAGRAM,
+        self::WHATSAPP,
+        self::WEBSITE,
+        self::TICKET_FOOTER,
     ];
 
     public function users(): HasMany
