@@ -2,13 +2,14 @@ import { Settings } from "lucide-react";
 import { LogoSection } from "./partials/LogoSection";
 import { ColorsSection } from "./partials/ColorsSection";
 import { BusinessInfoSection } from "./partials/BusinessInfoSection";
+import { AdminNav } from "./partials/AdminNav";
 import { useAdminPage } from "./useAdminPage";
 
 function AdminPage() {
     const { config, isLoading } = useAdminPage();
 
     return (
-        <div className="p-4 md:p-6 max-w-2xl mx-auto">
+        <div className="p-4 md:p-6 max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center">
                     <Settings size={18} className="text-amber-600" />
@@ -24,10 +25,13 @@ function AdminPage() {
                     <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
                 </div>
             ) : (
-                <div className="flex flex-col gap-5">
-                    <LogoSection config={config} />
-                    <ColorsSection config={config} />
-                    <BusinessInfoSection config={config} />
+                <div className="flex gap-8 items-start">
+                    <AdminNav />
+                    <div className="flex-1 flex flex-col gap-5 min-w-0">
+                        <div id="logo"><LogoSection config={config} /></div>
+                        <div id="colores"><ColorsSection config={config} /></div>
+                        <div id="negocio"><BusinessInfoSection config={config} /></div>
+                    </div>
                 </div>
             )}
         </div>
