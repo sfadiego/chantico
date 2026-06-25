@@ -1,6 +1,6 @@
-# sistema POS para cafetería
+# sistema POS para negocio
 
-Sistema POS para cafetería.
+Sistema POS para negocio.
 
 ---
 

@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { Coffee, AlertTriangle } from "lucide-react";
+import { Coffee, AlertTriangle, ShoppingCart } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { TenantSidePanel } from "@/components/auth/TenantSidePanel";
 import { useTenantLoginPage } from "./useTenantLoginPage";
@@ -46,7 +46,7 @@ export default function TenantLoginPage() {
                             className="rounded-2xl p-4 shadow-lg"
                             style={{ backgroundColor: "var(--color-primary)" }}
                         >
-                            <Coffee size={36} className="text-white" />
+                            <ShoppingCart size={36} className="text-white" />
                         </div>
                     </div>
 

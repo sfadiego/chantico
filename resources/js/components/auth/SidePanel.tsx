@@ -1,7 +1,7 @@
-import { BarChart2, Coffee, ShoppingBag } from 'lucide-react';
+import { BarChart2, Coffee, ShoppingBag, ShoppingCart } from 'lucide-react';
 
 const features = [
-    { icon: Coffee, label: "Gestión de pedidos" },
+    { icon: ShoppingCart, label: "Gestión de pedidos" },
     { icon: ShoppingBag, label: "Control de ventas" },
     { icon: BarChart2, label: "Estadísticas" },
 ];
@@ -17,13 +17,13 @@ export const SidePanel = () => {
             </div>
             <div className="relative z-10 flex flex-col items-center text-center max-w-xs">
                 <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-7 mb-8 shadow-xl">
-                    <Coffee size={56} className="text-white" />
+                    <ShoppingCart size={56} className="text-white" />
                 </div>
                 <h1 className="text-white text-4xl font-bold tracking-tight mb-3">
                     {appName}
                 </h1>
                 <p className="text-amber-100 text-base leading-relaxed mb-12">
-                    Sistema de punto de venta para tu cafeteria
+                    Sistema de punto de venta para tu negocio
                 </p>
                 <div className="grid grid-cols-3 gap-5 w-full">
                     {features.map(({ icon: Icon, label }) => (

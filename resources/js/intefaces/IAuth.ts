@@ -3,6 +3,7 @@ import { IUser } from "@/models/IUser";
 export interface ISignInForm {
     email: string;
     password: string;
+    slug?: string;
 }
 
 export interface IAuthResponse {

@@ -26,7 +26,8 @@ export const useLogin = () => {
         validationSchema,
         onSubmit: async (values) => {
             try {
-                const { access_token, user } = await loginMutation.mutateAsync(values);
+                const slug = localStorage.getItem("tenantSlug") ?? undefined;
+                const { access_token, user } = await loginMutation.mutateAsync({ ...values, slug });
                 saveAuth(access_token, user);
                 window.location.replace("/");
             } catch (error) {

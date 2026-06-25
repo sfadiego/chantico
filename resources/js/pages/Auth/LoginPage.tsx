@@ -1,4 +1,4 @@
-import { Coffee } from "lucide-react";
+import { Coffee, ShoppingCart } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { SidePanel } from "@/components/auth/SidePanel";
 
@@ -12,7 +12,7 @@ export default function LoginPage() {
                 <div className="w-full max-w-sm">
                     <div className="lg:hidden flex justify-center mb-8">
                         <div className="bg-amber-500 rounded-2xl p-4 shadow-lg">
-                            <Coffee size={36} className="text-white" />
+                            <ShoppingCart size={36} className="text-white" />
                         </div>
                     </div>
 

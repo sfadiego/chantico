@@ -1,4 +1,4 @@
-import { Coffee, X } from "lucide-react";
+import { Coffee, ShoppingCart, X } from "lucide-react";
 import { useGetBusinessConfig } from "@/services/useBusinessConfigService";
 import { ApisEnum } from "@/configs/apisEnum";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
@@ -24,7 +24,7 @@ export function SidebarBrand({ onClose }: SidebarBrandProps) {
                     {logoUrl ? (
                         <img src={logoUrl} alt={appName} className="w-full h-full object-cover" />
                     ) : (
-                        <Coffee size={16} className="text-white" />
+                        <ShoppingCart size={16} className="text-white" />
                     )}
                 </div>
                 <span
