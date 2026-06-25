@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SubscriptionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessConfigUpdateRequest;
 use App\Models\ProductImageModel;
@@ -59,5 +60,22 @@ class BusinessConfigController extends Controller
         $tenant->update(['logo_path' => null]);
 
         return Response::success($tenant->fresh());
+    }
+
+    public function subscriptionStatus(Request $request): JsonResponse
+    {
+        $tenant = $request->user()->tenant->load('latestSubscription');
+        $sub    = $tenant->latestSubscription;
+
+        if (! $sub) {
+            return Response::success(['status' => SubscriptionStatusEnum::Pending->value, 'days_remaining' => null, 'is_lifetime' => false]);
+        }
+
+        return Response::success([
+            'status'         => $sub->status,
+            'days_remaining' => $sub->days_remaining,
+            'is_lifetime'    => $sub->is_lifetime,
+            'expires_at'     => $sub->is_lifetime ? null : $sub->expires_at->toDateString(),
+        ]);
     }
 }

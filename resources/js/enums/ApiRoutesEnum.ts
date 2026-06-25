@@ -8,6 +8,7 @@ export enum ApiRoutes {
     BusinessConfig = "/api/admin/config",
     Files = "/api/files",
     Tenant = "/api/tenant",
-    SuperAdminAuth   = "/api/super-admin/auth",
-    SuperAdminTenant = "/api/super-admin/tenant",
+    SuperAdminAuth         = "/api/super-admin/auth",
+    SuperAdminTenant       = "/api/super-admin/tenant",
+    SuperAdminSubscription = "/api/super-admin/subscription",
 }

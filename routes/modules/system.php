@@ -39,6 +39,7 @@ Route::prefix('admin')->group(function () {
             Route::put('', 'update');
             Route::post('logo', 'uploadLogo');
             Route::delete('logo', 'removeLogo');
+            Route::get('subscription-status', 'subscriptionStatus');
         });
     });
 });

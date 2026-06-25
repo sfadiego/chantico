@@ -34,7 +34,6 @@ export const useDashboard = () => {
     const { data: activeSale } = useGetActiveSale();
     const { data: productsData } = useIndexProducts({ page: 1, limit: 1 });
     const { data: bestSellers = [] } = useBestSeller();
-    console.log(bestSellers)
 
     const orders: IOrder[] = ordersData?.pages.flatMap((page) => page.data) ?? [];
 
