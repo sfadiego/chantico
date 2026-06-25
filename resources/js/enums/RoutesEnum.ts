@@ -12,9 +12,10 @@ export enum AdminRoutes {
 }
 
 export enum SuperAdminRoutes {
-    Login       = "/admin/login",
-    Tenants     = "/admin/tenants",
-    NewTenant   = "/admin/tenants/new",
-    EditTenant  = "/admin/tenants/:id",
-    TenantUsers = "/admin/tenants/:id/users",
+    Login         = "/admin/login",
+    Tenants       = "/admin/tenants",
+    NewTenant     = "/admin/tenants/new",
+    EditTenant    = "/admin/tenants/:id",
+    TenantUsers   = "/admin/tenants/:id/users",
+    Subscriptions = "/admin/subscriptions",
 }

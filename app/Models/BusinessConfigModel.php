@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessConfigModel extends Model
@@ -67,6 +68,16 @@ class BusinessConfigModel extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class, 'tenant_id');
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(SubscriptionModel::class, 'tenant_id');
+    }
+
+    public function latestSubscription(): HasOne
+    {
+        return $this->hasOne(SubscriptionModel::class, 'tenant_id')->latestOfMany('expires_at');
     }
 
     /** Crea el tenant por defecto si no existe (usado en seeders). */

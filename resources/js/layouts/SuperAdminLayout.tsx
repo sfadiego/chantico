@@ -1,7 +1,12 @@
-import { Building2, LogOut, LayoutDashboard } from "lucide-react";
+import { Building2, LogOut, LayoutDashboard, CreditCard } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { superAdminAuth } from "@/contexts/SuperAdminContext";
 import { SuperAdminRoutes } from "@/enums/RoutesEnum";
+
+const NAV_ITEMS = [
+    { to: SuperAdminRoutes.Tenants,       label: "Clientes",       icon: <LayoutDashboard size={16} /> },
+    { to: SuperAdminRoutes.Subscriptions, label: "Suscripciones",  icon: <CreditCard size={16} /> },
+];
 
 export function SuperAdminLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -20,19 +25,22 @@ export function SuperAdminLayout({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <nav className="flex-1 px-3 py-4 space-y-1">
-                    <NavLink
-                        to={SuperAdminRoutes.Tenants}
-                        className={({ isActive }) =>
-                            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                                isActive
-                                    ? "bg-indigo-600 text-white"
-                                    : "text-slate-400 hover:text-white hover:bg-slate-800"
-                            }`
-                        }
-                    >
-                        <LayoutDashboard size={16} />
-                        Clientes
-                    </NavLink>
+                    {NAV_ITEMS.map((item) => (
+                        <NavLink
+                            key={item.to}
+                            to={item.to}
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                                    isActive
+                                        ? "bg-indigo-600 text-white"
+                                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                                }`
+                            }
+                        >
+                            {item.icon}
+                            {item.label}
+                        </NavLink>
+                    ))}
                 </nav>
 
                 <div className="px-3 pb-4">
