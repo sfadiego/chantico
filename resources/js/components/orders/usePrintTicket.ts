@@ -14,7 +14,7 @@ export const usePrintTicket = (orderId: number) => {
                 data: {},
             }),
         onSuccess: () => toast.success("Ticket enviado a la impresora"),
-        onError: () => toast.error("Error al imprimir el ticket"),
+        onError: () => toast.error("Impresora no disponible"),
     });
 
     return { print, isPending };

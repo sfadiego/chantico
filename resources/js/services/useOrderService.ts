@@ -96,3 +96,12 @@ export const useDeleteItemFromOrder = (orderId: number) => {
             axiosDELETE(axiosApi, { url: `${url}/${orderId}/extra/${orderProductId}` }),
     });
 };
+
+// Updates observacion on any order_product by order_product.id (works for products and extras)
+export const useUpdateOrderProductNote = (orderId: number) => {
+    const { axiosApi } = useAxios();
+    return useMutation({
+        mutationFn: ({ orderProductId, observacion }: { orderProductId: number; observacion: string }) =>
+            axiosPUT(axiosApi, { url: `${url}/${orderId}/product/${orderProductId}/note`, data: { observacion } }),
+    });
+};

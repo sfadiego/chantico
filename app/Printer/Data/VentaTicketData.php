@@ -31,12 +31,13 @@ class VentaTicketData implements TicketDataInterface
             $discount = $lineTotal * ($item->descuento / 100);
 
             return [
-                'nombre'    => $item->nombre_extra ?? $item->product?->nombre ?? '—',
-                'cantidad'  => (int) $item->cantidad,
-                'precio'    => (float) $item->precio,
-                'descuento' => (float) $item->descuento,
-                'total'     => round($lineTotal - $discount, 2),
-                'es_extra'  => ! is_null($item->nombre_extra),
+                'nombre'      => $item->nombre_extra ?? $item->product?->nombre ?? '—',
+                'cantidad'    => (int) $item->cantidad,
+                'precio'      => (float) $item->precio,
+                'descuento'   => (float) $item->descuento,
+                'total'       => round($lineTotal - $discount, 2),
+                'es_extra'    => ! is_null($item->nombre_extra),
+                'observacion' => $item->observacion, // solo para cocina, no se imprime
             ];
         })->toArray();
 

@@ -4,6 +4,7 @@ import { CartItem } from "../useTakeOrder";
 import { usePayModal } from "./usePayModal";
 import { PayModal } from "@/components/orders/PayModal";
 import { PrintTicketButton } from "@/components/orders/PrintTicketButton";
+import { CartItemNote } from "./CartItemNote";
 
 interface CartPanelProps {
     order: IOrder | undefined;
@@ -13,10 +14,11 @@ interface CartPanelProps {
     isReadOnly?: boolean;
     onUpdate: (productId: number, delta: number) => void;
     onRemove: (orderProductId: number) => void;
+    onNote: (orderProductId: number, note: string) => Promise<void>;
     onClear: () => void;
 }
 
-export const CartPanel = ({ order, cart, subtotal, isLoading, isReadOnly = false, onUpdate, onRemove, onClear }: CartPanelProps) => {
+export const CartPanel = ({ order, cart, subtotal, isLoading, isReadOnly = false, onUpdate, onRemove, onNote, onClear }: CartPanelProps) => {
     const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const {
         isOpen: payOpen,
@@ -67,11 +69,12 @@ export const CartPanel = ({ order, cart, subtotal, isLoading, isReadOnly = false
                         <div className="space-y-1">
                             {cart.map((item) => (
                                 <CartItemRow
-                                    key={item.id}
+                                    key={item.orderProductId}
                                     item={item}
                                     isReadOnly={isReadOnly}
                                     onUpdate={onUpdate}
                                     onRemove={onRemove}
+                                    onNote={onNote}
                                 />
                             ))}
                         </div>
@@ -109,22 +112,24 @@ interface CartItemRowProps {
     isReadOnly?: boolean;
     onUpdate: (productId: number, delta: number) => void;
     onRemove: (orderProductId: number) => void;
+    onNote: (orderProductId: number, note: string) => Promise<void>;
 }
 
-const CartItemRow = ({ item, isReadOnly = false, onUpdate, onRemove }: CartItemRowProps) => (
-    <div className="flex items-center gap-3 py-3 border-b border-stone-100 last:border-0">
-        <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-                <p className="text-stone-900 text-sm font-medium truncate">{item.name}</p>
-                {item.isExtra && (
-                    <span className="shrink-0 text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-600">
-                        Extra
-                    </span>
-                )}
+const CartItemRow = ({ item, isReadOnly = false, onUpdate, onRemove, onNote }: CartItemRowProps) => (
+    <div className="py-3 border-b border-stone-100 last:border-0">
+        <div className="flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                    <p className="text-stone-900 text-sm font-medium truncate">{item.name}</p>
+                    {item.isExtra && (
+                        <span className="shrink-0 text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-600">
+                            Extra
+                        </span>
+                    )}
+                </div>
+                <p className="text-stone-400 text-xs">${item.price.toFixed(2)} c/u</p>
             </div>
-            <p className="text-stone-400 text-xs">${item.price.toFixed(2)} c/u</p>
-        </div>
-        <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1">
             <button
                 onClick={() => !item.isExtra && item.id !== null && onUpdate(item.id, -1)}
                 disabled={isReadOnly || item.isExtra}
@@ -142,8 +147,8 @@ const CartItemRow = ({ item, isReadOnly = false, onUpdate, onRemove }: CartItemR
             >
                 <Plus size={12} className="text-amber-700" />
             </button>
-        </div>
-        <div className="flex items-center gap-2 ml-1">
+            </div>
+            <div className="flex items-center gap-2 ml-1">
             <span className="text-stone-900 font-semibold text-sm w-16 text-right tabular-nums">
                 ${(item.price * item.quantity).toFixed(2)}
             </span>
@@ -156,7 +161,13 @@ const CartItemRow = ({ item, isReadOnly = false, onUpdate, onRemove }: CartItemR
                 </button>
             )}
             {isReadOnly && <div className="w-[14px]" />}
+            </div>
         </div>
+        <CartItemNote
+            observacion={item.observacion}
+            isReadOnly={isReadOnly}
+            onSave={(note) => onNote(item.orderProductId, note)}
+        />
     </div>
 );
 

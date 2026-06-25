@@ -7,6 +7,7 @@ use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
 use App\Models\OrderProductModel;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
@@ -115,6 +116,26 @@ class OrderProductController extends Controller
         ]);
 
         return Response::success($data);
+    }
+
+    /**
+     * updateNote — updates observacion by order_product.id (works for products and extras)
+     */
+    public function updateNote(int $orderId, int $item, Request $request): JsonResponse
+    {
+        $orderProduct = OrderProductModel::where('pedido_id', $orderId)
+            ->where('id', $item)
+            ->first();
+
+        if (! $orderProduct) {
+            return Response::error('elemento no encontrado');
+        }
+
+        $orderProduct->update([
+            OrderProductModel::OBSERVACION => $request->input('observacion') ?: null,
+        ]);
+
+        return Response::success($orderProduct->refresh());
     }
 
     /**
