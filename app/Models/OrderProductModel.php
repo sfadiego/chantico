@@ -27,6 +27,8 @@ class OrderProductModel extends Model
 
     const NOMBRE_EXTRA = 'nombre_extra';
 
+    const OBSERVACION = 'observacion';
+
     protected $fillable = [
         self::PRODUCTO_ID,
         self::PEDIDO_ID,
@@ -34,6 +36,7 @@ class OrderProductModel extends Model
         self::CANTIDAD,
         self::PRECIO,
         self::NOMBRE_EXTRA,
+        self::OBSERVACION,
     ];
 
     public function product(): HasOne

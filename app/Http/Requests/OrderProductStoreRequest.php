@@ -29,6 +29,7 @@ class OrderProductStoreRequest extends FormRequest
             OrderProductModel::PRODUCTO_ID => 'nullable|exists:product,id',
             OrderProductModel::PRECIO => 'required|numeric|min:0',
             OrderProductModel::NOMBRE_EXTRA => 'nullable|string|max:255',
+            OrderProductModel::OBSERVACION => 'nullable|string|max:200',
         ];
     }
 

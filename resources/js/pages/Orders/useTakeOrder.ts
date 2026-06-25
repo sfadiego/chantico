@@ -8,6 +8,7 @@ import {
     useShowOrder,
     useAddProductToOrder,
     useUpdateProductInOrder,
+    useUpdateOrderProductNote,
     useDeleteItemFromOrder,
 } from "@/services/useOrderService";
 
@@ -18,6 +19,7 @@ export type CartItem = {
     price: number;
     quantity: number;
     isExtra: boolean;
+    observacion: string | null;
 };
 
 export const useTakeOrder = () => {
@@ -40,10 +42,12 @@ export const useTakeOrder = () => {
         price: op.precio,
         quantity: op.cantidad,
         isExtra: !op.producto_id,
+        observacion: op.observacion ?? null,
     }));
 
     const { mutateAsync: addProduct } = useAddProductToOrder(orderId);
     const { mutateAsync: updateProduct } = useUpdateProductInOrder(orderId);
+    const { mutateAsync: updateNote } = useUpdateOrderProductNote(orderId);
     const { mutateAsync: deleteItem } = useDeleteItemFromOrder(orderId);
 
     // Add regular product (click on ProductCard)
@@ -89,6 +93,19 @@ export const useTakeOrder = () => {
             }
         } catch {
             toast.error("Error al actualizar producto");
+        }
+    };
+
+    // Save observation on any item (product or extra) by orderProductId
+    const saveObservacion = async (orderProductId: number, observacion: string) => {
+        if (isReadOnly) return;
+        try {
+            await updateNote(
+                { orderProductId, observacion },
+                { onSuccess: invalidateOrder },
+            );
+        } catch {
+            toast.error("Error al guardar la observación");
         }
     };
 
@@ -138,6 +155,7 @@ export const useTakeOrder = () => {
         addToCart,
         addExtra,
         updateQuantity,
+        saveObservacion,
         removeFromCart,
         clearCart,
     };

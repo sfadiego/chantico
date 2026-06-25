@@ -25,6 +25,13 @@ class BusinessConfigController extends Controller
             'sidebar_color' => $request->sidebar_color,
             'font_color' => $request->font_color,
             'label_color' => $request->label_color,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'whatsapp' => $request->whatsapp,
+            'website' => $request->website,
+            'ticket_footer' => $request->ticket_footer,
         ]);
 
         return Response::success($tenant->fresh());

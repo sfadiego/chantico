@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\BusinessConfigModel;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -32,11 +33,25 @@ class AuthController extends Controller
 
     public function login(LoginRequest $params): JsonResponse
     {
-        $user = User::login(
+        $result = User::login(
             email: $params->email,
             password: $params->password
         );
 
-        return $user ? Response::success($user) : Response::error(__('Credenciales no validas.'));
+        if (! $result) {
+            return Response::error(__('Credenciales no válidas.'));
+        }
+
+        if ($params->filled('slug')) {
+            $tenant = BusinessConfigModel::where(BusinessConfigModel::SLUG, $params->slug)->first();
+
+            if (! $tenant || $result['user']->tenant_id !== $tenant->id) {
+                $result['user']->tokens()->latest()->first()?->delete();
+
+                return Response::error(__('Credenciales no válidas.'));
+            }
+        }
+
+        return Response::success($result);
     }
 }

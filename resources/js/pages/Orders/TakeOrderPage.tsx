@@ -24,6 +24,7 @@ export default function TakeOrderPage() {
         addToCart,
         addExtra,
         updateQuantity,
+        saveObservacion,
         removeFromCart,
         clearCart,
     } = useTakeOrder();
@@ -64,6 +65,7 @@ export default function TakeOrderPage() {
                             isReadOnly={isReadOnly}
                             onUpdate={updateQuantity}
                             onRemove={removeFromCart}
+                            onNote={saveObservacion}
                             onClear={clearCart}
                         />
                     </div>
@@ -97,6 +99,7 @@ export default function TakeOrderPage() {
                             isReadOnly={isReadOnly}
                             onUpdate={updateQuantity}
                             onRemove={removeFromCart}
+                            onNote={saveObservacion}
                             onClear={clearCart}
                         />
                     )}

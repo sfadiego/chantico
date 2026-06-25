@@ -1,0 +1,59 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { superAdminAxios } from "@/contexts/SuperAdminContext";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { TenantStatusEnum } from "@/enums/TenantStatusEnum";
+import { ICreateTenantPayload, ITenant, IUpdateTenantPayload } from "@/models/ITenant";
+
+const url = ApiRoutes.SuperAdminTenant;
+const QUERY_KEY = "super-admin-tenants";
+
+export const useListTenants = (status: TenantStatusEnum = TenantStatusEnum.All) =>
+    useQuery<ITenant[]>({
+        queryKey: [QUERY_KEY, status],
+        queryFn: async () => {
+            const params = status !== TenantStatusEnum.All ? { status } : {};
+            const res = await superAdminAxios.get(url, { params });
+            return res.data.data as ITenant[];
+        },
+    });
+
+export const useCreateTenant = () => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (payload: ICreateTenantPayload) => superAdminAxios.post(url, payload),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
+    });
+};
+
+export const useUpdateTenant = () => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, data }: { id: number; data: IUpdateTenantPayload }) =>
+            superAdminAxios.put(`${url}/${id}`, data),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
+    });
+};
+
+export const useToggleTenant = () => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => superAdminAxios.patch(`${url}/${id}/toggle`),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
+    });
+};
+
+export const useRestoreTenant = () => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => superAdminAxios.patch(`${url}/${id}/restore`),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
+    });
+};
+
+export const useDeleteTenant = () => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => superAdminAxios.delete(`${url}/${id}`),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
+    });
+};

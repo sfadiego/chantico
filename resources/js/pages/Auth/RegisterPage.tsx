@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Coffee } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function RegisterPage() {
         <div className="min-h-screen bg-stone-50 flex items-center justify-center p-6">
             <div className="text-center max-w-sm">
                 <div className="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <Coffee size={28} className="text-white" />
+                    <ShoppingCart size={28} className="text-white" />
                 </div>
                 <h1 className="text-2xl font-bold text-stone-900 mb-2">Registro</h1>
                 <p className="text-stone-500 text-sm mb-6">

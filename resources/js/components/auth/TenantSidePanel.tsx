@@ -1,4 +1,4 @@
-import { BarChart2, Coffee, ShoppingBag } from "lucide-react";
+import { BarChart2, ShoppingBag, ShoppingCart, ShoppingCartIcon } from "lucide-react";
 import { IBusinessConfig } from "@/models/IBusinessConfig";
 import { ApisEnum } from "@/configs/apisEnum";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const features = [
-    { icon: Coffee, label: "Gestión de pedidos" },
+    { icon: ShoppingCartIcon, label: "Gestión de pedidos" },
     { icon: ShoppingBag, label: "Control de ventas" },
     { icon: BarChart2, label: "Estadísticas" },
 ];
@@ -43,7 +43,7 @@ export const TenantSidePanel = ({ tenant, isLoading }: Props) => {
                             className="w-14 h-14 object-contain rounded-xl"
                         />
                     ) : (
-                        <Coffee size={56} className="text-white" />
+                        <ShoppingCart size={56} className="text-white" />
                     )}
                 </div>
 
@@ -56,7 +56,7 @@ export const TenantSidePanel = ({ tenant, isLoading }: Props) => {
                 </h1>
 
                 <p className="text-white/80 text-base leading-relaxed mb-12">
-                    Sistema de punto de venta para tu cafetería
+                    Sistema de punto de venta para tu negocio
                 </p>
 
                 <div className="grid grid-cols-3 gap-5 w-full">

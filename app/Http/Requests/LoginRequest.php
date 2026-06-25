@@ -25,6 +25,7 @@ class LoginRequest extends FormRequest
         return [
             User::EMAIL => 'required|exists:users,email',
             'password' => 'required|string',
+            'slug' => 'nullable|string',
         ];
     }
 }

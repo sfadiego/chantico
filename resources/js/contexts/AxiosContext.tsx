@@ -1,4 +1,5 @@
 import axiosApi from "@/configs/axiosConfig";
+import { ApiErrorCodeEnum } from "@/enums/ApiErrorCodeEnum";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { IAuthContextType } from "./interfaces/IAuthContextType";
 import { IAuthProviderProps } from "./interfaces/IAuthProviderProps";
@@ -68,12 +69,15 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
         }
     }, [authToken]);
 
-    // Interceptor de respuesta: redirige al login en cualquier 401
+    // Interceptor de respuesta: redirige al login en 401 o cuando el tenant está desactivado (403 TENANT_INACTIVE)
     useEffect(() => {
         const interceptorId = axiosApi.interceptors.response.use(
             (response) => response,
             (error) => {
-                if (error.response?.status === 401) {
+                const status = error.response?.status;
+                const code   = error.response?.data?.code;
+
+                if (status === 401 || (status === 403 && code === ApiErrorCodeEnum.TenantInactive)) {
                     logout();
                 }
                 return Promise.reject(error);

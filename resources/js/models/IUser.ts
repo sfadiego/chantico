@@ -13,3 +13,25 @@ export interface IUser {
     created_at: string;
     updated_at: string;
 }
+
+export interface ICreateUserPayload {
+    nombre: string;
+    apellido_paterno: string;
+    apellido_materno?: string;
+    email: string;
+    usuario: string;
+    password: string;
+    rol_id: number;
+    activo: boolean;
+}
+
+export interface IUpdateUserPayload {
+    nombre: string;
+    apellido_paterno: string;
+    apellido_materno?: string;
+    email: string;
+    usuario: string;
+    password?: string;
+    rol_id: number;
+    activo: boolean;
+}

@@ -8,6 +8,7 @@ export interface IOrderProduct {
     cantidad: number;
     precio: number;
     nombre_extra?: string;
+    observacion?: string | null;
     created_at: string;
     updated_at: string;
     product: IProduct;

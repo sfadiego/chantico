@@ -15,7 +15,7 @@ export const useUpdateBusinessConfig = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: Pick<IBusinessConfig, "business_name" | "primary_color" | "sidebar_color" | "font_color" | "label_color">) =>
+        mutationFn: (data: Omit<IBusinessConfig, "id" | "slug" | "logo_path" | "created_at" | "updated_at">) =>
             axiosPUT(axiosApi, { url, data }),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }),
     });

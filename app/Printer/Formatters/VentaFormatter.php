@@ -20,11 +20,13 @@ class VentaFormatter implements TicketFormatterInterface
     {
         $d = $data->toArray();
 
+        $business = $d['business'];
+
         // ─── Encabezado ───────────────────────────────────────
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
         $printer->setTextSize(2, 1);
-        $printer->text(env('APP_FULL_NAME', 'CHANTICO')."\n");
+        $printer->text($business['name']."\n");
         $printer->setTextSize(1, 1);
         $printer->setEmphasis(false);
         $printer->feed(1);
@@ -37,7 +39,8 @@ class VentaFormatter implements TicketFormatterInterface
         $printer->setEmphasis(true);
         $printer->text('Mesa : '.$d['nombre_pedido']."\n");
         $printer->setEmphasis(false);
-        $printer->text('Folio: CHAN-'.str_pad($d['id'], 4, '0', STR_PAD_LEFT)."\n");
+        $prefix = $this->folioPrefix($business['name']);
+        $printer->text('Folio: '.$prefix.'-'.str_pad($d['id'], 4, '0', STR_PAD_LEFT)."\n");
         $printer->feed(1);
 
         // ─── Encabezado de productos ──────────────────────────
@@ -78,11 +81,27 @@ class VentaFormatter implements TicketFormatterInterface
         $printer->text($this->line('=')."\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
-        $printer->text("Gracias por su visita!\n");
+        $footer = $business['ticket_footer'] ?: 'Gracias por su visita!';
+        $printer->text($footer."\n");
         $printer->setEmphasis(false);
         $printer->feed(1);
-        $printer->text('Tel: '.env('APP_PHONE', '(312) 303-35-58')."\n");
-        $printer->text(env('SOCIAL_MEDIA', 'fb & ig: @chantico.cafe')."\n");
+
+        if ($business['phone']) {
+            $printer->text('Tel: '.$business['phone']."\n");
+        }
+        if ($business['address']) {
+            $printer->text($business['address']."\n");
+        }
+        if ($business['facebook']) {
+            $printer->text('fb: '.$business['facebook']."\n");
+        }
+        if ($business['instagram']) {
+            $printer->text('ig: '.$business['instagram']."\n");
+        }
+        if ($business['website']) {
+            $printer->text($business['website']."\n");
+        }
+
         $printer->text($this->line('=')."\n");
         $printer->feed(4);
     }
@@ -137,5 +156,23 @@ class VentaFormatter implements TicketFormatterInterface
         $labelLen = self::WIDTH - $valueLen;
 
         return str_pad($label, $labelLen).$value;
+    }
+
+    /**
+     * Genera el prefijo del folio tomando la primera letra de cada palabra
+     * del nombre del negocio en mayúsculas. Ej: "Pollos Sebastián" → "PS".
+     */
+    private function folioPrefix(string $businessName): string
+    {
+        $words = preg_split('/\s+/', trim($businessName));
+        $prefix = '';
+        foreach ($words as $word) {
+            $first = mb_substr($word, 0, 1);
+            if ($first !== '') {
+                $prefix .= mb_strtoupper($first);
+            }
+        }
+
+        return $prefix ?: 'POS';
     }
 }
