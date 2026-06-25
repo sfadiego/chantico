@@ -1,0 +1,67 @@
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { IUser, ICreateUserPayload, IUpdateUserPayload } from "@/models/IUser";
+import { useCreateTenantUser, useUpdateTenantUser } from "@/services/useTenantUserService";
+import { RoleEnum } from "@/enums/RoleEnum";
+
+interface UseUserModalParams {
+    tenantId: number;
+    user: IUser | null;
+    onClose: () => void;
+}
+
+const schema = (isEdit: boolean) =>
+    Yup.object({
+        nombre:           Yup.string().required("Requerido"),
+        apellido_paterno: Yup.string().required("Requerido"),
+        apellido_materno: Yup.string(),
+        email:            Yup.string().email("Correo inválido").required("Requerido"),
+        usuario:          Yup.string().required("Requerido"),
+        password:         isEdit
+            ? Yup.string().min(8, "Mínimo 8 caracteres")
+            : Yup.string().min(8, "Mínimo 8 caracteres").required("Requerido"),
+        rol_id:           Yup.number().required("Requerido"),
+        activo:           Yup.boolean().required(),
+    });
+
+export const useUserModal = ({ tenantId, user, onClose }: UseUserModalParams) => {
+    const isEdit = !!user;
+    const createMutation = useCreateTenantUser(tenantId);
+    const updateMutation = useUpdateTenantUser(tenantId);
+
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            nombre:           user?.nombre ?? "",
+            apellido_paterno: user?.apellido_paterno ?? "",
+            apellido_materno: user?.apellido_materno ?? "",
+            email:            user?.email ?? "",
+            usuario:          user?.usuario ?? "",
+            password:         "",
+            rol_id:           user?.rol_id ?? RoleEnum.Employe,
+            activo:           user ? Boolean(user.activo) : true,
+        },
+        validationSchema: schema(isEdit),
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                if (isEdit) {
+                    const payload: IUpdateUserPayload = { ...values };
+                    if (!payload.password) delete payload.password;
+                    await updateMutation.mutateAsync({ id: user!.id, data: payload });
+                    toast.success("Usuario actualizado correctamente.");
+                } else {
+                    await createMutation.mutateAsync(values as ICreateUserPayload);
+                    toast.success("Usuario creado correctamente.");
+                }
+                onClose();
+            } catch {
+                toast.error("No se pudo guardar el usuario.");
+            } finally {
+                setSubmitting(false);
+            }
+        },
+    });
+
+    return { formik, isEdit };
+};

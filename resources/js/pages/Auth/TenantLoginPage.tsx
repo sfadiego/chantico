@@ -1,15 +1,37 @@
 import { useParams, Navigate } from "react-router-dom";
-import { Coffee } from "lucide-react";
+import { Coffee, AlertTriangle } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { TenantSidePanel } from "@/components/auth/TenantSidePanel";
 import { useTenantLoginPage } from "./useTenantLoginPage";
 
 export default function TenantLoginPage() {
     const { slug } = useParams<{ slug: string }>();
-    const { tenant, isLoading, isError } = useTenantLoginPage(slug ?? "");
+    const { tenant, isLoading, isError, isInactive } = useTenantLoginPage(slug ?? "");
 
-    if (isError) {
+    if (isError && !isInactive) {
         return <Navigate to="/login" replace />;
+    }
+
+    if (isInactive) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-stone-50 p-6">
+                <div className="bg-white rounded-2xl border border-amber-200 shadow-sm p-8 max-w-sm w-full text-center">
+                    <div className="flex justify-center mb-4">
+                        <div className="w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center">
+                            <AlertTriangle size={28} className="text-amber-500" />
+                        </div>
+                    </div>
+                    <h2 className="text-lg font-semibold text-stone-900 mb-2">
+                        Servicio no disponible
+                    </h2>
+                    <p className="text-stone-500 text-sm leading-relaxed">
+                        Este negocio ha sido desactivado temporalmente.
+                        <br />
+                        Contacta al administrador para más información.
+                    </p>
+                </div>
+            </div>
+        );
     }
 
     return (

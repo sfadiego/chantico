@@ -119,7 +119,8 @@ no hacer peticiones directamete a axios, utiliza la capa de servicios como esta 
 - Crea **componentes** en vez de funciones inline en la page.
 - crea hooks si es necesario por cada componente creado para separar la logica de cada componente
 - Crea componentes separados, evita crear varios componentes en un solo archivo
-
+- No utilizar tablas con html directamente, utiliza el componente DataTable y su hook para cargar informacion
+- 
 ### Pages
 - en la carpeta pages solo debe existir un componente el cual debe llamar componenes reutilizables ubicados en la carpeta Components/{module}/component.tsx
 - crea hooks si es necesario en la carpeta de pages donde contendra la logica solo de esta pagina en especifico

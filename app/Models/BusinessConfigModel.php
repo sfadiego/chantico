@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessConfigModel extends Model
 {
+    use SoftDeletes;
     protected $table = 'business_config';
 
     const SLUG = 'slug';
+
+    const ACTIVO = 'activo';
 
     const BUSINESS_NAME = 'business_name';
 
@@ -23,8 +27,13 @@ class BusinessConfigModel extends Model
 
     const LOGO_PATH = 'logo_path';
 
+    protected $casts = [
+        self::ACTIVO => 'boolean',
+    ];
+
     protected $fillable = [
         self::SLUG,
+        self::ACTIVO,
         self::BUSINESS_NAME,
         self::PRIMARY_COLOR,
         self::SIDEBAR_COLOR,

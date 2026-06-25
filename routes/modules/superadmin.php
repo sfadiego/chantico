@@ -1,0 +1,32 @@
+<?php
+
+use App\Http\Controllers\SuperAdmin\SuperAdminAuthController;
+use App\Http\Controllers\SuperAdmin\TenantManagementController;
+use App\Http\Controllers\SuperAdmin\TenantUserController;
+use App\Http\Middleware\SuperAdminMiddleware;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('super-admin')->group(function () {
+    Route::post('auth/login', [SuperAdminAuthController::class, 'login']);
+
+    Route::middleware(['auth:sanctum', SuperAdminMiddleware::class])->group(function () {
+        Route::prefix('tenant')->controller(TenantManagementController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::post('', 'store');
+            Route::prefix('{tenant}')->group(function () {
+                Route::get('', 'show');
+                Route::put('', 'update');
+                Route::patch('toggle', 'toggle');
+                Route::patch('restore', 'restore');
+                Route::delete('', 'delete');
+            });
+
+            Route::prefix('{tenant}/users')->controller(TenantUserController::class)->group(function () {
+                Route::get('', 'index');
+                Route::post('', 'store');
+                Route::put('{user}', 'update');
+                Route::delete('{user}', 'delete');
+            });
+        });
+    });
+});

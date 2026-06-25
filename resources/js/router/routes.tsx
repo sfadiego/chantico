@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
+import { superAdminRoutes } from "./modules/superadmin.routes";
+import AppLayout from "@/layouts/AppLayout";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import IRoute from "@/intefaces/IRoutes";
 import OrderListPage from "@/pages/Orders/OrderListPage";
@@ -70,6 +71,7 @@ export const router = createBrowserRouter([
         path: route.path,
         element: withPrivateLayout(route.element, route),
     })),
+    ...superAdminRoutes,
     {
         path: "*",
         element: <Navigate to="/" replace />,

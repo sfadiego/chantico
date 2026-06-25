@@ -1,8 +1,16 @@
 import { useEffect } from "react";
+import axios from "axios";
 import { useGetTenantBranding } from "@/services/useTenantService";
+import { ApiErrorCodeEnum } from "@/enums/ApiErrorCodeEnum";
 
 export const useTenantLoginPage = (slug: string) => {
-    const { data: tenant, isLoading, isError } = useGetTenantBranding(slug);
+    const { data: tenant, isLoading, isError, error } = useGetTenantBranding(slug);
+
+    const isInactive =
+        isError &&
+        axios.isAxiosError(error) &&
+        error.response?.status === 403 &&
+        error.response?.data?.code === ApiErrorCodeEnum.TenantInactive;
 
     // Persiste el slug para que el logout redirija a esta URL de login
     useEffect(() => {
@@ -21,5 +29,5 @@ export const useTenantLoginPage = (slug: string) => {
         root.style.setProperty("--color-label", tenant.label_color);
     }, [tenant]);
 
-    return { tenant, isLoading, isError };
+    return { tenant, isLoading, isError, isInactive };
 };

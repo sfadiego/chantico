@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\BusinessConfigModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TenantController extends Controller
 {
@@ -15,7 +14,14 @@ class TenantController extends Controller
         $tenant = BusinessConfigModel::where(BusinessConfigModel::SLUG, $slug)->first();
 
         if (! $tenant) {
-            throw new NotFoundHttpException('Tenant not found.');
+            abort(404);
+        }
+
+        if (! $tenant->activo) {
+            return Response::json([
+                'message' => 'Este negocio ha sido desactivado temporalmente. Contacta al administrador.',
+                'code'    => 'TENANT_INACTIVE',
+            ], 403);
         }
 
         return Response::success($tenant);
