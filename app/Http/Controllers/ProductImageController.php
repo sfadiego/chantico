@@ -12,7 +12,7 @@ class ProductImageController extends Controller
 {
     public function store(ProductModel $product, ProductImageStoreRequest $param, Request $request): ProductModel
     {
-        $slug   = $request->user()->tenant->slug;
+        $slug = $request->user()->tenant->slug;
         $upload = ProductImageModel::processImage($param->file, $slug);
         if (! $upload) {
             Response::error('No se puede subir la imagen');
@@ -20,7 +20,7 @@ class ProductImageController extends Controller
 
         $picture = ProductImageModel::create([
             ProductImageModel::NOMBRE_ARCHIVO => $upload['nombre_archivo'],
-            ProductImageModel::URL            => $upload['url'],
+            ProductImageModel::URL => $upload['url'],
         ]);
         $product->foto_id = $picture->id;
         $product->save();
@@ -34,7 +34,7 @@ class ProductImageController extends Controller
         ProductImageStoreRequest $param,
         Request $request,
     ): ProductModel {
-        $slug   = $request->user()->tenant->slug;
+        $slug = $request->user()->tenant->slug;
         $upload = ProductImageModel::processImage($param->file, $slug);
         if (! $upload) {
             Response::error('No se puede subir la imagen');
@@ -43,7 +43,7 @@ class ProductImageController extends Controller
         ProductImageModel::deleteFile($image->nombre_archivo);
 
         $image->nombre_archivo = $upload['nombre_archivo'];
-        $image->url            = $upload['url'];
+        $image->url = $upload['url'];
         $image->save();
 
         return $product->load('picture');

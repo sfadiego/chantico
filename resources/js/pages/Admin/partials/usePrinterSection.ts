@@ -22,12 +22,22 @@ export const usePrinterSection = (config: IBusinessConfig | undefined) => {
         onSubmit: async (values, { setSubmitting }) => {
             if (!config) return;
             try {
-                const { id, slug, logo_path, created_at, updated_at, ...updatableConfig } = config;
-
                 await updateMutation.mutateAsync({
-                    ...updatableConfig,
-                    printer_name: values.printer_name || null,
-                    printer_host: values.printer_host || null,
+                    business_name:  config.business_name,
+                    primary_color:  config.primary_color,
+                    sidebar_color:  config.sidebar_color,
+                    font_color:     config.font_color,
+                    label_color:    config.label_color,
+                    phone:          config.phone,
+                    address:        config.address,
+                    facebook:       config.facebook,
+                    instagram:      config.instagram,
+                    whatsapp:       config.whatsapp,
+                    website:        config.website,
+                    ticket_footer:  config.ticket_footer,
+                    logo_icon:      config.logo_icon,
+                    printer_name:   values.printer_name || null,
+                    printer_host:   values.printer_host || null,
                 });
                 toast.success("Configuración de impresora guardada.");
             } catch {

@@ -1,4 +1,4 @@
-import { BarChart2, Coffee, ShoppingBag, ShoppingCart } from 'lucide-react';
+import { BarChart2, ShoppingBag, ShoppingCart } from 'lucide-react';
 
 const features = [
     { icon: ShoppingCart, label: "Gestión de pedidos" },

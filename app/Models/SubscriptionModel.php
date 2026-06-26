@@ -12,13 +12,19 @@ class SubscriptionModel extends Model
 {
     protected $table = 'subscriptions';
 
-    const TENANT_ID  = 'tenant_id';
-    const PLAN       = 'plan';
-    const STARTS_AT  = 'starts_at';
+    const TENANT_ID = 'tenant_id';
+
+    const PLAN = 'plan';
+
+    const STARTS_AT = 'starts_at';
+
     const EXPIRES_AT = 'expires_at';
-    const PAID_AT    = 'paid_at';
-    const AMOUNT     = 'amount';
-    const NOTES      = 'notes';
+
+    const PAID_AT = 'paid_at';
+
+    const AMOUNT = 'amount';
+
+    const NOTES = 'notes';
 
     const GRACE_DAYS = 3;
 
@@ -33,10 +39,10 @@ class SubscriptionModel extends Model
     ];
 
     protected $casts = [
-        self::STARTS_AT  => 'date',
+        self::STARTS_AT => 'date',
         self::EXPIRES_AT => 'date',
-        self::PAID_AT    => 'datetime',
-        self::AMOUNT     => 'float',
+        self::PAID_AT => 'datetime',
+        self::AMOUNT => 'float',
     ];
 
     public function tenant(): BelongsTo
@@ -55,7 +61,7 @@ class SubscriptionModel extends Model
             return SubscriptionStatusEnum::Active->value;
         }
 
-        $now     = Carbon::today();
+        $now = Carbon::today();
         $expires = Carbon::parse($this->expires_at);
 
         if ($expires->gte($now)) {
@@ -86,13 +92,13 @@ class SubscriptionModel extends Model
             : $startsAt->copy()->addMonths($plan->months());
 
         return self::create([
-            self::TENANT_ID  => $tenantId,
-            self::PLAN       => $plan->value,
-            self::STARTS_AT  => $startsAt,
+            self::TENANT_ID => $tenantId,
+            self::PLAN => $plan->value,
+            self::STARTS_AT => $startsAt,
             self::EXPIRES_AT => $expiresAt,
-            self::PAID_AT    => now(),
-            self::AMOUNT     => $amount,
-            self::NOTES      => $notes,
+            self::PAID_AT => now(),
+            self::AMOUNT => $amount,
+            self::NOTES => $notes,
         ]);
     }
 }

@@ -35,7 +35,9 @@ class ProductImageModel extends Model
 
     public static function deleteFile(?string $nombreArchivo): void
     {
-        if (! $nombreArchivo) return;
+        if (! $nombreArchivo) {
+            return;
+        }
 
         $path = "private/{$nombreArchivo}";
 
@@ -48,14 +50,14 @@ class ProductImageModel extends Model
     {
         try {
             $extension = $file->getClientOriginalExtension();
-            $filename  = time().'_'.uniqid().".$extension";
-            $folder    = "private/{$tenantSlug}";
+            $filename = time().'_'.uniqid().".$extension";
+            $folder = "private/{$tenantSlug}";
 
             $path = $file->storeAs($folder, $filename, 'local');
 
             return [
                 self::NOMBRE_ARCHIVO => "{$tenantSlug}/{$filename}",
-                self::URL            => $path,
+                self::URL => $path,
             ];
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

@@ -33,8 +33,8 @@ class SubscriptionController extends Controller
      */
     public function store(BusinessConfigModel $tenant, SubscriptionStoreRequest $request): JsonResponse
     {
-        $plan      = SubscriptionPlanEnum::from($request->plan);
-        $startsAt  = Carbon::parse($request->starts_at);
+        $plan = SubscriptionPlanEnum::from($request->plan);
+        $startsAt = Carbon::parse($request->starts_at);
 
         SubscriptionModel::createFromPlan(
             tenantId: $tenant->id,
@@ -65,13 +65,13 @@ class SubscriptionController extends Controller
         $sub = $tenant->latestSubscription;
 
         return [
-            'id'            => $tenant->id,
+            'id' => $tenant->id,
             'business_name' => $tenant->business_name,
-            'slug'          => $tenant->slug,
-            'activo'        => $tenant->activo,
+            'slug' => $tenant->slug,
+            'activo' => $tenant->activo,
             'primary_color' => $tenant->primary_color,
-            'users_count'   => $tenant->users_count,
-            'subscription'  => $sub ? $this->formatSubscription($sub) : null,
+            'users_count' => $tenant->users_count,
+            'subscription' => $sub ? $this->formatSubscription($sub) : null,
             'subscription_status' => $sub
                 ? $sub->status
                 : SubscriptionStatusEnum::Pending->value,
@@ -81,15 +81,15 @@ class SubscriptionController extends Controller
     private function formatSubscription(SubscriptionModel $sub): array
     {
         return [
-            'id'             => $sub->id,
-            'plan'           => $sub->plan,
-            'is_lifetime'    => $sub->is_lifetime,
-            'starts_at'      => $sub->starts_at->toDateString(),
-            'expires_at'     => $sub->is_lifetime ? null : $sub->expires_at->toDateString(),
-            'paid_at'        => $sub->paid_at?->toIso8601String(),
-            'amount'         => $sub->amount,
-            'notes'          => $sub->notes,
-            'status'         => $sub->status,
+            'id' => $sub->id,
+            'plan' => $sub->plan,
+            'is_lifetime' => $sub->is_lifetime,
+            'starts_at' => $sub->starts_at->toDateString(),
+            'expires_at' => $sub->is_lifetime ? null : $sub->expires_at->toDateString(),
+            'paid_at' => $sub->paid_at?->toIso8601String(),
+            'amount' => $sub->amount,
+            'notes' => $sub->notes,
+            'status' => $sub->status,
             'days_remaining' => $sub->days_remaining, // null para lifetime
         ];
     }

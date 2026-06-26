@@ -1,4 +1,3 @@
-import { ClipboardList } from 'lucide-react';
 import React from 'react'
 
 export const LoadingSkeleton = () => (

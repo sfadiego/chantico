@@ -4,17 +4,17 @@ namespace App\Enums;
 
 enum SubscriptionPlanEnum: string
 {
-    case Monthly  = 'monthly';
+    case Monthly = 'monthly';
     case Biannual = 'biannual';
-    case Annual   = 'annual';
+    case Annual = 'annual';
     case Lifetime = 'lifetime';
 
     public function months(): int
     {
-        return match($this) {
-            self::Monthly  => 1,
+        return match ($this) {
+            self::Monthly => 1,
             self::Biannual => 6,
-            self::Annual   => 12,
+            self::Annual => 12,
             self::Lifetime => 0, // sin vencimiento
         };
     }
@@ -26,10 +26,10 @@ enum SubscriptionPlanEnum: string
 
     public function label(): string
     {
-        return match($this) {
-            self::Monthly  => 'Mensual',
+        return match ($this) {
+            self::Monthly => 'Mensual',
             self::Biannual => 'Semestral',
-            self::Annual   => 'Anual',
+            self::Annual => 'Anual',
             self::Lifetime => 'Membresía indefinida',
         };
     }

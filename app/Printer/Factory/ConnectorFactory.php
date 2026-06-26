@@ -18,12 +18,12 @@ class ConnectorFactory
 
         return match ($driver) {
             'smbclient' => new SmbclientConnector($tenant),
-            'network'   => new NetworkConnector($tenant),
-            'file'      => new FileConnector($tenant),
-            'linux'     => new CupsConnector($tenant),
-            'macos'     => new CupsConnector($tenant),
-            'cups'      => new CupsConnector($tenant),
-            'windows'   => new WindowsConnector($tenant),
+            'network' => new NetworkConnector($tenant),
+            'file' => new FileConnector($tenant),
+            'linux' => new CupsConnector($tenant),
+            'macos' => new CupsConnector($tenant),
+            'cups' => new CupsConnector($tenant),
+            'windows' => new WindowsConnector($tenant),
         };
     }
 }

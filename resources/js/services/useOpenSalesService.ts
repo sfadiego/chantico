@@ -1,6 +1,5 @@
 import { IMainOrderReport } from "@/models/IMainOrderReport";
 import { useGET, usePOST } from "../hooks/useApi";
-import { ISingleResponse } from "@/intefaces/ISingleResponse";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 
 const url = ApiRoutes.System;

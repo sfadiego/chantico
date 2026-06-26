@@ -1,6 +1,6 @@
 import { DataTable } from "mantine-datatable";
 import type { DataTableColumn } from "mantine-datatable";
-import { Building2, CreditCard, Clock, CheckCircle, AlertCircle, XCircle, MinusCircle } from "lucide-react";
+import { Building2, CreditCard, Clock, CheckCircle, XCircle, MinusCircle } from "lucide-react";
 import { ITenantWithSubscription } from "@/models/ISubscription";
 import { SubscriptionStatusEnum } from "@/enums/SubscriptionStatusEnum";
 import { PLAN_LABELS } from "@/enums/SubscriptionPlanEnum";

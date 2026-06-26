@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
 import prettier from "eslint-config-prettier";
 import unusedImports from "eslint-plugin-unused-imports";
 
@@ -37,10 +38,22 @@ export default [
                 version: "detect",
             },
         },
+        plugins: {
+            "react-hooks": pluginReactHooks,
+        },
         rules: {
             "no-unused-vars": "warn",
             "no-console": "off",
             "react/react-in-jsx-scope": "off",
+            "@typescript-eslint/no-explicit-any": "warn",
+            "@typescript-eslint/no-unused-vars": ["error", {
+                varsIgnorePattern: "^_",
+                argsIgnorePattern: "^_",
+                caughtErrorsIgnorePattern: "^_",
+                destructuredArrayIgnorePattern: "^_",
+            }],
+            "react-hooks/rules-of-hooks": "error",
+            "react-hooks/exhaustive-deps": "warn",
         },
     },
     // 4. Prettier siempre al final para desactivar reglas de formato

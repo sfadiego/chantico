@@ -37,9 +37,9 @@ class BusinessConfigController extends Controller
             'whatsapp' => $request->whatsapp,
             'website' => $request->website,
             'ticket_footer' => $request->ticket_footer,
-            'printer_name'  => $request->printer_name,
-            'printer_host'  => $request->printer_host,
-            'logo_icon'     => $request->logo_icon,
+            'printer_name' => $request->printer_name,
+            'printer_host' => $request->printer_host,
+            'logo_icon' => $request->logo_icon,
         ]);
 
         return Response::success($tenant->fresh());
@@ -74,17 +74,17 @@ class BusinessConfigController extends Controller
     public function subscriptionStatus(Request $request): JsonResponse
     {
         $tenant = $request->user()->tenant->load('latestSubscription');
-        $sub    = $tenant->latestSubscription;
+        $sub = $tenant->latestSubscription;
 
         if (! $sub) {
             return Response::success(['status' => SubscriptionStatusEnum::Pending->value, 'days_remaining' => null, 'is_lifetime' => false]);
         }
 
         return Response::success([
-            'status'         => $sub->status,
+            'status' => $sub->status,
             'days_remaining' => $sub->days_remaining,
-            'is_lifetime'    => $sub->is_lifetime,
-            'expires_at'     => $sub->is_lifetime ? null : $sub->expires_at->toDateString(),
+            'is_lifetime' => $sub->is_lifetime,
+            'expires_at' => $sub->is_lifetime ? null : $sub->expires_at->toDateString(),
         ]);
     }
 }

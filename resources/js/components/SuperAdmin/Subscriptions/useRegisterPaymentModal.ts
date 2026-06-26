@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useQueryClient } from "@tanstack/react-query";
 import { SubscriptionPlanEnum } from "@/enums/SubscriptionPlanEnum";
 import { ITenantWithSubscription } from "@/models/ISubscription";
 import { useRegisterPayment } from "@/services/useSubscriptionService";

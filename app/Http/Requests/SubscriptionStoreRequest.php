@@ -16,10 +16,10 @@ class SubscriptionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plan'       => ['required', new Enum(SubscriptionPlanEnum::class)],
-            'starts_at'  => 'required|date',
-            'amount'     => 'nullable|numeric|min:0',
-            'notes'      => 'nullable|string|max:300',
+            'plan' => ['required', new Enum(SubscriptionPlanEnum::class)],
+            'starts_at' => 'required|date',
+            'amount' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string|max:300',
         ];
     }
 }

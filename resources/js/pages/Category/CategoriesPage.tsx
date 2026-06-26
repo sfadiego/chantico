@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { DataTable, DataTableColumn } from "mantine-datatable";
-import { Tag, Plus, RefreshCw } from "lucide-react";
+import { Plus, RefreshCw } from "lucide-react";
 import { ICategory } from "@/models/ICategory";
 import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { useCategoriesPage } from "./useCategoriesPage";

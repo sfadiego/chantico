@@ -20,10 +20,6 @@ export const formatOrderTime = (dateStr: string) =>
         minute: "2-digit",
     });
 
-const currentMonth = () => {
-    const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-};
 
 export const useDashboard = () => {
     const { sistemaId } = useAxios();

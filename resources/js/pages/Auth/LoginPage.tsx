@@ -1,4 +1,4 @@
-import { Coffee, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { SidePanel } from "@/components/auth/SidePanel";
 

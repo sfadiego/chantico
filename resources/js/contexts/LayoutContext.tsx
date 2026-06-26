@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useCallback } from "react";
 
 interface ILayoutContext {
     toggleSidebar: () => void;

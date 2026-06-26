@@ -23,7 +23,6 @@ export const OrderFilters = ({
     onClear,
 }: OrderFiltersProps) => {
     const hasActiveFilters = !!fecha || estatusId !== OrderStatusEnum.InProcess;
-    const activeStatus = STATUS_OPTIONS.find((o) => o.value === estatusId);
 
     return (
         <div className="flex flex-col gap-3 mb-5">
