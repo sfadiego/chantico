@@ -1,6 +1,12 @@
 # ── Stage 1: build frontend ──────────────────────────────────────────────────
 FROM node:22-alpine AS frontend
 
+ARG VITE_APP_URL=https://pos-app-rpts9.ondigitalocean.app
+ARG VITE_APP_NAME=POS
+
+ENV VITE_APP_URL=$VITE_APP_URL
+ENV VITE_APP_NAME=$VITE_APP_NAME
+
 WORKDIR /app
 
 RUN npm install -g pnpm
