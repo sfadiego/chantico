@@ -11,6 +11,21 @@ export default defineConfig({
         }),
         react(),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    "vendor-react": ["react", "react-dom", "react-router-dom"],
+                    "vendor-query": ["@tanstack/react-query"],
+                    "vendor-mantine": ["@mantine/core", "mantine-datatable"],
+                    "vendor-form": ["formik", "yup"],
+                    "vendor-ui": ["sweetalert2", "react-toastify"],
+                    "vendor-icons": ["lucide-react"],
+                    "vendor-axios": ["axios"],
+                },
+            },
+        },
+    },
     server: {
         host: "localhost",
         port: 5173,
