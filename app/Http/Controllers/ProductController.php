@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Core\Data\IndexData;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\ProductImageModel;
 use App\Models\ProductModel;
 use App\Services\ProductsService;
 use Illuminate\Http\JsonResponse;
@@ -55,6 +56,14 @@ class ProductController extends Controller
             return Response::error('Producto invalido');
         }
 
-        return Response::success($product->delete());
+        $picture = $product->picture;
+        $product->delete();
+
+        if ($picture) {
+            ProductImageModel::deleteFile($picture->nombre_archivo);
+            $picture->delete();
+        }
+
+        return Response::success(true);
     }
 }

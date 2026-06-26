@@ -45,12 +45,13 @@ class BusinessConfigController extends Controller
         $request->validate(['logo' => 'required|image|mimes:png,jpg,jpeg,webp|max:2048']);
 
         $tenant = $request->user()->tenant;
-        $upload = ProductImageModel::processImage($request->file('logo'));
+        $upload = ProductImageModel::processImage($request->file('logo'), $tenant->slug);
 
         if (! $upload) {
             return Response::error('No se pudo subir el logo');
         }
 
+        ProductImageModel::deleteFile($tenant->logo_path);
         $tenant->update(['logo_path' => $upload['nombre_archivo']]);
 
         return Response::success($tenant->fresh());
@@ -59,6 +60,7 @@ class BusinessConfigController extends Controller
     public function removeLogo(Request $request): JsonResponse
     {
         $tenant = $request->user()->tenant;
+        ProductImageModel::deleteFile($tenant->logo_path);
         $tenant->update(['logo_path' => null]);
 
         return Response::success($tenant->fresh());

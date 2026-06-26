@@ -9,11 +9,13 @@ class FilesController extends Controller
 {
     public function show(string $file): BinaryFileResponse
     {
-        if (! Storage::fileExists("/private/$file")) {
+        $relativePath = "/private/$file";
+
+        if (! Storage::fileExists($relativePath)) {
             return abort(404);
         }
 
-        $filePath = storage_path("/app/private/$file");
+        $filePath = storage_path("app$relativePath");
 
         return response()->file($filePath);
     }
