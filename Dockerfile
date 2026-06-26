@@ -57,4 +57,4 @@ RUN mkdir -p /var/www/.cache storage/framework/sessions storage/framework/views 
     && chmod -R 775 storage bootstrap/cache
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["php-fpm"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
