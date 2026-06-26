@@ -3,23 +3,36 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useGetActiveSale, useCloseSales, useCurrentTotalSale } from "@/services/useOpenSalesService";
+import { useIndexOrder } from "@/services/useOrderService";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
 export const useCloseSalesPage = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     const { data: activeSale, isLoading: loadingSale } = useGetActiveSale();
-    const sistemaId = activeSale?.id ?? 0;
+    const sistemaId = activeSale?.id ?? null;
 
-    const { data: totalVentas, isLoading: loadingTotal } = useCurrentTotalSale(sistemaId);
-    const { mutateAsync: closeSales, isPending: isClosing } = useCloseSales(sistemaId);
+    const { data: totalVentas, isLoading: loadingTotal } = useCurrentTotalSale(sistemaId ?? 0);
+    const { mutateAsync: closeSales, isPending: isClosing } = useCloseSales(sistemaId ?? 0);
+
+    const { data: activeOrdersPage } = useIndexOrder({
+        sistema_id: sistemaId,
+        estatus_pedido_id: OrderStatusEnum.InProcess,
+        limit: 1,
+    });
+
+    const activeOrdersCount = activeOrdersPage?.total ?? 0;
+    const hasActiveOrders = activeOrdersCount > 0;
 
     const efectivoInicio = activeSale?.efectivo_caja_inicio ?? 0;
     const totalDia = (totalVentas as number) ?? 0;
     const efectivoCierre = efectivoInicio + totalDia;
 
     const handleClose = async () => {
+        if (hasActiveOrders) return;
+
         const result = await Swal.fire({
             title: "¿Cerrar caja?",
             text: "Esta acción cerrará la sesión de ventas del día. No podrás registrar más órdenes.",
@@ -50,6 +63,8 @@ export const useCloseSalesPage = () => {
         efectivoInicio,
         totalDia,
         efectivoCierre,
+        hasActiveOrders,
+        activeOrdersCount,
         isLoading: loadingSale || loadingTotal,
         isClosing,
         handleClose,
