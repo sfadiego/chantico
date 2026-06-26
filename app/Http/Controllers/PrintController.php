@@ -6,14 +6,16 @@ use App\Models\OrderModel;
 use App\Printer\Data\VentaTicketData;
 use App\Printer\Factory\PrinterServiceFactory;
 use App\Printer\Formatters\VentaFormatter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class PrintController extends Controller
 {
-    public function print(OrderModel $order)
+    public function print(OrderModel $order, Request $request)
     {
         try {
-            $service = PrinterServiceFactory::make(new VentaFormatter);
+            $tenant = $request->user()->tenant;
+            $service = PrinterServiceFactory::make(new VentaFormatter, $tenant);
             $service->printTicket(new VentaTicketData($order));
 
             return Response::success($order, 'Impresión enviada');

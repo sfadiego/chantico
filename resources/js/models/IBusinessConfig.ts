@@ -14,6 +14,8 @@ export interface IBusinessConfig {
     whatsapp: string | null;
     website: string | null;
     ticket_footer: string | null;
+    printer_name: string | null;
+    printer_host: string | null;
     created_at: string;
     updated_at: string;
 }

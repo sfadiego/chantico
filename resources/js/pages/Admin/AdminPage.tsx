@@ -2,6 +2,7 @@ import { Settings } from "lucide-react";
 import { LogoSection } from "./partials/LogoSection";
 import { ColorsSection } from "./partials/ColorsSection";
 import { BusinessInfoSection } from "./partials/BusinessInfoSection";
+import { PrinterSection } from "./partials/PrinterSection";
 import { AdminNav } from "./partials/AdminNav";
 import { useAdminPage } from "./useAdminPage";
 
@@ -31,6 +32,7 @@ function AdminPage() {
                         <div id="logo"><LogoSection config={config} /></div>
                         <div id="colores"><ColorsSection config={config} /></div>
                         <div id="negocio"><BusinessInfoSection config={config} /></div>
+                        <div id="impresora"><PrinterSection config={config} /></div>
                     </div>
                 </div>
             )}

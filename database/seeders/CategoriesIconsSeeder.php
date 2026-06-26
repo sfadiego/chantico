@@ -28,8 +28,6 @@ class CategoriesIconsSeeder extends Seeder
             '+18' => 'Lock',                   // lucide: lock (age restricted)
             'PA PICAR' => 'Utensils',          // lucide: utensils
             'TEMPORADA' => 'Calendar',         // lucide: calendar
-            'SMOOTIE' => 'GlassWater',
-            'WAFFLES' => 'Grid',
         ];
 
         foreach ($icons as $nombre => $iconName) {

@@ -33,6 +33,8 @@ class BusinessConfigController extends Controller
             'whatsapp' => $request->whatsapp,
             'website' => $request->website,
             'ticket_footer' => $request->ticket_footer,
+            'printer_name'  => $request->printer_name,
+            'printer_host'  => $request->printer_host,
         ]);
 
         return Response::success($tenant->fresh());

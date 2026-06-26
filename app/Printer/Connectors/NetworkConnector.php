@@ -2,6 +2,7 @@
 
 namespace App\Printer\Connectors;
 
+use App\Models\BusinessConfigModel;
 use App\Printer\Interface\PrinterConnectorInterface;
 use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
@@ -9,20 +10,21 @@ use Mike42\Escpos\Printer;
 
 class NetworkConnector implements PrinterConnectorInterface
 {
-    protected $connector;
+    protected NetworkPrintConnector $connector;
 
-    protected $printer;
+    protected Printer $printer;
 
-    protected $printerName;
+    protected string $printerName;
 
-    protected $printerHost;
+    protected string $printerHost;
 
-    protected $socketConection;
+    /** @var resource|null */
+    protected $socketConection = null;
 
-    public function __construct()
+    public function __construct(BusinessConfigModel $tenant)
     {
-        $this->printerName = env('PRINTER_NAME');
-        $this->printerHost = env('PRINTER_HOST');
+        $this->printerName = $tenant->printer_name ?? env('PRINTER_NAME', '');
+        $this->printerHost = $tenant->printer_host ?? env('PRINTER_HOST', '');
     }
 
     public function init(): void

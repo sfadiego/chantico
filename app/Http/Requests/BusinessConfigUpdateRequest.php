@@ -26,6 +26,8 @@ class BusinessConfigUpdateRequest extends FormRequest
             'whatsapp' => 'nullable|string|max:30',
             'website' => 'nullable|url|max:200',
             'ticket_footer' => 'nullable|string|max:100',
+            'printer_name'  => 'nullable|string|max:100',
+            'printer_host'  => 'nullable|string|max:100',
         ];
     }
 }

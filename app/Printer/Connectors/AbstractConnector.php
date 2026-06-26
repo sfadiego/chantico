@@ -2,6 +2,7 @@
 
 namespace App\Printer\Connectors;
 
+use App\Models\BusinessConfigModel;
 use App\Printer\Interface\PrinterConnectorInterface;
 use Mike42\Escpos\Printer;
 
@@ -13,9 +14,9 @@ abstract class AbstractConnector implements PrinterConnectorInterface
 
     protected string $printerName;
 
-    public function __construct()
+    public function __construct(BusinessConfigModel $tenant)
     {
-        $this->printerName = env('PRINTER_NAME', '');
+        $this->printerName = $tenant->printer_name ?? env('PRINTER_NAME', '');
     }
 
     abstract public function init(): void;

@@ -1,9 +1,10 @@
-import { Image, Palette, Phone } from "lucide-react";
+import { Image, Palette, Phone, Printer } from "lucide-react";
 
 const SECTIONS = [
-    { id: "logo",    label: "Logo",           icon: <Image size={14} /> },
-    { id: "colores", label: "Colores",         icon: <Palette size={14} /> },
-    { id: "negocio", label: "Info del negocio", icon: <Phone size={14} /> },
+    { id: "logo",       label: "Logo",            icon: <Image size={14} /> },
+    { id: "colores",    label: "Colores",          icon: <Palette size={14} /> },
+    { id: "negocio",    label: "Info del negocio", icon: <Phone size={14} /> },
+    { id: "impresora",  label: "Impresora",        icon: <Printer size={14} /> },
 ];
 
 export const AdminNav = () => {

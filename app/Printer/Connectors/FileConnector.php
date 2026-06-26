@@ -2,6 +2,7 @@
 
 namespace App\Printer\Connectors;
 
+use App\Models\BusinessConfigModel;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 
@@ -13,10 +14,11 @@ class FileConnector extends AbstractConnector
 
     protected $host;
 
-    public function __construct()
+    public function __construct(BusinessConfigModel $tenant)
     {
+        parent::__construct($tenant);
         $this->fileName = 'ticket';
-        $this->host = env('PRINTER_HOST');
+        $this->host = $tenant->printer_host ?? env('PRINTER_HOST', '');
         $this->tempFile = tempnam(sys_get_temp_dir(), 'ticket-');
     }
 

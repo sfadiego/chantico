@@ -16,8 +16,8 @@ class CategoriesSeeder extends Seeder
             'CAFÉ',
             'TISANA',
             'SODA ITALIANA',
-            'SMOOTIE',
-            'WAFFLES',
+            'SMOOTHIE',
+            'WAFFLES & CREPAS',
             'PANINIS',
             'ENSALADAS',
             'POSTRES',
@@ -25,6 +25,12 @@ class CategoriesSeeder extends Seeder
             'FRAPPÉ',
             'SÁNDWICH',
             'EXTRAS',
+            'LECHITAS',
+            'Naturales',
+            'CHOCOLATES',
+            '+18',
+            'PA PICAR',
+            'TEMPORADA',
         ];
 
         collect($categories)

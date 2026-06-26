@@ -43,6 +43,10 @@ class BusinessConfigModel extends Model
 
     const TICKET_FOOTER = 'ticket_footer';
 
+    const PRINTER_NAME = 'printer_name';
+
+    const PRINTER_HOST = 'printer_host';
+
     protected $casts = [
         self::ACTIVO => 'boolean',
     ];
@@ -63,6 +67,8 @@ class BusinessConfigModel extends Model
         self::WHATSAPP,
         self::WEBSITE,
         self::TICKET_FOOTER,
+        self::PRINTER_NAME,
+        self::PRINTER_HOST,
     ];
 
     public function users(): HasMany
