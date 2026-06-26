@@ -33,6 +33,8 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     sqlite3 \
     libsqlite3-dev \
+    nginx \
+    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd \
     && rm -rf /var/lib/apt/lists/*
@@ -42,9 +44,11 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Entrypoint
+# Entrypoint y configs
 COPY docker/php/*.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh
+COPY docker/nginx/default.conf /etc/nginx/sites-available/default
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /var/www/html
 
@@ -63,4 +67,4 @@ RUN mkdir -p /var/www/.cache storage/framework/sessions storage/framework/views 
     && chmod -R 775 storage bootstrap/cache
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
