@@ -21,18 +21,13 @@ RUN pnpm run build
 FROM php:8.4-fpm AS php
 
 RUN apt-get update && apt-get install -y \
-    default-mysql-client \
-    mariadb-client \
     libzip-dev \
     libonig-dev \
     unzip \
-    zip \
     git \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    sqlite3 \
-    libsqlite3-dev \
     nginx \
     supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
