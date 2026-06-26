@@ -1,7 +1,8 @@
-import { Coffee, ShoppingCart, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useGetBusinessConfig } from "@/services/useBusinessConfigService";
 import { ApisEnum } from "@/configs/apisEnum";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { BusinessLogo } from "@/components/BusinessLogo/BusinessLogo";
 
 interface SidebarBrandProps {
     onClose: () => void;
@@ -21,11 +22,11 @@ export function SidebarBrand({ onClose }: SidebarBrandProps) {
                     className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
                     style={{ backgroundColor: "var(--color-primary)" }}
                 >
-                    {logoUrl ? (
-                        <img src={logoUrl} alt={appName} className="w-full h-full object-cover" />
-                    ) : (
-                        <ShoppingCart size={16} className="text-white" />
-                    )}
+                    <BusinessLogo
+                        logoUrl={logoUrl}
+                        logoIcon={config?.logo_icon ?? null}
+                        size={16}
+                    />
                 </div>
                 <span
                     className="font-bold text-base tracking-tight"

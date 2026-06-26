@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SuperAdmin\AppSettingController;
 use App\Http\Controllers\SuperAdmin\SubscriptionController;
 use App\Http\Controllers\SuperAdmin\SuperAdminAuthController;
 use App\Http\Controllers\SuperAdmin\TenantManagementController;
@@ -11,6 +12,11 @@ Route::prefix('super-admin')->group(function () {
     Route::post('auth/login', [SuperAdminAuthController::class, 'login']);
 
     Route::middleware(['auth:sanctum', SuperAdminMiddleware::class])->group(function () {
+        Route::prefix('settings')->controller(AppSettingController::class)->group(function () {
+            Route::get('', 'show');
+            Route::put('', 'update');
+        });
+
         Route::prefix('subscription')->controller(SubscriptionController::class)->group(function () {
             Route::get('', 'index');
             Route::post('{tenant}', 'store');

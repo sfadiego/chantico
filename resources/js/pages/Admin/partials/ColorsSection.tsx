@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Save } from "lucide-react";
+import { RotateCcw, Save } from "lucide-react";
 import { IBusinessConfig } from "@/models/IBusinessConfig";
 import { useColorsSection } from "./useColorsSection";
 
@@ -84,6 +84,7 @@ export function ColorsSection({ config }: ColorsSectionProps) {
         labelColor, setLabelColor,
         saving,
         handleSubmit,
+        handleReset,
     } = useColorsSection(config);
 
     return (
@@ -180,7 +181,7 @@ export function ColorsSection({ config }: ColorsSectionProps) {
                     </div>
                 </div>
 
-                <div>
+                <div className="flex items-center gap-3 flex-wrap">
                     <button
                         type="submit"
                         disabled={saving}
@@ -188,6 +189,15 @@ export function ColorsSection({ config }: ColorsSectionProps) {
                     >
                         <Save size={15} />
                         {saving ? "Guardando…" : "Guardar cambios"}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        disabled={saving}
+                        className="flex items-center gap-2 px-4 py-2.5 border border-stone-200 hover:bg-stone-50 disabled:opacity-60 text-stone-500 text-sm font-medium rounded-lg transition-colors"
+                    >
+                        <RotateCcw size={14} />
+                        Restablecer
                     </button>
                 </div>
             </form>

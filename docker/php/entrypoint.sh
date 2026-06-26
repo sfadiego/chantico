@@ -3,6 +3,12 @@ set -e
 
 APP_DIR="/var/www/html"
 
+# El volumen persistente se monta en storage/app/private antes de que arranque
+# el contenedor, pero puede estar vacío o con permisos incorrectos en el primer deploy.
+mkdir -p "$APP_DIR/storage/app/private"
+chown -R www-data:www-data "$APP_DIR/storage/app/private"
+chmod -R 775 "$APP_DIR/storage/app/private"
+
 # setup laravel
 /usr/local/bin/laravel_setup.sh || echo "Aviso: Falló el setup de Laravel"
 

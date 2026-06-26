@@ -25,6 +25,7 @@ class TenantUpdateRequest extends FormRequest
             BusinessConfigModel::SIDEBAR_COLOR => 'required|string|max:20',
             BusinessConfigModel::FONT_COLOR => 'required|string|max:20',
             BusinessConfigModel::LABEL_COLOR => 'required|string|max:20',
+            BusinessConfigModel::LOGO_ICON => 'nullable|string|max:50',
         ];
     }
 }

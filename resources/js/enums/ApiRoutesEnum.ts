@@ -11,4 +11,5 @@ export enum ApiRoutes {
     SuperAdminAuth         = "/api/super-admin/auth",
     SuperAdminTenant       = "/api/super-admin/tenant",
     SuperAdminSubscription = "/api/super-admin/subscription",
+    SuperAdminSettings     = "/api/super-admin/settings",
 }

@@ -28,6 +28,7 @@ class BusinessConfigUpdateRequest extends FormRequest
             'ticket_footer' => 'nullable|string|max:100',
             'printer_name'  => 'nullable|string|max:100',
             'printer_host'  => 'nullable|string|max:100',
+            'logo_icon'     => 'nullable|string|max:50',
         ];
     }
 }

@@ -44,6 +44,7 @@ export const useTenantForm = (tenantId?: number) => {
             sidebar_color:  tenant?.sidebar_color ?? "#1e293b",
             font_color:     tenant?.font_color ?? "#ffffff",
             label_color:    tenant?.label_color ?? "#1e293b",
+            logo_icon: tenant?.logo_icon ?? "",
             admin_nombre:   "",
             admin_apellido: "",
             admin_email:    "",
@@ -54,7 +55,10 @@ export const useTenantForm = (tenantId?: number) => {
         onSubmit: async (values, helpers) => {
             try {
                 if (isEdit) {
-                    await updateMutation.mutateAsync({ id: tenantId, data: values });
+                    await updateMutation.mutateAsync({
+                        id: tenantId,
+                        data: { ...values, logo_icon: values.logo_icon || null },
+                    });
                     toast.success("Cliente actualizado.");
                 } else {
                     await createMutation.mutateAsync(values as any);

@@ -1,11 +1,12 @@
-import { Building2, LogOut, LayoutDashboard, CreditCard } from "lucide-react";
+import { Building2, LogOut, LayoutDashboard, CreditCard, Settings2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { superAdminAuth } from "@/contexts/SuperAdminContext";
 import { SuperAdminRoutes } from "@/enums/RoutesEnum";
 
 const NAV_ITEMS = [
-    { to: SuperAdminRoutes.Tenants,       label: "Clientes",       icon: <LayoutDashboard size={16} /> },
-    { to: SuperAdminRoutes.Subscriptions, label: "Suscripciones",  icon: <CreditCard size={16} /> },
+    { to: SuperAdminRoutes.Tenants,       label: "Clientes",        icon: <LayoutDashboard size={16} /> },
+    { to: SuperAdminRoutes.Subscriptions, label: "Suscripciones",   icon: <CreditCard size={16} /> },
+    { to: SuperAdminRoutes.Settings,      label: "Configuración",   icon: <Settings2 size={16} /> },
 ];
 
 export function SuperAdminLayout({ children }: { children: React.ReactNode }) {

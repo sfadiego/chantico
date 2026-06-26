@@ -1,8 +1,11 @@
 import { useParams, Navigate } from "react-router-dom";
-import { Coffee, AlertTriangle, ShoppingCart } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { TenantSidePanel } from "@/components/auth/TenantSidePanel";
+import { BusinessLogo } from "@/components/BusinessLogo/BusinessLogo";
 import { useTenantLoginPage } from "./useTenantLoginPage";
+import { ApisEnum } from "@/configs/apisEnum";
+import { ApiRoutes } from "@/enums/ApiRoutesEnum";
 
 export default function TenantLoginPage() {
     const { slug } = useParams<{ slug: string }>();
@@ -34,6 +37,10 @@ export default function TenantLoginPage() {
         );
     }
 
+    const logoUrl = tenant?.logo_path
+        ? `${ApisEnum.BaseUrl}${ApiRoutes.Files}/${tenant.logo_path}`
+        : null;
+
     return (
         <div className="min-h-screen flex">
             <TenantSidePanel tenant={tenant} isLoading={isLoading} />
@@ -46,7 +53,12 @@ export default function TenantLoginPage() {
                             className="rounded-2xl p-4 shadow-lg"
                             style={{ backgroundColor: "var(--color-primary)" }}
                         >
-                            <ShoppingCart size={36} className="text-white" />
+                            <BusinessLogo
+                                logoUrl={logoUrl}
+                                logoIcon={tenant?.logo_icon ?? null}
+                                size={36}
+                                imgClassName="w-9 h-9 object-contain"
+                            />
                         </div>
                     </div>
 

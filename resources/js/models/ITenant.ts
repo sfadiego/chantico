@@ -8,6 +8,7 @@ export interface ITenant {
     font_color: string;
     label_color: string;
     logo_path: string | null;
+    logo_icon: string | null;
     users_count?: number;
     created_at: string;
     updated_at: string;
@@ -36,4 +37,5 @@ export interface IUpdateTenantPayload {
     sidebar_color: string;
     font_color: string;
     label_color: string;
+    logo_icon: string | null;
 }

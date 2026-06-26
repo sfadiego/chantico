@@ -47,6 +47,8 @@ class BusinessConfigModel extends Model
 
     const PRINTER_HOST = 'printer_host';
 
+    const LOGO_ICON = 'logo_icon';
+
     protected $casts = [
         self::ACTIVO => 'boolean',
     ];
@@ -69,6 +71,7 @@ class BusinessConfigModel extends Model
         self::TICKET_FOOTER,
         self::PRINTER_NAME,
         self::PRINTER_HOST,
+        self::LOGO_ICON,
     ];
 
     public function users(): HasMany

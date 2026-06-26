@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\SubscriptionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessConfigUpdateRequest;
+use App\Models\AppSettingModel;
 use App\Models\ProductImageModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ class BusinessConfigController extends Controller
 {
     public function show(Request $request): JsonResponse
     {
-        return Response::success($request->user()->tenant);
+        $tenant = $request->user()->tenant->toArray();
+        $tenant['logo_upload_enabled'] = (bool) AppSettingModel::getValue('logo_upload_enabled', '0');
+
+        return Response::success($tenant);
     }
 
     public function update(BusinessConfigUpdateRequest $request): JsonResponse
@@ -35,6 +39,7 @@ class BusinessConfigController extends Controller
             'ticket_footer' => $request->ticket_footer,
             'printer_name'  => $request->printer_name,
             'printer_host'  => $request->printer_host,
+            'logo_icon'     => $request->logo_icon,
         ]);
 
         return Response::success($tenant->fresh());

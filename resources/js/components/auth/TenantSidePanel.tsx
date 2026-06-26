@@ -1,7 +1,8 @@
-import { BarChart2, ShoppingBag, ShoppingCart, ShoppingCartIcon } from "lucide-react";
+import { BarChart2, ShoppingBag, ShoppingCartIcon } from "lucide-react";
 import { IBusinessConfig } from "@/models/IBusinessConfig";
 import { ApisEnum } from "@/configs/apisEnum";
 import { ApiRoutes } from "@/enums/ApiRoutesEnum";
+import { BusinessLogo } from "@/components/BusinessLogo/BusinessLogo";
 
 interface Props {
     tenant: IBusinessConfig | undefined;
@@ -18,6 +19,7 @@ export const TenantSidePanel = ({ tenant, isLoading }: Props) => {
     const logoUrl = tenant?.logo_path
         ? `${ApisEnum.BaseUrl}${ApiRoutes.Files}/${tenant.logo_path}`
         : null;
+    const logoIcon = tenant?.logo_icon ?? null;
 
     return (
         <div
@@ -36,14 +38,13 @@ export const TenantSidePanel = ({ tenant, isLoading }: Props) => {
                 <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-7 mb-8 shadow-xl">
                     {isLoading ? (
                         <div className="w-14 h-14 rounded-full bg-white/30 animate-pulse" />
-                    ) : logoUrl ? (
-                        <img
-                            src={logoUrl}
-                            alt={tenant?.business_name}
-                            className="w-14 h-14 object-contain rounded-xl"
-                        />
                     ) : (
-                        <ShoppingCart size={56} className="text-white" />
+                        <BusinessLogo
+                            logoUrl={logoUrl}
+                            logoIcon={logoIcon}
+                            size={56}
+                            imgClassName="w-14 h-14 object-contain rounded-xl"
+                        />
                     )}
                 </div>
 

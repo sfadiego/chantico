@@ -3,14 +3,21 @@ import { toast } from "react-toastify";
 import { useUpdateBusinessConfig } from "@/services/useBusinessConfigService";
 import { IBusinessConfig } from "@/models/IBusinessConfig";
 
+const DEFAULTS = {
+    primary_color: "#F59E0B",
+    sidebar_color: "#1C1917",
+    font_color:    "#FFFFFF",
+    label_color:   "#1C1917",
+};
+
 export const useColorsSection = (config: IBusinessConfig | undefined) => {
     const { mutate: update, isPending: saving } = useUpdateBusinessConfig();
 
     const [businessName, setBusinessName] = useState("");
-    const [primaryColor, setPrimaryColor] = useState("#f59e0b");
-    const [sidebarColor, setSidebarColor] = useState("#1c1917");
-    const [fontColor, setFontColor] = useState("#1c1917");
-    const [labelColor, setLabelColor] = useState("#1c1917");
+    const [primaryColor, setPrimaryColor] = useState(DEFAULTS.primary_color);
+    const [sidebarColor, setSidebarColor] = useState(DEFAULTS.sidebar_color);
+    const [fontColor, setFontColor] = useState(DEFAULTS.font_color);
+    const [labelColor, setLabelColor] = useState(DEFAULTS.label_color);
 
     useEffect(() => {
         if (!config) return;
@@ -38,12 +45,29 @@ export const useColorsSection = (config: IBusinessConfig | undefined) => {
                 sidebar_color: sidebarColor,
                 font_color: fontColor,
                 label_color: labelColor,
+                phone:         config?.phone         ?? null,
+                address:       config?.address       ?? null,
+                facebook:      config?.facebook      ?? null,
+                instagram:     config?.instagram     ?? null,
+                whatsapp:      config?.whatsapp      ?? null,
+                website:       config?.website       ?? null,
+                ticket_footer: config?.ticket_footer ?? null,
+                printer_name:  config?.printer_name  ?? null,
+                printer_host:  config?.printer_host  ?? null,
+                logo_icon:     config?.logo_icon     ?? null,
             },
             {
                 onSuccess: () => toast.success("Configuración guardada"),
                 onError: () => toast.error("Error al guardar"),
             },
         );
+    };
+
+    const handleReset = () => {
+        setPrimaryColor(DEFAULTS.primary_color);
+        setSidebarColor(DEFAULTS.sidebar_color);
+        setFontColor(DEFAULTS.font_color);
+        setLabelColor(DEFAULTS.label_color);
     };
 
     return {
@@ -54,5 +78,6 @@ export const useColorsSection = (config: IBusinessConfig | undefined) => {
         labelColor, setLabelColor,
         saving,
         handleSubmit,
+        handleReset,
     };
 };
