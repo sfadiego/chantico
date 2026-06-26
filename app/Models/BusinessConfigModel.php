@@ -87,12 +87,12 @@ class BusinessConfigModel extends Model
     }
 
     /** Crea el tenant por defecto si no existe (usado en seeders). */
-    public static function createDefault(string $slug = 'default'): self
+    public static function createDefault(string $slug = 'pos-app'): self
     {
         return self::firstOrCreate(
             [self::SLUG => $slug],
             [
-                self::BUSINESS_NAME => env('APP_FULL_NAME', 'Chantico'),
+                self::BUSINESS_NAME => env('APP_FULL_NAME', 'pos-app'),
                 self::PRIMARY_COLOR => '#f59e0b',
                 self::SIDEBAR_COLOR => '#1c1917',
                 self::FONT_COLOR => '#ffffff',

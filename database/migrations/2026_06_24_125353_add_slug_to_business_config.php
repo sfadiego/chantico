@@ -14,7 +14,7 @@ return new class extends Migration
         });
 
         // Asignar slug al tenant existente
-        DB::table('business_config')->whereNull('slug')->update(['slug' => 'default']);
+        DB::table('business_config')->whereNull('slug')->update(['slug' => 'pos-app']);
     }
 
     public function down(): void

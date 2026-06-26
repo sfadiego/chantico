@@ -9,11 +9,11 @@ class BusinessConfigSeeder extends Seeder
 {
     public function run(): void
     {
-        $slug = env('APP_TENANT_SLUG', 'default');
+        $slug = env('APP_TENANT_SLUG', 'pos-app');
 
         // Si ya existe un registro sin slug (migración previa), asignarle el slug
         $existing = BusinessConfigModel::whereNull('slug')->first()
-            ?? BusinessConfigModel::where('slug', 'default')->first();
+            ?? BusinessConfigModel::where('slug', 'pos-app')->first();
 
         if ($existing) {
             $existing->update(['slug' => $slug]);
