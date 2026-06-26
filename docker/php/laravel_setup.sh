@@ -11,6 +11,9 @@ chmod -R 777 storage bootstrap/cache
 echo "Ejecutando migraciones..."
 php artisan migrate --force || echo "Migraciones fallidas o ya ejecutadas"
 
+echo "Ejecutando seeders..."
+php artisan db:seed --force || echo "Seeders fallidos o ya ejecutados"
+
 echo "Limpiando caches..."
 php artisan config:clear || true
 php artisan view:clear  || true
