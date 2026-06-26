@@ -15,13 +15,16 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
+                    // React core + router
                     "vendor-react": ["react", "react-dom", "react-router-dom"],
-                    "vendor-query": ["@tanstack/react-query"],
+                    // HTTP + estado servidor
+                    "vendor-data": ["axios", "@tanstack/react-query"],
+                    // UI components
                     "vendor-mantine": ["@mantine/core", "mantine-datatable"],
-                    "vendor-form": ["formik", "yup"],
-                    "vendor-ui": ["sweetalert2", "react-toastify"],
+                    // Formularios + notificaciones
+                    "vendor-app": ["formik", "yup", "sweetalert2", "react-toastify"],
+                    // Iconos (grande pero estático)
                     "vendor-icons": ["lucide-react"],
-                    "vendor-axios": ["axios"],
                 },
             },
         },
