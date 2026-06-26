@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('business_config', function (Blueprint $table) {
             $table->string('printer_name', 100)->nullable()->after('ticket_footer');
-            $table->string('printer_host', 100)->nullable()->after('printer_name');
+            $table->string('printer_host', 100)->nullable()->default('192.168.123.100')->after('printer_name');
         });
     }
 

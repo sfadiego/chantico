@@ -48,7 +48,7 @@ export const PrinterSection = ({ config }: PrinterSectionProps) => {
                         value={formik.values.printer_host}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        placeholder="192.168.1.100"
+                        placeholder="192.168.123.100"
                         maxLength={100}
                         className="w-full px-3.5 py-2.5 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
                     />
