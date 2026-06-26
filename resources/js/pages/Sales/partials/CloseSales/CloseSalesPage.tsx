@@ -22,6 +22,8 @@ export default function CloseSalesPage() {
         efectivoInicio,
         totalDia,
         efectivoCierre,
+        hasActiveOrders,
+        activeOrdersCount,
         isLoading,
         isClosing,
         handleClose,
@@ -144,10 +146,23 @@ export default function CloseSalesPage() {
                 </div>
             </div>
 
+            {/* Aviso de órdenes activas */}
+            {hasActiveOrders && (
+                <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mb-4">
+                    <AlertCircle size={18} className="text-amber-500 shrink-0 mt-0.5" />
+                    <div>
+                        <p className="text-sm font-semibold text-amber-800">No puedes cerrar la caja</p>
+                        <p className="text-sm text-amber-700 mt-0.5">
+                            Tienes {activeOrdersCount} {activeOrdersCount === 1 ? "mesa activa" : "mesas activas"}. Finaliza todas las órdenes antes de cerrar.
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {/* Close button */}
             <button
                 onClick={handleClose}
-                disabled={isClosing}
+                disabled={isClosing || hasActiveOrders}
                 className="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold px-6 py-3.5 rounded-2xl transition-colors text-sm"
             >
                 <Lock size={16} />

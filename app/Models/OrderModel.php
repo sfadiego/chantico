@@ -107,14 +107,14 @@ class OrderModel extends Model
 
     public static function hasActiveOrders(MainOrderReportModel $system): int
     {
-        return $system
+        $result = $system
             ->whereHas('orders')
             ->with(['orders' => function ($q) {
                 $q->whereDate('created_at', now());
                 $q->where('estatus_pedido_id', OrderStatusEnum::IN_PROCESS);
             }])
-            ->first()
-            ->orders
-            ->count();
+            ->first();
+
+        return $result?->orders?->count() ?? 0;
     }
 }
