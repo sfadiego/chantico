@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(base_path('routes/modules/auth.php'));
 
+// Reporte de errores del frontend — público, sin auth
+Route::post('client-error', [\App\Http\Controllers\ClientErrorController::class, 'store']);
+
 // Archivos estáticos — acceso público, el path actúa como token opaco
 require base_path('routes/modules/files.php');
 
