@@ -77,7 +77,15 @@ export const AxiosProvider = ({ children }: IAuthProviderProps) => {
                 const status = error.response?.status;
                 const code   = error.response?.data?.code;
 
+                const isAuthenticated = !!localStorage.getItem("authToken");
+
                 if (status === 401 || (status === 403 && code === ApiErrorCodeEnum.TenantInactive)) {
+                    logout();
+                }
+
+                // Solo cerrar sesión por suscripción vencida si ya había una sesión activa.
+                // Durante el login no hay token, así que el error llega al catch del formulario.
+                if (status === 403 && code === ApiErrorCodeEnum.SubscriptionExpired && isAuthenticated) {
                     logout();
                 }
                 return Promise.reject(error);

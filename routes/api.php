@@ -17,7 +17,7 @@ require base_path('routes/modules/tenant.php');
 // Panel super-admin
 require base_path('routes/modules/superadmin.php');
 
-Route::middleware(['auth:sanctum', ResolveTenant::class])->group(function () {
+Route::middleware(['auth:sanctum', ResolveTenant::class, 'check.subscription'])->group(function () {
     require base_path('routes/modules/categories.php');
     require base_path('routes/modules/orders.php');
     require base_path('routes/modules/products.php');

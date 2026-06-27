@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SubscriptionStatusEnum;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\BusinessConfigModel;
@@ -49,6 +50,23 @@ class AuthController extends Controller
                 $result['user']->tokens()->latest()->first()?->delete();
 
                 return Response::error(__('Credenciales no válidas.'));
+            }
+        }
+
+        // Bloquear acceso si la suscripción está vencida o nunca fue activada
+        $tenant = $result['user']->tenant;
+        if ($tenant) {
+            $sub = $tenant->latestSubscription;
+            $status = $sub?->status ?? SubscriptionStatusEnum::Pending->value;
+
+            if ($status === SubscriptionStatusEnum::Expired->value || $status === SubscriptionStatusEnum::Pending->value) {
+                $result['user']->tokens()->latest()->first()?->delete();
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Suscripción inactiva. Contacta al administrador para renovarla.',
+                    'code' => 'SUBSCRIPTION_EXPIRED',
+                ], 403);
             }
         }
 
