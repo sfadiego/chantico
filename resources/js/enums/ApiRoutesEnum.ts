@@ -7,6 +7,7 @@ export enum ApiRoutes {
     Statistics = "/api/admin/system/statistics",
     BusinessConfig = "/api/admin/config",
     Files = "/api/files",
+    PrintBytes = "/api/order/:id/print/bytes",
     Tenant = "/api/tenant",
     SuperAdminAuth         = "/api/super-admin/auth",
     SuperAdminTenant       = "/api/super-admin/tenant",

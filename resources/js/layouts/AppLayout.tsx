@@ -4,6 +4,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Navbar } from "./Navbar/Navbar";
 import { LayoutProvider } from "@/contexts/LayoutContext";
+import { PrintAgentProvider } from "@/contexts/PrintAgentContext";
 import { useGetActiveSale } from "@/services/useOpenSalesService";
 import { useGetBusinessConfig } from "@/services/useBusinessConfigService";
 import { AdminRoutes } from "@/enums/RoutesEnum";
@@ -45,6 +46,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     const handleMenuClick = () => setSidebarOpen((prev) => !prev);
 
     return (
+        <PrintAgentProvider>
         <LayoutProvider onToggleSidebar={handleMenuClick}>
             <div className="flex h-screen bg-stone-50 overflow-hidden">
                 {sidebarOpen && (
@@ -70,5 +72,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 </div>
             </div>
         </LayoutProvider>
+        </PrintAgentProvider>
     );
 }

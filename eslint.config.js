@@ -16,6 +16,7 @@ export default [
             "public/**",
             "bootstrap/ssr/**",
             "tailwind.config.js",
+            "scripts/**",
         ],
     },
     // 2. Configuración base para JS y TS
