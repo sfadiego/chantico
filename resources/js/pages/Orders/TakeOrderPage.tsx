@@ -72,8 +72,8 @@ export default function TakeOrderPage() {
                 </div>
             </div>
 
-            {/* Mobile */}
-            <div className="lg:hidden flex flex-col h-full overflow-hidden">
+            {/* Mobile — overlay de pantalla completa independiente del layout padre */}
+            <div className="lg:hidden fixed inset-0 z-10 flex flex-col bg-stone-50">
                 <Header
                     title={order?.nombre_pedido ?? "Tomar pedido"}
                     isReadOnly={isReadOnly}
@@ -81,7 +81,7 @@ export default function TakeOrderPage() {
                     onAddExtra={openExtra}
                     compact
                 />
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overflow-y-auto">
                     {mobileTab === "products" ? (
                         <ProductGrid
                             products={products}
