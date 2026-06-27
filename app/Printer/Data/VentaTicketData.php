@@ -5,7 +5,7 @@ namespace App\Printer\Data;
 use App\Models\BusinessConfigModel;
 use App\Models\OrderModel;
 use App\Printer\Dto\TicketDataInterface;
-use App\Utils\Utils;
+use Carbon\Carbon;
 
 class VentaTicketData implements TicketDataInterface
 {
@@ -21,14 +21,22 @@ class VentaTicketData implements TicketDataInterface
         return 'venta';
     }
 
+    private static function fechaString(\DateTimeInterface|string $createdAt): string
+    {
+        $meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        $date  = Carbon::parse($createdAt)->setTimezone(config('app.timezone'));
+
+        return $date->day.' de '.$meses[$date->month - 1].' del '.$date->year;
+    }
+
     public function toArray(): array
     {
         $order = $this->venta->load('orderProducts.product');
         $config = BusinessConfigModel::find($order->tenant_id);
 
-        $products = $order->orderProducts->map(function ($item) {
-            $lineTotal = $item->precio * $item->cantidad;
-            $discount = $lineTotal * ($item->descuento / 100);
+        $products = $order->orderProducts->map(function ($item): array {
+            $lineTotal = (float) $item->precio * (float) $item->cantidad;
+            $discount  = $lineTotal * ((float) $item->descuento / 100);
 
             return [
                 'nombre' => $item->nombre_extra ?? $item->product?->nombre ?? '—',
@@ -48,8 +56,8 @@ class VentaTicketData implements TicketDataInterface
             'descuento' => (float) $order->descuento,
             'total' => (float) $order->total,
             'created_at' => $order->created_at,
-            'fecha_string' => Utils::getDateAsString((string) $order->created_at),
-            'hora' => date('H:i', strtotime((string) $order->created_at)),
+            'fecha_string' => self::fechaString($order->created_at),
+            'hora' => Carbon::parse($order->created_at)->setTimezone(config('app.timezone'))->format('H:i'),
             'products' => $products,
             'business' => [
                 'name' => $config?->business_name ?? env('APP_FULL_NAME', 'Punto de venta'),

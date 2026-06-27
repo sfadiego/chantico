@@ -25,9 +25,7 @@ class VentaFormatter implements TicketFormatterInterface
         // ─── Encabezado ───────────────────────────────────────
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setEmphasis(true);
-        $printer->setTextSize(2, 1);
         $printer->text($business['name']."\n");
-        $printer->setTextSize(1, 1);
         $printer->setEmphasis(false);
         $printer->feed(1);
         $printer->text($d['fecha_string'].'  '.$d['hora']."\n");
