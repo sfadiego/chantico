@@ -44,7 +44,7 @@ class OrderProductModel extends Model
         return $this->hasOne(ProductModel::class, 'id', self::PRODUCTO_ID);
     }
 
-    public static function top3BestSeller(?Carbon $start = null, ?Carbon $end = null)
+    public static function top3BestSeller(?Carbon $start = null, ?Carbon $end = null, ?int $sistemaId = null)
     {
         $query = OrderProductModel::whereHas('product')
             ->with(['product'])
@@ -52,6 +52,7 @@ class OrderProductModel extends Model
             ->where('order.estatus_pedido_id', OrderStatusEnum::CLOSED->value)
             ->select(DB::raw('SUM(order_product.cantidad) as sumatoria'), 'order_product.producto_id')
             ->when($start && $end, fn ($q) => $q->whereBetween('order_product.created_at', [$start, $end]))
+            ->when($sistemaId, fn ($q) => $q->where('order.sistema_id', $sistemaId))
             ->groupBy('order_product.producto_id')
             ->orderByDesc('sumatoria')
             ->limit(3)

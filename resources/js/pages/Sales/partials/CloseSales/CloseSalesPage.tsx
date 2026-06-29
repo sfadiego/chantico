@@ -1,5 +1,6 @@
 import { DollarSign, TrendingUp, Wallet, CalendarClock, User, MessageSquare, AlertCircle, Lock } from "lucide-react";
 import { useCloseSalesPage } from "./useCloseSalesPage";
+import BestSellerWidget from "./BestSellerWidget";
 
 const formatCurrency = (value: number) =>
     new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value);
@@ -19,6 +20,7 @@ const formatDate = (dateStr?: string) => {
 export default function CloseSalesPage() {
     const {
         activeSale,
+        sistemaId,
         efectivoInicio,
         totalDia,
         efectivoCierre,
@@ -145,6 +147,9 @@ export default function CloseSalesPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Más vendido del día */}
+            <BestSellerWidget sistemaId={sistemaId} />
 
             {/* Aviso de órdenes activas */}
             {hasActiveOrders && (
