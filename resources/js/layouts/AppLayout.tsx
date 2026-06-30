@@ -8,6 +8,7 @@ import { PrintAgentProvider } from "@/contexts/PrintAgentContext";
 import { useGetActiveSale } from "@/services/useOpenSalesService";
 import { useGetBusinessConfig } from "@/services/useBusinessConfigService";
 import { AdminRoutes } from "@/enums/RoutesEnum";
+import { getRoleLabel } from "@/components/Role/RoleBadge";
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -41,7 +42,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     }, [config]);
 
     const userName = user ? `${user.nombre} ${user.apellido_paterno}` : "Usuario";
-    const userRole = user?.rol_id === 1 ? "Administrador" : "Empleado";
+    const userRole = user ? getRoleLabel(user.rol_id) : "";
 
     const handleMenuClick = () => setSidebarOpen((prev) => !prev);
 

@@ -33,7 +33,8 @@ export const useTakeOrder = () => {
 
     const { data: order, isLoading: loadingOrder } = useShowOrder(orderId);
 
-    const isReadOnly = !!order && order.estatus_pedido_id !== OrderStatusEnum.InProcess;
+    const editableStatuses = [OrderStatusEnum.InProcess, OrderStatusEnum.ReadyToServe];
+    const isReadOnly = !!order && !editableStatuses.includes(order.estatus_pedido_id);
 
     const cart: CartItem[] = (order?.order_products ?? []).map((op) => ({
         orderProductId: op.id!,

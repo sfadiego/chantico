@@ -1,6 +1,6 @@
 import { ColumnProperties } from "@/components/Tables/columnProperties";
 import { DataTableColumn } from "mantine-datatable";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export type DataTableRenderersMap = {
     [key: string]: (record: any) => any;
@@ -13,17 +13,25 @@ interface UseDataTableParams {
     payload?: any;
     columnProperties?: ColumnProperties<unknown>;
     renderersMap?: DataTableRenderersMap;
+    refetchInterval?: number;
 }
 export const useDataTable = ({
     service,
     payload = {},
     renderersMap = {},
     columnProperties = {} as ColumnProperties<unknown>,
+    refetchInterval,
 }: UseDataTableParams) => {
     const [page, setPage] = useState(1);
     const pageSize = [10, 20, 30, 50, 100];
     const [limit, setLimit] = useState(pageSize[0]);
     const { data, isLoading, refetch } = service({ page, limit, ...payload });
+
+    useEffect(() => {
+        if (!refetchInterval) return;
+        const id = setInterval(() => refetch(), refetchInterval);
+        return () => clearInterval(id);
+    }, [refetchInterval, refetch]);
 
     const applyRenderers = <T,>(
         columns: DataTableColumn<T>[],

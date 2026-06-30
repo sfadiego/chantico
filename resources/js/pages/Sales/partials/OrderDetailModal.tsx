@@ -1,7 +1,7 @@
 import { Modal } from "@mantine/core";
 import { IOrder } from "@/models/IOrder";
 import { Receipt } from "lucide-react";
-import { getStatusStyle } from "@/pages/Dashboard/useDashboard";
+import { getStatusStyle, getStatusLabel } from "@/pages/Dashboard/useDashboard";
 
 interface OrderDetailModalProps {
     isOpen: boolean;
@@ -47,8 +47,8 @@ export const OrderDetailModal = ({ isOpen, order, onClose }: OrderDetailModalPro
                             <p className="text-lg font-bold text-stone-900">{order.nombre_pedido}</p>
                             <p className="text-xs text-stone-400 mt-0.5">{formatDate(order.created_at)}</p>
                         </div>
-                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ${getStatusStyle(order.status?.nombre)}`}>
-                            {order.status?.nombre ?? "—"}
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ${getStatusStyle(order.estatus_pedido_id)}`}>
+                            {getStatusLabel(order.estatus_pedido_id)}
                         </span>
                     </div>
 

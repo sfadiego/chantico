@@ -5,6 +5,7 @@ import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 import { useOrderActions } from "./useOrderActions";
 import { PayOrderButton } from "./PayOrderButton";
 import { PrintTicketButton } from "./PrintTicketButton";
+import { KitchenViewModal } from "./KitchenViewModal";
 
 interface OrderActionButtonsProps {
     order: IOrder;
@@ -27,6 +28,7 @@ export const OrderActionButtons = ({ order, onSuccess }: OrderActionButtonsProps
     } = useOrderActions(order, onSuccess);
 
     const isInProcess = order.estatus_pedido_id === OrderStatusEnum.InProcess;
+    const isKitchenVisible = [OrderStatusEnum.InProcess, OrderStatusEnum.ReadyToServe].includes(order.estatus_pedido_id);
 
     if (isEditing) {
         return (
@@ -76,6 +78,8 @@ export const OrderActionButtons = ({ order, onSuccess }: OrderActionButtonsProps
             >
                 <ExternalLink size={13} />
             </button>
+
+            {isKitchenVisible && <KitchenViewModal order={order} />}
 
             <PrintTicketButton orderId={order.id} />
 

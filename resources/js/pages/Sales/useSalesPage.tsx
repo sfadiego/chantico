@@ -5,7 +5,7 @@ import { useDataTable, DataTableRenderersMap } from "@/hooks/useDatatable";
 import { useIndexOrder } from "@/services/useOrderService";
 import { IOrder } from "@/models/IOrder";
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
-import { getStatusStyle } from "@/pages/Dashboard/useDashboard";
+import { getStatusStyle, getStatusLabel } from "@/pages/Dashboard/useDashboard";
 import { useOrderDetailModal } from "./partials/useOrderDetailModal";
 
 const renderersMap: DataTableRenderersMap = {
@@ -21,8 +21,8 @@ const renderersMap: DataTableRenderersMap = {
             minute: "2-digit",
         }),
     status: (o: IOrder) => (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.status?.nombre)}`}>
-            {o.status?.nombre ?? "—"}
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.estatus_pedido_id)}`}>
+            {getStatusLabel(o.estatus_pedido_id)}
         </span>
     ),
 };

@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { DataTable, DataTableColumn } from "mantine-datatable";
-import { Pencil, Trash2, ShieldCheck, User } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { IUser } from "@/models/IUser";
-import { RoleEnum } from "@/enums/RoleEnum";
+import RoleBadge from "@/components/Role/RoleBadge";
 
 interface UserTableProps {
     users: IUser[];
@@ -42,19 +42,7 @@ export const UserTable = ({ users, isLoading, onEdit, onDelete }: UserTableProps
                 accessor: "rol_id",
                 title: "Rol",
                 width: 120,
-                render: (user) => {
-                    const isAdmin = user.rol_id === RoleEnum.Admin;
-                    return (
-                        <span
-                            className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-                                isAdmin ? "bg-indigo-50 text-indigo-700" : "bg-slate-100 text-slate-600"
-                            }`}
-                        >
-                            {isAdmin ? <ShieldCheck size={11} /> : <User size={11} />}
-                            {isAdmin ? "Admin" : "Empleado"}
-                        </span>
-                    );
-                },
+                render: (user) => <RoleBadge rolId={user.rol_id} />,
             },
             {
                 accessor: "activo",

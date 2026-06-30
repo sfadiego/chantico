@@ -1,7 +1,7 @@
 import { X, Loader } from "lucide-react";
 import { IUser } from "@/models/IUser";
-import { RoleEnum } from "@/enums/RoleEnum";
 import { useUserModal } from "./useUserModal";
+import RoleSelect from "@/components/Role/RoleSelect";
 
 interface UserModalProps {
     tenantId: number;
@@ -45,15 +45,10 @@ export const UserModal = ({ tenantId, user, onClose }: UserModalProps) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-slate-700 mb-1.5">Rol</label>
-                            <select
-                                name="rol_id"
+                            <RoleSelect
                                 value={formik.values.rol_id}
                                 onChange={formik.handleChange}
-                                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                                <option value={RoleEnum.Admin}>Administrador</option>
-                                <option value={RoleEnum.Employe}>Empleado</option>
-                            </select>
+                            />
                         </div>
 
                         <div className="flex items-center gap-3 pt-6">

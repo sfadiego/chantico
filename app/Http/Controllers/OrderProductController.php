@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Requests\OrderProductStoreRequest;
 use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
@@ -67,6 +68,8 @@ class OrderProductController extends Controller
             'subtotal' => $orderDetail['subtotal'],
         ]);
 
+        $this->resetStatusIfReady($order);
+
         return Response::success($orderProduct->refresh());
     }
 
@@ -115,6 +118,8 @@ class OrderProductController extends Controller
             'subtotal' => $orderDetail['subtotal'],
         ]);
 
+        $this->resetStatusIfReady($order);
+
         return Response::success($data);
     }
 
@@ -134,6 +139,9 @@ class OrderProductController extends Controller
         $orderProduct->update([
             OrderProductModel::OBSERVACION => $request->input('observacion') ?: null,
         ]);
+
+        $order = OrderModel::find($orderId);
+        $this->resetStatusIfReady($order);
 
         return Response::success($orderProduct->refresh());
     }
@@ -161,6 +169,13 @@ class OrderProductController extends Controller
         ]);
 
         return Response::success('elemento borrado de la orden');
+    }
+
+    private function resetStatusIfReady(OrderModel $order): void
+    {
+        if ($order->estatus_pedido_id === OrderStatusEnum::READY_TO_SERVE->value) {
+            $order->update(['estatus_pedido_id' => OrderStatusEnum::IN_PROCESS->value]);
+        }
     }
 
     /**

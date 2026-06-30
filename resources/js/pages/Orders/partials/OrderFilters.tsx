@@ -1,17 +1,20 @@
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 import { Calendar, SlidersHorizontal, X } from "lucide-react";
 
+export const ACTIVE_STATUSES = `${OrderStatusEnum.InProcess},${OrderStatusEnum.ReadyToServe}`;
+
 const STATUS_OPTIONS = [
-    { value: OrderStatusEnum.InProcess, label: "En proceso", dot: "bg-amber-400" },
-    { value: OrderStatusEnum.Canceled, label: "Cancelado", dot: "bg-red-400" },
-    { value: OrderStatusEnum.Closed, label: "Cerrado", dot: "bg-emerald-400" },
+    { value: ACTIVE_STATUSES,                              label: "Activos",          dot: "bg-stone-400" },
+    { value: String(OrderStatusEnum.InProcess),            label: "En proceso",       dot: "bg-amber-400" },
+    { value: String(OrderStatusEnum.ReadyToServe),         label: "Lista para servir", dot: "bg-blue-400" },
+    { value: String(OrderStatusEnum.Closed),               label: "Cerrado",          dot: "bg-emerald-400" },
 ];
 
 interface OrderFiltersProps {
     fecha: string | null;
-    estatusId: number;
+    estatusId: string;
     onFechaChange: (value: string | null) => void;
-    onEstatusChange: (value: number) => void;
+    onEstatusChange: (value: string) => void;
     onClear: () => void;
 }
 
@@ -22,7 +25,7 @@ export const OrderFilters = ({
     onEstatusChange,
     onClear,
 }: OrderFiltersProps) => {
-    const hasActiveFilters = !!fecha || estatusId !== OrderStatusEnum.InProcess;
+    const hasActiveFilters = !!fecha || estatusId !== ACTIVE_STATUSES;
 
     return (
         <div className="flex flex-col gap-3 mb-5">

@@ -4,15 +4,29 @@ import { useGetActiveSale } from "@/services/useOpenSalesService";
 import { useIndexProducts } from "@/services/useProductService";
 import { useBestSeller } from "@/services/useStatisticsService";
 import { IOrder } from "@/models/IOrder";
+import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
-const statusStyles: Record<string, string> = {
-    "En proceso": "bg-amber-100 text-amber-700",
-    Cerrado: "bg-emerald-100 text-emerald-700",
-    Cancelado: "bg-red-100 text-red-600",
+const STATUS_STYLES: Record<number, string> = {
+    [OrderStatusEnum.InProcess]:    "bg-amber-100 text-amber-700",
+    [OrderStatusEnum.Closed]:       "bg-emerald-100 text-emerald-700",
+    [OrderStatusEnum.Canceled]:     "bg-red-100 text-red-600",
+    [OrderStatusEnum.ReadyToServe]: "bg-blue-100 text-blue-700",
+    [OrderStatusEnum.Deleted]:      "bg-stone-100 text-stone-400",
 };
 
-export const getStatusStyle = (nombre: string) =>
-    statusStyles[nombre] ?? "bg-stone-100 text-stone-600";
+const STATUS_LABELS: Record<number, string> = {
+    [OrderStatusEnum.InProcess]:    "En proceso",
+    [OrderStatusEnum.Closed]:       "Cerrado",
+    [OrderStatusEnum.Canceled]:     "Cancelado",
+    [OrderStatusEnum.ReadyToServe]: "Lista para servir",
+    [OrderStatusEnum.Deleted]:      "Eliminado",
+};
+
+export const getStatusStyle = (statusId: number) =>
+    STATUS_STYLES[statusId] ?? "bg-stone-100 text-stone-600";
+
+export const getStatusLabel = (statusId: number) =>
+    STATUS_LABELS[statusId] ?? "—";
 
 export const formatOrderTime = (dateStr: string) =>
     new Date(dateStr).toLocaleTimeString("es-MX", {

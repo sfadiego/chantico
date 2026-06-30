@@ -3,19 +3,19 @@ import { useAxios } from "@/hooks/useAxios";
 import { useDataTable, DataTableRenderersMap } from "@/hooks/useDatatable";
 import { useIndexOrder } from "@/services/useOrderService";
 import { IOrder } from "@/models/IOrder";
-import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
-import { getStatusStyle, formatOrderTime } from "@/pages/Dashboard/useDashboard";
+import { getStatusStyle, getStatusLabel, formatOrderTime } from "@/pages/Dashboard/useDashboard";
 import { DataTableColumn } from "mantine-datatable";
 import { OrderActionButtons } from "@/components/orders/OrderActionButtons";
+import { ACTIVE_STATUSES } from "./partials/OrderFilters";
 
 const renderersMap: DataTableRenderersMap = {
     total: (o: IOrder) => `$${o.total.toFixed(2)}`,
     subtotal: (o: IOrder) => `$${o.subtotal.toFixed(2)}`,
     descuento: (o: IOrder) => (o.descuento > 0 ? `${o.descuento}%` : "—"),
     created_at: (o: IOrder) => formatOrderTime(o.created_at),
-    status: (o: IOrder) => (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.status?.nombre)}`}>
-            {o.status?.nombre ?? "—"}
+    estatus_pedido_id: (o: IOrder) => (
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.estatus_pedido_id)}`}>
+            {getStatusLabel(o.estatus_pedido_id)}
         </span>
     ),
 };
@@ -30,7 +30,7 @@ const actionsColumn: DataTableColumn<IOrder> = {
 export const useOrderList = () => {
     const { sistemaId } = useAxios();
     const [fecha, setFecha] = useState<string | null>(null);
-    const [estatusId, setEstatusId] = useState<number>(OrderStatusEnum.InProcess);
+    const [estatusId, setEstatusId] = useState<string>(ACTIVE_STATUSES);
 
     const { dataTableProps, isLoading, refetch, setPage } = useDataTable({
         service: useIndexOrder,
@@ -40,6 +40,7 @@ export const useOrderList = () => {
             ...(fecha ? { fecha } : {}),
         },
         renderersMap,
+        refetchInterval: 10_000,
     });
 
     const enhancedDataTableProps = useMemo(
@@ -59,14 +60,14 @@ export const useOrderList = () => {
         setPage(1);
     };
 
-    const handleEstatusChange = (value: number) => {
+    const handleEstatusChange = (value: string) => {
         setEstatusId(value);
         setPage(1);
     };
 
     const handleClearFilters = () => {
         setFecha(null);
-        setEstatusId(OrderStatusEnum.InProcess);
+        setEstatusId(ACTIVE_STATUSES);
         setPage(1);
     };
 

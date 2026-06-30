@@ -14,11 +14,13 @@ class OrderStatusSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::IN_PROCESS)],
-            [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CANCELED)],
-            [OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CLOSED)],
+            ['id' => OrderStatusEnum::IN_PROCESS->value,    OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::IN_PROCESS)],
+            ['id' => OrderStatusEnum::CANCELED->value,      OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CANCELED)],
+            ['id' => OrderStatusEnum::CLOSED->value,        OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::CLOSED)],
+            ['id' => OrderStatusEnum::DELETED->value,       OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::DELETED)],
+            ['id' => OrderStatusEnum::READY_TO_SERVE->value, OrderStatusModel::NOMBRE => OrderStatusEnum::orderStatusName(OrderStatusEnum::READY_TO_SERVE)],
         ];
 
-        OrderStatusModel::insert($data);
+        OrderStatusModel::insertOrIgnore($data);
     }
 }

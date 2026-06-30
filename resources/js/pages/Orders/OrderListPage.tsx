@@ -2,10 +2,17 @@ import { DataTable } from "mantine-datatable";
 import { ClipboardList, RefreshCw, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "@/models/IOrder";
+import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 import { useOrderList } from "./useOrderList";
 import { OrderFilters } from "./partials/OrderFilters";
 import { NewOrderModal } from "@/components/orders/NewOrderModal";
 import { useNewOrderModal } from "@/components/orders/useNewOrderModal";
+
+const getRowClassName = ({ estatus_pedido_id }: IOrder): string => {
+    if (estatus_pedido_id === OrderStatusEnum.ReadyToServe) return "!bg-blue-50";
+    if (estatus_pedido_id === OrderStatusEnum.InProcess)    return "!bg-amber-50";
+    return "";
+};
 
 export default function OrderListPage() {
     const navigate = useNavigate();
@@ -83,6 +90,7 @@ export default function OrderListPage() {
                             navigate(`/take-order/${record.id}`)
                         }
                         rowStyle={() => ({ cursor: "pointer" })}
+                        rowClassName={(record: IOrder) => getRowClassName(record)}
                     />
                 </div>
             )}

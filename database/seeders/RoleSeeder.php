@@ -17,6 +17,8 @@ class RoleSeeder extends Seeder
             RoleEnum::getRoleName(RoleEnum::ADMIN),
             RoleEnum::getRoleName(RoleEnum::EMPLOYE),
             RoleEnum::getRoleName(RoleEnum::SUPERADMIN),
+            RoleEnum::getRoleName(RoleEnum::COCINA),
+            RoleEnum::getRoleName(RoleEnum::CAJA),
         ];
 
         foreach ($roles as $role) {
