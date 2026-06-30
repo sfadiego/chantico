@@ -82,9 +82,9 @@ class TenantUserController extends Controller
         $skipped = [];
 
         foreach ($seeds as $seed) {
-            $role     = $seed['role'];
+            $role = $seed['role'];
             $roleName = RoleEnum::getRoleName($role);
-            $email    = "{$roleName}@{$slug}.com";
+            $email = "{$roleName}@{$slug}.com";
 
             $exists = User::withoutGlobalScopes()
                 ->where(User::TENANT_ID, $tenant->id)
@@ -93,19 +93,20 @@ class TenantUserController extends Controller
 
             if ($exists) {
                 $skipped[] = $roleName;
+
                 continue;
             }
 
             User::create([
-                User::NOMBRE           => $seed['nombre'],
+                User::NOMBRE => $seed['nombre'],
                 User::APELLIDO_PATERNO => $slug,
                 User::APELLIDO_MATERNO => '',
-                User::EMAIL            => $email,
-                User::USUARIO          => "{$roleName}-{$slug}",
-                User::PASSWORD         => Hash::make("{$roleName}1234"),
-                User::ROL_ID           => $role->value,
-                User::ACTIVO           => true,
-                User::TENANT_ID        => $tenant->id,
+                User::EMAIL => $email,
+                User::USUARIO => "{$roleName}-{$slug}",
+                User::PASSWORD => Hash::make("{$roleName}1234"),
+                User::ROL_ID => $role->value,
+                User::ACTIVO => true,
+                User::TENANT_ID => $tenant->id,
             ]);
 
             $created[] = $roleName;
