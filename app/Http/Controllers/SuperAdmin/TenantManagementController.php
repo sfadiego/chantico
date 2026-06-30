@@ -8,9 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TenantStoreRequest;
 use App\Http\Requests\TenantUpdateRequest;
 use App\Models\BusinessConfigModel;
-use App\Models\MainOrderReportModel;
-use App\Models\OrderModel;
-use App\Models\OrderProductModel;
 use App\Models\User;
 use App\Services\TenantService;
 use Illuminate\Http\JsonResponse;
@@ -90,15 +87,16 @@ class TenantManagementController extends Controller
     {
         $tenantId = $tenant->id;
 
-        DB::transaction(function () use ($tenantId) {
-            $orderIds = OrderModel::withoutGlobalScopes()
-                ->where(OrderModel::TENANT_ID, $tenantId)
-                ->pluck('id');
+        $orderIds = DB::table('order')
+            ->where('tenant_id', $tenantId)
+            ->pluck('id');
 
-            OrderProductModel::whereIn(OrderProductModel::PEDIDO_ID, $orderIds)->delete();
-            OrderModel::withoutGlobalScopes()->where(OrderModel::TENANT_ID, $tenantId)->delete();
-            MainOrderReportModel::where(MainOrderReportModel::TENANT_ID, $tenantId)->delete();
-        });
+        if ($orderIds->isNotEmpty()) {
+            DB::table('order_product')->whereIn('pedido_id', $orderIds)->delete();
+            DB::table('order')->where('tenant_id', $tenantId)->delete();
+        }
+
+        DB::table('main_order_report')->where('tenant_id', $tenantId)->delete();
 
         return Response::success(true);
     }
