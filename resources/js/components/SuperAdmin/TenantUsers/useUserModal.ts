@@ -7,6 +7,7 @@ import { RoleEnum } from "@/enums/RoleEnum";
 
 interface UseUserModalParams {
     tenantId: number;
+    tenantSlug: string;
     user: IUser | null;
     onClose: () => void;
 }
@@ -25,7 +26,7 @@ const schema = (isEdit: boolean) =>
         activo:           Yup.boolean().required(),
     });
 
-export const useUserModal = ({ tenantId, user, onClose }: UseUserModalParams) => {
+export const useUserModal = ({ tenantId, tenantSlug, user, onClose }: UseUserModalParams) => {
     const isEdit = !!user;
     const createMutation = useCreateTenantUser(tenantId);
     const updateMutation = useUpdateTenantUser(tenantId);
@@ -36,7 +37,7 @@ export const useUserModal = ({ tenantId, user, onClose }: UseUserModalParams) =>
             nombre:           user?.nombre ?? "",
             apellido_paterno: user?.apellido_paterno ?? "",
             apellido_materno: user?.apellido_materno ?? "",
-            email:            user?.email ?? "",
+            email:            user?.email ?? (tenantSlug ? `@${tenantSlug}.com` : ""),
             usuario:          user?.usuario ?? "",
             password:         "",
             rol_id:           user?.rol_id ?? RoleEnum.Employe,

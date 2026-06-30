@@ -5,12 +5,13 @@ import RoleSelect from "@/components/Role/RoleSelect";
 
 interface UserModalProps {
     tenantId: number;
+    tenantSlug: string;
     user: IUser | null;
     onClose: () => void;
 }
 
-export const UserModal = ({ tenantId, user, onClose }: UserModalProps) => {
-    const { formik, isEdit } = useUserModal({ tenantId, user, onClose });
+export const UserModal = ({ tenantId, tenantSlug, user, onClose }: UserModalProps) => {
+    const { formik, isEdit } = useUserModal({ tenantId, tenantSlug, user, onClose });
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
@@ -32,7 +33,25 @@ export const UserModal = ({ tenantId, user, onClose }: UserModalProps) => {
                         <Field formik={formik} name="nombre" label="Nombre" />
                         <Field formik={formik} name="apellido_paterno" label="Apellido paterno" />
                         <Field formik={formik} name="apellido_materno" label="Apellido materno" />
-                        <Field formik={formik} name="email" label="Correo electrónico" type="email" />
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Correo electrónico</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                onFocus={(e) => {
+                                    if (!isEdit && formik.values.email.startsWith("@")) {
+                                        e.target.setSelectionRange(0, 0);
+                                    }
+                                }}
+                                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                            />
+                            {formik.touched.email && formik.errors.email && (
+                                <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
+                            )}
+                        </div>
                         <Field formik={formik} name="usuario" label="Usuario" />
                         <Field
                             formik={formik}

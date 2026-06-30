@@ -3,9 +3,12 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { IUser } from "@/models/IUser";
 import { useListTenantUsers, useDeleteTenantUser } from "@/services/useTenantUserService";
+import { useListTenants } from "@/services/useSuperAdminService";
 
 export const useTenantUsers = (tenantId: number) => {
     const { data: users = [], isLoading } = useListTenantUsers(tenantId);
+    const { data: tenants = [] } = useListTenants();
+    const tenantSlug = tenants.find((t) => t.id === tenantId)?.slug ?? "";
     const deleteMutation = useDeleteTenantUser(tenantId);
 
     const [modalUser, setModalUser] = useState<IUser | null | undefined>(undefined);
@@ -36,6 +39,7 @@ export const useTenantUsers = (tenantId: number) => {
     return {
         users,
         isLoading,
+        tenantSlug,
         modalUser,
         isModalOpen: modalUser !== undefined,
         openCreate,
