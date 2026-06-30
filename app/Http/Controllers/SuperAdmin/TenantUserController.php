@@ -101,7 +101,7 @@ class TenantUserController extends Controller
                 User::APELLIDO_PATERNO => $slug,
                 User::APELLIDO_MATERNO => '',
                 User::EMAIL            => $email,
-                User::USUARIO          => "{$roleName}_{$slug}",
+                User::USUARIO          => "{$roleName}-{$slug}",
                 User::PASSWORD         => Hash::make("{$roleName}1234"),
                 User::ROL_ID           => $role->value,
                 User::ACTIVO           => true,
