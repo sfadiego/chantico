@@ -42,3 +42,11 @@ export const useDeleteTenantUser = (tenantId: number) => {
         onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY, tenantId] }),
     });
 };
+
+export const useSeedTenantUsers = (tenantId: number) => {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: () => superAdminAxios.post(`${baseUrl(tenantId)}/seed`),
+        onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY, tenantId] }),
+    });
+};

@@ -4,6 +4,7 @@ import { SuperAdminLayout } from "@/layouts/SuperAdminLayout";
 import { SuperAdminRoutes } from "@/enums/RoutesEnum";
 import { UserTable } from "@/components/SuperAdmin/TenantUsers/UserTable";
 import { UserModal } from "@/components/SuperAdmin/TenantUsers/UserModal";
+import { SeedUsersButton } from "@/components/SuperAdmin/TenantUsers/SeedUsersButton";
 import { useTenantUsers } from "./useTenantUsers";
 
 export default function TenantUsersPage() {
@@ -41,6 +42,7 @@ export default function TenantUsersPage() {
                             <p className="text-slate-500 text-sm mt-0.5">Gestión de usuarios del cliente</p>
                         </div>
                     </div>
+                    <SeedUsersButton tenantId={tenantId} />
                     <button
                         onClick={openCreate}
                         className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition-colors"

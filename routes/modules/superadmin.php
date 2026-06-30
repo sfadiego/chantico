@@ -37,6 +37,7 @@ Route::prefix('super-admin')->group(function () {
             Route::prefix('{tenant}/users')->controller(TenantUserController::class)->group(function () {
                 Route::get('', 'index');
                 Route::post('', 'store');
+                Route::post('seed', 'seedUsers');
                 Route::put('{user}', 'update');
                 Route::delete('{user}', 'delete');
             });

@@ -9,6 +9,7 @@ use App\Http\Requests\TenantUserUpdateRequest;
 use App\Models\BusinessConfigModel;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 
 class TenantUserController extends Controller
@@ -64,6 +65,56 @@ class TenantUserController extends Controller
         $model->update($data);
 
         return Response::success($model);
+    }
+
+    public function seedUsers(BusinessConfigModel $tenant): JsonResponse
+    {
+        $slug = $tenant->slug;
+
+        $seeds = [
+            ['role' => RoleEnum::ADMIN,   'nombre' => 'Administrador'],
+            ['role' => RoleEnum::EMPLOYE, 'nombre' => 'Empleado'],
+            ['role' => RoleEnum::COCINA,  'nombre' => 'Cocina'],
+            ['role' => RoleEnum::CAJA,    'nombre' => 'Caja'],
+        ];
+
+        $created = [];
+        $skipped = [];
+
+        foreach ($seeds as $seed) {
+            $role     = $seed['role'];
+            $roleName = RoleEnum::getRoleName($role);
+            $email    = "{$roleName}@{$slug}.com";
+
+            $exists = User::withoutGlobalScopes()
+                ->where(User::TENANT_ID, $tenant->id)
+                ->where(User::ROL_ID, $role->value)
+                ->exists();
+
+            if ($exists) {
+                $skipped[] = $roleName;
+                continue;
+            }
+
+            User::create([
+                User::NOMBRE           => $seed['nombre'],
+                User::APELLIDO_PATERNO => $slug,
+                User::APELLIDO_MATERNO => '',
+                User::EMAIL            => $email,
+                User::USUARIO          => "{$roleName}_{$slug}",
+                User::PASSWORD         => Hash::make("{$roleName}1234"),
+                User::ROL_ID           => $role->value,
+                User::ACTIVO           => true,
+                User::TENANT_ID        => $tenant->id,
+            ]);
+
+            $created[] = $roleName;
+        }
+
+        return Response::success([
+            'created' => $created,
+            'skipped' => $skipped,
+        ]);
     }
 
     public function delete(BusinessConfigModel $tenant, int $user): JsonResponse
