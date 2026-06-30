@@ -1,4 +1,4 @@
-import { Check, X, Loader, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "@/models/IOrder";
 import { useOrderActions } from "./useOrderActions";
