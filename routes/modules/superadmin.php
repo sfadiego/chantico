@@ -32,6 +32,7 @@ Route::prefix('super-admin')->group(function () {
                 Route::patch('toggle', 'toggle');
                 Route::patch('restore', 'restore');
                 Route::delete('', 'delete');
+                Route::delete('demo-data', 'clearDemoData');
             });
 
             Route::prefix('{tenant}/users')->controller(TenantUserController::class)->group(function () {
