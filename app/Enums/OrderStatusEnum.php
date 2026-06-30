@@ -13,10 +13,10 @@ enum OrderStatusEnum: int
     public static function orderStatusName(OrderStatusEnum $status): string
     {
         return match ($status->value) {
-            OrderStatusEnum::IN_PROCESS->value    => 'in process',
-            OrderStatusEnum::CANCELED->value      => 'canceled',
-            OrderStatusEnum::CLOSED->value        => 'closed',
-            OrderStatusEnum::DELETED->value       => 'deleted',
+            OrderStatusEnum::IN_PROCESS->value => 'in process',
+            OrderStatusEnum::CANCELED->value => 'canceled',
+            OrderStatusEnum::CLOSED->value => 'closed',
+            OrderStatusEnum::DELETED->value => 'deleted',
             OrderStatusEnum::READY_TO_SERVE->value => 'ready to serve',
             default => 'in process',
         };

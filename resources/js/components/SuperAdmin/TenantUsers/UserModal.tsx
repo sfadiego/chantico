@@ -2,6 +2,7 @@ import { X, Loader } from "lucide-react";
 import { IUser } from "@/models/IUser";
 import { useUserModal } from "./useUserModal";
 import RoleSelect from "@/components/Role/RoleSelect";
+import { Input } from "@/components/ui/form/Input";
 
 interface UserModalProps {
     tenantId: number;
@@ -30,34 +31,28 @@ export const UserModal = ({ tenantId, tenantSlug, user, onClose }: UserModalProp
 
                 <form onSubmit={formik.handleSubmit} className="px-6 py-5 space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Field formik={formik} name="nombre" label="Nombre" />
-                        <Field formik={formik} name="apellido_paterno" label="Apellido paterno" />
-                        <Field formik={formik} name="apellido_materno" label="Apellido materno" />
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Correo electrónico</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                onFocus={(e) => {
-                                    if (!isEdit && formik.values.email.startsWith("@")) {
-                                        e.target.setSelectionRange(0, 0);
-                                    }
-                                }}
-                                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-                            />
-                            {formik.touched.email && formik.errors.email && (
-                                <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
-                            )}
-                        </div>
-                        <Field formik={formik} name="usuario" label="Usuario" />
-                        <Field
+                        <Input formik={formik} name="nombre" label="Nombre" />
+                        <Input formik={formik} name="apellido_paterno" label="Apellido paterno" />
+                        <Input formik={formik} name="apellido_materno" label="Apellido materno" />
+                        <Input
+                            formik={formik}
+                            name="email"
+                            label="Correo electrónico"
+                            inputType="text"
+                            autoComplete="off"
+                            onFocus={(e) => {
+                                if (!isEdit && formik.values.email.startsWith("@")) {
+                                    e.target.setSelectionRange(0, 0);
+                                }
+                            }}
+                        />
+                        <Input formik={formik} name="usuario" label="Usuario" autoComplete="off" />
+                        <Input
                             formik={formik}
                             name="password"
                             label={isEdit ? "Contraseña (dejar vacío para no cambiar)" : "Contraseña"}
-                            type="password"
+                            inputType="password"
+                            autoComplete="new-password"
                         />
                     </div>
 
@@ -112,27 +107,3 @@ export const UserModal = ({ tenantId, tenantSlug, user, onClose }: UserModalProp
         </div>
     );
 };
-
-interface FieldProps {
-    formik: ReturnType<typeof useUserModal>["formik"];
-    name: keyof ReturnType<typeof useUserModal>["formik"]["values"];
-    label: string;
-    type?: string;
-}
-
-const Field = ({ formik, name, label, type = "text" }: FieldProps) => (
-    <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>
-        <input
-            type={type}
-            name={name}
-            value={formik.values[name] as string}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-        />
-        {formik.touched[name] && formik.errors[name] && (
-            <p className="text-red-500 text-xs mt-1">{formik.errors[name] as string}</p>
-        )}
-    </div>
-);

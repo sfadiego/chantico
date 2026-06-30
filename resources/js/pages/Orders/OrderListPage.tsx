@@ -1,12 +1,12 @@
 import { DataTable } from "mantine-datatable";
-import { ClipboardList, RefreshCw, Plus } from "lucide-react";
+import { ClipboardList, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "@/models/IOrder";
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 import { useOrderList } from "./useOrderList";
 import { OrderFilters } from "./partials/OrderFilters";
-import { NewOrderModal } from "@/components/orders/NewOrderModal";
-import { useNewOrderModal } from "@/components/orders/useNewOrderModal";
+import { NewOrderButton } from "@/components/orders/NewOrderButton";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const getRowClassName = ({ estatus_pedido_id }: IOrder): string => {
     if (estatus_pedido_id === OrderStatusEnum.ReadyToServe) return "!bg-blue-50";
@@ -28,9 +28,7 @@ export default function OrderListPage() {
         handleClearFilters,
     } = useOrderList();
 
-    const {
-        isOpen, openModal, handleClose, formik, isPending,
-    } = useNewOrderModal();
+    const { can } = usePermissions();
 
     return (
         <div className="px-5 py-6 max-w-7xl mx-auto">
@@ -53,16 +51,7 @@ export default function OrderListPage() {
                         Actualizar
                     </button>
 
-                    {sistemaId && (
-                        <button
-                            onClick={openModal}
-                            className="flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
-                            style={{ backgroundColor: "var(--color-primary)" }}
-                        >
-                            <Plus size={15} />
-                            Nueva orden
-                        </button>
-                    )}
+                    {sistemaId && <NewOrderButton />}
                 </div>
             </div>
 
@@ -86,21 +75,14 @@ export default function OrderListPage() {
                     <DataTable
                         fetching={isLoading}
                         {...dataTableProps}
-                        onRowClick={({ record }: { record: IOrder }) =>
-                            navigate(`/take-order/${record.id}`)
-                        }
-                        rowStyle={() => ({ cursor: "pointer" })}
+                        onRowClick={({ record }: { record: IOrder }) => {
+                            if (can("takeOrder")) navigate(`/take-order/${record.id}`);
+                        }}
+                        rowStyle={() => ({ cursor: can("takeOrder") ? "pointer" : "default" })}
                         rowClassName={(record: IOrder) => getRowClassName(record)}
                     />
                 </div>
             )}
-
-            <NewOrderModal
-                isOpen={isOpen}
-                isPending={isPending}
-                formik={formik}
-                onClose={handleClose}
-            />
         </div>
     );
 }

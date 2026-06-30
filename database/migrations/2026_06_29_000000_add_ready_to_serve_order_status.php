@@ -10,7 +10,7 @@ return new class extends Migration
     {
         DB::table('order_status')->insertOrIgnore([
             [
-                'id'     => OrderStatusEnum::READY_TO_SERVE->value,
+                'id' => OrderStatusEnum::READY_TO_SERVE->value,
                 'nombre' => OrderStatusEnum::orderStatusName(OrderStatusEnum::READY_TO_SERVE),
             ],
         ]);

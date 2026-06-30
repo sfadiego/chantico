@@ -1,11 +1,10 @@
 import { IOrder } from "@/models/IOrder";
-import { Clock, Receipt, Pencil, Trash2, Check, X, Loader } from "lucide-react";
+import { Clock, Receipt } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getStatusStyle, getStatusLabel, formatOrderTime } from "../useDashboard";
 import { useOrderActions } from "@/components/orders/useOrderActions";
-import { PayOrderButton } from "@/components/orders/PayOrderButton";
-import { PrintTicketButton } from "@/components/orders/PrintTicketButton";
-import { KitchenViewModal } from "@/components/orders/KitchenViewModal";
+import { usePermissions } from "@/hooks/usePermissions";
+import { OrderActionGroup, OrderEditControls } from "@/components/orders/OrderActionGroup";
 
 interface OrderCardProps {
     order: IOrder;
@@ -13,6 +12,7 @@ interface OrderCardProps {
 
 export const OrderCard = ({ order }: OrderCardProps) => {
     const navigate = useNavigate();
+    const { can } = usePermissions();
     const statusNombre = getStatusLabel(order.estatus_pedido_id);
 
     const {
@@ -28,10 +28,12 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         handleDelete,
     } = useOrderActions(order);
 
+    const canNavigate = can("takeOrder") && !isEditing;
+
     return (
         <div
-            onClick={() => !isEditing && navigate(`/take-order/${order.id}`)}
-            className={`flex flex-col gap-2 px-4 py-3 rounded-xl bg-stone-50 transition-colors sm:flex-row sm:items-center sm:gap-3 ${!isEditing ? "hover:bg-stone-100 cursor-pointer" : "cursor-default"}`}
+            onClick={() => canNavigate && navigate(`/take-order/${order.id}`)}
+            className={`flex flex-col gap-2 px-4 py-3 rounded-xl bg-stone-50 transition-colors sm:flex-row sm:items-center sm:gap-3 ${canNavigate ? "hover:bg-stone-100 cursor-pointer" : "cursor-default"}`}
         >
             {/* Fila superior: icono + nombre + tiempo/estado */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -67,57 +69,29 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </div>
 
             {/* Fila inferior en móvil / misma fila en desktop: total + botones */}
-            <div className="flex items-center justify-between sm:justify-end gap-3 pl-12 sm:pl-0" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="flex items-center justify-between sm:justify-end gap-3 pl-12 sm:pl-0"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <span className="text-sm font-bold text-stone-900 tabular-nums shrink-0">
                     ${order.total.toFixed(2)}
                 </span>
 
                 <div className="flex items-center gap-1 shrink-0">
                     {isEditing ? (
-                        <>
-                            <button
-                                onClick={handleEditConfirm}
-                                disabled={isUpdating}
-                                title="Confirmar"
-                                className="flex items-center justify-center w-7 h-7 rounded-lg text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 border border-transparent hover:border-emerald-200 transition-all disabled:opacity-50"
-                            >
-                                {isUpdating
-                                    ? <Loader size={13} className="animate-spin" />
-                                    : <Check size={13} />
-                                }
-                            </button>
-                            <button
-                                onClick={handleEditCancel}
-                                title="Cancelar edición"
-                                className="flex items-center justify-center w-7 h-7 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 border border-transparent hover:border-stone-200 transition-all"
-                            >
-                                <X size={13} />
-                            </button>
-                        </>
+                        <OrderEditControls
+                            isUpdating={isUpdating}
+                            onConfirm={handleEditConfirm}
+                            onCancel={handleEditCancel}
+                        />
                     ) : (
-                        <>
-                            <KitchenViewModal order={order} />
-                            <PrintTicketButton orderId={order.id} showLabel />
-                            <PayOrderButton order={order} />
-                            <button
-                                onClick={handleEditStart}
-                                title="Editar nombre"
-                                className="flex items-center justify-center w-7 h-7 rounded-lg text-stone-400 hover:text-amber-600 hover:bg-amber-50 border border-transparent hover:border-amber-200 transition-all"
-                            >
-                                <Pencil size={13} />
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                disabled={isDeleting}
-                                title="Eliminar orden"
-                                className="flex items-center justify-center w-7 h-7 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-all disabled:opacity-50"
-                            >
-                                {isDeleting
-                                    ? <Loader size={13} className="animate-spin text-red-500" />
-                                    : <Trash2 size={13} />
-                                }
-                            </button>
-                        </>
+                        <OrderActionGroup
+                            order={order}
+                            onEditStart={handleEditStart}
+                            onDelete={handleDelete}
+                            isDeleting={isDeleting}
+                            showPrintLabel
+                        />
                     )}
                 </div>
             </div>

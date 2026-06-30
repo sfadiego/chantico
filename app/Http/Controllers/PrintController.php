@@ -33,15 +33,15 @@ class PrintController extends Controller
     public function rawBytes(OrderModel $order, Request $request)
     {
         try {
-            $tenant    = $request->user()->tenant;
+            $tenant = $request->user()->tenant;
             $connector = new BufferConnector($tenant);
-            $service   = new PrinterService($connector, new VentaFormatter);
+            $service = new PrinterService($connector, new VentaFormatter);
             $service->printTicket(new VentaTicketData($order));
 
             $bytes = $connector->getBytes();
 
             return response($bytes, 200, [
-                'Content-Type'   => 'application/octet-stream',
+                'Content-Type' => 'application/octet-stream',
                 'Content-Length' => strlen($bytes),
             ]);
         } catch (\Throwable $th) {

@@ -9,20 +9,24 @@ import {
     Coffee,
     Settings,
 } from "lucide-react";
+import { usePermissions } from "@/hooks/usePermissions";
+
+type Action = Parameters<ReturnType<typeof usePermissions>["can"]>[0];
 
 interface NavItem {
     label: string;
     icon: LucideIcon;
     path: string;
+    permission: Action;
 }
 
 const navItems: NavItem[] = [
-    { label: "Dashboard", icon: LayoutDashboard, path: "/" },
-    { label: "Órdenes", icon: Package, path: "/orders" },
-    { label: "Productos", icon: Coffee, path: "/products" },
-    { label: "Categorías", icon: Tag, path: "/categories" },
-    { label: "Ventas", icon: ShoppingBag, path: "/sales" },
-    { label: "Estadísticas", icon: BarChart2, path: "/statistics" },
+    { label: "Dashboard",    icon: LayoutDashboard, path: "/",           permission: "viewDashboard" },
+    { label: "Órdenes",      icon: Package,         path: "/orders",     permission: "viewOrders" },
+    { label: "Productos",    icon: Coffee,          path: "/products",   permission: "viewProducts" },
+    { label: "Categorías",   icon: Tag,             path: "/categories", permission: "viewCategories" },
+    { label: "Ventas",       icon: ShoppingBag,     path: "/sales",      permission: "viewSales" },
+    { label: "Estadísticas", icon: BarChart2,       path: "/statistics", permission: "viewStatistics" },
 ];
 
 interface SidebarNavProps {
@@ -30,20 +34,24 @@ interface SidebarNavProps {
 }
 
 export function SidebarNav({ onItemClick }: SidebarNavProps) {
+    const { can } = usePermissions();
+
     return (
         <nav className="flex-1 px-3 py-5 overflow-y-auto flex flex-col">
             <div className="space-y-0.5 flex-1">
-                {navItems.map((item) => (
+                {navItems.filter((item) => can(item.permission)).map((item) => (
                     <SidebarNavItem key={item.path} item={item} onClick={onItemClick} />
                 ))}
             </div>
 
-            <div className="pt-3 border-t border-white/10 mt-3 space-y-0.5">
-                <SidebarNavItem
-                    item={{ label: "Configuración", icon: Settings, path: "/admin" }}
-                    onClick={onItemClick}
-                />
-            </div>
+            {can("viewAdmin") && (
+                <div className="pt-3 border-t border-white/10 mt-3 space-y-0.5">
+                    <SidebarNavItem
+                        item={{ label: "Configuración", icon: Settings, path: "/admin", permission: "viewAdmin" }}
+                        onClick={onItemClick}
+                    />
+                </div>
+            )}
         </nav>
     );
 }

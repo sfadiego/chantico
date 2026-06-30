@@ -3,7 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 type InputStyleTypes = "default" | "error" | "none";
-type InputTypes = "email" | "text" | "password" | "tel";
+type InputTypes = "email" | "text" | "password" | "tel" | "number" | "url" | "search";
 
 const inputVariant: Record<InputStyleTypes, string> = {
     error: "border-red-400 bg-red-50",
@@ -20,6 +20,11 @@ interface InputProps<T> {
     formik?: FormikProps<T>;
     disabled?: boolean;
     label?: string;
+    autoComplete?: string;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    min?: number;
+    max?: number;
+    step?: number;
 }
 
 export const Input = <T,>({
@@ -31,6 +36,11 @@ export const Input = <T,>({
     inputStyle = "default",
     className = "",
     disabled = false,
+    autoComplete,
+    onFocus,
+    min,
+    max,
+    step,
 }: InputProps<T>) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = inputType === "password";
@@ -59,6 +69,11 @@ export const Input = <T,>({
                     type={resolvedType}
                     disabled={disabled}
                     placeholder={placeholder}
+                    autoComplete={autoComplete}
+                    onFocus={onFocus}
+                    min={min}
+                    max={max}
+                    step={step}
                     {...fieldProps}
                     className={`w-full px-4 py-3 border rounded-xl text-sm text-stone-900
                         placeholder-stone-400 focus:outline-none focus:ring-2

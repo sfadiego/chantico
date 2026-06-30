@@ -7,9 +7,11 @@ import IRoute from "@/intefaces/IRoutes";
 import OrderListPage from "@/pages/Orders/OrderListPage";
 import ProductsPage from "@/pages/Product/ProductsPage";
 import CategoriesPage from "@/pages/Category/CategoriesPage";
+import { RoleEnum } from "@/enums/RoleEnum";
 
 const LoginPage = lazy(() => import("@/pages/Auth/LoginPage"));
 const TenantLoginPage = lazy(() => import("@/pages/Auth/TenantLoginPage"));
+const ForbiddenPage = lazy(() => import("@/pages/OtherPage/Forbidden"));
 const DashboardPage = lazy(() => import("@/pages/Dashboard/DashboardPage"));
 const TakeOrderPage = lazy(() => import("@/pages/Orders/TakeOrderPage"));
 const CloseSalesPage = lazy(() => import("@/pages/Sales/partials/CloseSales/CloseSalesPage"));
@@ -38,16 +40,19 @@ const withPrivateLayout = (element: React.ReactElement, route: IRoute) => (
     </AppLayout>
 );
 
+const allow = (...roles: RoleEnum[]) =>
+    (u: { rol_id: number }) => roles.includes(u.rol_id as RoleEnum);
+
 const privateRoutes: IRoute[] = [
-    { path: "/", element: <DashboardPage />, private: true },
-    { path: "/orders", element: <OrderListPage />, private: true },
-    { path: "/products", element: <ProductsPage />, private: true },
-    { path: "/categories", element: <CategoriesPage />, private: true },
-    { path: "/take-order/:id", element: <TakeOrderPage />, private: true },
-    { path: "/close-sales", element: <CloseSalesPage />, private: true },
-    { path: "/sales", element: <SalesPage />, private: true },
-    { path: "/statistics", element: <StatisticsPage />, private: true },
-    { path: "/admin", element: <AdminPage />, private: true },
+    { path: "/",               element: <DashboardPage />,  private: true },
+    { path: "/orders",         element: <OrderListPage />,  private: true },
+    { path: "/products",       element: <ProductsPage />,   private: true, hasPermission: allow(RoleEnum.Admin, RoleEnum.Employe) },
+    { path: "/categories",     element: <CategoriesPage />, private: true, hasPermission: allow(RoleEnum.Admin) },
+    { path: "/take-order/:id", element: <TakeOrderPage />,  private: true, hasPermission: allow(RoleEnum.Admin, RoleEnum.Employe) },
+    { path: "/close-sales",    element: <CloseSalesPage />, private: true, hasPermission: allow(RoleEnum.Admin) },
+    { path: "/sales",          element: <SalesPage />,      private: true, hasPermission: allow(RoleEnum.Admin) },
+    { path: "/statistics",     element: <StatisticsPage />, private: true, hasPermission: allow(RoleEnum.Admin) },
+    { path: "/admin",          element: <AdminPage />,      private: true, hasPermission: allow(RoleEnum.Admin) },
 ];
 
 export const router = createBrowserRouter([
@@ -72,6 +77,14 @@ export const router = createBrowserRouter([
         element: withPrivateLayout(route.element, route),
     })),
     ...superAdminRoutes,
+    {
+        path: "/forbidden",
+        element: (
+            <Suspense fallback={<FullPageLoader />}>
+                <ForbiddenPage />
+            </Suspense>
+        ),
+    },
     {
         path: "*",
         element: <Navigate to="/" replace />,

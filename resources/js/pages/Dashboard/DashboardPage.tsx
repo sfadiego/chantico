@@ -2,16 +2,16 @@ import { Widget } from "@/components/dashboard/widgets/Widget";
 import { SubscriptionBanner } from "@/components/dashboard/SubscriptionBanner";
 import {
     Award, ShoppingCart, Package, Landmark,
-    Plus, Lock, Unlock, LucideIcon,
+    Lock, Unlock, LucideIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDashboard } from "./useDashboard";
 import { RecentOrders } from "./partials/RecentOrders";
-import { NewOrderModal } from "@/components/orders/NewOrderModal";
-import { useNewOrderModal } from "@/components/orders/useNewOrderModal";
+import { NewOrderButton } from "@/components/orders/NewOrderButton";
 import { OpenSalesModal } from "./partials/OpenSalesModal";
 import { useOpenSalesModal } from "./partials/useOpenSalesModal";
 import { AdminRoutes } from "@/enums/RoutesEnum";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     Award,
@@ -22,14 +22,10 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 export default function DashboardPage() {
     const navigate = useNavigate();
+    const { can } = usePermissions();
     const {
         orders, ordersLoading, isFetchingNextPage, hasNextPage, fetchNextPage, sistemaId, stats,
     } = useDashboard();
-
-    const {
-        isOpen: newOrderOpen, openModal: openNewOrder,
-        handleClose: closeNewOrder, formik: newOrderFormik, isPending: newOrderPending,
-    } = useNewOrderModal();
 
     const {
         isOpen: openSalesOpen, openModal: openSales,
@@ -56,20 +52,16 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-2 self-start sm:self-auto">
                     {cajaAbierta ? (
                         <>
-                            <button
-                                onClick={() => navigate(AdminRoutes.CloseSales)}
-                                className="flex items-center gap-2 bg-stone-100 hover:bg-red-100 text-stone-600 hover:text-red-600 font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
-                            >
-                                <Lock size={16} />
-                                Cerrar caja
-                            </button>
-                            <button
-                                onClick={openNewOrder}
-                                className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
-                            >
-                                <Plus size={16} />
-                                Nueva orden
-                            </button>
+                            {can("viewCloseSales") && (
+                                <button
+                                    onClick={() => navigate(AdminRoutes.CloseSales)}
+                                    className="flex items-center gap-2 bg-stone-100 hover:bg-red-100 text-stone-600 hover:text-red-600 font-medium px-4 py-2.5 rounded-xl transition-colors text-sm"
+                                >
+                                    <Lock size={16} />
+                                    Cerrar caja
+                                </button>
+                            )}
+                            <NewOrderButton className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2.5 rounded-xl transition-colors text-sm" />
                         </>
                     ) : (
                         <button
@@ -108,13 +100,6 @@ export default function DashboardPage() {
                 sistemaId={sistemaId}
                 onViewAll={() => navigate("/orders")}
                 onLoadMore={fetchNextPage}
-            />
-
-            <NewOrderModal
-                isOpen={newOrderOpen}
-                isPending={newOrderPending}
-                formik={newOrderFormik}
-                onClose={closeNewOrder}
             />
 
             <OpenSalesModal

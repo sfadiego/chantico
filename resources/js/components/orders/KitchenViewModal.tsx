@@ -1,4 +1,4 @@
-import { X, ChefHat, MessageSquare, Loader, Eye, CheckCircle2 } from "lucide-react";
+import { X, MessageSquare, Loader, Eye, CheckCircle2 } from "lucide-react";
 import { IOrder } from "@/models/IOrder";
 import { useKitchenViewModal } from "./useKitchenViewModal";
 

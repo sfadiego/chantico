@@ -23,8 +23,8 @@ class VentaTicketData implements TicketDataInterface
 
     private static function fechaString(\DateTimeInterface|string $createdAt): string
     {
-        $meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-        $date  = Carbon::parse($createdAt)->setTimezone(config('app.timezone'));
+        $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+        $date = Carbon::parse($createdAt)->setTimezone(config('app.timezone'));
 
         return $date->day.' de '.$meses[$date->month - 1].' del '.$date->year;
     }
@@ -36,7 +36,7 @@ class VentaTicketData implements TicketDataInterface
 
         $products = $order->orderProducts->map(function ($item): array {
             $lineTotal = (float) $item->precio * (float) $item->cantidad;
-            $discount  = $lineTotal * ((float) $item->descuento / 100);
+            $discount = $lineTotal * ((float) $item->descuento / 100);
 
             return [
                 'nombre' => $item->nombre_extra ?? $item->product?->nombre ?? '—',

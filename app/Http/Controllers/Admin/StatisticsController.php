@@ -20,7 +20,7 @@ class StatisticsController extends Controller
             $tz = config('app.timezone');
             $date = Carbon::parse($raw, $tz);
             $start = $date->copy()->startOfMonth()->utc();
-            $end   = $date->copy()->endOfMonth()->utc();
+            $end = $date->copy()->endOfMonth()->utc();
         }
 
         $sistemaId = $request->integer('sistema_id') ?: null;

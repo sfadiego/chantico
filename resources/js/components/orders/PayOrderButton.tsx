@@ -30,7 +30,8 @@ export const PayOrderButton = ({
     } = usePayOrder(order, onSuccess);
 
     const isPayable =
-        order.estatus_pedido_id === OrderStatusEnum.InProcess && order.total > 0;
+        [OrderStatusEnum.InProcess, OrderStatusEnum.ReadyToServe].includes(order.estatus_pedido_id) &&
+        order.total > 0;
 
     const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation();

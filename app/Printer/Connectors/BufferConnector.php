@@ -19,13 +19,13 @@ class BufferConnector extends AbstractConnector
     public function __construct(BusinessConfigModel $tenant)
     {
         parent::__construct($tenant);
-        $this->buffer = new DummyPrintConnector();
+        $this->buffer = new DummyPrintConnector;
     }
 
     public function init(): void
     {
         $this->connector = $this->buffer;
-        $this->printer   = new Printer($this->buffer);
+        $this->printer = new Printer($this->buffer);
     }
 
     public function close(): void

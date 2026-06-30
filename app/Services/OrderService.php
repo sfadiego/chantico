@@ -32,9 +32,9 @@ class OrderService extends DataTable
 
     public function makeQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        $query      = $this->model->newQuery()->with('status');
+        $query = $this->model->newQuery()->with('status');
         $rawEstatus = request()->query('estatus_pedido_id');
-        $sistemaId  = request()->query('sistema_id');
+        $sistemaId = request()->query('sistema_id');
 
         if ($rawEstatus !== null) {
             $estatusIds = array_map('intval', explode(',', $rawEstatus));
@@ -47,7 +47,7 @@ class OrderService extends DataTable
 
             if (! $sistemaId) {
                 $activeSale = (new MainOrderReportModel)->getActiveSale();
-                $sistemaId  = $activeSale ? $activeSale->id : 0;
+                $sistemaId = $activeSale ? $activeSale->id : 0;
             }
         }
 
@@ -57,9 +57,9 @@ class OrderService extends DataTable
 
         $fecha = request()->query('fecha');
         if ($fecha) {
-            $tz    = config('app.timezone');
+            $tz = config('app.timezone');
             $start = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->startOfDay()->utc();
-            $end   = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->endOfDay()->utc();
+            $end = Carbon::createFromFormat('Y-m-d', $fecha, $tz)->endOfDay()->utc();
             $query->whereBetween('created_at', [$start, $end]);
         }
 
