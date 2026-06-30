@@ -51,7 +51,6 @@ export const useOrderList = () => {
                     ? ([...dataTableProps.columns, actionsColumn] as DataTableColumn<IOrder>[])
                     : [],
         }),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [dataTableProps],
     );
 

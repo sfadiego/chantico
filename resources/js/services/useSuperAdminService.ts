@@ -57,3 +57,8 @@ export const useDeleteTenant = () => {
         onSuccess: () => qc.invalidateQueries({ queryKey: [QUERY_KEY] }),
     });
 };
+
+export const useClearDemoData = () =>
+    useMutation({
+        mutationFn: (id: number) => superAdminAxios.delete(`${url}/${id}/demo-data`),
+    });
