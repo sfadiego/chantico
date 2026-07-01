@@ -1,4 +1,4 @@
-import { X, Search, Trash2, Loader, ShoppingCart, Eraser, XCircle } from "lucide-react";
+import { X, Search, Trash2, Loader, ShoppingCart, Eraser, XCircle, Bike } from "lucide-react";
 import { useNewSaleModal } from "./useNewSaleModal";
 import { IProduct } from "@/models/IProduct";
 import { UNIDAD_LABELS, UnidadMedidaEnum } from "@/enums/UnidadMedidaEnum";
@@ -14,11 +14,18 @@ export const NewSaleModal = ({ onClose }: NewSaleModalProps) => {
     const {
         search, setSearch,
         nombrePedido, setNombrePedido,
+        domicilioActivo, toggleDomicilio,
+        costoDomicilio, setCostoDomicilio,
+        categories, selectedCategory, setSelectedCategory,
         products, productsLoading,
         cart, total,
+        sellByWeight,
         addToCart, updateCantidad, removeFromCart, clearCart,
         handleSubmit, isPending,
     } = useNewSaleModal(onClose);
+
+    const domicilio = parseFloat(costoDomicilio) || 0;
+    const neto = total - domicilio;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
@@ -44,37 +51,69 @@ export const NewSaleModal = ({ onClose }: NewSaleModalProps) => {
 
                     {/* Panel izquierdo — productos */}
                     <div className="flex flex-col flex-1 border-r border-stone-100 overflow-hidden">
-                        <div className="px-4 pt-4 pb-2 shrink-0 flex gap-2">
-                            <div className="relative flex-1">
-                                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+                        <div className="px-4 pt-4 pb-2 shrink-0 space-y-2">
+                            {/* Buscador + nombre cliente */}
+                            <div className="flex gap-2">
+                                <div className="relative flex-1">
+                                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+                                    <input
+                                        type="text"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        placeholder="Buscar producto..."
+                                        className="w-full pl-8 pr-8 py-2 border border-stone-200 rounded-xl text-sm
+                                            focus:outline-none focus:ring-2 focus:ring-amber-400 bg-stone-50"
+                                    />
+                                    {search && (
+                                        <button
+                                            onClick={() => setSearch("")}
+                                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-500 transition-colors"
+                                        >
+                                            <XCircle size={14} />
+                                        </button>
+                                    )}
+                                </div>
                                 <input
                                     type="text"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Buscar producto..."
-                                    className="w-full pl-8 pr-8 py-2 border border-stone-200 rounded-xl text-sm
-                                        focus:outline-none focus:ring-2 focus:ring-amber-400 bg-stone-50"
+                                    value={nombrePedido}
+                                    onChange={(e) => setNombrePedido(e.target.value)}
+                                    placeholder="Mesa / cliente (opc.)"
+                                    className="w-44 px-3 py-2 border border-stone-200 rounded-xl text-sm
+                                        focus:outline-none focus:ring-2 focus:ring-amber-400 bg-stone-50 placeholder:text-stone-300"
                                 />
-                                {search && (
-                                    <button
-                                        onClick={() => setSearch("")}
-                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-500 transition-colors"
-                                    >
-                                        <XCircle size={14} />
-                                    </button>
-                                )}
                             </div>
-                            <input
-                                type="text"
-                                value={nombrePedido}
-                                onChange={(e) => setNombrePedido(e.target.value)}
-                                placeholder="Mesa / cliente (opc.)"
-                                className="w-44 px-3 py-2 border border-stone-200 rounded-xl text-sm
-                                    focus:outline-none focus:ring-2 focus:ring-amber-400 bg-stone-50 placeholder:text-stone-300"
-                            />
+
+                            {/* Pills de categoría */}
+                            {categories.length > 0 && (
+                                <div className="flex gap-1.5 flex-wrap">
+                                    <button
+                                        onClick={() => setSelectedCategory(null)}
+                                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                                            selectedCategory === null
+                                                ? "bg-amber-500 text-white"
+                                                : "bg-stone-100 text-stone-500 hover:bg-stone-200"
+                                        }`}
+                                    >
+                                        Todos
+                                    </button>
+                                    {categories.map((cat) => (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => setSelectedCategory(cat.id ?? null)}
+                                            className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                                                selectedCategory === cat.id
+                                                    ? "bg-amber-500 text-white"
+                                                    : "bg-stone-100 text-stone-500 hover:bg-stone-200"
+                                            }`}
+                                        >
+                                            {cat.nombre}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
-                        <div className="flex-1 overflow-y-auto px-4 pb-4">
+                        <div className="overflow-y-auto px-4 pb-4 h-[60vh]">
                             {productsLoading ? (
                                 <div className="flex justify-center py-8">
                                     <Loader size={18} className="animate-spin text-stone-400" />
@@ -165,10 +204,55 @@ export const NewSaleModal = ({ onClose }: NewSaleModalProps) => {
                         </div>
 
                         {/* Total + Cobrar */}
-                        <div className="px-4 py-4 border-t border-stone-100 shrink-0">
-                            <div className="flex items-center justify-between mb-3">
-                                <span className="text-sm font-medium text-stone-600">Total</span>
-                                <span className="text-lg font-bold text-stone-900">${total.toFixed(2)}</span>
+                        <div className="px-4 py-4 border-t border-stone-100 shrink-0 space-y-2">
+                            {/* Checkbox envío a domicilio */}
+                            {sellByWeight && (
+                                <label className="flex items-center gap-2 cursor-pointer select-none">
+                                    <input
+                                        type="checkbox"
+                                        checked={domicilioActivo}
+                                        onChange={(e) => toggleDomicilio(e.target.checked)}
+                                        className="w-3.5 h-3.5 rounded accent-amber-500"
+                                    />
+                                    <span className="flex items-center gap-1 text-xs text-stone-500">
+                                        <Bike size={12} className="text-stone-400" />
+                                        Envío a domicilio
+                                    </span>
+                                </label>
+                            )}
+                            {/* Input de costo de domicilio */}
+                            {sellByWeight && domicilioActivo && (
+                                <div className="flex items-center gap-2">
+                                    <label className="text-xs text-stone-500 shrink-0">Costo $</label>
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        step={0.5}
+                                        value={costoDomicilio}
+                                        onChange={(e) => setCostoDomicilio(e.target.value)}
+                                        placeholder="0.00"
+                                        className="flex-1 px-2 py-1 border border-amber-300 rounded-lg text-xs
+                                            text-right focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                    />
+                                </div>
+                            )}
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs text-stone-400">Subtotal</span>
+                                <span className="text-sm text-stone-600">${total.toFixed(2)}</span>
+                            </div>
+                            {sellByWeight && domicilioActivo && domicilio > 0 && (
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs text-stone-400">- Domicilio</span>
+                                    <span className="text-sm text-red-500">-${domicilio.toFixed(2)}</span>
+                                </div>
+                            )}
+                            <div className="flex items-center justify-between pt-1 border-t border-stone-100">
+                                <span className="text-sm font-medium text-stone-600">
+                                    {sellByWeight && domicilioActivo && domicilio > 0 ? "Ingreso neto" : "Total"}
+                                </span>
+                                <span className="text-lg font-bold text-stone-900">
+                                    ${(sellByWeight && domicilioActivo && domicilio > 0 ? neto : total).toFixed(2)}
+                                </span>
                             </div>
                             <button
                                 onClick={handleSubmit}

@@ -52,6 +52,8 @@ class BusinessConfigModel extends Model
 
     const TIPO_NEGOCIO = 'tipo_negocio';
 
+    const COSTO_DOMICILIO_DEFAULT = 'costo_domicilio_default';
+
     protected $casts = [
         self::ACTIVO       => 'boolean',
         self::TIPO_NEGOCIO => BusinessTypeEnum::class,
@@ -77,6 +79,7 @@ class BusinessConfigModel extends Model
         self::PRINTER_HOST,
         self::LOGO_ICON,
         self::TIPO_NEGOCIO,
+        self::COSTO_DOMICILIO_DEFAULT,
     ];
 
     public function users(): HasMany

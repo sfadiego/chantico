@@ -12,6 +12,7 @@ export interface ICartItem {
 interface NewSalePayload {
     sistemaId: number;
     nombrePedido: string;
+    costoDomicilio: number;
     items: ICartItem[];
 }
 
@@ -20,12 +21,13 @@ export const useNewSale = () => {
     const qc = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ sistemaId, nombrePedido, items }: NewSalePayload) =>
+        mutationFn: ({ sistemaId, nombrePedido, costoDomicilio, items }: NewSalePayload) =>
             axiosPOST(axiosApi, {
                 url: `${ApiRoutes.Orders}/sale`,
                 data: {
-                    sistema_id:    sistemaId,
-                    nombre_pedido: nombrePedido,
+                    sistema_id:       sistemaId,
+                    nombre_pedido:    nombrePedido,
+                    costo_domicilio:  costoDomicilio,
                     items: items.map((i) => ({
                         producto_id: i.product.id,
                         cantidad:    i.cantidad,

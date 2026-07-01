@@ -17,6 +17,8 @@ interface SelectProps<T> {
     name: Extract<keyof T, string>;
     options: SelectOption[];
     formik?: FormikProps<T>;
+    value?: string;
+    onChange?: (value: string) => void;
     label?: string;
     placeholder?: string;
     disabled?: boolean;
@@ -28,6 +30,8 @@ export const Select = <T,>({
     name,
     options,
     formik,
+    value: controlledValue,
+    onChange: controlledOnChange,
     label = "",
     placeholder = "",
     disabled = false,
@@ -39,7 +43,13 @@ export const Select = <T,>({
     const showError = (touched || (formik?.submitCount ?? 0) > 0) && hasError;
 
     const styleVariant = selectVariant[showError ? "error" : selectStyle];
-    const fieldProps   = formik ? formik.getFieldProps(name) : {};
+    const fieldProps = formik
+        ? formik.getFieldProps(name)
+        : {
+              value: controlledValue ?? "",
+              onChange: (e: React.ChangeEvent<HTMLSelectElement>) =>
+                  controlledOnChange?.(e.target.value),
+          };
 
     return (
         <div className="w-full">

@@ -1,5 +1,5 @@
 import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
-import { Calendar, SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 
 export const getActiveStatuses = (showReadyToServe: boolean): string =>
     showReadyToServe
@@ -13,19 +13,15 @@ const BASE_STATUS_OPTIONS = [
 ];
 
 interface OrderFiltersProps {
-    fecha: string | null;
     estatusId: string;
     showReadyToServe?: boolean;
-    onFechaChange: (value: string | null) => void;
     onEstatusChange: (value: string) => void;
     onClear: () => void;
 }
 
 export const OrderFilters = ({
-    fecha,
     estatusId,
     showReadyToServe = true,
-    onFechaChange,
     onEstatusChange,
     onClear,
 }: OrderFiltersProps) => {
@@ -37,7 +33,7 @@ export const OrderFilters = ({
             (!o.hideWhenNoRts || showReadyToServe)
         ),
     ];
-    const hasActiveFilters = !!fecha || estatusId !== activeStatuses;
+    const hasActiveFilters = estatusId !== activeStatuses;
 
     return (
         <div className="flex flex-col gap-3 mb-5">
@@ -54,27 +50,6 @@ export const OrderFilters = ({
             </div>
 
             <div className="flex flex-wrap gap-3">
-                {/* Fecha */}
-                <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-stone-500">Fecha</label>
-                    <div className="relative">
-                        <Calendar
-                            size={14}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none"
-                        />
-                        <input
-                            type="date"
-                            value={fecha ?? ""}
-                            onChange={(e) => onFechaChange(e.target.value || null)}
-                            className="h-9 pl-8 pr-3 rounded-xl border border-stone-200 bg-stone-50
-                                text-sm text-stone-700 focus:outline-none focus:ring-2
-                                focus:ring-amber-400 focus:border-transparent focus:bg-white
-                                transition-all w-44"
-                        />
-                    </div>
-                </div>
-
-                {/* Estatus — chips */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-medium text-stone-500">Estatus</label>
                     <div className="flex gap-2">
@@ -96,25 +71,19 @@ export const OrderFilters = ({
                                 </button>
                             );
                         })}
-                        {/* Limpiar */}
                         {hasActiveFilters && (
-                            <div className="flex flex-col gap-1.5">
-                                <button
-                                    onClick={onClear}
-                                    className="h-9 flex items-center gap-1.5 px-3 rounded-xl border
-                                border-stone-200 bg-stone-50 text-xs font-medium text-stone-400
-                                hover:border-red-200 hover:bg-red-50 hover:text-red-500
-                                transition-all"
-                                >
-                                    <X size={13} />
-                                    Limpiar filtros
-                                </button>
-                            </div>
+                            <button
+                                onClick={onClear}
+                                className="h-9 flex items-center gap-1.5 px-3 rounded-xl border
+                                    border-stone-200 bg-stone-50 text-xs font-medium text-stone-400
+                                    hover:border-red-200 hover:bg-red-50 hover:text-red-500 transition-all"
+                            >
+                                <X size={13} />
+                                Limpiar
+                            </button>
                         )}
                     </div>
                 </div>
-
-
             </div>
         </div>
     );
