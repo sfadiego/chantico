@@ -4,30 +4,14 @@ import { SuperAdminLayout } from "@/layouts/SuperAdminLayout";
 import { useTenantForm } from "./useTenantForm";
 import { SuperAdminRoutes } from "@/enums/RoutesEnum";
 import { ClearDemoDataButton } from "@/components/SuperAdmin/Tenants/ClearDemoDataButton";
+import { SelectBusinessType } from "@/components/SuperAdmin/Tenants/SelectBusinessType";
+import { Input } from "@/components/ui/form/Input";
 
 export default function TenantFormPage() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const tenantId = id ? Number(id) : undefined;
     const { formik, isEdit } = useTenantForm(tenantId);
-
-    const field = (name: keyof typeof formik.values, label: string, type = "text", placeholder = "") => (
-        <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>
-            <input
-                type={type}
-                name={name}
-                value={formik.values[name]}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder={placeholder}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-            />
-            {formik.touched[name] && formik.errors[name] && (
-                <p className="text-red-500 text-xs mt-1">{formik.errors[name] as string}</p>
-            )}
-        </div>
-    );
 
     const colorField = (name: keyof typeof formik.values, label: string) => (
         <div>
@@ -95,11 +79,16 @@ export default function TenantFormPage() {
                         <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
                             Datos del negocio
                         </h2>
-                        {field("business_name", "Nombre del negocio", "text", "Ej: Café Luna")}
-                        {field("slug", "Slug (URL de acceso)", "text", "ej: cafe-luna")}
+                        <Input name="business_name" label="Nombre del negocio" placeholder="Ej: Café Luna" formik={formik} />
+                        <Input name="slug" label="Slug (URL de acceso)" placeholder="ej: cafe-luna" formik={formik} />
                         <p className="text-xs text-slate-400">
                             El cliente accederá desde: <span className="font-mono">/{formik.values.slug || "slug"}/login</span>
                         </p>
+
+                        <SelectBusinessType
+                            name="tipo_negocio"
+                            formik={formik}
+                        />
                     </section>
 
                     {/* Colores */}
@@ -122,12 +111,17 @@ export default function TenantFormPage() {
                                 Usuario administrador
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {field("admin_nombre", "Nombre")}
-                                {field("admin_apellido", "Apellido")}
-                                {field("admin_email", "Correo electrónico", "email")}
-                                {field("admin_usuario", "Nombre de usuario")}
+                                <Input name="admin_nombre" label="Nombre" formik={formik} />
+                                <Input name="admin_apellido" label="Apellido" formik={formik} />
+                                <Input name="admin_email" label="Correo electrónico" inputType="email" formik={formik} />
+                                <Input name="admin_usuario" label="Nombre de usuario" formik={formik} />
                             </div>
-                            {field("admin_password", "Contraseña", "password")}
+                            <Input
+                                name="admin_password"
+                                label="Contraseña"
+                                inputType="password"
+                                formik={formik}
+                            />
                         </section>
                     )}
 

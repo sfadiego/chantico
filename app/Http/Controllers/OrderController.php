@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Core\Data\IndexData;
+use App\Enums\OrderStatusEnum;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\OrderModel;
+use App\Models\OrderProductModel;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
@@ -58,5 +63,46 @@ class OrderController extends Controller
     public function total(OrderModel $order): JsonResponse
     {
         return Response::success($order->totalOrderProducts());
+    }
+
+    public function storeSale(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'sistema_id'          => 'required|numeric|exists:main_order_report,id',
+            'nombre_pedido'       => 'required|string',
+            'items'               => 'required|array|min:1',
+            'items.*.producto_id' => 'required|numeric|exists:product,id',
+            'items.*.cantidad' => 'required|numeric|min:0.001',
+            'items.*.precio'   => 'required|numeric|min:0',
+        ]);
+
+        $order = DB::transaction(function () use ($data) {
+            $subtotal = collect($data['items'])->sum(fn($i) => $i['precio'] * $i['cantidad']);
+
+            $order = OrderModel::create([
+                OrderModel::SISTEMA_ID        => $data['sistema_id'],
+                OrderModel::NOMBRE_PEDIDO     => $data['nombre_pedido'],
+                OrderModel::SUBTOTAL          => $subtotal,
+                OrderModel::TOTAL             => $subtotal,
+                OrderModel::ESTATUS_PEDIDO_ID => OrderStatusEnum::IN_PROCESS->value,
+            ]);
+
+            foreach ($data['items'] as $item) {
+                OrderProductModel::create([
+                    OrderProductModel::PEDIDO_ID   => $order->id,
+                    OrderProductModel::PRODUCTO_ID => $item['producto_id'],
+                    OrderProductModel::CANTIDAD    => $item['cantidad'],
+                    OrderProductModel::PRECIO      => $item['precio'],
+                ]);
+            }
+
+            $order->update([
+                OrderModel::ESTATUS_PEDIDO_ID => OrderStatusEnum::CLOSED->value,
+            ]);
+
+            return $order;
+        });
+
+        return Response::success($order->load('orderProducts'));
     }
 }

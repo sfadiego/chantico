@@ -6,7 +6,8 @@ import { IOrder } from "@/models/IOrder";
 import { getStatusStyle, getStatusLabel, formatOrderTime } from "@/pages/Dashboard/useDashboard";
 import { DataTableColumn } from "mantine-datatable";
 import { OrderActionButtons } from "@/components/orders/OrderActionButtons";
-import { ACTIVE_STATUSES } from "./partials/OrderFilters";
+import { getActiveStatuses } from "./partials/OrderFilters";
+import { OrderStatusEnum } from "@/enums/OrderStatusEnum";
 
 const renderersMap: DataTableRenderersMap = {
     total: (o: IOrder) => `$${o.total.toFixed(2)}`,
@@ -28,9 +29,15 @@ const actionsColumn: DataTableColumn<IOrder> = {
 };
 
 export const useOrderList = () => {
-    const { sistemaId } = useAxios();
+    const { sistemaId, features } = useAxios();
+    const showReadyToServe = features?.ready_to_serve !== false;
+    const sellByWeight = features?.sell_by_weight === true;
+    const defaultStatuses = sellByWeight
+        ? String(OrderStatusEnum.Closed)
+        : getActiveStatuses(showReadyToServe);
+
     const [fecha, setFecha] = useState<string | null>(null);
-    const [estatusId, setEstatusId] = useState<string>(ACTIVE_STATUSES);
+    const [estatusId, setEstatusId] = useState<string>(defaultStatuses);
 
     const { dataTableProps, isLoading, refetch, setPage } = useDataTable({
         service: useIndexOrder,
@@ -40,7 +47,7 @@ export const useOrderList = () => {
             ...(fecha ? { fecha } : {}),
         },
         renderersMap,
-        refetchInterval: 10_000,
+        refetchInterval: sellByWeight ? undefined : 10_000,
     });
 
     const enhancedDataTableProps = useMemo(
@@ -66,7 +73,7 @@ export const useOrderList = () => {
 
     const handleClearFilters = () => {
         setFecha(null);
-        setEstatusId(ACTIVE_STATUSES);
+        setEstatusId(defaultStatuses);
         setPage(1);
     };
 
@@ -77,6 +84,7 @@ export const useOrderList = () => {
         sistemaId,
         fecha,
         estatusId,
+        showReadyToServe,
         handleFechaChange,
         handleEstatusChange,
         handleClearFilters,

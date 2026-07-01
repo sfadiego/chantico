@@ -15,8 +15,10 @@ class BusinessConfigController extends Controller
 {
     public function show(Request $request): JsonResponse
     {
-        $tenant = $request->user()->tenant->toArray();
+        $tenantModel = $request->user()->tenant;
+        $tenant = $tenantModel->toArray();
         $tenant['logo_upload_enabled'] = (bool) AppSettingModel::getValue('logo_upload_enabled', '0');
+        $tenant['features'] = $tenantModel->tipo_negocio->features();
 
         return Response::success($tenant);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Core\Data\IndexData;
+use App\Enums\BusinessTypeEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TenantStoreRequest;
@@ -31,6 +32,7 @@ class TenantManagementController extends Controller
             BusinessConfigModel::SIDEBAR_COLOR => $param->sidebar_color,
             BusinessConfigModel::FONT_COLOR => $param->font_color,
             BusinessConfigModel::LABEL_COLOR => $param->label_color,
+            BusinessConfigModel::TIPO_NEGOCIO => $param->tipo_negocio ?? BusinessTypeEnum::Restaurante->value,
         ]);
 
         User::create([
@@ -50,7 +52,10 @@ class TenantManagementController extends Controller
 
     public function show(BusinessConfigModel $tenant): JsonResponse
     {
-        return Response::success($tenant->loadCount('users'));
+        $tenant->loadCount('users');
+        $tenant->features = $tenant->tipo_negocio->features();
+
+        return Response::success($tenant);
     }
 
     public function update(BusinessConfigModel $tenant, TenantUpdateRequest $param): JsonResponse
@@ -63,6 +68,7 @@ class TenantManagementController extends Controller
             BusinessConfigModel::FONT_COLOR => $param->font_color,
             BusinessConfigModel::LABEL_COLOR => $param->label_color,
             BusinessConfigModel::LOGO_ICON => $param->logo_icon,
+            BusinessConfigModel::TIPO_NEGOCIO => $param->tipo_negocio ?? $tenant->tipo_negocio->value,
         ]);
 
         return Response::success($tenant);

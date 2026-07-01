@@ -23,6 +23,7 @@ export default function OrderListPage() {
         sistemaId,
         fecha,
         estatusId,
+        showReadyToServe,
         handleFechaChange,
         handleEstatusChange,
         handleClearFilters,
@@ -68,6 +69,7 @@ export default function OrderListPage() {
                     <OrderFilters
                         fecha={fecha}
                         estatusId={estatusId}
+                        showReadyToServe={showReadyToServe}
                         onFechaChange={handleFechaChange}
                         onEstatusChange={handleEstatusChange}
                         onClear={handleClearFilters}
