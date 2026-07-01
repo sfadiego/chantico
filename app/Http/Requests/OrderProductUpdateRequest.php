@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UnidadMedidaEnum;
 use App\Models\OrderProductModel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderProductUpdateRequest extends FormRequest
 {
@@ -23,9 +25,10 @@ class OrderProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            OrderProductModel::DESCUENTO => 'integer|max:99|min:0',
-            OrderProductModel::CANTIDAD => 'integer|max:10|min:1',
-            OrderProductModel::OBSERVACION => 'nullable|string|max:200',
+            OrderProductModel::DESCUENTO    => 'numeric|max:99|min:0',
+            OrderProductModel::CANTIDAD     => 'numeric|min:0.001',
+            OrderProductModel::OBSERVACION  => 'nullable|string|max:200',
+            OrderProductModel::UNIDAD_MEDIDA => ['nullable', Rule::enum(UnidadMedidaEnum::class)],
         ];
     }
 }

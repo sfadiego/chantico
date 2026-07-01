@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\UnidadMedidaEnum;
 use App\Http\Requests\OrderProductStoreRequest;
 use App\Http\Requests\OrderProductUpdateRequest;
 use App\Models\OrderModel;
@@ -59,6 +60,10 @@ class OrderProductController extends Controller
             $data[OrderProductModel::DESCUENTO] = $params->descuento;
         }
 
+        if (isset($params?->unidad_medida)) {
+            $data[OrderProductModel::UNIDAD_MEDIDA] = $params->unidad_medida;
+        }
+
         $orderProduct->update($data);
 
         $order = OrderModel::find($orderId);
@@ -85,11 +90,12 @@ class OrderProductController extends Controller
 
         if ($params->nombre_extra) {
             $data = OrderProductModel::create([
-                OrderProductModel::PEDIDO_ID => $orderId,
+                OrderProductModel::PEDIDO_ID    => $orderId,
                 OrderProductModel::NOMBRE_EXTRA => $params->nombre_extra,
-                OrderProductModel::CANTIDAD => $params->cantidad,
-                OrderProductModel::PRECIO => $params->precio,
-                OrderProductModel::DESCUENTO => $params->descuento ?? 0,
+                OrderProductModel::CANTIDAD     => $params->cantidad,
+                OrderProductModel::PRECIO       => $params->precio,
+                OrderProductModel::DESCUENTO    => $params->descuento ?? 0,
+                OrderProductModel::UNIDAD_MEDIDA => $params->unidad_medida ?? UnidadMedidaEnum::Unidad->value,
             ]);
         } else {
             $product = OrderProductModel::where(OrderProductModel::PEDIDO_ID, $orderId)
@@ -100,14 +106,15 @@ class OrderProductController extends Controller
             $data = OrderProductModel::updateOrCreate(
                 [
                     OrderProductModel::PRODUCTO_ID => $params->producto_id,
-                    OrderProductModel::PEDIDO_ID => $orderId,
+                    OrderProductModel::PEDIDO_ID   => $orderId,
                 ],
                 [
-                    OrderProductModel::PRODUCTO_ID => $params->producto_id,
-                    OrderProductModel::PEDIDO_ID => $orderId,
-                    OrderProductModel::CANTIDAD => $currentItems + $params->cantidad,
-                    OrderProductModel::PRECIO => $params->precio,
-                    OrderProductModel::DESCUENTO => $params->descuento ?? 0,
+                    OrderProductModel::PRODUCTO_ID  => $params->producto_id,
+                    OrderProductModel::PEDIDO_ID    => $orderId,
+                    OrderProductModel::CANTIDAD     => $currentItems + $params->cantidad,
+                    OrderProductModel::PRECIO       => $params->precio,
+                    OrderProductModel::DESCUENTO    => $params->descuento ?? 0,
+                    OrderProductModel::UNIDAD_MEDIDA => $params->unidad_medida ?? UnidadMedidaEnum::Unidad->value,
                 ]
             );
         }

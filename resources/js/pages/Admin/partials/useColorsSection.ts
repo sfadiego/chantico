@@ -52,9 +52,10 @@ export const useColorsSection = (config: IBusinessConfig | undefined) => {
                 whatsapp:      config?.whatsapp      ?? null,
                 website:       config?.website       ?? null,
                 ticket_footer: config?.ticket_footer ?? null,
-                printer_name:  config?.printer_name  ?? null,
-                printer_host:  config?.printer_host  ?? null,
-                logo_icon:     config?.logo_icon     ?? null,
+                printer_name:              config?.printer_name  ?? null,
+                printer_host:              config?.printer_host  ?? null,
+                logo_icon:                 config?.logo_icon     ?? null,
+                costo_domicilio_default:   config?.costo_domicilio_default ?? 0,
             },
             {
                 onSuccess: () => toast.success("Configuración guardada"),

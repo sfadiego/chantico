@@ -15,8 +15,10 @@ class BusinessConfigController extends Controller
 {
     public function show(Request $request): JsonResponse
     {
-        $tenant = $request->user()->tenant->toArray();
+        $tenantModel = $request->user()->tenant;
+        $tenant = $tenantModel->toArray();
         $tenant['logo_upload_enabled'] = (bool) AppSettingModel::getValue('logo_upload_enabled', '0');
+        $tenant['features'] = $tenantModel->tipo_negocio->features();
 
         return Response::success($tenant);
     }
@@ -37,9 +39,10 @@ class BusinessConfigController extends Controller
             'whatsapp' => $request->whatsapp,
             'website' => $request->website,
             'ticket_footer' => $request->ticket_footer,
-            'printer_name' => $request->printer_name,
-            'printer_host' => $request->printer_host,
-            'logo_icon' => $request->logo_icon,
+            'printer_name'            => $request->printer_name,
+            'printer_host'            => $request->printer_host,
+            'logo_icon'               => $request->logo_icon,
+            'costo_domicilio_default' => $request->costo_domicilio_default ?? 0,
         ]);
 
         return Response::success($tenant->fresh());

@@ -45,9 +45,10 @@ export const useBusinessInfoSection = (config: IBusinessConfig | undefined) => {
                     whatsapp:      values.whatsapp || null,
                     website:       values.website  || null,
                     ticket_footer: values.ticket_footer || null,
-                    printer_name:  config.printer_name,
-                    printer_host:  config.printer_host,
-                    logo_icon:     config.logo_icon,
+                    printer_name:              config.printer_name,
+                    printer_host:              config.printer_host,
+                    logo_icon:                 config.logo_icon,
+                    costo_domicilio_default:   config.costo_domicilio_default,
                 });
                 toast.success("Información actualizada correctamente.");
             } catch {

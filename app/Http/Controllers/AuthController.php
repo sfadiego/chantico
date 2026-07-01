@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BusinessTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -69,6 +70,8 @@ class AuthController extends Controller
                 ], 403);
             }
         }
+
+        $result['features'] = $tenant?->tipo_negocio->features() ?? BusinessTypeEnum::Restaurante->features();
 
         return Response::success($result);
     }
