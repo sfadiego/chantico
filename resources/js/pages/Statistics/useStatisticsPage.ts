@@ -34,6 +34,7 @@ export const useStatisticsPage = () => {
         bestSellers,
         isLoading,
         totalVentas,
+        cajaAbierta: !!sistemaId,
         handleMonthChange: (value: string) => setMonth(value),
     };
 };

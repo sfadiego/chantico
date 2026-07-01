@@ -66,12 +66,14 @@ export default function OrderListPage() {
                 </div>
             ) : (
                 <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
-                    <OrderFilters
-                        estatusId={estatusId}
-                        showReadyToServe={showReadyToServe}
-                        onEstatusChange={handleEstatusChange}
-                        onClear={handleClearFilters}
-                    />
+                    {!sellByWeight && (
+                        <OrderFilters
+                            estatusId={estatusId}
+                            showReadyToServe={showReadyToServe}
+                            onEstatusChange={handleEstatusChange}
+                            onClear={handleClearFilters}
+                        />
+                    )}
                     <DataTable
                         fetching={isLoading}
                         {...dataTableProps}

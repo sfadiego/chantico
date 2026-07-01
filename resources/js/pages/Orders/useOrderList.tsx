@@ -3,7 +3,7 @@ import { useAxios } from "@/hooks/useAxios";
 import { useDataTable, DataTableRenderersMap } from "@/hooks/useDatatable";
 import { useIndexOrder } from "@/services/useOrderService";
 import { IOrder } from "@/models/IOrder";
-import { getStatusStyle, getStatusLabel, formatOrderTime } from "@/pages/Dashboard/useDashboard";
+import { getStatusStyle, formatOrderTime } from "@/pages/Dashboard/useDashboard";
 import { DataTableColumn } from "mantine-datatable";
 import { OrderActionButtons } from "@/components/orders/OrderActionButtons";
 import { OrderPreviewModal } from "@/components/orders/OrderPreviewModal";
@@ -18,7 +18,7 @@ const renderersMap: DataTableRenderersMap = {
     created_at: (o: IOrder) => formatOrderTime(o.created_at),
     estatus_pedido_id: (o: IOrder) => (
         <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.estatus_pedido_id)}`}>
-            {getStatusLabel(o.estatus_pedido_id) ?? o.status?.nombre ?? o.estatus_pedido_id}
+            {o.status?.nombre ?? o.estatus_pedido_id}
         </span>
     ),
 };
@@ -69,19 +69,10 @@ export const useOrderList = () => {
             columns:
                 dataTableProps.columns.length > 0
                     ? ([
-                          ...dataTableProps.columns.map((col) =>
-                              (col.accessor as string) === "estatus_pedido_id"
-                                  ? {
-                                        ...col,
-                                        render: (o: IOrder) => (
-                                            <span
-                                                className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(o.estatus_pedido_id)}`}
-                                            >
-                                                {getStatusLabel(o.estatus_pedido_id)}
-                                            </span>
-                                        ),
-                                    }
-                                  : col,
+                          ...dataTableProps.columns.filter((col) =>
+                              sellByWeight
+                                  ? (col.accessor as string) !== "estatus_pedido_id"
+                                  : true,
                           ),
                           sellByWeight ? carniceriaActionsColumn : actionsColumn,
                       ] as DataTableColumn<IOrder>[])

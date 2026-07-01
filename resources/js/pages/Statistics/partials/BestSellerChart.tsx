@@ -18,7 +18,7 @@ interface BestSellerChartProps {
     data: IBestSellerItem[];
 }
 
-const formatTotal = (total: number, unidad: string): string => {
+export const formatTotal = (total: number, unidad: string): string => {
     if (unidad === "kg" || unidad === "gr") return `${total.toFixed(3)} ${unidad}`;
     return `${total} und`;
 };

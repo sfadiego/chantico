@@ -1,6 +1,8 @@
 import { DollarSign, TrendingUp, Wallet, CalendarClock, User, MessageSquare, AlertCircle, Lock, Bike } from "lucide-react";
 import { useCloseSalesPage } from "./useCloseSalesPage";
 import BestSellerWidget from "./BestSellerWidget";
+import { SalesByCategoryButton, SalesByCategoryModal } from "@/pages/Sales/partials/SalesByCategoryModal";
+import { useSalesByCategoryModal } from "@/pages/Sales/partials/useSalesByCategoryModal";
 
 const formatCurrency = (value: number) =>
     new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(value);
@@ -33,6 +35,8 @@ export default function CloseSalesPage() {
         isClosing,
         handleClose,
     } = useCloseSalesPage();
+
+    const categoryModal = useSalesByCategoryModal();
 
     if (isLoading) {
         return (
@@ -180,7 +184,16 @@ export default function CloseSalesPage() {
             </div>
 
             {/* Más vendido del día */}
-            <BestSellerWidget sistemaId={sistemaId} />
+            <div className="flex items-start justify-between gap-4 mb-0">
+                <div className="flex-1">
+                    <BestSellerWidget sistemaId={sistemaId} />
+                </div>
+                {sellByWeight && (
+                    <div className="shrink-0 pt-1">
+                        <SalesByCategoryButton onClick={categoryModal.open} />
+                    </div>
+                )}
+            </div>
 
             {/* Aviso de órdenes activas */}
             {hasActiveOrders && (
@@ -204,6 +217,17 @@ export default function CloseSalesPage() {
                 <Lock size={16} />
                 {isClosing ? "Cerrando caja..." : "Cerrar caja"}
             </button>
+
+            <SalesByCategoryModal
+                isOpen={categoryModal.isOpen}
+                onClose={categoryModal.close}
+                data={categoryModal.data}
+                isLoading={categoryModal.isLoading}
+                totalBruto={categoryModal.totalBruto}
+                totalDomicilios={categoryModal.totalDomicilios}
+                totalNeto={categoryModal.totalNeto}
+                sistemaId={categoryModal.sistemaId}
+            />
         </div>
     );
 }
