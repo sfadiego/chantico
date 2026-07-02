@@ -178,3 +178,7 @@ no hacer peticiones directamete a axios, utiliza la capa de servicios como esta 
 - Hooks/servicios: `camelCase` con prefijo `use` (`useOrderService.ts`).
 - Enums: `PascalCase` con sufijo `Enum` (`RoutesEnum.ts`).
 - Interfaces: prefijo `I` (`IOrder.ts`).
+
+### Testing
+- Los test se van a crear para probar las apis existentes en `php artisan route:list`
+- no crear funciones nuevas para crear archivos, utiza factory en los metodos que lo requieran
