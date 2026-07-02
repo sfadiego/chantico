@@ -1,4 +1,4 @@
-import { ChevronLeft, Loader, Users, AlertTriangle } from "lucide-react";
+import { ChevronLeft, Loader, Users, AlertTriangle, RotateCcw } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SuperAdminLayout } from "@/layouts/SuperAdminLayout";
 import { useTenantForm } from "./useTenantForm";
@@ -11,31 +11,21 @@ export default function TenantFormPage() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const tenantId = id ? Number(id) : undefined;
-    const { formik, isEdit } = useTenantForm(tenantId);
+    const { formik, isEdit, handleResetColors } = useTenantForm(tenantId);
 
-    const colorField = (name: keyof typeof formik.values, label: string) => (
+    const colorField = (name: keyof typeof formik.values & string, label: string) => (
         <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>
             <div className="flex items-center gap-2">
                 <input
                     type="color"
                     name={name}
-                    value={formik.values[name]}
+                    value={formik.values[name] as string}
                     onChange={formik.handleChange}
-                    className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer p-0.5"
+                    className="w-10 h-10 rounded-lg border border-slate-200 cursor-pointer p-0.5 shrink-0"
                 />
-                <input
-                    type="text"
-                    name={name}
-                    value={formik.values[name]}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="flex-1 px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
-                />
+                <Input name={name} formik={formik} className="font-mono" />
             </div>
-            {formik.touched[name] && formik.errors[name] && (
-                <p className="text-red-500 text-xs mt-1">{formik.errors[name] as string}</p>
-            )}
         </div>
     );
 
@@ -102,6 +92,14 @@ export default function TenantFormPage() {
                             {colorField("font_color", "Color fuente")}
                             {colorField("label_color", "Color etiqueta")}
                         </div>
+                        <button
+                            type="button"
+                            onClick={handleResetColors}
+                            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-amber-200 bg-amber-50 text-xs font-medium text-amber-700 hover:bg-amber-100 transition-colors"
+                        >
+                            <RotateCcw size={12} />
+                            Restablecer colores por defecto
+                        </button>
                     </section>
 
                     {/* Admin user — solo al crear */}

@@ -6,6 +6,13 @@ import { useCreateTenant, useUpdateTenant, useListTenants } from "@/services/use
 import { SuperAdminRoutes } from "@/enums/RoutesEnum";
 import { BusinessTypeEnum } from "@/enums/BusinessTypeEnum";
 
+const COLOR_DEFAULTS = {
+    primary_color: "#F59E0B",
+    sidebar_color: "#1C1917",
+    font_color:    "#FFFFFF",
+    label_color:   "#1C1917",
+};
+
 const baseSchema = {
     slug:          Yup.string().required("Requerido").matches(/^[a-z0-9-]+$/, "Solo letras, números y guiones"),
     business_name: Yup.string().required("Requerido"),
@@ -42,10 +49,10 @@ export const useTenantForm = (tenantId?: number) => {
         initialValues: {
             slug:           tenant?.slug ?? "",
             business_name:  tenant?.business_name ?? "",
-            primary_color:  tenant?.primary_color ?? "#6366f1",
-            sidebar_color:  tenant?.sidebar_color ?? "#1e293b",
-            font_color:     tenant?.font_color ?? "#ffffff",
-            label_color:    tenant?.label_color ?? "#1e293b",
+            primary_color:  tenant?.primary_color ?? COLOR_DEFAULTS.primary_color,
+            sidebar_color:  tenant?.sidebar_color ?? COLOR_DEFAULTS.sidebar_color,
+            font_color:     tenant?.font_color ?? COLOR_DEFAULTS.font_color,
+            label_color:    tenant?.label_color ?? COLOR_DEFAULTS.label_color,
             logo_icon:      tenant?.logo_icon ?? "",
             tipo_negocio:   tenant?.tipo_negocio ?? BusinessTypeEnum.Restaurante,
             admin_nombre:   "",
@@ -76,5 +83,24 @@ export const useTenantForm = (tenantId?: number) => {
         },
     });
 
-    return { formik, isEdit, tenant };
+    const handleResetColors = () => {
+        const { primary_color, sidebar_color, font_color, label_color } = formik.values;
+        const alreadyDefault =
+            primary_color === COLOR_DEFAULTS.primary_color &&
+            sidebar_color === COLOR_DEFAULTS.sidebar_color &&
+            font_color.toUpperCase()    === COLOR_DEFAULTS.font_color &&
+            label_color.toUpperCase()   === COLOR_DEFAULTS.label_color;
+
+        if (alreadyDefault) {
+            toast.info("Los colores ya son los valores por defecto");
+            return;
+        }
+
+        formik.setFieldValue("primary_color", COLOR_DEFAULTS.primary_color);
+        formik.setFieldValue("sidebar_color", COLOR_DEFAULTS.sidebar_color);
+        formik.setFieldValue("font_color",    COLOR_DEFAULTS.font_color);
+        formik.setFieldValue("label_color",   COLOR_DEFAULTS.label_color);
+    };
+
+    return { formik, isEdit, tenant, handleResetColors };
 };
